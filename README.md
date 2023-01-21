@@ -15,3 +15,4 @@ Main mechanics:
 Art Style:
  - Pixel art inspired by Katana Zero 
  - idk if this counts as art style but to tie some abilities to the story, visually your ranged attack is the gun and your melee is a shadowy swipe forwards (the demon takes the form of a bracelet on your wrist during missions, extending forwards into a blade). The ability to heal also comes from your demon. 
+ 
