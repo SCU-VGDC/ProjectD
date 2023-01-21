@@ -1,0 +1,45 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Enemy_Health : MonoBehaviour
+{
+    public int health;
+    public float damage_flash_time;
+
+    [SerializeField] public SpriteRenderer sr;
+
+    public Color normal_color;
+    public Color damaged_color;
+
+    void Start()
+    {
+        sr = GetComponent<SpriteRenderer>();
+    }
+
+    public void Take_Damage(int damage)
+    {
+        health -= damage;
+        //sr = GetComponent<SpriteRenderer>();
+        //sr.color = damaged_color;
+        StartCoroutine(wait_time());
+        //sr.color = normal_color;
+
+        if(health <= 0)
+        {
+            Die();
+        }
+    }
+
+    IEnumerator wait_time()
+    {
+        sr.color = damaged_color;
+        yield return new WaitForSeconds(damage_flash_time);
+        sr.color = normal_color;
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
+}
