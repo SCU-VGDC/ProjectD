@@ -21,12 +21,15 @@ namespace Player_Movement_Namespace
         private float jump_buffer_time_counter;
 
         //melee dash vars:
-        private bool can_dash = true;
+        public int maximum_dashes;
+        public int current_dashes;
+        //private bool can_dash = true;
         private bool is_dashing;
         public float dash_power;
         public float dash_time = 0.2f;
         public float dash_cooldown = 1f;
         public float dash_distance;
+        public float temp_time;
 
         //wall slide vars:
         private bool is_wall_sliding;
@@ -44,10 +47,14 @@ namespace Player_Movement_Namespace
 
         //other objects
         public Player_Health player_health_obj;
+        public GameObject isometric_diamond_obj;
+        public SpriteRenderer isometric_diamond_sprite_rend;
 
         private void Start()
         {
             player_health_obj = GetComponent<Player_Health>();
+            isometric_diamond_sprite_rend = isometric_diamond_obj.GetComponent<SpriteRenderer>();
+            current_dashes = maximum_dashes;
         }
 
         private void Update()
@@ -105,12 +112,30 @@ namespace Player_Movement_Namespace
                 coyote_time_counter = 0f;
             }
 
+            //*****Isometric Diamond color (Dash indicator)*****
+            //if the player can dash...
+            //if(can_dash)
+            if(current_dashes > 0)
+            {
+                //make the isometric diamond red
+                isometric_diamond_sprite_rend.color = Color.red;
+            }
+            else
+            {
+                //make the isometric diamond white
+                isometric_diamond_sprite_rend.color = Color.white;
+            }
+
             //*****Dashing*****
             //if dash button pressed...
-            if(Input.GetButtonDown("Dash") && can_dash)
+            //if(Input.GetButtonDown("Dash") && can_dash)
+            if(Input.GetButtonDown("Dash") && current_dashes > 0)
             {
                 //dash
                 StartCoroutine(Dash());
+
+                //reset temp_time
+                temp_time = 0f;
             }
 
             //if not dashing...
@@ -118,6 +143,19 @@ namespace Player_Movement_Namespace
             {
                 //move with horizontal inputs
                 rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+
+                //increment dash charge
+                temp_time += Time.deltaTime;
+            }
+
+            //if a dash should be recharged
+            if(temp_time >= dash_cooldown && current_dashes < maximum_dashes)
+            {
+                //increment current_dashes
+                current_dashes += 1;
+
+                //reset temp_time
+                temp_time = 0f;
             }
 
             Flip();
@@ -170,7 +208,8 @@ namespace Player_Movement_Namespace
         //corotine that handles dashing
         private IEnumerator Dash()
         {
-            can_dash = false;
+            current_dashes -= 1;
+            //can_dash = false;
             is_dashing = true;
 
             //disable gravity by storing original gravity then setting current gravity to zero
@@ -184,8 +223,9 @@ namespace Player_Movement_Namespace
             //make player invulnerable for duration of dash
             player_health_obj.StartCoroutine("Become_Invulnerable_Dash");
             //launch player in direction of mouse
-            //rb.velocity = new Vector2(Player_Shooting.dash_direction.x, Player_Shooting.dash_direction.y).normalized * dash_power;
-            rb.AddForce(new Vector2(Player_Shooting.dash_direction.x * dash_distance, Player_Shooting.dash_direction.y * dash_distance), ForceMode2D.Impulse);
+            Player_Shooting.dash_direction.Normalize();
+            rb.velocity = new Vector2(Player_Shooting.dash_direction.x, Player_Shooting.dash_direction.y).normalized * dash_power;
+            //rb.AddForce(new Vector2(Player_Shooting.dash_direction.x * dash_distance, Player_Shooting.dash_direction.y * dash_distance), ForceMode2D.Impulse);
             //turn on trail renderer
             tr.emitting = true;
             //enable dash damage hitbox
@@ -204,12 +244,12 @@ namespace Player_Movement_Namespace
             //set is_dashing to false
             is_dashing = false;
             //******TEST*******
-            rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+            //rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
 
             //cooldown
-            yield return new WaitForSeconds(dash_cooldown);
-            Debug.Log("Dash recharged!");
-            can_dash = true;
+            //yield return new WaitForSeconds(dash_cooldown);
+            //Debug.Log("Dash recharged!");
+            //can_dash = true;
         }
 
         //debug visual for ground check
