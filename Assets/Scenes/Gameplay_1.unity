@@ -152,7 +152,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 208622917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -2.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -184,7 +184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &210520023
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3814,9 +3814,10 @@ MonoBehaviour:
   speed: 10
   jump_power: 25
   is_facing_right: 1
-  dash_power: 40
+  dash_power: 20
   dash_time: 0.2
   dash_cooldown: 1
+  dash_distance: 10
   wall_slide_speed: 0
   rb: {fileID: 2012672196}
   bc: {fileID: 2012672197}
