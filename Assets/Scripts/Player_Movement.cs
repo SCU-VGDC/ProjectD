@@ -26,6 +26,7 @@ namespace Player_Movement_Namespace
         public float dash_power;
         public float dash_time = 0.2f;
         public float dash_cooldown = 1f;
+        public float dash_distance;
 
         //wall slide vars:
         private bool is_wall_sliding;
@@ -105,13 +106,17 @@ namespace Player_Movement_Namespace
             }
 
             //*****Dashing*****
+            //if dash button pressed...
             if(Input.GetButtonDown("Dash") && can_dash)
             {
+                //dash
                 StartCoroutine(Dash());
             }
 
+            //if not dashing...
             if(!is_dashing)
             {
+                //move with horizontal inputs
                 rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
             }
 
@@ -179,7 +184,8 @@ namespace Player_Movement_Namespace
             //make player invulnerable for duration of dash
             player_health_obj.StartCoroutine("Become_Invulnerable_Dash");
             //launch player in direction of mouse
-            rb.velocity = new Vector2(Player_Shooting.dash_direction.x, Player_Shooting.dash_direction.y).normalized * dash_power;
+            //rb.velocity = new Vector2(Player_Shooting.dash_direction.x, Player_Shooting.dash_direction.y).normalized * dash_power;
+            rb.AddForce(new Vector2(Player_Shooting.dash_direction.x * dash_distance, Player_Shooting.dash_direction.y * dash_distance), ForceMode2D.Impulse);
             //turn on trail renderer
             tr.emitting = true;
             //enable dash damage hitbox
@@ -197,6 +203,8 @@ namespace Player_Movement_Namespace
             dash_damage_hitbox.SetActive(false);
             //set is_dashing to false
             is_dashing = false;
+            //******TEST*******
+            rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
 
             //cooldown
             yield return new WaitForSeconds(dash_cooldown);
