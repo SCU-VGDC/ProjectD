@@ -18,7 +18,7 @@ namespace Player_Movement_Namespace
         Color sr_color;
 
         //other objects
-        public Player_Movement player_movement_obj;
+        private Player_Movement player_movement_obj;
 
         void Start()
         {
@@ -26,7 +26,7 @@ namespace Player_Movement_Namespace
             sr = GetComponent<SpriteRenderer>();
             //store color in sr_color
             sr_color = sr.material.color;
-            
+            //get an object for player movement
             player_movement_obj = GetComponent<Player_Movement>();
         }
 
@@ -51,6 +51,7 @@ namespace Player_Movement_Namespace
             
         }
 
+        //Co-routine for becoming invulnerable after taking damage
         IEnumerator Become_Invulnerable_Damage()
         {
             is_vul = false;
@@ -66,6 +67,7 @@ namespace Player_Movement_Namespace
             sr.material.color = sr_color;
         }
 
+        //Co-routine for becoming invulnerable when dashing
         IEnumerator Become_Invulnerable_Dash()
         {
             is_vul = false;
@@ -81,6 +83,10 @@ namespace Player_Movement_Namespace
             sr.material.color = sr_color;
         }
 
+        //Function to destroy player gameobject
+        //PLEASE NOTE: This is not how player death should be handled in a working build.
+        //Instead, we should have a state that holds when the player is dead and what to
+        //do from there. But for now, this code will suffice.
         public void Die()
         {
             Debug.Log("Player has died!!!");
