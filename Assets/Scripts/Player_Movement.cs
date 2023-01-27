@@ -7,10 +7,10 @@ namespace Player_Movement_Namespace
     public class Player_Movement : MonoBehaviour
     {
         //basic movement vars:
-        public float horizontal;
+        [HideInInspector] public float horizontal;
         public float speed = 0f;
         public float jump_power = 16f;
-        public bool is_facing_right = true;
+        [HideInInspector] public bool is_facing_right = true;
 
         //coyote jump vars:
         private float coyote_time = 0.2f;
@@ -21,33 +21,38 @@ namespace Player_Movement_Namespace
         private float jump_buffer_time_counter;
 
         //melee dash vars:
-        private bool can_dash = true;
+        public int maximum_dashes;
+        public int current_dashes;
         private bool is_dashing;
         public float dash_power;
-        public float dash_time = 0.2f;
-        public float dash_cooldown = 1f;
-        public float dash_distance;
+        public float dash_time;
+        public float dash_recharge_time = 1f;
+        [SerializeField] private float dash_recharge_time_counter;
 
         //wall slide vars:
         private bool is_wall_sliding;
         public float wall_slide_speed;
 
         //component and layer vars:
-        [SerializeField] public Rigidbody2D rb;
-        [SerializeField] public BoxCollider2D bc;
-        [SerializeField] public LayerMask plats_layer;
-        [SerializeField] public LayerMask semi_plats_layer;
-        [SerializeField] public TrailRenderer tr;
-        [SerializeField] public GameObject dash_damage_hitbox;
+        public Rigidbody2D rb;
+        public BoxCollider2D bc;
+        [HideInInspector] public LayerMask plats_layer;
+        [HideInInspector] public LayerMask semi_plats_layer;
+        public TrailRenderer tr;
+        public GameObject dash_damage_hitbox;
         public RaycastHit2D box_cast_hit;
-        [SerializeField] public Transform wall_check;
+        public Transform wall_check;
 
         //other objects
         public Player_Health player_health_obj;
+        public GameObject isometric_diamond_obj;
+        private SpriteRenderer isometric_diamond_sprite_rend;
 
         private void Start()
         {
             player_health_obj = GetComponent<Player_Health>();
+            isometric_diamond_sprite_rend = isometric_diamond_obj.GetComponent<SpriteRenderer>();
+            current_dashes = maximum_dashes;
         }
 
         private void Update()
@@ -105,12 +110,30 @@ namespace Player_Movement_Namespace
                 coyote_time_counter = 0f;
             }
 
+            //*****Isometric Diamond color (Dash indicator)*****
+            //if the player can dash...
+            if(current_dashes > 0)
+            {
+                //make the isometric diamond red
+                isometric_diamond_sprite_rend.color = Color.red;
+            }
+            else
+            {
+                //make the isometric diamond white
+                isometric_diamond_sprite_rend.color = Color.white;
+            }
+
             //*****Dashing*****
             //if dash button pressed...
-            if(Input.GetButtonDown("Dash") && can_dash)
+
+            if(Input.GetButtonDown("Dash") && current_dashes > 0)
+
             {
                 //dash
                 StartCoroutine(Dash());
+
+                //reset dash_recharge_rate
+                dash_recharge_time_counter = 0f;
             }
 
             //if not dashing...
@@ -118,6 +141,19 @@ namespace Player_Movement_Namespace
             {
                 //move with horizontal inputs
                 rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+
+                //increment dash charge
+                dash_recharge_time_counter += Time.deltaTime;
+            }
+
+            //if a dash should be recharged
+            if(dash_recharge_time_counter >= dash_recharge_time && current_dashes < maximum_dashes)
+            {
+                //increment current_dashes
+                current_dashes += 1;
+
+                //reset dash_recharge_time_counter
+                dash_recharge_time_counter = 0f;
             }
 
             Flip();
@@ -127,24 +163,20 @@ namespace Player_Movement_Namespace
         private bool IsGrounded()
         {
             //box cast with plats_layer
-            //OLD CODE: 
             box_cast_hit = Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0f, Vector2.down, 0.1f, plats_layer);
-            //box_cast_hit = Physics2D.BoxCast(bc.bounds.center, new Vector2(0.65f, 0.12f), 0f, Vector2.down, 0.6f, plats_layer);
 
             //if box cast with plats layer didn't hit something...
             if(box_cast_hit.collider == null)
             {
                 //box cast with semi_plats_layer
-                //OLD CODE: 
                 box_cast_hit = Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0f, Vector2.down, 0.1f, semi_plats_layer);
-                //box_cast_hit = Physics2D.BoxCast(bc.bounds.center, new Vector2(0.65f, 0.12f), 0f, Vector2.down, 0.6f, semi_plats_layer);
                 
                 //if box cast with semi_plats_layer hit something...
                 if(box_cast_hit.collider == null)
                 {
                     return false;
                 }
-                else //if box cast with semi_plats_layer 
+                else //if box cast with semi_plats_layer didn't hit something...
                 {
                     return true;
                 }
@@ -170,7 +202,8 @@ namespace Player_Movement_Namespace
         //corotine that handles dashing
         private IEnumerator Dash()
         {
-            can_dash = false;
+            current_dashes -= 1;
+            //can_dash = false;
             is_dashing = true;
 
             //disable gravity by storing original gravity then setting current gravity to zero
@@ -183,6 +216,8 @@ namespace Player_Movement_Namespace
             //*****dash*****
             //make player invulnerable for duration of dash
             player_health_obj.StartCoroutine("Become_Invulnerable_Dash");
+            //normalize current dash_direction
+            Player_Shooting.dash_direction.Normalize();
             //launch player in direction of mouse
             //rb.velocity = new Vector2(Player_Shooting.dash_direction.x, Player_Shooting.dash_direction.y).normalized * dash_power;
             rb.AddForce(new Vector2(Player_Shooting.dash_direction.x * dash_distance, Player_Shooting.dash_direction.y * dash_distance), ForceMode2D.Impulse);
@@ -203,22 +238,15 @@ namespace Player_Movement_Namespace
             dash_damage_hitbox.SetActive(false);
             //set is_dashing to false
             is_dashing = false;
-            //******TEST*******
-            rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
 
-            //cooldown
-            yield return new WaitForSeconds(dash_cooldown);
-            Debug.Log("Dash recharged!");
-            can_dash = true;
         }
 
         //debug visual for ground check
         void OnDrawGizmosSelected()
         {
-            // Draw a semitransparent red cube at the transform's position
+            // Draw a semi-transparent red cube at the transform's position
             Gizmos.color = new Color(1, 0, 0, 0.5f);
             Vector2 true_center = bc.bounds.center + new Vector3(0, -0.6f);
-            //Gizmos.DrawCube(true_center, bc.bounds.size);
             Gizmos.DrawCube(true_center, new Vector2(0.65f, 0.12f)); 
         }
     }

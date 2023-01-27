@@ -9,19 +9,15 @@ namespace Player_Movement_Namespace
         //number vars
         public float player_bullet_speed;
         public float fire_rate_time;
-        public float fire_rate_time_counter;
+        [HideInInspector] public float fire_rate_time_counter;
         public static Vector3 dash_direction;
 
         //Gameobject vars
-        [SerializeField] public GameObject rotate_point;
-        [SerializeField] public Transform fire_point;
-        [SerializeField] public GameObject player_bullet_prefab;
+        public GameObject rotate_point;
+        public Transform fire_point;
+        public GameObject player_bullet_prefab;
         private Camera main_camera;
         private Vector3 mouse_pos;
-
-        //optimization variables:
-        public GameObject spawned_player_bullet;
-        public Rigidbody2D spawned_rb;
 
         void Start()
         {
@@ -43,7 +39,7 @@ namespace Player_Movement_Namespace
             //*****Shooting:*****
             if(Input.GetButtonDown("Shoot") && (fire_rate_time_counter >= fire_rate_time))
             {
-                Debug.Log("Blammo!");
+                //Debug.Log("The Player fired a bullet");
                 //create a bullet
                 Instantiate(player_bullet_prefab, fire_point.position, Quaternion.identity);
 

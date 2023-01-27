@@ -25,7 +25,6 @@ public class Enemy_Shooting : MonoBehaviour
     void Update()
     {
         float distance_to_player = Vector2.Distance(player_transform.position, transform.position);
-        //Debug.Log("distance is " + distance_to_player.ToString());
 
         //if the enemy's distance to the player is less then or equal to the shooting range, then stop moving and spawn a bullet
         if(distance_to_player <= shooting_range)
