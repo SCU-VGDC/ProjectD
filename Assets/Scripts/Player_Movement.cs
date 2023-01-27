@@ -125,7 +125,9 @@ namespace Player_Movement_Namespace
 
             //*****Dashing*****
             //if dash button pressed...
+
             if(Input.GetButtonDown("Dash") && current_dashes > 0)
+
             {
                 //dash
                 StartCoroutine(Dash());
@@ -217,7 +219,8 @@ namespace Player_Movement_Namespace
             //normalize current dash_direction
             Player_Shooting.dash_direction.Normalize();
             //launch player in direction of mouse
-            rb.velocity = new Vector2(Player_Shooting.dash_direction.x, Player_Shooting.dash_direction.y).normalized * dash_power;
+            //rb.velocity = new Vector2(Player_Shooting.dash_direction.x, Player_Shooting.dash_direction.y).normalized * dash_power;
+            rb.AddForce(new Vector2(Player_Shooting.dash_direction.x * dash_distance, Player_Shooting.dash_direction.y * dash_distance), ForceMode2D.Impulse);
             //turn on trail renderer
             tr.emitting = true;
             //enable dash damage hitbox
@@ -235,6 +238,7 @@ namespace Player_Movement_Namespace
             dash_damage_hitbox.SetActive(false);
             //set is_dashing to false
             is_dashing = false;
+
         }
 
         //debug visual for ground check
