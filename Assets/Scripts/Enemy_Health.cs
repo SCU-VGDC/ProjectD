@@ -20,10 +20,8 @@ public class Enemy_Health : MonoBehaviour
     public void Take_Damage(int damage)
     {
         health -= damage;
-        //sr = GetComponent<SpriteRenderer>();
-        //sr.color = damaged_color;
+        
         StartCoroutine(wait_time());
-        //sr.color = normal_color;
 
         if(health <= 0)
         {
