@@ -8,13 +8,13 @@ namespace Player_Movement_Namespace
     {
         //basic movement vars:
         [HideInInspector] public float horizontal;
-        public float speed = 0f;
-        public float jump_power = 16f;
+        public float speed;
+        public float jump_power;
         [HideInInspector] public bool is_facing_right = true;
 
         //coyote jump vars:
         private float coyote_time = 0.2f;
-        private float coyote_time_counter;
+        [SerializeField] private float coyote_time_counter;
 
         //jump buffer vars:
         private float jump_buffer_time = 0.2f;
@@ -25,6 +25,7 @@ namespace Player_Movement_Namespace
         public int current_dashes;
         private bool is_dashing;
         public float dash_power;
+        public float dash_distance;
         public float dash_time;
         public float dash_recharge_time = 1f;
         [SerializeField] private float dash_recharge_time_counter;
@@ -36,8 +37,8 @@ namespace Player_Movement_Namespace
         //component and layer vars:
         public Rigidbody2D rb;
         public BoxCollider2D bc;
-        [HideInInspector] public LayerMask plats_layer;
-        [HideInInspector] public LayerMask semi_plats_layer;
+        public LayerMask plats_layer;
+        public LayerMask semi_plats_layer;
         public TrailRenderer tr;
         public GameObject dash_damage_hitbox;
         public RaycastHit2D box_cast_hit;
@@ -93,7 +94,7 @@ namespace Player_Movement_Namespace
 
             //*****jumping*****:
             //if coyote_time_counter > 0 and jump button is pressed...
-            if(coyote_time_counter > 0 && jump_buffer_time_counter > 0)
+            if(coyote_time_counter > 0f && jump_buffer_time_counter > 0)
             {
                 //make character jump
                 rb.velocity = new Vector2(rb.velocity.x, jump_power);
@@ -178,11 +179,13 @@ namespace Player_Movement_Namespace
                 }
                 else //if box cast with semi_plats_layer didn't hit something...
                 {
+                    Debug.Log("grounded");
                     return true;
                 }
             }
             else //if box cast with plats_layer didn't hit something...
             {
+                Debug.Log("grounded");
                 return true;
             }
         }

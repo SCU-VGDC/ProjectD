@@ -123,7 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
-
 --- !u!1 &210520022
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,7 +145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &210520023
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3321,14 +3320,14 @@ MonoBehaviour:
   speed: 10
   jump_power: 25
   is_facing_right: 1
-
+  coyote_time_counter: 0
   maximum_dashes: 3
   current_dashes: 0
-  dash_power: 30
+  dash_power: 25
+  dash_distance: 25
   dash_time: 0.2
   dash_recharge_time: 1
   dash_recharge_time_counter: 0
-
   wall_slide_speed: 0
   rb: {fileID: 2012672196}
   bc: {fileID: 2012672197}
@@ -3340,7 +3339,7 @@ MonoBehaviour:
     m_Bits: 2048
   tr: {fileID: 2012672203}
   dash_damage_hitbox: {fileID: 1116642536}
-  wall_check: {fileID: 0}
+  wall_check: {fileID: 1449170001}
   player_health_obj: {fileID: 0}
   isometric_diamond_obj: {fileID: 390320994}
 --- !u!114 &2012672202
