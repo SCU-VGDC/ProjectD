@@ -137,4 +137,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet_speed: 12
+  bullet_lifetime: 4
   target: {fileID: 0}

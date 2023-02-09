@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy_Bullet_Movement : MonoBehaviour
 {
     public float bullet_speed;
+    public float bullet_lifetime;
 
     public GameObject target;
     private Rigidbody2D bullet_rb;
@@ -23,6 +24,9 @@ public class Enemy_Bullet_Movement : MonoBehaviour
         Vector2 move_dir = (target.transform.position - transform.position).normalized * bullet_speed;
         
         bullet_rb.velocity = new Vector2(move_dir.x, move_dir.y);
+
+        //Make bullet destroy itself after "bullet_lifetime" time
+        Destroy(gameObject, bullet_lifetime);
     }
 
     void OnTriggerEnter2D(Collider2D hit_info)

@@ -179,13 +179,11 @@ namespace Player_Movement_Namespace
                 }
                 else //if box cast with semi_plats_layer didn't hit something...
                 {
-                    Debug.Log("grounded");
                     return true;
                 }
             }
             else //if box cast with plats_layer didn't hit something...
             {
-                Debug.Log("grounded");
                 return true;
             }
         }
@@ -219,8 +217,6 @@ namespace Player_Movement_Namespace
             //*****dash*****
             //make player invulnerable for duration of dash
             player_health_obj.StartCoroutine("Become_Invulnerable_Dash");
-            //normalize current dash_direction
-            Player_Shooting.dash_direction.Normalize();
             //launch player in direction of mouse
             //rb.velocity = new Vector2(Player_Shooting.dash_direction.x, Player_Shooting.dash_direction.y).normalized * dash_power;
             rb.AddForce(new Vector2(Player_Shooting.dash_direction.x * dash_distance, Player_Shooting.dash_direction.y * dash_distance), ForceMode2D.Impulse);
