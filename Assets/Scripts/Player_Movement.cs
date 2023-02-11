@@ -27,7 +27,7 @@ namespace Player_Movement_Namespace
         public float dash_power;
         public float dash_distance;
         public float dash_time;
-        public float dash_recharge_time = 1f;
+        public float dash_recharge_time = 0f;
         [SerializeField] private float dash_recharge_time_counter;
 
         //wall slide vars:
@@ -179,13 +179,13 @@ namespace Player_Movement_Namespace
                 }
                 else //if box cast with semi_plats_layer didn't hit something...
                 {
-                    Debug.Log("grounded");
+                    // Debug.Log("grounded");
                     return true;
                 }
             }
             else //if box cast with plats_layer didn't hit something...
             {
-                Debug.Log("grounded");
+                // Debug.Log("grounded");
                 return true;
             }
         }
