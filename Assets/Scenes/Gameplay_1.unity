@@ -409,7 +409,7 @@ GameObject:
   - component: {fileID: 375108044}
   - component: {fileID: 375108046}
   - component: {fileID: 375108045}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Platform (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1070,6 +1070,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &694958438
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 694958439}
+  m_Layer: 7
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &694958439
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694958438}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2012672199}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &726092744
 GameObject:
   m_ObjectHideFlags: 0
@@ -1277,7 +1308,7 @@ GameObject:
   - component: {fileID: 863201709}
   - component: {fileID: 863201711}
   - component: {fileID: 863201710}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Platform (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3178,6 +3209,7 @@ GameObject:
   - component: {fileID: 2012672200}
   - component: {fileID: 2012672204}
   - component: {fileID: 2012672202}
+  - component: {fileID: 2012672205}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -3301,6 +3333,7 @@ Transform:
   - {fileID: 840594185}
   - {fileID: 1449170001}
   - {fileID: 519420032}
+  - {fileID: 694958439}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3328,7 +3361,10 @@ MonoBehaviour:
   dash_time: 0.2
   dash_recharge_time: 1
   dash_recharge_time_counter: 0
-  wall_slide_speed: 0
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  wallcheck: {fileID: 1449170001}
   rb: {fileID: 2012672196}
   bc: {fileID: 2012672197}
   plats_layer:
@@ -3339,7 +3375,6 @@ MonoBehaviour:
     m_Bits: 2048
   tr: {fileID: 2012672203}
   dash_damage_hitbox: {fileID: 1116642536}
-  wall_check: {fileID: 1449170001}
   player_health_obj: {fileID: 0}
   isometric_diamond_obj: {fileID: 390320994}
 --- !u!114 &2012672202
@@ -3483,6 +3518,18 @@ MonoBehaviour:
   rotate_point: {fileID: 580330993}
   fire_point: {fileID: 410999132}
   player_bullet_prefab: {fileID: 3480714821682267218, guid: b3ac79e35fd17fe49aca0d2040c3bb1a, type: 3}
+--- !u!114 &2012672205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012672195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb831e7949a95864d82296be2dfdbd6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2040184727
 GameObject:
   m_ObjectHideFlags: 0

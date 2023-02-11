@@ -8,6 +8,7 @@ namespace Player_Movement_Namespace
     {
         //basic movement vars:
         [HideInInspector] public float horizontal;
+        private float vertical;//vertical 
         public float speed;
         public float jump_power;
         [HideInInspector] public bool is_facing_right = true;
@@ -29,11 +30,18 @@ namespace Player_Movement_Namespace
         public float dash_time;
         public float dash_recharge_time = 1f;
         [SerializeField] private float dash_recharge_time_counter;
-
+        
         //wall slide vars:
         private bool is_wall_sliding;
-        public float wall_slide_speed;
-
+        private float wall_slide_speed=2f;
+        [SerializeField] LayerMask wallLayer;
+         [SerializeField] private Transform wallcheck;
+         private bool iswalljumping;
+         private float walljumpingdirection;
+         private float walljumpingtime = 0.2f;
+         private float walljumpingcounter;
+         private float walljumpingduration=0.4f;
+         private Vector2 wallJumpingPower=new Vector2(40f,15f);//og value 8 and 16 
         //component and layer vars:
         public Rigidbody2D rb;
         public BoxCollider2D bc;
@@ -42,7 +50,8 @@ namespace Player_Movement_Namespace
         public TrailRenderer tr;
         public GameObject dash_damage_hitbox;
         public RaycastHit2D box_cast_hit;
-        public Transform wall_check;
+        //public Transform wall_check;
+        
 
         //other objects
         public Player_Health player_health_obj;
@@ -58,21 +67,29 @@ namespace Player_Movement_Namespace
 
         private void Update()
         {
+            
             //prevent player from moving or jumping while dashing
             if(is_dashing)
             {
                 return;
             }
-
+            
             //*****Left and Right movement*****:
             //get horizontal input
             horizontal = Input.GetAxisRaw("Horizontal");
-
+            //this is for fast fall while pressing down
+            vertical=Input.GetAxisRaw("Vertical");
+            
+            if(vertical<0 &&!IsGrounded())
+                {
+                    rb.gravityScale=100;
+                }
             //*****coyote jump time set up*****:
             if (IsGrounded())
             {
                 //reset coyote_time_counter
                 coyote_time_counter = coyote_time;
+                rb.gravityScale=6;
             }
             else
             {
@@ -158,8 +175,76 @@ namespace Player_Movement_Namespace
             }
 
             Flip();
+            WallSlide();
+            WallJump();
+            if(!iswalljumping)
+            {
+                Flip();
+            }
         }
+        private bool iswalled()
+    {
+        return Physics2D.OverlapCircle(wallcheck.position,0.2f,wallLayer);
+    }
+    private void FixedUpdate()
+    {
+        if (!iswalljumping)
+        {
+            rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        }
+    }
+    private void WallSlide()
+    {
+        {
+            if(iswalled()&& !IsGrounded()&&horizontal != 0f)
+            {
+                is_wall_sliding=true;
+                rb.velocity=new Vector2(rb.velocity.x,Mathf.Clamp(rb.velocity.y,-wall_slide_speed,float.MaxValue));
+            }
+            else
+            {
+                is_wall_sliding=false;
+            }
+        }
+    }
+    private void WallJump()
+    {
+        if(is_wall_sliding)
+        {
+            
+            iswalljumping=false;
+            walljumpingdirection=-transform.localScale.x;
+            walljumpingcounter=walljumpingtime;
+            CancelInvoke(nameof(StopWalljumping));
+        }
+        else
+        {
+            walljumpingcounter-=Time.deltaTime;
+        }
+        
+            if(Input.GetButtonDown("Jump")&& walljumpingcounter>0f)
+            {
+                iswalljumping=true;
+                rb.velocity=new Vector2(walljumpingdirection*wallJumpingPower.x,wallJumpingPower.y);
+                walljumpingcounter=0f;
 
+            
+                if(transform.localScale.x!=walljumpingdirection)
+                {
+                is_facing_right=!is_facing_right;
+                Vector3 localScale=transform.localScale;
+                localScale.x*=-1f;
+                transform.localScale=localScale;
+                }
+            Invoke(nameof(StopWalljumping),walljumpingduration);
+            }
+
+        
+    }
+    private void StopWalljumping()
+    {
+        iswalljumping=false;
+    }
         //returns true if the player is grounded, returns false if not
         private bool IsGrounded()
         {
@@ -253,4 +338,5 @@ namespace Player_Movement_Namespace
             Gizmos.DrawCube(true_center, new Vector2(0.65f, 0.12f)); 
         }
     }
+    
 }
