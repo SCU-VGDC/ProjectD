@@ -23,7 +23,7 @@ namespace Player_Movement_Namespace
         //melee dash vars:
         public int maximum_dashes;
         public int current_dashes;
-        private bool is_dashing;
+        public bool is_dashing;
         public float dash_power;
         public float dash_distance;
         public float dash_time;

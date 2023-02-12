@@ -37,7 +37,6 @@ namespace Player_Movement_Namespace
                     }
 
                     Destroy(gameObject);
-                    SetActive(gameObject);
                 }
                 
             }
