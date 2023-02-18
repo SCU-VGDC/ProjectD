@@ -28,7 +28,7 @@ namespace Player_Movement_Namespace
 
                 if(player_movement.current_dashes<player_movement.maximum_dashes)
                 {
-                    player_movement.current_dashes+=100;
+                    player_movement.current_dashes+=1;
                 }
                 else
                 {
