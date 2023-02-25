@@ -465,3 +465,4 @@ crashlytics-build.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,unity
 .DS_Store
+Assets/AstarPathfindingProject/ExampleScenes/Example6_Navmesh/navmesh.obj.meta

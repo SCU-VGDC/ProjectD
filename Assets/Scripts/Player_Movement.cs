@@ -46,18 +46,40 @@ namespace Player_Movement_Namespace
 
         //other objects
         public Player_Health player_health_obj;
+        public Player_Shooting player_shooting_obj;
         public GameObject isometric_diamond_obj;
         private SpriteRenderer isometric_diamond_sprite_rend;
+
+        //checkpoint objects 
+        public GameObject currentCheckPoint;
+
+        //Death Objects
+        public bool isAlive;
+
 
         private void Start()
         {
             player_health_obj = GetComponent<Player_Health>();
             isometric_diamond_sprite_rend = isometric_diamond_obj.GetComponent<SpriteRenderer>();
             current_dashes = maximum_dashes;
+            isAlive = true;
         }
 
         private void Update()
         {
+            
+            //tests to see if the player is alive
+            if (!isAlive){
+                
+                if (Input.GetKeyDown(KeyCode.Return)){
+                    Respawn();
+                    return;
+                }
+
+                return; 
+            }
+
+
             //prevent player from moving or jumping while dashing
             if(is_dashing)
             {
@@ -249,6 +271,33 @@ namespace Player_Movement_Namespace
             Gizmos.color = new Color(1, 0, 0, 0.5f);
             Vector2 true_center = bc.bounds.center + new Vector3(0, -0.6f);
             Gizmos.DrawCube(true_center, new Vector2(0.65f, 0.12f)); 
+        }
+
+        public void setCheckpoint(GameObject other){
+            currentCheckPoint = other;
+        }
+        public GameObject getCheckPoint(){
+            return (currentCheckPoint);
+            
+        }
+
+        public void setAlive(bool other){
+            isAlive = other;
+        }
+
+        public bool getAlive(){
+            return isAlive;
+        }
+        
+        public void Respawn(){
+            
+            isAlive = true;
+            //heals the player (Set to Max HP)
+            player_health_obj.health = 5;
+            //sets player position to last checkpoint and enables shooting
+            gameObject.transform.position = new Vector2(currentCheckPoint.transform.position.x , currentCheckPoint.transform.position.y);
+            player_shooting_obj.setCanShoot(true);
+
         }
     }
 }
