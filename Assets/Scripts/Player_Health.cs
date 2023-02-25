@@ -31,6 +31,7 @@ namespace Player_Movement_Namespace
             sr_color = sr.material.color;
             //get an object for player movement
             player_movement_obj = GetComponent<Player_Movement>();
+            player_shooting_obj = GetComponent<Player_Shooting>();
         }
 
         void OnTriggerStay2D(Collider2D hit_info)
