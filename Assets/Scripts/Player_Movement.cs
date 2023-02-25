@@ -34,14 +34,16 @@ namespace Player_Movement_Namespace
         //wall slide vars:
         private bool is_wall_sliding;
         private float wall_slide_speed=2f;
-        [SerializeField] LayerMask wallLayer;
-         [SerializeField] private Transform wallcheck;
+         [SerializeField] private Transform wallCheck;
          private bool iswalljumping;
-         private float walljumpingdirection;
+         private float wallJumpingDirection;
          private float walljumpingtime = 0.2f;
-         private float walljumpingcounter;
-         private float walljumpingduration=0.4f;
-         private Vector2 wallJumpingPower=new Vector2(40f,15f);//og value 8 and 16 
+         [SerializeField] private float walljumpingcounter;
+         private float walljumpingduration = 0.35f; // might have to change to be bigger or smaller depend on length between walls jumping walls
+         [SerializeField] private Vector2 wallJumpingPower=new Vector2(40f,15f);//og value 8 and 16 
+         /// <summary> 0 means no wall, 1 means right wall, and 2 means left wall </summary>
+         [SerializeField] private int lastWallTouched = 0;
+         private bool hasWallJumped = false;
         //component and layer vars:
         public Rigidbody2D rb;
         public BoxCollider2D bc;
@@ -66,8 +68,7 @@ namespace Player_Movement_Namespace
         }
 
         private void Update()
-        {
-            
+        {            
             //prevent player from moving or jumping while dashing
             if(is_dashing)
             {
@@ -154,8 +155,8 @@ namespace Player_Movement_Namespace
                 dash_recharge_time_counter = 0f;
             }
 
-            //if not dashing...
-            if(!is_dashing)
+            //if not dashing or wall jumping...
+            if(!is_dashing && !is_wall_sliding && !iswalljumping)
             {
                 //move with horizontal inputs
                 rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
@@ -174,7 +175,15 @@ namespace Player_Movement_Namespace
                 dash_recharge_time_counter = 0f;
             }
 
-            Flip();
+            //Flip();
+
+            // reset lastWallTouched if grounded
+            if (IsGrounded()) 
+            {
+                lastWallTouched = 0;
+                hasWallJumped = false;
+            }
+
             WallSlide();
             WallJump();
             if(!iswalljumping)
@@ -182,65 +191,87 @@ namespace Player_Movement_Namespace
                 Flip();
             }
         }
-        private bool iswalled()
+    private bool IsWalled()
     {
-        return Physics2D.OverlapCircle(wallcheck.position,0.2f,wallLayer);
-    }
-    private void FixedUpdate()
-    {
-        if (!iswalljumping)
+        // Physics2D.CircleCast look into and do the cast to only the platforms layer
+        Collider2D[] collidedWith =  Physics2D.OverlapCircleAll(wallCheck.position, 0.2f);
+
+        foreach (Collider2D col in collidedWith)
         {
-            rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+            if (col.tag != "Player")
+            {
+                return true;
+            }
         }
+
+        return false;
     }
+
     private void WallSlide()
     {
+        if (IsWalled() && !IsGrounded() && horizontal != 0f)
         {
-            if(iswalled()&& !IsGrounded()&&horizontal != 0f)
-            {
-                is_wall_sliding=true;
-                rb.velocity=new Vector2(rb.velocity.x,Mathf.Clamp(rb.velocity.y,-wall_slide_speed,float.MaxValue));
-            }
-            else
-            {
-                is_wall_sliding=false;
-            }
+            is_wall_sliding=true;
+            rb.velocity=new Vector2(rb.velocity.x,Mathf.Clamp(rb.velocity.y,-wall_slide_speed,float.MaxValue));
+        }
+        else
+        {
+            is_wall_sliding=false;
         }
     }
     private void WallJump()
     {
         if(is_wall_sliding)
-        {
-            
+        {   
             iswalljumping=false;
-            walljumpingdirection=-transform.localScale.x;
+            wallJumpingDirection=-transform.localScale.x;
             walljumpingcounter=walljumpingtime;
+
+            if (Mathf.Sign(wallJumpingDirection) == 1)
+            {
+                if (lastWallTouched == 1) 
+                {
+                    hasWallJumped = false;
+                }
+                lastWallTouched = 2;
+            } 
+            else // wallJumpingDirection is negative 
+            {
+                if (lastWallTouched == 2) 
+                {
+                    hasWallJumped = false;
+                }
+                lastWallTouched = 1;
+            }
+
             CancelInvoke(nameof(StopWalljumping));
         }
         else
         {
-            walljumpingcounter-=Time.deltaTime;
+            walljumpingcounter -= Time.deltaTime;
         }
         
-            if(Input.GetButtonDown("Jump")&& walljumpingcounter>0f)
-            {
-                iswalljumping=true;
-                rb.velocity=new Vector2(walljumpingdirection*wallJumpingPower.x,wallJumpingPower.y);
-                walljumpingcounter=0f;
+        if(Input.GetButtonDown("Jump") && walljumpingcounter > 0f && CanWallJump())
+        {
+            iswalljumping=true;
+            hasWallJumped = true;
+            rb.velocity=new Vector2(wallJumpingDirection*wallJumpingPower.x, wallJumpingPower.y);
+            walljumpingcounter=0f;
 
-            
-                if(transform.localScale.x!=walljumpingdirection)
-                {
+            if(transform.localScale.x != wallJumpingDirection)
+            {
                 is_facing_right=!is_facing_right;
                 Vector3 localScale=transform.localScale;
                 localScale.x*=-1f;
                 transform.localScale=localScale;
-                }
-            Invoke(nameof(StopWalljumping),walljumpingduration);
             }
+
+            Invoke(nameof(StopWalljumping),walljumpingduration);
+        }
 
         
     }
+
     private void StopWalljumping()
     {
         iswalljumping=false;
@@ -271,6 +302,24 @@ namespace Player_Movement_Namespace
             {
                 return true;
             }
+        }
+
+        private bool CanWallJump()
+        {
+            if (lastWallTouched == 0) // if you touched the ground last
+            {
+                return true;
+            }
+            else if (lastWallTouched == 1 && !hasWallJumped) // if right wall was touched and hasn't jumped yet
+            {
+               return true; 
+            }
+            else if (lastWallTouched == 2 && !hasWallJumped) // if left wall was touched and hasn't jumped yet
+            {
+                return true;
+            }
+
+            return false;
         }
 
         //flip player depending on direction
@@ -331,7 +380,11 @@ namespace Player_Movement_Namespace
             // Draw a semi-transparent red cube at the transform's position
             Gizmos.color = new Color(1, 0, 0, 0.5f);
             Vector2 true_center = bc.bounds.center + new Vector3(0, -0.6f);
-            Gizmos.DrawCube(true_center, new Vector2(0.65f, 0.12f)); 
+            //Gizmos.DrawCube(true_center, new Vector2(0.65f, 0.12f)); 
+
+            // Debugging wall jump circle used to detect if touching a wall
+            Gizmos.color = new Color(1, 0, 0, 0.5f);
+            Gizmos.DrawSphere(wallCheck.position, 0.2f);
         }
     }
     
