@@ -27,7 +27,7 @@ namespace Player_Movement_Namespace
         }
 
         void Update(){
-            //controls timer for respawn
+            //controls timer for re-spawn
             if(!see)
             {
                 if(time_orb_gone >= orb_cool_down)
@@ -41,7 +41,7 @@ namespace Player_Movement_Namespace
 
         void OnTriggerEnter2D(Collider2D hit_info)
         {
-            //if the player is dashing and goes through, it'll dissapear for 5s
+            //if the player is dashing and goes through, it'll disappear for 5s
             if(hit_info.gameObject.layer == 7)
             {
                 if(player_movement.is_dashing)

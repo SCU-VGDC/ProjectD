@@ -39,15 +39,15 @@ namespace Player_Movement_Namespace
             }
         }
 
-        //orb dissapears after touch for 5s
+        //orb disappears after touch for 5s
         void OnTriggerEnter2D(Collider2D hit_info)
         {
             //tells if player (on layer 7) is in orb
             if(hit_info.gameObject.layer == 7)
             {
-                Debug.Log("touched orb!");
-                Debug.Log(player_movement.current_dashes);
-                Debug.Log(player_movement.maximum_dashes);
+                //Debug.Log("touched orb!");
+                // Debug.Log(player_movement.current_dashes);
+                // Debug.Log(player_movement.maximum_dashes);
 
                 
                 if(player_movement.current_dashes<player_movement.maximum_dashes)
@@ -56,7 +56,7 @@ namespace Player_Movement_Namespace
                 }
                 else
                 {
-                    Debug.Log("already at max dashes!");
+                    // Debug.Log("already at max dashes!");
                 }
 
                 see = false;
