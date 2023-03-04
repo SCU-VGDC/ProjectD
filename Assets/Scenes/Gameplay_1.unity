@@ -3784,7 +3784,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2fdb967a063c944bc8f26e2b22653e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  
   health: 5
+  is_vul: 1
+
   invul_time: 1
   sr: {fileID: 2012672198}
   player_movement_obj: {fileID: 2012672200}
@@ -4360,7 +4363,7 @@ Transform:
   m_GameObject: {fileID: 2111080344}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.082, y: 2.83, z: 0}
-  m_LocalScale: {x: 3.737, y: 0.0578125, z: 1}
+  m_LocalScale: {x: 11.911688, y: 0.0578125, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 298985658}
@@ -4643,13 +4646,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff33f8e14cd6bd549bd106644682b2d5, type: 3}
+
 --- !u!1001 &5249860486331611131
+
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+
     - target: {fileID: 1903512972482220249, guid: 379114bc368f54792a5d5c199fe74714, type: 3}
       propertyPath: cool_down
       value: 5
