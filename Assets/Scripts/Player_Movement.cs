@@ -11,7 +11,7 @@ namespace Player_Movement_Namespace
         private float vertical;//vertical 
         public float speed;
         public float jump_power;
-        [HideInInspector] public bool is_facing_right = true;
+        [HideInInspector] public bool isFacingRight = true;
 
         //coyote jump vars:
         private float coyote_time = 0.2f;
@@ -20,6 +20,20 @@ namespace Player_Movement_Namespace
         //jump buffer vars:
         private float jump_buffer_time = 0.2f;
         private float jump_buffer_time_counter;
+
+        //wall jump vars:
+        [SerializeField] private bool isWallSliding;
+        [SerializeField] private float wallSlidingSpeed = 2f;
+
+        [SerializeField] private bool isWallJumping;
+        [SerializeField] private float wallJumpingDirection;
+        [SerializeField] private float wallJumpingTime = 0.2f;
+        [SerializeField]private float wallJumpingCounter;
+        [SerializeField] private float wallJumpingDuration = 0.4f;
+        [SerializeField] private Vector2 wallJumpingPower = new Vector2(8f, 16f);
+        [SerializeField] private Transform wallCheck;
+        private int numOfWallJumps = 0;
+        [SerializeField] private int maximumWallJumps = 3;
 
         //melee dash vars:
         public int maximum_dashes;
@@ -31,19 +45,6 @@ namespace Player_Movement_Namespace
         public float dash_recharge_time = 1f;
         [SerializeField] private float dash_recharge_time_counter;
         
-        //wall slide vars:
-        private bool is_wall_sliding;
-        private float wall_slide_speed=2f;
-         [SerializeField] private Transform wallCheck;
-         private bool iswalljumping;
-         private float wallJumpingDirection;
-         private float walljumpingtime = 0.2f;
-         [SerializeField] private float walljumpingcounter;
-         private float walljumpingduration = 0.35f; // might have to change to be bigger or smaller depend on length between walls jumping walls
-         [SerializeField] private Vector2 wallJumpingPower=new Vector2(40f,15f);//og value 8 and 16 
-         /// <summary> 0 means no wall, 1 means right wall, and 2 means left wall </summary>
-         [SerializeField] private int lastWallTouched = 0;
-         private bool hasWallJumped = false;
         //component and layer vars:
         public Rigidbody2D rb;
         public BoxCollider2D bc;
@@ -82,15 +83,19 @@ namespace Player_Movement_Namespace
             vertical=Input.GetAxisRaw("Vertical");
             
             if(vertical<0 &&!IsGrounded())
-                {
-                    rb.gravityScale=100;
-                }
+            {
+                rb.gravityScale=100;
+            }
+            
             //*****coyote jump time set up*****:
             if (IsGrounded())
             {
                 //reset coyote_time_counter
                 coyote_time_counter = coyote_time;
                 rb.gravityScale=6;
+
+                //reset number of wall jumps
+                numOfWallJumps = 0;
             }
             else
             {
@@ -112,7 +117,7 @@ namespace Player_Movement_Namespace
 
             //*****jumping*****:
             //if coyote_time_counter > 0 and jump button is pressed...
-            if(coyote_time_counter > 0f && jump_buffer_time_counter > 0)
+            if(coyote_time_counter > 0f && jump_buffer_time_counter > 0 && !isWallJumping)
             {
                 //make character jump
                 rb.velocity = new Vector2(rb.velocity.x, jump_power);
@@ -121,7 +126,7 @@ namespace Player_Movement_Namespace
             }
 
             //if jump button is unpressed and the character is still rising...
-            if(Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+            if(Input.GetButtonUp("Jump") && rb.velocity.y > 0f && !isWallJumping)
             {
                 //make character fall faster (due to variable jump height)
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
@@ -155,16 +160,6 @@ namespace Player_Movement_Namespace
                 dash_recharge_time_counter = 0f;
             }
 
-            //if not dashing or wall jumping...
-            if(!is_dashing && !is_wall_sliding && !iswalljumping)
-            {
-                //move with horizontal inputs
-                rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
-
-                //increment dash charge
-                dash_recharge_time_counter += Time.deltaTime;
-            }
-
             //if a dash should be recharged
             if(dash_recharge_time_counter >= dash_recharge_time && current_dashes < maximum_dashes)
             {
@@ -175,107 +170,95 @@ namespace Player_Movement_Namespace
                 dash_recharge_time_counter = 0f;
             }
 
-            //Flip();
-
-            // reset lastWallTouched if grounded
-            if (IsGrounded()) 
-            {
-                lastWallTouched = 0;
-                hasWallJumped = false;
-            }
-
-            WallSlide();
+            // wall jumping:
             WallJump();
-            if(!iswalljumping)
+            WallSlide();
+
+            if (!isWallJumping)
             {
                 Flip();
             }
         }
-    private bool IsWalled()
-    {
-        // Physics2D.CircleCast look into and do the cast to only the platforms layer
-        Collider2D[] collidedWith =  Physics2D.OverlapCircleAll(wallCheck.position, 0.2f);
 
-        foreach (Collider2D col in collidedWith)
+        private void FixedUpdate()
         {
-            if (col.tag != "Player")
+            if(!is_dashing && !isWallJumping)
             {
-                return true;
+                //move with horizontal inputs
+                rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+
+                //increment dash charge
+                dash_recharge_time_counter += Time.deltaTime;
             }
         }
 
-        return false;
-    }
-
-    private void WallSlide()
-    {
-        if (IsWalled() && !IsGrounded() && horizontal != 0f)
+        private bool IsWalled()
         {
-            is_wall_sliding=true;
-            rb.velocity=new Vector2(rb.velocity.x,Mathf.Clamp(rb.velocity.y,-wall_slide_speed,float.MaxValue));
-        }
-        else
-        {
-            is_wall_sliding=false;
-        }
-    }
-    private void WallJump()
-    {
-        if(is_wall_sliding)
-        {   
-            iswalljumping=false;
-            wallJumpingDirection=-transform.localScale.x;
-            walljumpingcounter=walljumpingtime;
+            Collider2D[] collidedWith =  Physics2D.OverlapCircleAll(wallCheck.position, 0.2f);
 
-            if (Mathf.Sign(wallJumpingDirection) == 1)
+            foreach (Collider2D col in collidedWith)
             {
-                if (lastWallTouched == 1) 
+                if (col.tag != "Player")
                 {
-                    hasWallJumped = false;
+                    return true;
                 }
-                lastWallTouched = 2;
-            } 
-            else // wallJumpingDirection is negative 
+            }
+
+            return false;
+        }
+
+        private void WallSlide()
+        {
+            if (IsWalled() && !IsGrounded() && horizontal != 0f)
             {
-                if (lastWallTouched == 2) 
+                isWallSliding = true;
+                rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
+            }
+            else
+            {
+                isWallSliding = false;
+            }
+        }
+
+        private void WallJump()
+        {
+            if (isWallSliding)
+            {
+                isWallJumping = false;
+                wallJumpingDirection = -transform.localScale.x;
+                wallJumpingCounter = wallJumpingTime;
+
+                CancelInvoke(nameof(StopWallJumping));
+            }
+            else
+            {
+                wallJumpingCounter -= Time.deltaTime;
+            }
+
+            if (Input.GetButtonDown("Jump") && wallJumpingCounter > 0f && numOfWallJumps < maximumWallJumps && isWallSliding)
+            {
+                isWallJumping = true;
+                rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
+                wallJumpingCounter = 0f;
+                numOfWallJumps += 1;
+
+                if (transform.localScale.x != wallJumpingDirection)
                 {
-                    hasWallJumped = false;
+                    isFacingRight = !isFacingRight;
+                    Vector3 localScale = transform.localScale;
+                    localScale.x *= -1f;
+                    transform.localScale = localScale;
                 }
-                lastWallTouched = 1;
+
+                Invoke(nameof(StopWallJumping), wallJumpingDuration);
             }
-
-            CancelInvoke(nameof(StopWalljumping));
         }
-        else
+
+        private void StopWallJumping()
         {
-            walljumpingcounter -= Time.deltaTime;
-        }
-        
-        if(Input.GetButtonDown("Jump") && walljumpingcounter > 0f && CanWallJump())
-        {
-            iswalljumping=true;
-            hasWallJumped = true;
-            rb.velocity=new Vector2(wallJumpingDirection*wallJumpingPower.x, wallJumpingPower.y);
-            walljumpingcounter=0f;
-
-            if(transform.localScale.x != wallJumpingDirection)
-            {
-                is_facing_right=!is_facing_right;
-                Vector3 localScale=transform.localScale;
-                localScale.x*=-1f;
-                transform.localScale=localScale;
-            }
-
-            Invoke(nameof(StopWalljumping),walljumpingduration);
+            isWallJumping = false;
         }
 
-        
-    }
-
-    private void StopWalljumping()
-    {
-        iswalljumping=false;
-    }
         //returns true if the player is grounded, returns false if not
         private bool IsGrounded()
         {
@@ -304,30 +287,12 @@ namespace Player_Movement_Namespace
             }
         }
 
-        private bool CanWallJump()
-        {
-            if (lastWallTouched == 0) // if you touched the ground last
-            {
-                return true;
-            }
-            else if (lastWallTouched == 1 && !hasWallJumped) // if right wall was touched and hasn't jumped yet
-            {
-               return true; 
-            }
-            else if (lastWallTouched == 2 && !hasWallJumped) // if left wall was touched and hasn't jumped yet
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         //flip player depending on direction
         private void Flip()
         {
-            if((is_facing_right && horizontal < 0f) || (!is_facing_right && horizontal > 0f))
+            if((isFacingRight && horizontal < 0f) || (!isFacingRight && horizontal > 0f))
             {
-                is_facing_right = !is_facing_right;
+                isFacingRight = !isFacingRight;
                 Vector3 localScale = transform.localScale;
                 localScale.x *= -1f;
                 transform.localScale = localScale;

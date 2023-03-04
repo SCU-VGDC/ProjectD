@@ -3555,7 +3555,7 @@ MonoBehaviour:
   dash_recharge_time_counter: 0
   wallCheck: {fileID: 1449170001}
   walljumpingcounter: 0
-  wallJumpingPower: {x: 200, y: 15}
+  wallJumpingPower: {x: 15, y: 20}
   lastWallTouched: 0
   rb: {fileID: 2012672196}
   bc: {fileID: 2012672197}
