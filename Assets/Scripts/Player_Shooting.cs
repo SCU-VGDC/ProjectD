@@ -26,14 +26,21 @@ namespace Player_Movement_Namespace
         private Camera main_camera;
         private Vector3 mouse_pos;
 
+        //Death vars
+        public bool canShoot;
+
         void Start()
         {
             main_camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+            canShoot = true;
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (!canShoot){
+                return;
+            }
             //*****Aiming:*****
             mouse_pos = main_camera.ScreenToWorldPoint(Input.mousePosition);
             Vector3 rotation = mouse_pos - rotate_point.transform.position;
@@ -94,5 +101,10 @@ namespace Player_Movement_Namespace
             //increment fire_rate_time_counter
             fire_rate_time_counter += Time.deltaTime;
         }
+
+        public void setCanShoot(bool other){
+            canShoot = other;
+        }
+
     }
 }

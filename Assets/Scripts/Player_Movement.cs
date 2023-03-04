@@ -8,9 +8,10 @@ namespace Player_Movement_Namespace
     {
         //basic movement vars:
         [HideInInspector] public float horizontal;
+        private float vertical;//vertical 
         public float speed;
         public float jump_power;
-        [HideInInspector] public bool is_facing_right = true;
+        [HideInInspector] public bool isFacingRight = true;
 
         //coyote jump vars:
         private float coyote_time = 0.2f;
@@ -20,20 +21,30 @@ namespace Player_Movement_Namespace
         private float jump_buffer_time = 0.2f;
         private float jump_buffer_time_counter;
 
+        //wall jump vars:
+        [SerializeField] private bool isWallSliding;
+        [SerializeField] private float wallSlidingSpeed = 2f;
+
+        [SerializeField] private bool isWallJumping;
+        [SerializeField] private float wallJumpingDirection;
+        [SerializeField] private float wallJumpingTime = 0.2f;
+        [SerializeField]private float wallJumpingCounter;
+        [SerializeField] private float wallJumpingDuration = 0.4f;
+        [SerializeField] private Vector2 wallJumpingPower = new Vector2(8f, 16f);
+        [SerializeField] private Transform wallCheck;
+        private int numOfWallJumps = 0;
+        [SerializeField] private int maximumWallJumps = 3;
+
         //melee dash vars:
         public int maximum_dashes;
         public int current_dashes;
-        private bool is_dashing;
+        public bool is_dashing;
         public float dash_power;
         public float dash_distance;
         public float dash_time;
-        public float dash_recharge_time = 1f;
+        public float dash_recharge_time = 0f;
         [SerializeField] private float dash_recharge_time_counter;
-
-        //wall slide vars:
-        private bool is_wall_sliding;
-        public float wall_slide_speed;
-
+        
         //component and layer vars:
         public Rigidbody2D rb;
         public BoxCollider2D bc;
@@ -42,37 +53,70 @@ namespace Player_Movement_Namespace
         public TrailRenderer tr;
         public GameObject dash_damage_hitbox;
         public RaycastHit2D box_cast_hit;
-        public Transform wall_check;
+        //public Transform wall_check;
+        
 
         //other objects
         public Player_Health player_health_obj;
+        public Player_Shooting player_shooting_obj;
         public GameObject isometric_diamond_obj;
         private SpriteRenderer isometric_diamond_sprite_rend;
+
+        //checkpoint objects 
+        public GameObject currentCheckPoint;
+
+        //Death Objects
+        public bool isAlive;
+
 
         private void Start()
         {
             player_health_obj = GetComponent<Player_Health>();
             isometric_diamond_sprite_rend = isometric_diamond_obj.GetComponent<SpriteRenderer>();
             current_dashes = maximum_dashes;
+            isAlive = true;
         }
 
         private void Update()
         {
+            
+            //tests to see if the player is alive
+            if (!isAlive){
+                
+                if (Input.GetKeyDown(KeyCode.Return)){
+                    Respawn();
+                    return;
+                }
+
+                return; 
+            }
+
             //prevent player from moving or jumping while dashing
             if(is_dashing)
             {
                 return;
             }
-
+            
             //*****Left and Right movement*****:
             //get horizontal input
             horizontal = Input.GetAxisRaw("Horizontal");
-
+            //this is for fast fall while pressing down
+            vertical=Input.GetAxisRaw("Vertical");
+            
+            if(vertical<0 &&!IsGrounded())
+            {
+                rb.gravityScale=100;
+            }
+            
             //*****coyote jump time set up*****:
             if (IsGrounded())
             {
                 //reset coyote_time_counter
                 coyote_time_counter = coyote_time;
+                rb.gravityScale=6;
+
+                //reset number of wall jumps
+                numOfWallJumps = 0;
             }
             else
             {
@@ -94,7 +138,7 @@ namespace Player_Movement_Namespace
 
             //*****jumping*****:
             //if coyote_time_counter > 0 and jump button is pressed...
-            if(coyote_time_counter > 0f && jump_buffer_time_counter > 0)
+            if(coyote_time_counter > 0f && jump_buffer_time_counter > 0 && !isWallJumping)
             {
                 //make character jump
                 rb.velocity = new Vector2(rb.velocity.x, jump_power);
@@ -103,7 +147,7 @@ namespace Player_Movement_Namespace
             }
 
             //if jump button is unpressed and the character is still rising...
-            if(Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+            if(Input.GetButtonUp("Jump") && rb.velocity.y > 0f && !isWallJumping)
             {
                 //make character fall faster (due to variable jump height)
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
@@ -137,16 +181,6 @@ namespace Player_Movement_Namespace
                 dash_recharge_time_counter = 0f;
             }
 
-            //if not dashing...
-            if(!is_dashing)
-            {
-                //move with horizontal inputs
-                rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
-
-                //increment dash charge
-                dash_recharge_time_counter += Time.deltaTime;
-            }
-
             //if a dash should be recharged
             if(dash_recharge_time_counter >= dash_recharge_time && current_dashes < maximum_dashes)
             {
@@ -157,7 +191,93 @@ namespace Player_Movement_Namespace
                 dash_recharge_time_counter = 0f;
             }
 
-            Flip();
+            // wall jumping:
+            WallJump();
+            WallSlide();
+
+            if (!isWallJumping)
+            {
+                Flip();
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if(!is_dashing && !isWallJumping)
+            {
+                //move with horizontal inputs
+                rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+
+                //increment dash charge
+                dash_recharge_time_counter += Time.deltaTime;
+            }
+        }
+
+        private bool IsWalled()
+        {
+            Collider2D[] collidedWith =  Physics2D.OverlapCircleAll(wallCheck.position, 0.2f);
+
+            foreach (Collider2D col in collidedWith)
+            {
+                if (col.tag != "Player")
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void WallSlide()
+        {
+            if (IsWalled() && !IsGrounded() && horizontal != 0f)
+            {
+                isWallSliding = true;
+                rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
+            }
+            else
+            {
+                isWallSliding = false;
+            }
+        }
+
+        private void WallJump()
+        {
+            if (isWallSliding)
+            {
+                isWallJumping = false;
+                wallJumpingDirection = -transform.localScale.x;
+                wallJumpingCounter = wallJumpingTime;
+
+                CancelInvoke(nameof(StopWallJumping));
+            }
+            else
+            {
+                wallJumpingCounter -= Time.deltaTime;
+            }
+
+            if (Input.GetButtonDown("Jump") && wallJumpingCounter > 0f && numOfWallJumps < maximumWallJumps && isWallSliding)
+            {
+                isWallJumping = true;
+                rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
+                wallJumpingCounter = 0f;
+                numOfWallJumps += 1;
+
+                if (transform.localScale.x != wallJumpingDirection)
+                {
+                    isFacingRight = !isFacingRight;
+                    Vector3 localScale = transform.localScale;
+                    localScale.x *= -1f;
+                    transform.localScale = localScale;
+                }
+
+                Invoke(nameof(StopWallJumping), wallJumpingDuration);
+            }
+        }
+
+        private void StopWallJumping()
+        {
+            isWallJumping = false;
         }
 
         //returns true if the player is grounded, returns false if not
@@ -179,11 +299,13 @@ namespace Player_Movement_Namespace
                 }
                 else //if box cast with semi_plats_layer didn't hit something...
                 {
+                    // Debug.Log("grounded");
                     return true;
                 }
             }
             else //if box cast with plats_layer didn't hit something...
             {
+                // Debug.Log("grounded");
                 return true;
             }
         }
@@ -191,9 +313,9 @@ namespace Player_Movement_Namespace
         //flip player depending on direction
         private void Flip()
         {
-            if((is_facing_right && horizontal < 0f) || (!is_facing_right && horizontal > 0f))
+            if((isFacingRight && horizontal < 0f) || (!isFacingRight && horizontal > 0f))
             {
-                is_facing_right = !is_facing_right;
+                isFacingRight = !isFacingRight;
                 Vector3 localScale = transform.localScale;
                 localScale.x *= -1f;
                 transform.localScale = localScale;
@@ -246,7 +368,39 @@ namespace Player_Movement_Namespace
             // Draw a semi-transparent red cube at the transform's position
             Gizmos.color = new Color(1, 0, 0, 0.5f);
             Vector2 true_center = bc.bounds.center + new Vector3(0, -0.6f);
-            Gizmos.DrawCube(true_center, new Vector2(0.65f, 0.12f)); 
+            //Gizmos.DrawCube(true_center, new Vector2(0.65f, 0.12f)); 
+
+            // Debugging wall jump circle used to detect if touching a wall
+            Gizmos.color = new Color(1, 0, 0, 0.5f);
+            Gizmos.DrawSphere(wallCheck.position, 0.2f);
+        }
+
+        public void setCheckpoint(GameObject other){
+            currentCheckPoint = other;
+        }
+        public GameObject getCheckPoint(){
+            return (currentCheckPoint);
+            
+        }
+
+        public void setAlive(bool other){
+            isAlive = other;
+        }
+
+        public bool getAlive(){
+            return isAlive;
+        }
+        
+        public void Respawn(){
+            
+            isAlive = true;
+            //heals the player (Set to Max HP)
+            player_health_obj.health = 5;
+            //sets player position to last checkpoint and enables shooting
+            gameObject.transform.position = new Vector2(currentCheckPoint.transform.position.x , currentCheckPoint.transform.position.y);
+            player_shooting_obj.setCanShoot(true);
+
         }
     }
+    
 }

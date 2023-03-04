@@ -18,7 +18,10 @@ namespace Player_Movement_Namespace
         Color savedColor;
 
         //other objects
-        private Player_Movement player_movement_obj;
+        [SerializeField] private Player_Movement player_movement_obj;
+        [SerializeField] private Player_Shooting player_shooting_obj;
+
+        
 
         void Start()
         {
@@ -28,13 +31,14 @@ namespace Player_Movement_Namespace
             savedColor = sr.color;
             //get an object for player movement
             player_movement_obj = GetComponent<Player_Movement>();
+            player_shooting_obj = GetComponent<Player_Shooting>();
         }
 
         void OnTriggerStay2D(Collider2D hit_info)
         {
             //Debug.Log(hit_info.gameObject.layer.ToString());
             //if player collided with an enemy (layer 9) or an enemy bullet (layer 12)...
-            if((hit_info.gameObject.layer == 9 || hit_info.gameObject.layer == 12) && is_vul == true)
+            if((hit_info.gameObject.layer == 9 || hit_info.gameObject.layer == 12) && is_vul == true && player_movement_obj.getAlive())
             {
                 //take damage
                 health -= 1;
@@ -95,14 +99,16 @@ namespace Player_Movement_Namespace
             sr.color = savedColor;
         }
 
-        //Function to destroy player gameobject
-        //PLEASE NOTE: This is not how player death should be handled in a working build.
-        //Instead, we should have a state that holds when the player is dead and what to
-        //do from there. But for now, this code will suffice.
+
+        // Run this when the player dies 
+        // Stops movement and shooting
+        // Respawn is in Player Movement
         public void Die()
         {
-            Debug.Log("Player has died!!!");
-            Destroy(gameObject);
+            player_movement_obj.setAlive(false);
+            player_shooting_obj.setCanShoot(false);            
+            Debug.Log("LMAO you died XD");
+            Debug.Log("Press enter to Respawn");
         }
     }
 }
