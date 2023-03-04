@@ -38,11 +38,11 @@ namespace Player_Movement_Namespace
         //melee dash vars:
         public int maximum_dashes;
         public int current_dashes;
-        private bool is_dashing;
+        public bool is_dashing;
         public float dash_power;
         public float dash_distance;
         public float dash_time;
-        public float dash_recharge_time = 1f;
+        public float dash_recharge_time = 0f;
         [SerializeField] private float dash_recharge_time_counter;
         
         //component and layer vars:
@@ -58,18 +58,39 @@ namespace Player_Movement_Namespace
 
         //other objects
         public Player_Health player_health_obj;
+        public Player_Shooting player_shooting_obj;
         public GameObject isometric_diamond_obj;
         private SpriteRenderer isometric_diamond_sprite_rend;
+
+        //checkpoint objects 
+        public GameObject currentCheckPoint;
+
+        //Death Objects
+        public bool isAlive;
+
 
         private void Start()
         {
             player_health_obj = GetComponent<Player_Health>();
             isometric_diamond_sprite_rend = isometric_diamond_obj.GetComponent<SpriteRenderer>();
             current_dashes = maximum_dashes;
+            isAlive = true;
         }
 
         private void Update()
-        {            
+        {
+            
+            //tests to see if the player is alive
+            if (!isAlive){
+                
+                if (Input.GetKeyDown(KeyCode.Return)){
+                    Respawn();
+                    return;
+                }
+
+                return; 
+            }
+
             //prevent player from moving or jumping while dashing
             if(is_dashing)
             {
@@ -278,11 +299,13 @@ namespace Player_Movement_Namespace
                 }
                 else //if box cast with semi_plats_layer didn't hit something...
                 {
+                    // Debug.Log("grounded");
                     return true;
                 }
             }
             else //if box cast with plats_layer didn't hit something...
             {
+                // Debug.Log("grounded");
                 return true;
             }
         }
@@ -350,6 +373,33 @@ namespace Player_Movement_Namespace
             // Debugging wall jump circle used to detect if touching a wall
             Gizmos.color = new Color(1, 0, 0, 0.5f);
             Gizmos.DrawSphere(wallCheck.position, 0.2f);
+        }
+
+        public void setCheckpoint(GameObject other){
+            currentCheckPoint = other;
+        }
+        public GameObject getCheckPoint(){
+            return (currentCheckPoint);
+            
+        }
+
+        public void setAlive(bool other){
+            isAlive = other;
+        }
+
+        public bool getAlive(){
+            return isAlive;
+        }
+        
+        public void Respawn(){
+            
+            isAlive = true;
+            //heals the player (Set to Max HP)
+            player_health_obj.health = 5;
+            //sets player position to last checkpoint and enables shooting
+            gameObject.transform.position = new Vector2(currentCheckPoint.transform.position.x , currentCheckPoint.transform.position.y);
+            player_shooting_obj.setCanShoot(true);
+
         }
     }
     
