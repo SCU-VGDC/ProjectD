@@ -8,7 +8,7 @@ namespace Player_Movement_Namespace
     {
         [Header("Health and Is Invulnerable")]
         public int health;
-        bool is_vul = true;
+        public bool is_vul = true;
         [SerializeField] float invul_time;
 
         [Header("Sprite Renderer")]
