@@ -2381,7 +2381,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1576962652
 BoxCollider2D:
@@ -3602,7 +3602,6 @@ GameObject:
   - component: {fileID: 2012672200}
   - component: {fileID: 2012672204}
   - component: {fileID: 2012672202}
-  - component: {fileID: 2012672205}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -3744,20 +3743,25 @@ MonoBehaviour:
   horizontal: 0
   speed: 10
   jump_power: 25
-  is_facing_right: 1
+  isFacingRight: 1
   coyote_time_counter: 0
+  isWallSliding: 0
+  wallSlidingSpeed: 2
+  isWallJumping: 0
+  wallJumpingDirection: 0
+  wallJumpingTime: 0.2
+  wallJumpingCounter: 0
+  wallJumpingDuration: 0.4
+  wallJumpingPower: {x: 15, y: 20}
+  wallCheck: {fileID: 1449170001}
+  maximumWallJumps: 3
   maximum_dashes: 3
   current_dashes: 0
   is_dashing: 0
-  dash_power: 25
   dash_distance: 25
   dash_time: 0.2
   dash_recharge_time: 1
   dash_recharge_time_counter: 0
-  wallCheck: {fileID: 1449170001}
-  walljumpingcounter: 0
-  wallJumpingPower: {x: 15, y: 20}
-  lastWallTouched: 0
   rb: {fileID: 2012672196}
   bc: {fileID: 2012672197}
   plats_layer:
@@ -3769,6 +3773,7 @@ MonoBehaviour:
   tr: {fileID: 2012672203}
   dash_damage_hitbox: {fileID: 1116642536}
   player_health_obj: {fileID: 0}
+  player_shooting_obj: {fileID: 0}
   isometric_diamond_obj: {fileID: 390320994}
   currentCheckPoint: {fileID: 0}
   isAlive: 0
@@ -3909,15 +3914,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b3e0d3e43675b74b9b81bab34e10151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player_bullet_speed: 50
   fire_rate_time: 0.5
   fire_rate_time_counter: 0
-  enemy: {fileID: 0}
+  enemy_health: {fileID: 0}
   player_bullet_damage: 1
   rotate_point: {fileID: 580330993}
   fire_point: {fileID: 410999132}
   bullet_trail_prefab: {fileID: 1162317494899849279, guid: 9780a03a2c982e34bb4290c67cfb4c77, type: 3}
-  player_bullet_prefab: {fileID: 3480714821682267218, guid: b3ac79e35fd17fe49aca0d2040c3bb1a, type: 3}
   canShoot: 0
 --- !u!1 &2039592210
 GameObject:
@@ -4060,7 +4063,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2040184727
 GameObject:
