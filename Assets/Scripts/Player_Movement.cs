@@ -264,7 +264,6 @@ namespace Player_Movement_Namespace
             if (Input.GetButtonDown("Jump") && wallJumpingCounter > 0f && numOfWallJumps < maximumWallJumps && isWallSliding)
             {
                 isWallJumping = true;
-                Debug.Log(isWallJumping);
                 // wall jump movement
                 rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
                 wallJumpingCounter = 0f;
@@ -290,7 +289,6 @@ namespace Player_Movement_Namespace
             // stop wall jumping if player moves
             if (isWallJumping && horizontal != 0)
             {
-                Debug.Log(isWallJumping + " " + horizontal);
                 StopCoroutine(wallJumpCoroutine);
                 
                 isWallJumping = false;
