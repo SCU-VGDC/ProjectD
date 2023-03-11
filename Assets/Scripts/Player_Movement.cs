@@ -8,7 +8,7 @@ namespace Player_Movement_Namespace
     {
         //basic movement vars:
         [HideInInspector] public float horizontal;
-        private float vertical;//vertical 
+        private float vertical;
         public float speed;
         public float jump_power;
         [HideInInspector] public bool isFacingRight = true;
@@ -25,11 +25,12 @@ namespace Player_Movement_Namespace
         private bool isWallSliding;
         [SerializeField] private float wallSlidingSpeed = 2f;
 
-        private bool isWallJumping;
+        [SerializeField]private bool isWallJumping;
         private float wallJumpingDirection;
         [SerializeField] private float wallJumpingTime = 0.2f;
         private float wallJumpingCounter;
         [SerializeField] private float wallJumpingDuration = 0.4f;
+        private IEnumerator wallJumpCoroutine;
         [SerializeField] private Vector2 wallJumpingPower = new Vector2(8f, 16f);
         [SerializeField] private Transform wallCheck;
         private int numOfWallJumps = 0;
@@ -194,16 +195,11 @@ namespace Player_Movement_Namespace
             // wall jumping:
             WallJump();
             WallSlide();
-
-            if (!isWallJumping)
-            {
-                Flip();
-            }
         }
 
         private void FixedUpdate()
         {
-            if(!is_dashing && !isWallJumping)
+            if (!is_dashing && !isWallJumping)
             {
                 //move with horizontal inputs
                 rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
@@ -228,7 +224,8 @@ namespace Player_Movement_Namespace
             if (IsTouchingWall() && !IsGrounded())
             {
                 isWallSliding = true;
-            } else
+            }
+            else
             {
                 isWallSliding = false;
             }
@@ -254,7 +251,10 @@ namespace Player_Movement_Namespace
                 wallJumpingDirection = -transform.localScale.x;
                 wallJumpingCounter = wallJumpingTime;
 
-                CancelInvoke(nameof(StopWallJumping));
+                if (wallJumpCoroutine != null)
+                {
+                    StopCoroutine(wallJumpCoroutine);
+                }
             }
             else
             {
@@ -264,6 +264,7 @@ namespace Player_Movement_Namespace
             if (Input.GetButtonDown("Jump") && wallJumpingCounter > 0f && numOfWallJumps < maximumWallJumps && isWallSliding)
             {
                 isWallJumping = true;
+                Debug.Log(isWallJumping);
                 // wall jump movement
                 rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
                 wallJumpingCounter = 0f;
@@ -277,12 +278,29 @@ namespace Player_Movement_Namespace
                     transform.localScale = localScale;
                 }
 
-                Invoke(nameof(StopWallJumping), wallJumpingDuration);
+                wallJumpCoroutine = StopWallJumping();
+                StartCoroutine(wallJumpCoroutine);
+            }
+
+            if (!isWallJumping)
+            {
+                Flip();
+            }
+
+            // stop wall jumping if player moves
+            if (isWallJumping && horizontal != 0)
+            {
+                Debug.Log(isWallJumping + " " + horizontal);
+                StopCoroutine(wallJumpCoroutine);
+                
+                isWallJumping = false;
             }
         }
 
-        private void StopWallJumping()
+        private IEnumerator StopWallJumping()
         {
+            yield return new WaitForSeconds(wallJumpingDuration);
+        
             isWallJumping = false;
         }
 
