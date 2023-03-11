@@ -53,6 +53,8 @@
         "Temp/":true
     },
     "cSpell.words": [
+        "Mathf",
+        "Raycast",
         "Behaviour"
     ]
 }
