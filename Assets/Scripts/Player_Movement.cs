@@ -22,13 +22,13 @@ namespace Player_Movement_Namespace
         private float jump_buffer_time_counter;
 
         //wall jump vars:
-        [SerializeField] private bool isWallSliding;
+         private bool isWallSliding;
         [SerializeField] private float wallSlidingSpeed = 2f;
 
-        [SerializeField] private bool isWallJumping;
-        [SerializeField] private float wallJumpingDirection;
+        private bool isWallJumping;
+        private float wallJumpingDirection;
         [SerializeField] private float wallJumpingTime = 0.2f;
-        [SerializeField]private float wallJumpingCounter;
+        private float wallJumpingCounter;
         [SerializeField] private float wallJumpingDuration = 0.4f;
         [SerializeField] private Vector2 wallJumpingPower = new Vector2(8f, 16f);
         [SerializeField] private Transform wallCheck;
@@ -103,7 +103,7 @@ namespace Player_Movement_Namespace
             //this is for fast fall while pressing down
             vertical=Input.GetAxisRaw("Vertical");
             
-            if(vertical<0 &&!IsGrounded())
+            if(vertical < 0 && !IsGrounded())
             {
                 rb.gravityScale=100;
             }
@@ -230,14 +230,24 @@ namespace Player_Movement_Namespace
 
         private void WallSlide()
         {
-            if (IsWalled() && !IsGrounded() && horizontal != 0f)
+            if (IsWalled() && !IsGrounded())
             {
                 isWallSliding = true;
-                rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
-            }
-            else
+            } else
             {
                 isWallSliding = false;
+            }
+            
+            // stop wall sliding if player clicks down
+            if (vertical < 0)
+            {
+                isWallSliding = false;
+            }
+
+            // clamp player to wall
+            if (isWallSliding) 
+            {
+                rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
             }
         }
 
