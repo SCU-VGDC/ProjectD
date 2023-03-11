@@ -6,22 +6,22 @@ namespace Player_Movement_Namespace
 {
     public class Player_Movement : MonoBehaviour
     {
-        //basic movement vars:
+        [Header("Basic Movement")]
         [HideInInspector] public float horizontal;
         private float vertical;
         public float speed;
         public float jump_power;
         [HideInInspector] public bool isFacingRight = true;
 
-        //coyote jump vars:
+        [Header("Coyote Jump")]
         private float coyote_time = 0.2f;
         [SerializeField] private float coyote_time_counter;
 
-        //jump buffer vars:
+        [Header("Jump Buffer")]
         private float jump_buffer_time = 0.2f;
         private float jump_buffer_time_counter;
 
-        //wall jump vars:
+        [Header("Wall Jump")]
         private bool isWallSliding;
         [SerializeField] private float wallSlidingSpeed = 2f;
 
@@ -36,37 +36,34 @@ namespace Player_Movement_Namespace
         private int numOfWallJumps = 0;
         [SerializeField] private int maximumWallJumps = 3;
 
-        //melee dash vars:
+        [Header("Melee Dash")]
         public int maximum_dashes;
         public int current_dashes;
         public bool is_dashing;
-        public float dash_power;
         public float dash_distance;
         public float dash_time;
         public float dash_recharge_time = 0f;
         [SerializeField] private float dash_recharge_time_counter;
         
-        //component and layer vars:
+        [Header("Components and Layers")]
         public Rigidbody2D rb;
         public BoxCollider2D bc;
         public LayerMask plats_layer;
         public LayerMask semi_plats_layer;
         public TrailRenderer tr;
         public GameObject dash_damage_hitbox;
-        public RaycastHit2D box_cast_hit;
-        //public Transform wall_check;
-        
+        public RaycastHit2D box_cast_hit;        
 
-        //other objects
+        [Header("Other Objects")]
         public Player_Health player_health_obj;
         public Player_Shooting player_shooting_obj;
         public GameObject isometric_diamond_obj;
         private SpriteRenderer isometric_diamond_sprite_rend;
 
-        //checkpoint objects 
+        [Header("Checkpoint Objects")]
         public GameObject currentCheckPoint;
 
-        //Death Objects
+        [Header("Death Objects")]
         public bool isAlive;
 
 
@@ -385,7 +382,7 @@ namespace Player_Movement_Namespace
         }
 
         //debug visual for ground check
-        void OnDrawGizmosSelected()
+        /*void OnDrawGizmosSelected()
         {
             // Draw a semi-transparent red cube at the transform's position
             Gizmos.color = new Color(1, 0, 0, 0.5f);
@@ -395,7 +392,7 @@ namespace Player_Movement_Namespace
             // Debugging wall jump circle used to detect if touching a wall
             Gizmos.color = new Color(1, 0, 0, 0.5f);
             Gizmos.DrawSphere(wallCheck.position, 0.2f);
-        }
+        }*/
 
         public void setCheckpoint(GameObject other){
             currentCheckPoint = other;

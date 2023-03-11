@@ -41,6 +41,14 @@ public class Enemy_Health : MonoBehaviour
     {
         if(transform.parent != null)
         {
+            if (transform.parent.parent != null)
+            {
+                if(transform.parent.parent.GetComponent<RoomManager>())
+                {
+                    transform.parent.parent.GetComponent<RoomManager>().enemies.Remove(this);
+                    transform.parent.parent.GetComponent<RoomManager>().amountOfEnemies--;
+                }
+            }
             Destroy(transform.parent.gameObject);
         }
         Destroy(gameObject);
