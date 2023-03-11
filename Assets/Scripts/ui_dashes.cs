@@ -8,12 +8,12 @@ namespace Player_Movement_Namespace
     {
         public GameObject player;
         public Player_Movement player_movement;
-        public SpriteRenderer renderer;
+        public SpriteRenderer renderer; // change to cgange image
         public Sprite[] spriteArray;
 
         void Start()
         {
-            renderer = gameObject.GetComponent<SpriteRenderer>();
+            renderer = gameObject.GetComponent<SpriteRenderer>();// change to image ;-;
             player = GameObject.FindWithTag("Player");
             player_movement = player.GetComponent<Player_Movement>();
             //0_DASH = Sprites.Load() <Sprite>("empty"); //maybe Resources instead of Sprites?
@@ -21,6 +21,7 @@ namespace Player_Movement_Namespace
            // 2_DASH = Sprites.Load() <Sprite>("2dashes"); 
             //3_DASH = Sprites.Load() <Sprite>("3dashes");
         }
+        
         private void Update() {
             showDashes();
         }
