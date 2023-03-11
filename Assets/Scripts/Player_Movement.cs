@@ -22,7 +22,7 @@ namespace Player_Movement_Namespace
         private float jump_buffer_time_counter;
 
         //wall jump vars:
-         private bool isWallSliding;
+        private bool isWallSliding;
         [SerializeField] private float wallSlidingSpeed = 2f;
 
         private bool isWallJumping;
@@ -213,24 +213,19 @@ namespace Player_Movement_Namespace
             }
         }
 
-        private bool IsWalled()
+        private bool IsTouchingWall()
         {
-            Collider2D[] collidedWith =  Physics2D.OverlapCircleAll(wallCheck.position, 0.2f);
+            LayerMask platformsLayerMask = LayerMask.GetMask("Platforms");
 
-            foreach (Collider2D col in collidedWith)
-            {
-                if (col.tag != "Player")
-                {
-                    return true;
-                }
-            }
+            RaycastHit2D hit = Physics2D.CircleCast((Vector2) wallCheck.position, 0.2f, (Vector2) transform.forward, 0.2f, platformsLayerMask); 
 
-            return false;
+            // if circle cast hit something return true
+            return hit.collider != null;
         }
 
         private void WallSlide()
         {
-            if (IsWalled() && !IsGrounded())
+            if (IsTouchingWall() && !IsGrounded())
             {
                 isWallSliding = true;
             } else
@@ -244,7 +239,7 @@ namespace Player_Movement_Namespace
                 isWallSliding = false;
             }
 
-            // clamp player to wall
+            // clamp player to wall (wall sliding)
             if (isWallSliding) 
             {
                 rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
@@ -269,6 +264,7 @@ namespace Player_Movement_Namespace
             if (Input.GetButtonDown("Jump") && wallJumpingCounter > 0f && numOfWallJumps < maximumWallJumps && isWallSliding)
             {
                 isWallJumping = true;
+                // wall jump movement
                 rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
                 wallJumpingCounter = 0f;
                 numOfWallJumps += 1;
