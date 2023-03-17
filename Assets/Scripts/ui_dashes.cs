@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Player_Movement_Namespace
 {
@@ -8,12 +9,12 @@ namespace Player_Movement_Namespace
     {
         public GameObject player;
         public Player_Movement player_movement;
-        public SpriteRenderer renderer; // change to cgange image
+        public Image image_displayer; // change to cgange image
         public Sprite[] spriteArray;
 
         void Start()
         {
-            renderer = gameObject.GetComponent<SpriteRenderer>();// change to image ;-;
+            image_displayer = gameObject.GetComponent<Image>();// change to image ;-;
             player = GameObject.FindWithTag("Player");
             player_movement = player.GetComponent<Player_Movement>();
             //0_DASH = Sprites.Load() <Sprite>("empty"); //maybe Resources instead of Sprites?
@@ -30,19 +31,23 @@ namespace Player_Movement_Namespace
             switch(player_movement.current_dashes)
             {
                 case 0:
-                    renderer.sprite = spriteArray[0];
+                    //image_displayer.sprite = spriteArray[0];
+                    image_displayer.GetComponent<Image>().sprite = spriteArray[0];
                     //gameObject.GetComponent<Image>().sprite = 0_DASH;
                     break;
                 case 1:
-                    renderer.sprite = spriteArray[1];
+                    //image_displayer.sprite = spriteArray[1];
+                    image_displayer.GetComponent<Image>().sprite = spriteArray[1];
                     //gameObject.GetComponent<Image>().sprite = 1_DASH;
                     break;
                 case 2:
-                    renderer.sprite = spriteArray[2];
+                    //image_displayer.sprite = spriteArray[2];
+                    image_displayer.GetComponent<Image>().sprite = spriteArray[2];
                     //gameObject.GetComponent<Image>().sprite = 2_DASH;
                     break;
                 case 3:
-                    renderer.sprite = spriteArray[3];
+                    //image_displayer.sprite = spriteArray[3];
+                    image_displayer.GetComponent<Image>().sprite = spriteArray[3];
                     //gameObject.GetComponent<Image>().sprite = 3_DASH;
                     break;
             }
