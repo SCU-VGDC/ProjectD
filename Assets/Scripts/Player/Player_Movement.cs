@@ -81,11 +81,10 @@ namespace Player_Movement_Namespace
             //tests to see if the player is alive
             if (!isAlive){
                 
+                horizontal = 0;
                 if (Input.GetKeyDown(KeyCode.Return)){
                     Respawn();
-                    return;
                 }
-
                 return; 
             }
 

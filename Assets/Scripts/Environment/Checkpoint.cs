@@ -13,6 +13,7 @@ namespace Player_Movement_Namespace {
         [SerializeField] private Collider2D checkpointCollider;
         [SerializeField] public Player_Movement playerMovement;
         void Start(){
+            player = GameObject.Find("Player");
             playerCollider = GetComponent<Collider2D>();
             checkpointCollider = GetComponent<Collider2D>();
             playerMovement = player.GetComponent<Player_Movement>();
