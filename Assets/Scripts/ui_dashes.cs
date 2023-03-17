@@ -9,18 +9,15 @@ namespace Player_Movement_Namespace
     {
         public GameObject player;
         public Player_Movement player_movement;
-        public Image image_displayer; // change to cgange image
-        public Sprite[] spriteArray;
+        public Image image_switcher;
+        public Sprite[] spriteArray; //manually filled array up with pictures of ui
 
         void Start()
         {
-            image_displayer = gameObject.GetComponent<Image>();// change to image ;-;
+            //using Image component instead of sprite renderer because it's for UI
+            image_switcher = gameObject.GetComponent<Image>();
             player = GameObject.FindWithTag("Player");
             player_movement = player.GetComponent<Player_Movement>();
-            //0_DASH = Sprites.Load() <Sprite>("empty"); //maybe Resources instead of Sprites?
-            //1_DASH = Sprites.Load() <Sprite>("1dash"); 
-           // 2_DASH = Sprites.Load() <Sprite>("2dashes"); 
-            //3_DASH = Sprites.Load() <Sprite>("3dashes");
         }
         
         private void Update() {
@@ -31,24 +28,20 @@ namespace Player_Movement_Namespace
             switch(player_movement.current_dashes)
             {
                 case 0:
-                    //image_displayer.sprite = spriteArray[0];
-                    image_displayer.GetComponent<Image>().sprite = spriteArray[0];
-                    //gameObject.GetComponent<Image>().sprite = 0_DASH;
+                    //no dashes
+                    image_switcher.GetComponent<Image>().sprite = spriteArray[0];
                     break;
                 case 1:
-                    //image_displayer.sprite = spriteArray[1];
-                    image_displayer.GetComponent<Image>().sprite = spriteArray[1];
-                    //gameObject.GetComponent<Image>().sprite = 1_DASH;
+                    //1 dash
+                    image_switcher.GetComponent<Image>().sprite = spriteArray[1];
                     break;
                 case 2:
-                    //image_displayer.sprite = spriteArray[2];
-                    image_displayer.GetComponent<Image>().sprite = spriteArray[2];
-                    //gameObject.GetComponent<Image>().sprite = 2_DASH;
+                    //2 dashes
+                    image_switcher.GetComponent<Image>().sprite = spriteArray[2];
                     break;
                 case 3:
-                    //image_displayer.sprite = spriteArray[3];
-                    image_displayer.GetComponent<Image>().sprite = spriteArray[3];
-                    //gameObject.GetComponent<Image>().sprite = 3_DASH;
+                    //dashes full
+                    image_switcher.GetComponent<Image>().sprite = spriteArray[3];
                     break;
             }
         }
