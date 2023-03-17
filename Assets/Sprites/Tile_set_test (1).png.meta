@@ -3,7 +3,7 @@ guid: d87f26c9dd55ceb4782f5d1178731885
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,6 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -100,18 +101,6 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -130,8 +119,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b027d7c79324c744fa716627058951ba
-      internalID: 1361069325
+      spriteID: f8f2a487c6eae594e911ea04775af9bc
+      internalID: 123537710
       vertices: []
       indices: 
       edges: []
@@ -151,8 +140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 166304736011bb24b9e605b071ce07d3
-      internalID: 416036851
+      spriteID: a63beed0cc878a54b853608563ca4104
+      internalID: 946434319
       vertices: []
       indices: 
       edges: []
@@ -172,8 +161,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1c45b51dc5820f247aa40e0ae06faf87
-      internalID: -1926987588
+      spriteID: 991383430a36f1f48a2376a82b2dd8c4
+      internalID: -1643158329
       vertices: []
       indices: 
       edges: []
@@ -193,8 +182,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e7f747672e06b5a48a85dcc866980010
-      internalID: 2073492490
+      spriteID: 7e2cfcf4ddf1de542b8f4bc8f7fe686f
+      internalID: 1339572499
       vertices: []
       indices: 
       edges: []
@@ -210,10 +199,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Tile_set_test (1)_3: 2073492490
-      Tile_set_test (1)_0: 1361069325
-      Tile_set_test (1)_1: 416036851
-      Tile_set_test (1)_2: -1926987588
+      Tile_set_test (1)_3: 1339572499
+      Tile_set_test (1)_0: 123537710
+      Tile_set_test (1)_1: 946434319
+      Tile_set_test (1)_2: -1643158329
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
