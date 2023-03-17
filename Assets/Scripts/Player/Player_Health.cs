@@ -6,22 +6,20 @@ namespace Player_Movement_Namespace
 {
     public class Player_Health : MonoBehaviour
     {
-        //health and is invulnerable vars
+        [Header("Health and Is Invulnerable")]
         public int health;
-        bool is_vul = true;
+        public bool is_vul = true;
         [SerializeField] float invul_time;
 
-        //sprite renderer
+        [Header("Sprite Renderer")]
         [SerializeField] public SpriteRenderer sr;
 
-        //color
+        [Header("Color")]
         Color sr_color;
 
-        //other objects
+        [Header("Other Objects")]
         [SerializeField] private Player_Movement player_movement_obj;
         [SerializeField] private Player_Shooting player_shooting_obj;
-
-        
 
         void Start()
         {

@@ -6,27 +6,24 @@ namespace Player_Movement_Namespace
 {
     public class Player_Shooting : MonoBehaviour
     {
-        //number vars
-        public float player_bullet_speed;
+        [Header("Number Variables")]
         public float fire_rate_time;
         [HideInInspector] public float fire_rate_time_counter;
         public static Vector3 dash_direction;
         private float bullet_range = 100f;
-        private Enemy_Health enemy_health;
 
-        //damage vars
-        public Enemy_Health enemy;
+        [Header("Damage Variables")]
+        public Enemy_Health enemy_health;
         public int player_bullet_damage;
 
-        //Gameobject vars
+        [Header("GameObjects")]
         public GameObject rotate_point;
         public Transform fire_point;
         public GameObject bullet_trail_prefab; 
-        public GameObject player_bullet_prefab; //UNNECESSARY
         private Camera main_camera;
         private Vector3 mouse_pos;
 
-        //Death vars
+        [Header("Death Variables")]
         public bool canShoot;
 
         void Start()
@@ -72,13 +69,13 @@ namespace Player_Movement_Namespace
                     if(hit.transform.gameObject.layer == 9) 
                     {
                         //Get enemy health component of enemy
-                        enemy = hit.transform.gameObject.GetComponent<Enemy_Health>();
+                        enemy_health = hit.transform.gameObject.GetComponent<Enemy_Health>();
                         
                         //if the enemy has a health component,...
-                        if(enemy != null)
+                        if(enemy_health != null)
                         {
                             //Make the enemy take damage
-                            enemy.Take_Damage(player_bullet_damage);
+                            enemy_health.Take_Damage(player_bullet_damage);
                         }
                     }
                     //Debug.Log("Player hit something! It was: " + hit.collider.name);
@@ -89,10 +86,6 @@ namespace Player_Movement_Namespace
                     Vector3 endPosition = fire_point.position + dash_direction * bullet_range;
                     trailScript.SetTargetPosition(endPosition);
                 }
-
-                //Debug.Log("The Player fired a bullet");
-                //create a bullet
-                //Instantiate(player_bullet_prefab, fire_point.position, Quaternion.identity); //UNNECESSARY
 
                 //reset fire_rate_time_counter
                 fire_rate_time_counter = 0f;

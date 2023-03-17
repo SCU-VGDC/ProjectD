@@ -15,6 +15,7 @@ public class Enemy_Health : MonoBehaviour
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
+        normal_color = sr.color; //added to copy the actual color into var
     }
 
     public void Take_Damage(int damage)
@@ -38,6 +39,18 @@ public class Enemy_Health : MonoBehaviour
 
     public void Die()
     {
+        if(transform.parent != null)
+        {
+            if (transform.parent.parent != null)
+            {
+                if(transform.parent.parent.GetComponent<RoomManager>())
+                {
+                    transform.parent.parent.GetComponent<RoomManager>().enemies.Remove(this);
+                    transform.parent.parent.GetComponent<RoomManager>().amountOfEnemies--;
+                }
+            }
+            Destroy(transform.parent.gameObject);
+        }
         Destroy(gameObject);
     }
 }
