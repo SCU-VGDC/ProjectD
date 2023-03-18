@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
-    public bool battleStarted;
-    public List<Enemy_Health> enemies;
-    public int amountOfEnemies;
+    public int id; //room id to save
+    public bool battleStarted;  //if battle started
+    public List<Enemy_Health> enemies; //list of enemies elements
+    public int amountOfEnemies; //number of enemies
 
     private GameObject entrance;
     private GameObject exit;
@@ -18,7 +19,7 @@ public class RoomManager : MonoBehaviour
     {
         
 
-        foreach (Transform enem in transform)
+        foreach (Transform enem in transform) //finds enemies and entrance and exit
         {
             if (enem.transform.childCount != 0)
             {
@@ -45,7 +46,7 @@ public class RoomManager : MonoBehaviour
         exit.SetActive(false);
     }
 
-    public void Startbattle()
+    public void Startbattle() //startbattle trigger
     {
         if(amountOfEnemies > 0)
         {
@@ -58,20 +59,20 @@ public class RoomManager : MonoBehaviour
     {
         if(amountOfEnemies == 0)
         {
-            battleStarted = false;
+            battleStarted = false; //reset if no enemies
         }
 
-        if (battleStarted != m_battleStarted)
+        if (battleStarted != m_battleStarted) //check if battle started have been changed
         {
 
             if (battleStarted == false)
             {
-                entrance.SetActive(false);
+                entrance.SetActive(false); //open doors
                 exit.SetActive(false);
             }
 
 
-            if (battleStarted == true)
+            if (battleStarted == true) //set active all enemies and close doors
             {
                 foreach(Enemy_Health i in enemies)
                 {
@@ -81,7 +82,7 @@ public class RoomManager : MonoBehaviour
                 exit.SetActive(true);
             }
 
-            m_battleStarted = battleStarted;
+            m_battleStarted = battleStarted; //save the last value
         }
     }
 }
