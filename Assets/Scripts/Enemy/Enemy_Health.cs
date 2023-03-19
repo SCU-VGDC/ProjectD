@@ -14,7 +14,18 @@ public class Enemy_Health : MonoBehaviour
 
     void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
+        if (sr == null)
+        {
+            try
+            {
+                sr = GetComponent<SpriteRenderer>();
+            }
+            catch
+            {
+                sr = GetComponentInChildren<SpriteRenderer>();
+            }
+        }
+        
         normal_color = sr.color; //added to copy the actual color into var
     }
 
