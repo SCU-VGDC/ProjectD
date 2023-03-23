@@ -24,6 +24,8 @@ namespace Backend {
         public int PlayerHealth { get { return this.playerHealth; } set { this.playerHealth = value; } }
         [SerializeField] private int playerNumDashes;
         public int PlayerNumDashes { get { return this.playerNumDashes; } set { this.playerNumDashes = value; } }
+        
+        // guns:
         [SerializeField] private string playerCurrentGun;
         public string PlayerCurrentGun { get { return this.playerCurrentGun; } set { this.playerCurrentGun = value; } }
         [SerializeField] private List<string> playerUnlockedGuns;
@@ -32,6 +34,10 @@ namespace Backend {
         // level:
         [SerializeField] private GameObject playerCurrentCheckpoint;
         public GameObject PlayerCurrentCheckpoint { get { return this.playerCurrentCheckpoint; } set { this.playerCurrentCheckpoint = value; } }
+
+        // decisions:
+        [SerializeField] private Dictionary<string, string> playerDecisions;
+        public Dictionary<string, string> PlayerDecisions { get { return this.playerDecisions; } set { this.playerDecisions = value; } }
 
         /// <summary> Creates an PersistentData object from data saved to disk or default values if nothing is saved in disk </summary>
         public PersistentData Initialize() 
@@ -95,6 +101,7 @@ namespace Backend {
             playerCurrentGun = newPersistentData.PlayerCurrentGun;
             playerUnlockedGuns = newPersistentData.PlayerUnlockedGuns;
             playerCurrentCheckpoint = newPersistentData.PlayerCurrentCheckpoint;
+            playerDecisions = newPersistentData.PlayerDecisions;
         }
 
         /// <summary> Initializes the values. ONLY call if you want to reset all of the games persistent data </summary>
@@ -105,6 +112,7 @@ namespace Backend {
             playerNumDashes = 3;
             playerCurrentGun = "";
             playerUnlockedGuns = new List<string>();
+            playerDecisions = new Dictionary<string, string>();
         }
     }
 
