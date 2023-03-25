@@ -8,9 +8,11 @@ public class Belzebub_Enemy_Behavior : Base_Enemy
     [Header("Properties")]
     public float aggro_radius;
     public bool completed_path;
+    public Vector3 nextPos;
+    public SpriteRenderer sr;
 
     [Header("States")]
-    public Belzebub_Wander_State wander_state;
+    public Belzebub_Idle_State idle_state;
     public Belzebub_Aggro_State aggro_state;
 
     void Start()
@@ -19,7 +21,7 @@ public class Belzebub_Enemy_Behavior : Base_Enemy
         base.Init();
 
         //Start out wandering
-        current_state = wander_state;
+        current_state = idle_state;
         current_state.Init(this);
     }
 
@@ -31,7 +33,6 @@ public class Belzebub_Enemy_Behavior : Base_Enemy
 
         current_state.Action(this);
        
-        Vector3 nextPos;
         Quaternion nextRot;
         mover.MovementUpdate(Time.deltaTime, out nextPos, out nextRot);
         mover.FinalizeMovement(nextPos, nextRot);
@@ -45,6 +46,39 @@ public class Belzebub_Enemy_Behavior : Base_Enemy
     }
 }
 
+[System.Serializable]
+public class Belzebub_Idle_State : AI_State
+{
+
+    private Transform player_transform;
+
+
+    public override void Init(Base_Enemy context)
+    {
+        player_transform = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+
+    public override void Action(Base_Enemy context)
+    {
+        //Gross casting to get all the properties we need. Maybe a better solution for this?
+        Belzebub_Enemy_Behavior proper_context = (Belzebub_Enemy_Behavior)context;
+
+        if (Vector2.Distance(player_transform.position, proper_context.transform.position) < proper_context.aggro_radius)
+        {
+            proper_context.Transition(proper_context.aggro_state);
+        }
+    }
+
+    public override void OnDrawGizmos(Base_Enemy context)
+    {
+        
+    }
+}
+
+
+/* TODO:
+ * This state is never used, just kept here in case we ever want Belzebub to wander in the future.
+ */
 [System.Serializable]
 public class Belzebub_Wander_State : AI_State
 {
@@ -71,6 +105,10 @@ public class Belzebub_Wander_State : AI_State
             Wander(proper_context);
         }
 
+        //When wandering, face direction that it's moving
+        if (!proper_context.completed_path)
+            proper_context.sr.flipX = (proper_context.nextPos.x - proper_context.transform.position.x < 0);
+
         if (Vector2.Distance(player_transform.position, proper_context.transform.position) < proper_context.aggro_radius)
         {
             proper_context.Transition(proper_context.aggro_state);
@@ -94,7 +132,7 @@ public class Belzebub_Wander_State : AI_State
 
     public override void OnDrawGizmos(Base_Enemy context)
     {
-        
+
     }
 }
 
@@ -130,7 +168,7 @@ public class Belzebub_Aggro_State : AI_State
             {
                 //TODO: Save last seen player location & velocity and search nearby!
                 //For now, just wander again.
-                proper_context.Transition(proper_context.wander_state);
+                proper_context.Transition(proper_context.idle_state);
             }
             else
             {
@@ -144,6 +182,9 @@ public class Belzebub_Aggro_State : AI_State
                 }
             }
         }
+
+        //When attacking, face direction the player
+        proper_context.sr.flipX = (player_transform.position.x - proper_context.transform.position.x > 0);
     }
 
     public void Pursue(Belzebub_Enemy_Behavior context)
