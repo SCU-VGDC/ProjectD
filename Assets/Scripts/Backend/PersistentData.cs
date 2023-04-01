@@ -93,7 +93,7 @@ namespace Backend {
         }
 
         /// <summary> Copies over all attributes of newPersistentData to this PersistentData </summary>
-        private void CopyFrom(PersistentData newPersistentData)
+        public void CopyFrom(PersistentData newPersistentData)
         {
             playerCurrentState = newPersistentData.PlayerCurrentState;
             playerHealth = newPersistentData.PlayerHealth;

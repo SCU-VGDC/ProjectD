@@ -4,6 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Backend;
 
 [CustomEditor(typeof(GameManager))]
 public class GameManagerEditor : Editor
@@ -11,11 +12,15 @@ public class GameManagerEditor : Editor
     public override bool RequiresConstantRepaint() => true; // needed to repaint the currentPersistentDataPropsContent
 
     GameManager gameManager;
+    string dataPath;
+    bool dataExistsOnDisk;
     GUIStyle defaultGUIStyle = GUIStyle.none;
  
     void OnEnable() 
     {
         gameManager = (GameManager) target;
+
+        dataPath = Backend.PersistentData.path;
 
         defaultGUIStyle.normal.textColor = Color.white;
         defaultGUIStyle.wordWrap = true;
@@ -25,6 +30,8 @@ public class GameManagerEditor : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
+        
+        dataExistsOnDisk = File.Exists(dataPath);
 
         // current persistent data properties
         GUIContent currentPersistentDataPropsContent = new GUIContent("<b>Current Persistent Data Properties:</b>\n");
@@ -66,8 +73,7 @@ public class GameManagerEditor : Editor
         // current data on disk and last saved data
         GUIContent currentDataOnDiskContent = new GUIContent("<b>Data Saved on Disk:</b>\n");
         GUIContent lastSavedDataContent = new GUIContent("<b>Data Last Saved:</b>\n");
-        string dataPath = Backend.PersistentData.path;
-        if (File.Exists(dataPath))
+        if (dataExistsOnDisk)
         {
             string json = File.ReadAllText(dataPath);
             string lastModified = File.GetLastWriteTime(dataPath).ToString("MM/dd/yyyy hh:mm tt");
@@ -86,6 +92,44 @@ public class GameManagerEditor : Editor
         GUILayout.Label(lastSavedDataContent, defaultGUIStyle);
         GUILayout.Label("");
 
+        // save and load data on disk
+        GUILayout.BeginHorizontal();
+        if (!Application.isPlaying)
+        {
+            GUI.backgroundColor = Color.gray; // changes background color of button
+        }
+        if(GUILayout.Button("Save data to disk"))
+        {
+            if (Application.isPlaying)
+            {
+                gameManager.persistentData.Save();
+            }
+            else
+            {
+                Debug.LogAssertion("Cannot save current persistent data to disk since the editor is not in play mode", this);
+            }
+        }
+        GUI.backgroundColor = Color.white;
+
+        if (!(dataExistsOnDisk && Application.isPlaying))
+        {
+            GUI.backgroundColor = Color.gray;
+        }
+        if(GUILayout.Button("Load data from disk"))
+        {
+            if (dataExistsOnDisk && Application.isPlaying)
+            {
+                PersistentData persistentData = gameManager.persistentData.Load();
+                gameManager.persistentData.CopyFrom(persistentData);
+            }
+            else
+            {
+                Debug.LogAssertion("Cannot load persistent data from disk since the editor is not in play mode and there is no data on disk", this);
+            }
+        }
+        GUILayout.EndHorizontal();
+        GUI.backgroundColor = Color.white;
+
         // delete data on disk
         if(GUILayout.Button("Delete data on disk"))
         {
@@ -97,7 +141,7 @@ public class GameManagerEditor : Editor
     {
         object propValue = prop.GetValue(gameManager.persistentData, null);
 
-        if (propValue == null)
+        if (propValue == null || propValue.Equals(null))
         {
             return "null";
         }
