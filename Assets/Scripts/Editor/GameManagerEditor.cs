@@ -30,7 +30,8 @@ public class GameManagerEditor : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        
+        GUILayout.Label("");
+
         dataExistsOnDisk = File.Exists(dataPath);
 
         // current persistent data properties
@@ -39,7 +40,7 @@ public class GameManagerEditor : Editor
         {
             foreach(var prop in gameManager.persistentData.GetType().GetProperties()) 
             {
-                currentPersistentDataPropsContent.text += $"{prop.Name}: {toStringProp(prop)}\n";
+                currentPersistentDataPropsContent.text += $"{prop.Name}: {ToStringProp(prop)}\n";
             }
         } 
         else 
@@ -49,6 +50,48 @@ public class GameManagerEditor : Editor
 
         GUILayout.Label(currentPersistentDataPropsContent, defaultGUIStyle);
         GUILayout.Label("");
+
+        // set a current persistent data property
+        GUIContent currentPersistentDataSetProp = new GUIContent("<b>Set a Current Persistent Data Property</b>");
+        if (Application.isPlaying)
+        {
+            GUILayout.Label(currentPersistentDataSetProp, defaultGUIStyle);
+            GUILayout.BeginHorizontal();
+
+            System.Reflection.PropertyInfo[] properties = gameManager.persistentData.GetType().GetProperties();
+            String[] propertyOptions = properties
+                .Where(prop => prop.PropertyType.IsPrimitive 
+                    || prop.PropertyType.IsValueType 
+                    || (prop.PropertyType == typeof(string)))
+                        .Select(prop => prop.Name).ToArray<string>();
+            
+            gameManager.currentPersistentDataSetPropIndex = EditorGUILayout.Popup(gameManager.currentPersistentDataSetPropIndex, propertyOptions);
+            gameManager.currentPersistentDataSetPropValue = EditorGUILayout.TextField(gameManager.currentPersistentDataSetPropValue); 
+
+            if (GUILayout.Button("Set"))
+            {
+                var convertedValue = ConvertValueToProp(gameManager.currentPersistentDataSetPropValue, properties[gameManager.currentPersistentDataSetPropIndex]);
+
+                if (convertedValue.canConvertValueToProp)
+                {
+                    properties[gameManager.currentPersistentDataSetPropIndex].SetValue(gameManager.persistentData, convertedValue.value);
+                }
+                else
+                {
+                    Debug.LogAssertion($"Failed to convert value of {gameManager.currentPersistentDataSetPropValue} ({gameManager.currentPersistentDataSetPropValue.GetType().ToString()}) to the the property, {properties[gameManager.currentPersistentDataSetPropIndex].Name}, of type {properties[gameManager.currentPersistentDataSetPropIndex].GetValue(gameManager.persistentData, null).GetType().ToString()}", this);
+                }
+            }
+
+            GUILayout.EndHorizontal();
+        }
+        else 
+        {
+            currentPersistentDataSetProp.text += "\nEditor is not in play mode";
+            GUILayout.Label(currentPersistentDataSetProp, defaultGUIStyle);
+        }
+
+        GUILayout.Label("");
+
 
         // reset current persistent data properties
         if(GUILayout.Button("Reset all current persistent data values"))
@@ -137,7 +180,7 @@ public class GameManagerEditor : Editor
         }
     }
 
-    string toStringProp(System.Reflection.PropertyInfo prop)
+    string ToStringProp(System.Reflection.PropertyInfo prop)
     {
         object propValue = prop.GetValue(gameManager.persistentData, null);
 
@@ -173,6 +216,42 @@ public class GameManagerEditor : Editor
 
             default:
                 return propValue.ToString();
+        }
+    }
+
+    /// <summary> Returns a bool that represents if the value can be converted to the prop and the object if the prop can be converted </summary>
+    (bool canConvertValueToProp, object value) ConvertValueToProp(string value, System.Reflection.PropertyInfo prop)
+    {
+        object propValue = prop.GetValue(gameManager.persistentData, null);
+
+        switch (propValue)
+        {
+            case int:
+                int convertedValueInt;
+                return (int.TryParse(value, out convertedValueInt), convertedValueInt);
+            
+            case float:
+                float convertedValueFloat;
+                return (float.TryParse(value, out convertedValueFloat), convertedValueFloat);
+
+            case double:
+                double convertedValueDouble;
+                return (double.TryParse(value, out convertedValueDouble), convertedValueDouble);
+
+            case char:
+                char convertedValueChar;
+                return (char.TryParse(value, out convertedValueChar), convertedValueChar);
+
+            case bool:
+                bool convertedValueBool;
+                return (bool.TryParse(value, out convertedValueBool), convertedValueBool);
+
+            case string:
+                return (true, value);
+
+            default:
+                return (false, null);
+
         }
     }
 }

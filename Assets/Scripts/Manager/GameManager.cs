@@ -6,6 +6,8 @@ using Backend;
 public class GameManager : MonoBehaviour
 {
     public PersistentData persistentData;
+    [HideInInspector] public int currentPersistentDataSetPropIndex = 0;
+    [HideInInspector] public string currentPersistentDataSetPropValue = "value";
 
     // runs before start
     void Awake()
