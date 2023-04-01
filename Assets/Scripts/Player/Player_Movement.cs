@@ -55,13 +55,10 @@ namespace Player_Movement_Namespace
         public RaycastHit2D box_cast_hit;        
 
         [Header("Other Objects")]
-        public Player_Health player_health_obj;
-        public Player_Shooting player_shooting_obj;
+        private Player_Health player_health_obj;
+        private Player_Shooting player_shooting_obj;
         public GameObject isometric_diamond_obj;
         private SpriteRenderer isometric_diamond_sprite_rend;
-
-        [Header("Death Objects")]
-        public bool isAlive;
 
         [Header("Game Manager")]
         PersistentData pd;
@@ -72,15 +69,15 @@ namespace Player_Movement_Namespace
             pd = GameObject.Find("Game Manager").GetComponent<GameManager>().persistentData;
 
             player_health_obj = GetComponent<Player_Health>();
+            player_shooting_obj = GetComponent<Player_Shooting>();
             isometric_diamond_sprite_rend = isometric_diamond_obj.GetComponent<SpriteRenderer>();
-            isAlive = true;
         }
 
         private void Update()
         {
             
             //tests to see if the player is alive
-            if (!isAlive){
+            if (pd.PlayerCurrentState != "alive"){
                 
                 if (Input.GetKeyDown(KeyCode.Return)){
                     Respawn();
@@ -395,16 +392,8 @@ namespace Player_Movement_Namespace
             Gizmos.DrawSphere(wallCheck.position, 0.2f);
         }*/
 
-        public void setAlive(bool other){
-            isAlive = other;
-        }
-
-        public bool getAlive(){
-            return isAlive;
-        }
-        
         public void Respawn(){ 
-            isAlive = true;
+            pd.PlayerCurrentState = "alive";
             //heals the player (Set to Max HP)
             pd.PlayerHealth = 5;
             //sets player position to last checkpoint and enables shooting

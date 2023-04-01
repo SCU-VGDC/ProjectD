@@ -41,7 +41,7 @@ namespace Player_Movement_Namespace
         {
             //Debug.Log(hit_info.gameObject.layer.ToString());
             //if player collided with an enemy (layer 9) or an enemy bullet (layer 12)...
-            if((hit_info.gameObject.layer == 9 || hit_info.gameObject.layer == 12) && is_vul == true && player_movement_obj.getAlive())
+            if((hit_info.gameObject.layer == 9 || hit_info.gameObject.layer == 12) && is_vul == true && pd.PlayerCurrentState == "alive")
             {
                 //take damage
                 pd.AddPlayerHealth(-1);
@@ -96,7 +96,7 @@ namespace Player_Movement_Namespace
         // Respawn is in Player Movement
         public void Die()
         {
-            player_movement_obj.setAlive(false);
+            pd.PlayerCurrentState = "dead";
             player_shooting_obj.setCanShoot(false);            
             Debug.Log("LMAO you died XD");
             Debug.Log("Press enter to Respawn");
