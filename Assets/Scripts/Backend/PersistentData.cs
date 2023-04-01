@@ -13,7 +13,8 @@ namespace Backend {
     [SerializeField] public class PersistentData
     {
         // data:
-        static private string path = Application.persistentDataPath + @"\data.json";
+        /// <summary> Location of where the persistent data is saved on disk </summary>
+        readonly public static string path = Application.persistentDataPath + @"\data.json";
 
         // you have to do this weird getter and setter thing bc of JsonUtility.ToJson
         //   more info: https://gamedev.stackexchange.com/a/178746
@@ -42,7 +43,6 @@ namespace Backend {
         /// <summary> Creates an PersistentData object from data saved to disk or default values if nothing is saved in disk </summary>
         public PersistentData Initialize() 
         {
-            path = Application.persistentDataPath + @"\data.json";
             PersistentData perviousPersistentData = Load();
 
             // load previous data if exists, else initialize values
@@ -79,7 +79,7 @@ namespace Backend {
         }
 
         /// <summary> Loads previously saved JSON if exists. If doesn't exist, returns null </summary>
-        static private PersistentData Load()
+        public PersistentData Load()
         {
             if (!File.Exists(path))
             {
@@ -105,13 +105,14 @@ namespace Backend {
         }
 
         /// <summary> Initializes the values. ONLY call if you want to reset all of the games persistent data </summary>
-        private void InitValues()
+        public void InitValues()
         {
             playerCurrentState = "alive";
             playerHealth = 20;
             playerNumDashes = 3;
-            playerCurrentGun = "";
+            playerCurrentGun = null;
             playerUnlockedGuns = new List<string>();
+            playerCurrentCheckpoint = null;
             playerDecisions = new Dictionary<string, string>();
         }
     }
