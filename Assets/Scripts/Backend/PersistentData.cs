@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Dev;
 
 
 namespace Backend {
@@ -73,6 +74,15 @@ namespace Backend {
         /// <summary> Saves the current persistent data as JSON and writes it to disk </summary>
         public void Save()
         {
+            #if (UNITY_EDITOR)
+                DeveloperOptions devOptions = new DeveloperOptions().Load();
+
+                if (!devOptions.SavePersistentData)
+                {
+                    return;
+                }
+
+            #endif
             string json = JsonUtility.ToJson(this, true);
 
             File.WriteAllText(path, json);
