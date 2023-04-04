@@ -18,15 +18,13 @@ namespace Player_Movement_Namespace
         Color sr_color;
 
         [Header("Other Objects")]
-        private GameManager gameManager;
         [SerializeField] private Player_Movement player_movement_obj;
         [SerializeField] private Player_Shooting player_shooting_obj;
         private PersistentData pd;
 
         void Start()
         {
-            gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-            pd = gameManager.persistentData;
+            pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
 
             //set sr to sprite renderer
             sr = GetComponent<SpriteRenderer>();

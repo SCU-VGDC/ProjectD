@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Backend;
 
-public class GameManager : MonoBehaviour
+public class PersistentDataManager : MonoBehaviour
 {
     public PersistentData persistentData;
     [HideInInspector] public int currentPersistentDataSetPropIndex = 0;
@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         persistentData =  new Backend.PersistentData().Initialize();
+
+        DontDestroyOnLoad(this);
     }
 
     void OnApplicationQuit()

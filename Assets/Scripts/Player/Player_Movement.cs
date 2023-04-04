@@ -61,12 +61,12 @@ namespace Player_Movement_Namespace
         private SpriteRenderer isometric_diamond_sprite_rend;
 
         [Header("Game Manager")]
-        PersistentData pd;
+        private PersistentData pd;
 
 
         private void Start()
         {
-            pd = GameObject.Find("Game Manager").GetComponent<GameManager>().persistentData;
+            pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
 
             player_health_obj = GetComponent<Player_Health>();
             player_shooting_obj = GetComponent<Player_Shooting>();

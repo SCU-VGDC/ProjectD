@@ -15,9 +15,9 @@ namespace Player_Movement_Namespace {
         [SerializeField] public Player_Movement playerMovement;
 
         [Header("Game Manager")]
-        PersistentData pd;
+        private PersistentData pd;
         void Start(){
-            pd = GameObject.Find("Game Manager").GetComponent<GameManager>().persistentData;
+            pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
 
             playerCollider = GetComponent<Collider2D>();
             checkpointCollider = GetComponent<Collider2D>();

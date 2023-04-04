@@ -8,8 +8,8 @@ using Dev;
 namespace Backend {
 
     /// <summary>
-    /// To use, access from Game Manager like so:
-    /// pd = GameObject.Find("Game Manager").GetComponent<GameManager>().persistentData;
+    /// To use, access from Persistent Data Manager like so:
+    /// pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
     /// </summary>
     [SerializeField] public class PersistentData
     {

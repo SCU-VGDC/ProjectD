@@ -14,12 +14,12 @@ namespace Player_Movement_Namespace
         public bool see = false;
 
         [Header("Game Manager")]
-        PersistentData pd;
+        private PersistentData pd;
 
         // Start is called before the first frame update
         void Start()
         {
-            pd = GameObject.Find("Game Manager").GetComponent<GameManager>().persistentData;
+            pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
 
             player = GameObject.FindWithTag("Player");
             player_movement = player.GetComponent<Player_Movement>();

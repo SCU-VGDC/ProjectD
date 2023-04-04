@@ -6,19 +6,19 @@ using System;
 using System.Linq;
 using Backend;
 
-[CustomEditor(typeof(GameManager))]
-public class GameManagerEditor : Editor
+[CustomEditor(typeof(PersistentDataManager))]
+public class PersistentDataManagerEditor : Editor
 {
     public override bool RequiresConstantRepaint() => true; // needed to repaint the currentPersistentDataPropsContent
 
-    GameManager gameManager;
+    PersistentDataManager pdManager;
     string dataPath;
     bool dataExistsOnDisk;
     GUIStyle defaultGUIStyle = GUIStyle.none;
  
     void OnEnable() 
     {
-        gameManager = (GameManager) target;
+        pdManager = (PersistentDataManager) target;
 
         dataPath = Backend.PersistentData.path;
 
@@ -38,7 +38,7 @@ public class GameManagerEditor : Editor
         GUIContent currentPersistentDataPropsContent = new GUIContent("<b>Current Persistent Data Properties:</b>\n");
         if (Application.isPlaying)
         {
-            foreach(var prop in gameManager.persistentData.GetType().GetProperties()) 
+            foreach(var prop in pdManager.persistentData.GetType().GetProperties()) 
             {
                 currentPersistentDataPropsContent.text += $"{prop.Name}: {ToStringProp(prop)}\n";
             }
@@ -58,27 +58,27 @@ public class GameManagerEditor : Editor
             GUILayout.Label(currentPersistentDataSetProp, defaultGUIStyle);
             GUILayout.BeginHorizontal();
 
-            System.Reflection.PropertyInfo[] properties = gameManager.persistentData.GetType().GetProperties();
+            System.Reflection.PropertyInfo[] properties = pdManager.persistentData.GetType().GetProperties();
             String[] propertyOptions = properties
                 .Where(prop => prop.PropertyType.IsPrimitive 
                     || prop.PropertyType.IsValueType 
                     || (prop.PropertyType == typeof(string)))
                         .Select(prop => prop.Name).ToArray<string>();
             
-            gameManager.currentPersistentDataSetPropIndex = EditorGUILayout.Popup(gameManager.currentPersistentDataSetPropIndex, propertyOptions);
-            gameManager.currentPersistentDataSetPropValue = EditorGUILayout.TextField(gameManager.currentPersistentDataSetPropValue); 
+            pdManager.currentPersistentDataSetPropIndex = EditorGUILayout.Popup(pdManager.currentPersistentDataSetPropIndex, propertyOptions);
+            pdManager.currentPersistentDataSetPropValue = EditorGUILayout.TextField(pdManager.currentPersistentDataSetPropValue); 
 
             if (GUILayout.Button("Set"))
             {
-                var convertedValue = ConvertValueToProp(gameManager.currentPersistentDataSetPropValue, properties[gameManager.currentPersistentDataSetPropIndex]);
+                var convertedValue = ConvertValueToProp(pdManager.currentPersistentDataSetPropValue, properties[pdManager.currentPersistentDataSetPropIndex]);
 
                 if (convertedValue.canConvertValueToProp)
                 {
-                    properties[gameManager.currentPersistentDataSetPropIndex].SetValue(gameManager.persistentData, convertedValue.value);
+                    properties[pdManager.currentPersistentDataSetPropIndex].SetValue(pdManager.persistentData, convertedValue.value);
                 }
                 else
                 {
-                    Debug.LogAssertion($"Failed to convert value of {gameManager.currentPersistentDataSetPropValue} ({gameManager.currentPersistentDataSetPropValue.GetType().ToString()}) to the the property, {properties[gameManager.currentPersistentDataSetPropIndex].Name}, of type {properties[gameManager.currentPersistentDataSetPropIndex].GetValue(gameManager.persistentData, null).GetType().ToString()}", this);
+                    Debug.LogAssertion($"Failed to convert value of {pdManager.currentPersistentDataSetPropValue} ({pdManager.currentPersistentDataSetPropValue.GetType().ToString()}) to the the property, {properties[pdManager.currentPersistentDataSetPropIndex].Name}, of type {properties[pdManager.currentPersistentDataSetPropIndex].GetValue(pdManager.persistentData, null).GetType().ToString()}", this);
                 }
             }
 
@@ -94,17 +94,22 @@ public class GameManagerEditor : Editor
 
 
         // reset current persistent data properties
+        if (!Application.isPlaying)
+        {
+            GUI.backgroundColor = Color.gray; // changes background color of button
+        }
         if(GUILayout.Button("Reset all current persistent data values"))
         {
             if (Application.isPlaying)
             {
-                gameManager.persistentData.InitValues();
+                pdManager.persistentData.InitValues();
             } 
             else
             {
                 Debug.LogAssertion("Cannot reset all current persistent data values since the editor is not in play mode", this);
             }
         }
+        GUI.backgroundColor = Color.white;
         GUILayout.Label("");
 
         // persistent data location
@@ -145,7 +150,7 @@ public class GameManagerEditor : Editor
         {
             if (Application.isPlaying)
             {
-                gameManager.persistentData.Save();
+                pdManager.persistentData.Save();
             }
             else
             {
@@ -162,8 +167,8 @@ public class GameManagerEditor : Editor
         {
             if (dataExistsOnDisk && Application.isPlaying)
             {
-                PersistentData persistentData = gameManager.persistentData.Load();
-                gameManager.persistentData.CopyFrom(persistentData);
+                PersistentData persistentData = pdManager.persistentData.Load();
+                pdManager.persistentData.CopyFrom(persistentData);
             }
             else
             {
@@ -174,15 +179,27 @@ public class GameManagerEditor : Editor
         GUI.backgroundColor = Color.white;
 
         // delete data on disk
+        if (!dataExistsOnDisk)
+        {
+            GUI.backgroundColor = Color.gray;
+        }
         if(GUILayout.Button("Delete data on disk"))
         {
-            File.Delete(dataPath);
+            if (dataExistsOnDisk)
+            {
+                File.Delete(dataPath);
+            }
+            else
+            {
+                Debug.LogAssertion("Cannot delete persistent data on disk since there is no data on disk", this);
+            }
         }
+        GUI.backgroundColor = Color.gray;
     }
 
     string ToStringProp(System.Reflection.PropertyInfo prop)
     {
-        object propValue = prop.GetValue(gameManager.persistentData, null);
+        object propValue = prop.GetValue(pdManager.persistentData, null);
 
         if (propValue == null || propValue.Equals(null))
         {
@@ -222,7 +239,7 @@ public class GameManagerEditor : Editor
     /// <summary> Returns a bool that represents if the value can be converted to the prop and the object if the prop can be converted </summary>
     (bool canConvertValueToProp, object value) ConvertValueToProp(string value, System.Reflection.PropertyInfo prop)
     {
-        object propValue = prop.GetValue(gameManager.persistentData, null);
+        object propValue = prop.GetValue(pdManager.persistentData, null);
 
         switch (propValue)
         {
