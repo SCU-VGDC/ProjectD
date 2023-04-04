@@ -8,6 +8,7 @@ namespace Player_Movement_Namespace
     {
         public GameObject player;
         public Player_Movement player_movement;
+        public UnityEngine.Rendering.Universal.Light2D light;
         public float time_orb_gone = 0f; 
         public float orb_cool_down = 5f; // 5 seconds
         public bool see = false;
@@ -17,6 +18,7 @@ namespace Player_Movement_Namespace
         {
             player = GameObject.FindWithTag("Player");
             player_movement = player.GetComponent<Player_Movement>();
+            light = gameObject.GetComponent<UnityEngine.Rendering.Universal.Light2D>();
         }
 
         //changes orb status
@@ -24,6 +26,7 @@ namespace Player_Movement_Namespace
         {
             GetComponent<Collider2D>().enabled = see;
             GetComponent<SpriteRenderer>().enabled = see;
+            light.enabled = see;
         }
 
         void Update(){
