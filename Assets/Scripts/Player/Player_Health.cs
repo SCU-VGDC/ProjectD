@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Backend;
 
 namespace Player_Movement_Namespace
 {
     public class Player_Health : MonoBehaviour
     {
         [Header("Health and Is Invulnerable")]
-        public int health;
         public bool is_vul = true;
         [SerializeField] float invul_time;
 
@@ -20,10 +20,13 @@ namespace Player_Movement_Namespace
         [Header("Other Objects")]
         [SerializeField] private Player_Movement player_movement_obj;
         [SerializeField] private Player_Shooting player_shooting_obj;
+        private PersistentData pd;
 
         void Start()
         {
-            //set sr to sprite rendere
+            pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
+
+            //set sr to sprite renderer
             sr = GetComponent<SpriteRenderer>();
             //store color in sr_color
             sr_color = sr.material.color;
@@ -36,16 +39,16 @@ namespace Player_Movement_Namespace
         {
             //Debug.Log(hit_info.gameObject.layer.ToString());
             //if player collided with an enemy (layer 9) or an enemy bullet (layer 12)...
-            if((hit_info.gameObject.layer == 9 || hit_info.gameObject.layer == 12) && is_vul == true && player_movement_obj.getAlive())
+            if((hit_info.gameObject.layer == 9 || hit_info.gameObject.layer == 12) && is_vul == true && pd.PlayerCurrentState == "alive")
             {
                 //take damage
-                health -= 1;
+                pd.AddPlayerHealth(-1);
 
                 //become invulnerable
                 StartCoroutine("Become_Invulnerable_Damage");
 
                 //if health is less than or equal to zero, destroy player
-                if(health <= 0)
+                if(pd.PlayerHealth <= 0)
                 {
                     Die();
                 }
@@ -91,7 +94,7 @@ namespace Player_Movement_Namespace
         // Respawn is in Player Movement
         public void Die()
         {
-            player_movement_obj.setAlive(false);
+            pd.PlayerCurrentState = "dead";
             player_shooting_obj.setCanShoot(false);            
             Debug.Log("LMAO you died XD");
             Debug.Log("Press enter to Respawn");

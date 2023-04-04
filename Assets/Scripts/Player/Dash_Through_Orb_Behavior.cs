@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Backend;
 
 namespace Player_Movement_Namespace
 {
@@ -13,9 +14,14 @@ namespace Player_Movement_Namespace
         public float orb_cool_down = 5f; // 5 seconds
         public bool see = false;
 
+        [Header("Game Manager")]
+        private PersistentData pd;
+
         // Start is called before the first frame update
         void Start()
         {
+            pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
+
             player = GameObject.FindWithTag("Player");
             player_movement = player.GetComponent<Player_Movement>();
             light = gameObject.GetComponent<UnityEngine.Rendering.Universal.Light2D>();
@@ -50,9 +56,9 @@ namespace Player_Movement_Namespace
                 if(player_movement.is_dashing)
                 {
                     // add one if you aren't at max
-                    if(player_movement.current_dashes<player_movement.maximum_dashes) 
+                    if(pd.PlayerNumDashes < player_movement.maximum_dashes) 
                     {
-                        player_movement.current_dashes++;
+                        pd.AddPlayerNumDashes(1);
                     }
 
                     see = false;
