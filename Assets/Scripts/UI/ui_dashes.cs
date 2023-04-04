@@ -2,22 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Backend;
 
 namespace Player_Movement_Namespace
 {
     public class ui_dashes: MonoBehaviour
     {
         public GameObject player;
-        public Player_Movement player_movement;
         public Image image_switcher;
         public Sprite[] spriteArray; //manually filled array up with pictures of ui
+        private PersistentData pd;
 
         void Start()
         {
             //using Image component instead of sprite renderer because it's for UI
             image_switcher = gameObject.GetComponent<Image>();
             player = GameObject.FindWithTag("Player");
-            player_movement = player.GetComponent<Player_Movement>();
+            pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
         }
         
         private void Update() {
@@ -25,7 +26,7 @@ namespace Player_Movement_Namespace
         }
         void showDashes()
         {
-            switch(player_movement.current_dashes)
+            switch(pd.PlayerNumDashes)
             {
                 case 0:
                     //no dashes

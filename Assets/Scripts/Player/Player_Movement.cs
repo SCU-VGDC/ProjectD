@@ -342,7 +342,7 @@ namespace Player_Movement_Namespace
         //corotine that handles dashing
         private IEnumerator Dash()
         {
-            pd.AddPlayerNumDashes(1);
+            pd.AddPlayerNumDashes(-1);
             //can_dash = false;
             is_dashing = true;
 
