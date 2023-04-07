@@ -10,7 +10,7 @@ public class DoorBattleStarter : MonoBehaviour
 
     void Start()
     {
-        pl = GameObject.Find("Player").GetComponent<Player_Health>();
+        pl = GameObject.Find("Player").GetComponent<Player_Health>(); //gets player
     }
 
     void FixedUpdate()
@@ -18,7 +18,7 @@ public class DoorBattleStarter : MonoBehaviour
         float dist = Vector2.Distance(pl.transform.position, transform.position);
         if(dist < maxdist)
         {
-            transform.parent.GetComponent<RoomManager>().Startbattle();
+            transform.parent.GetComponent<RoomManager>().Startbattle(); //starts battle if player is inside
         }
     }
 

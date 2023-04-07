@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Backend;
 
 namespace Player_Movement_Namespace
 {
@@ -38,7 +39,6 @@ namespace Player_Movement_Namespace
 
         [Header("Melee Dash")]
         public int maximum_dashes;
-        public int current_dashes;
         public bool is_dashing;
         public float dash_distance;
         public float dash_time;
@@ -55,31 +55,29 @@ namespace Player_Movement_Namespace
         public RaycastHit2D box_cast_hit;        
 
         [Header("Other Objects")]
-        public Player_Health player_health_obj;
-        public Player_Shooting player_shooting_obj;
+        private Player_Health player_health_obj;
+        private Player_Shooting player_shooting_obj;
         public GameObject isometric_diamond_obj;
         private SpriteRenderer isometric_diamond_sprite_rend;
 
-        [Header("Checkpoint Objects")]
-        public GameObject currentCheckPoint;
-
-        [Header("Death Objects")]
-        public bool isAlive;
+        [Header("Game Manager")]
+        private PersistentData pd;
 
 
         private void Start()
         {
+            pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
+
             player_health_obj = GetComponent<Player_Health>();
+            player_shooting_obj = GetComponent<Player_Shooting>();
             isometric_diamond_sprite_rend = isometric_diamond_obj.GetComponent<SpriteRenderer>();
-            current_dashes = maximum_dashes;
-            isAlive = true;
         }
 
         private void Update()
         {
             
             //tests to see if the player is alive
-            if (!isAlive){
+            if (pd.PlayerCurrentState != "alive"){
                 
                 if (Input.GetKeyDown(KeyCode.Return)){
                     Respawn();
@@ -155,7 +153,7 @@ namespace Player_Movement_Namespace
 
             //*****Isometric Diamond color (Dash indicator)*****
             //if the player can dash...
-            if(current_dashes > 0)
+            if(pd.PlayerNumDashes > 0)
             {
                 //make the isometric diamond red
                 isometric_diamond_sprite_rend.color = Color.red;
@@ -169,7 +167,7 @@ namespace Player_Movement_Namespace
             //*****Dashing*****
             //if dash button pressed...
 
-            if(Input.GetButtonDown("Dash") && current_dashes > 0)
+            if(Input.GetButtonDown("Dash") && pd.PlayerNumDashes > 0)
 
             {
                 //dash
@@ -180,10 +178,10 @@ namespace Player_Movement_Namespace
             }
 
             //if a dash should be recharged
-            if(dash_recharge_time_counter >= dash_recharge_time && current_dashes < maximum_dashes)
+            if(dash_recharge_time_counter >= dash_recharge_time && pd.PlayerNumDashes < maximum_dashes)
             {
                 //increment current_dashes
-                current_dashes += 1;
+                pd.AddPlayerNumDashes(1);
 
                 //reset dash_recharge_time_counter
                 dash_recharge_time_counter = 0f;
@@ -344,7 +342,7 @@ namespace Player_Movement_Namespace
         //corotine that handles dashing
         private IEnumerator Dash()
         {
-            current_dashes -= 1;
+            pd.AddPlayerNumDashes(-1);
             //can_dash = false;
             is_dashing = true;
 
@@ -394,31 +392,13 @@ namespace Player_Movement_Namespace
             Gizmos.DrawSphere(wallCheck.position, 0.2f);
         }*/
 
-        public void setCheckpoint(GameObject other){
-            currentCheckPoint = other;
-        }
-        public GameObject getCheckPoint(){
-            return (currentCheckPoint);
-            
-        }
-
-        public void setAlive(bool other){
-            isAlive = other;
-        }
-
-        public bool getAlive(){
-            return isAlive;
-        }
-        
-        public void Respawn(){
-            
-            isAlive = true;
+        public void Respawn(){ 
+            pd.PlayerCurrentState = "alive";
             //heals the player (Set to Max HP)
-            player_health_obj.health = 5;
+            pd.PlayerHealth = 5;
             //sets player position to last checkpoint and enables shooting
-            gameObject.transform.position = new Vector2(currentCheckPoint.transform.position.x , currentCheckPoint.transform.position.y);
+            gameObject.transform.position = new Vector2(pd.PlayerCurrentCheckpoint.transform.position.x , pd.PlayerCurrentCheckpoint.transform.position.y);
             player_shooting_obj.setCanShoot(true);
-
         }
     }
     
