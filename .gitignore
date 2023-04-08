@@ -469,3 +469,6 @@ Assets/AstarPathfindingProject/ExampleScenes/Example6_Navmesh/navmesh.obj.meta
 
 # for developer options
 /[Aa]ssets/Editor/developerOptions.json*
+
+# packages
+!/Packages/manifest.json
