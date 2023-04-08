@@ -36,6 +36,9 @@ namespace Player_Movement_Namespace
         [SerializeField] private Transform wallCheck;
         private int numOfWallJumps = 0;
         [SerializeField] private int maximumWallJumps = 3;
+        [Header("Fast Fall")]
+        [SerializeField] public float thrust = 200;
+        [SerializeField] public float maxFastFallVelocity = -50;
 
         [Header("Melee Dash")]
         public int maximum_dashes;
@@ -75,6 +78,7 @@ namespace Player_Movement_Namespace
 
         private void Update()
         {
+            Debug.Log(rb.velocity);
             
             //tests to see if the player is alive
             if (pd.PlayerCurrentState != "alive"){
@@ -98,11 +102,6 @@ namespace Player_Movement_Namespace
             horizontal = Input.GetAxisRaw("Horizontal");
             //this is for fast fall while pressing down
             vertical=Input.GetAxisRaw("Vertical");
-            
-            if(vertical < 0 && !IsGrounded())
-            {
-                rb.gravityScale=100;
-            }
             
             //*****coyote jump time set up*****:
             if (IsGrounded())
@@ -168,7 +167,6 @@ namespace Player_Movement_Namespace
             //if dash button pressed...
 
             if(Input.GetButtonDown("Dash") && pd.PlayerNumDashes > 0)
-
             {
                 //dash
                 StartCoroutine(Dash());
@@ -194,6 +192,14 @@ namespace Player_Movement_Namespace
 
         private void FixedUpdate()
         {
+            // check if dead
+            if (pd.PlayerCurrentState != "alive")
+            {
+                rb.velocity = new Vector2(0, 0);
+
+                return;
+            }
+
             if (!is_dashing && !isWallJumping)
             {
                 //move with horizontal inputs
@@ -201,6 +207,18 @@ namespace Player_Movement_Namespace
 
                 //increment dash charge
                 dash_recharge_time_counter += Time.deltaTime;
+            }
+
+            // fast fall
+            if(vertical < 0 && !IsGrounded() && Mathf.Abs(rb.velocity.y) < Mathf.Abs(maxFastFallVelocity))
+            {
+                rb.AddForce(new Vector2(0, -1) * thrust, ForceMode2D.Force);
+            }
+
+            // speed cap 
+            if(rb.velocity.y <= maxFastFallVelocity && !IsGrounded())
+            {
+                rb.velocity = new Vector2(0, maxFastFallVelocity);
             }
         }
 
