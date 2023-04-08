@@ -77,9 +77,7 @@ namespace Player_Movement_Namespace
         }
 
         private void Update()
-        {
-            Debug.Log(rb.velocity);
-            
+        {            
             //tests to see if the player is alive
             if (pd.PlayerCurrentState != "alive"){
                 
