@@ -77,7 +77,7 @@ namespace Backend {
             #if (UNITY_EDITOR)
                 DeveloperOptions devOptions = new DeveloperOptions().Load();
 
-                if (!devOptions.SavePersistentData)
+                if (devOptions != null && !devOptions.SavePersistentData)
                 {
                     return;
                 }
