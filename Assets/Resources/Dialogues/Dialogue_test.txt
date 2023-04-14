@@ -1,0 +1,11 @@
+S;
+R;Are you ready for the hit?
+B;3
+Q;Who is my target?
+A;Your mom
+Q;Where is the target?
+A;The penthouse
+Q;I'm ready
+S;
+R;Lets go
+E;
