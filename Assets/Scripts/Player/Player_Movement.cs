@@ -25,7 +25,6 @@ namespace Player_Movement_Namespace
         [Header("Wall Jump")]
         private bool isWallSliding;
         [SerializeField] private float wallSlidingSpeed = 2f;
-
         [SerializeField]private bool isWallJumping;
         private float wallJumpingDirection;
         [SerializeField] private float wallJumpingTime = 0.2f;
@@ -34,8 +33,10 @@ namespace Player_Movement_Namespace
         private IEnumerator wallJumpCoroutine;
         [SerializeField] private Vector2 wallJumpingPower = new Vector2(8f, 16f);
         [SerializeField] private Transform wallCheck;
-        private int numOfWallJumps = 0;
+        [SerializeField] private int numOfWallJumps = 0;
         [SerializeField] private int maximumWallJumps = 3;
+        [SerializeField] private float wallMomentum = 150;
+        
         [Header("Fast Fall")]
         [SerializeField] public float thrust = 200;
         [SerializeField] public float maxFastFallVelocity = -50;
@@ -184,6 +185,7 @@ namespace Player_Movement_Namespace
             }
 
             // wall jumping:
+            OneWallContact();
             WallJump();
             WallSlide();
         }
@@ -230,8 +232,17 @@ namespace Player_Movement_Namespace
             return hit.collider != null;
         }
 
-        private void WallSlide()
+        // adds momentum to make jumping onto a wall smoother
+        private void OneWallContact()
         {
+            if(IsTouchingWall() && !IsGrounded() && !isWallSliding && numOfWallJumps == 0 && rb.velocity.y > 0)
+            {
+                rb.AddForce(transform.up * wallMomentum, ForceMode2D.Force);
+            }
+        }
+
+        private void WallSlide()
+        {        
             if (IsTouchingWall() && !IsGrounded())
             {
                 isWallSliding = true;
