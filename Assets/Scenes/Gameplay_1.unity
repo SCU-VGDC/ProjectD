@@ -3263,7 +3263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &210520023
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -22724,7 +22724,9 @@ MonoBehaviour:
   wallJumpingDuration: 0.4
   wallJumpingPower: {x: 15, y: 20}
   wallCheck: {fileID: 1449170001}
+  numOfWallJumps: 0
   maximumWallJumps: 3
+  wallMomentum: 150
   thrust: 200
   maxFastFallVelocity: -50
   maximum_dashes: 3
