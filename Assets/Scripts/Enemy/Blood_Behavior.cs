@@ -15,8 +15,8 @@ public class Blood_Behavior : MonoBehaviour
     private float trajectory_x;
     public float trajectory_range;
 
-    // Start is called before the first frame update
-    void Start()
+    // Awake is called when the script instance is being loaded
+    void Awake()
     {
         //Variable setup
         rb = GetComponent<Rigidbody2D>();

@@ -12,8 +12,11 @@ public class Enemy_Health : MonoBehaviour
     public Color normal_color;
     public Color damaged_color;
 
+    [SerializeField] public GameObject blood_drop_prefab;
+
     void Start()
     {
+
         if (sr == null)
         {
             try
@@ -32,6 +35,12 @@ public class Enemy_Health : MonoBehaviour
     public void Take_Damage(int damage)
     {
         health -= damage;
+
+        for(int i = 0; i < 5; i++)
+        {
+            Debug.Log("Blood!");
+            Instantiate(blood_drop_prefab, gameObject.transform.position, Quaternion.identity); 
+        }
         
         StartCoroutine(wait_time());
 

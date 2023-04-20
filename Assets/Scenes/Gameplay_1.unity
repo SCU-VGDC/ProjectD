@@ -3263,7 +3263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &210520023
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3356,7 +3356,7 @@ Transform:
   m_Children:
   - {fileID: 796795388}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &210520026
 MonoBehaviour:
@@ -3375,6 +3375,7 @@ MonoBehaviour:
   sr: {fileID: 210520024}
   normal_color: {r: 1, g: 1, b: 1, a: 1}
   damaged_color: {r: 0.9811321, g: 0, b: 0, a: 1}
+  blood_drop_prefab: {fileID: 3879954631757837327, guid: 96340f7ea06a86a45a0038ec93d278ed, type: 3}
 --- !u!114 &210520027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21971,7 +21972,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2970360088396549671, guid: 324136a3b8abe455cb75a52d9f413861, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2970360088396549671, guid: 324136a3b8abe455cb75a52d9f413861, type: 3}
       propertyPath: m_LocalPosition.x
@@ -22243,7 +22244,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1903512972482220254, guid: 379114bc368f54792a5d5c199fe74714, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1903512972482220254, guid: 379114bc368f54792a5d5c199fe74714, type: 3}
       propertyPath: m_LocalPosition.x
@@ -22699,7 +22700,7 @@ Transform:
   - {fileID: 519420032}
   - {fileID: 694958439}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2012672200
 MonoBehaviour:
