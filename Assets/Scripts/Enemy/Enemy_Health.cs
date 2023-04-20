@@ -38,7 +38,6 @@ public class Enemy_Health : MonoBehaviour
 
         for(int i = 0; i < 5; i++)
         {
-            Debug.Log("Blood!");
             Instantiate(blood_drop_prefab, gameObject.transform.position, Quaternion.identity); 
         }
         
