@@ -5,15 +5,19 @@ using UnityEngine;
 public class Blood_Behavior : MonoBehaviour
 {
     //GameObject Vars
-    Rigidbody2D rb;
-    TrailRenderer tr;
+    private Rigidbody2D rb;
+    private TrailRenderer tr;
+    private Transform player_transform;
 
     //Number vars
     [SerializeField] public float thrust_upper;
     [SerializeField] public float thrust_lower;
+    [SerializeField] private float detection_range;
     private float thrust;
     private float trajectory_x;
-    public float trajectory_range;
+    [SerializeField] public float trajectory_range;
+    private Vector3 dir_to_player;
+    [SerializeField]
 
     // Awake is called when the script instance is being loaded
     void Awake()
@@ -21,6 +25,7 @@ public class Blood_Behavior : MonoBehaviour
         //Variable setup
         rb = GetComponent<Rigidbody2D>();
         tr = GetComponent<TrailRenderer>();
+        player_transform = GameObject.FindWithTag("Player").transform;
 
         //calculate random thrust and trajectory
         thrust = Random.Range(thrust_lower, thrust_upper);
@@ -42,6 +47,17 @@ public class Blood_Behavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //calculate direction of player
+        dir_to_player = player_transform.position - transform.position;
 
+        //cast a ray from blood to player
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir_to_player, detection_range, LayerMask.GetMask("Player", "Platforms"));
+
+        //check if raycast hit
+        if(hit.collider != null && hit.collider.tag == "Player")
+        {
+            //apply force
+            rb.AddForce(dir_to_player);
+        }
     }
 }

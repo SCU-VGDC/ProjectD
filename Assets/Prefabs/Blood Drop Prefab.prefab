@@ -247,4 +247,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrust_upper: 100
   thrust_lower: 50
+  detection_range: 20
   trajectory_range: 1
