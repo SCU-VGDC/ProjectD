@@ -7,9 +7,20 @@ using Dev;
 
 namespace Backend {
 
-    /// <summary>
-    /// To use, access from Persistent Data Manager like so:
-    /// pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
+    /// <summary> 
+    /// A class responsible for all data that is stored between game sessions and scenes <para />
+    /// <example>
+    /// For example:
+    /// <code>
+    /// Using Backend; <para />
+    /// <para />
+    /// private PersistentData pd; <para />
+    /// private void Start() <para />
+    /// { <para />
+    /// <para /> pd = GameObject.Find("Persistent Data Manager").GetComponent&lt;&#8203;PersistentDataManager&gt;().persistentData <para />
+    /// } <para />
+    /// </code>
+    /// </example>
     /// </summary>
     [SerializeField] public class PersistentData
     {
@@ -26,6 +37,8 @@ namespace Backend {
         public int PlayerHealth { get { return this.playerHealth; } set { this.playerHealth = value; } }
         [SerializeField] private int playerNumDashes;
         public int PlayerNumDashes { get { return this.playerNumDashes; } set { this.playerNumDashes = value; } }
+        [SerializeField] private int playerMaximumDashes;
+        public int PlayerMaximumDashes { get { return this.playerMaximumDashes; } set { this.playerMaximumDashes = value; } }
         
         // guns:
         [SerializeField] private string playerCurrentGun;
@@ -120,6 +133,7 @@ namespace Backend {
             playerCurrentState = "alive";
             playerHealth = 20;
             playerNumDashes = 3;
+            playerMaximumDashes = 3;
             playerCurrentGun = null;
             playerUnlockedGuns = new List<string>();
             playerCurrentCheckpoint = null;

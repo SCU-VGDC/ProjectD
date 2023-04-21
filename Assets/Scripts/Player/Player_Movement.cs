@@ -42,7 +42,6 @@ namespace Player_Movement_Namespace
         [SerializeField] public float maxFastFallVelocity = -50;
 
         [Header("Melee Dash")]
-        public int maximum_dashes;
         public bool is_dashing;
         public float dash_distance;
         public float dash_time;
@@ -175,7 +174,7 @@ namespace Player_Movement_Namespace
             }
 
             //if a dash should be recharged
-            if(dash_recharge_time_counter >= dash_recharge_time && pd.PlayerNumDashes < maximum_dashes)
+            if(dash_recharge_time_counter >= dash_recharge_time && pd.PlayerNumDashes < pd.PlayerMaximumDashes)
             {
                 //increment current_dashes
                 pd.AddPlayerNumDashes(1);
