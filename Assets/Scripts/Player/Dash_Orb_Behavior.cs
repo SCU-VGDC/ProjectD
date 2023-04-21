@@ -59,7 +59,7 @@ namespace Player_Movement_Namespace
                 // Debug.Log(player_movement.maximum_dashes);
 
                 
-                if(pd.PlayerNumDashes < player_movement.maximum_dashes)
+                if(pd.PlayerNumDashes < pd.PlayerMaximumDashes)
                 {
                     pd.AddPlayerNumDashes(1);
                 }
