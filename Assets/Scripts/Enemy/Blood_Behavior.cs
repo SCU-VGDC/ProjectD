@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Backend;
 
 public class Blood_Behavior : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Blood_Behavior : MonoBehaviour
     private Rigidbody2D rb;
     private TrailRenderer tr;
     private Transform player_transform;
+    private PersistentData pd;
 
     //Number vars
     [SerializeField] public float thrust_upper;
@@ -17,7 +19,7 @@ public class Blood_Behavior : MonoBehaviour
     private float trajectory_x;
     [SerializeField] public float trajectory_range;
     private Vector3 dir_to_player;
-    [SerializeField]
+
 
     // Awake is called when the script instance is being loaded
     void Awake()
@@ -26,6 +28,7 @@ public class Blood_Behavior : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         tr = GetComponent<TrailRenderer>();
         player_transform = GameObject.FindWithTag("Player").transform;
+        pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
 
         //calculate random thrust and trajectory
         thrust = Random.Range(thrust_lower, thrust_upper);
@@ -41,6 +44,13 @@ public class Blood_Behavior : MonoBehaviour
     //OnCollisionEnter2D called when blood drop collides with something
     void OnCollisionEnter2D(Collision2D collider)
     {
+        //if touched collider is the player's
+        if(collider.gameObject.layer == 7)
+        {
+            pd.AddPlayerHealth(1);
+            Debug.Log("Heal!");
+        }
+
         Destroy(gameObject);
     }
 
@@ -51,7 +61,7 @@ public class Blood_Behavior : MonoBehaviour
         dir_to_player = player_transform.position - transform.position;
 
         //cast a ray from blood to player
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir_to_player, detection_range, LayerMask.GetMask("Player", "Platforms"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir_to_player, detection_range, LayerMask.GetMask("Player","Platforms"));
 
         //check if raycast hit
         if(hit.collider != null && hit.collider.tag == "Player")
