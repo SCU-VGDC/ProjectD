@@ -52,6 +52,7 @@ namespace Player_Movement_Namespace
                 {
                     Die();
                 }
+            
             }
             
         }
@@ -99,5 +100,6 @@ namespace Player_Movement_Namespace
             Debug.Log("LMAO you died XD");
             Debug.Log("Press enter to Respawn");
         }
+        
     }
 }
