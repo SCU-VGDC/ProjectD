@@ -247,5 +247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrust_upper: 100
   thrust_lower: 50
-  detection_range: 20
   trajectory_range: 1
+  detection_range: 20
+  gravitational_constamt: 600000
+  fake_player_mass: 20000

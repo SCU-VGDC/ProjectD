@@ -8,18 +8,24 @@ public class Blood_Behavior : MonoBehaviour
     //GameObject Vars
     private Rigidbody2D rb;
     private TrailRenderer tr;
-    private Transform player_transform;
     private PersistentData pd;
 
     //Number vars
     [SerializeField] public float thrust_upper;
     [SerializeField] public float thrust_lower;
-    [SerializeField] private float detection_range;
     private float thrust;
     private float trajectory_x;
     [SerializeField] public float trajectory_range;
-    private Vector3 dir_to_player;
 
+    //Attraction to player vars
+    [SerializeField] private float detection_range;
+    private Transform player_transform;
+    private Vector3 dir_to_player;
+    private float dst_to_player;
+    private float force_magnitude;
+    private Vector3 force;
+    [SerializeField] private float gravitational_constamt;
+    [SerializeField] private float fake_player_mass;
 
     // Awake is called when the script instance is being loaded
     void Awake()
@@ -44,30 +50,32 @@ public class Blood_Behavior : MonoBehaviour
     //OnCollisionEnter2D called when blood drop collides with something
     void OnCollisionEnter2D(Collision2D collider)
     {
-        //if touched collider is the player's
-        if(collider.gameObject.layer == 7)
+        if(collider.gameObject.tag == "BloodCollectorTag")
         {
+            //heal player
             pd.AddPlayerHealth(1);
-            Debug.Log("Heal!");
         }
 
+        //destroy self
         Destroy(gameObject);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //calculate direction of player
         dir_to_player = player_transform.position - transform.position;
 
-        //cast a ray from blood to player
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir_to_player, detection_range, LayerMask.GetMask("Player","Platforms"));
+        //calculate distance to player
+        dst_to_player = dir_to_player.sqrMagnitude;
 
-        //check if raycast hit
-        if(hit.collider != null && hit.collider.tag == "Player")
-        {
-            //apply force
-            rb.AddForce(dir_to_player);
-        }
+        //calculate force magnitude
+        force_magnitude = (rb.mass * fake_player_mass) / Mathf.Pow(dst_to_player, 2);
+
+        //calculate force
+        force = dir_to_player.normalized * force_magnitude;
+
+        //apply force to blood drop rigidbody
+        rb.AddForce(force);
     }
 }
