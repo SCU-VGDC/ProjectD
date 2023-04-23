@@ -45,15 +45,20 @@ public class Blood_Behavior : MonoBehaviour
 
         //turn on trail renderer
         tr.emitting = true;
+
+        //make sure blood and player ignore collision
+        //NOTE: Yeah I know that getting the player's collider via the player's transform is weird but it saves an unnecessary search 
+        //Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), player_transform.gameObject.GetComponent<Collider2D>());
     }
 
     //OnCollisionEnter2D called when blood drop collides with something
     void OnCollisionEnter2D(Collision2D collider)
     {
-        if(collider.gameObject.tag == "BloodCollectorTag")
+        if(collider.gameObject.layer == 16)
         {
             //heal player
             pd.AddPlayerHealth(1);
+            Debug.Log("Heal!");
         }
 
         //destroy self
