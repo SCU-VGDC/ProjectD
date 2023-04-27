@@ -52,17 +52,15 @@ public class Blood_Behavior : MonoBehaviour
     }
 
     //OnCollisionEnter2D called when blood drop collides with something
-    void OnCollisionEnter2D(Collision2D collider)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        /*
-        Debug.Log("Collide!");
-        if(collider.gameObject.layer == 16)
-        {
-            //heal player
-            pd.AddPlayerHealth(1);
-            Debug.Log("Heal!");
-        }
-        */
+        // Debug.Log("Collide!");
+        // if(collision.collider.gameObject.layer == 16)
+        // {
+        //     //heal player
+        //     pd.AddPlayerHealth(1);
+        //     Debug.Log("Heal!");
+        // }
 
         //destroy self
         Destroy(gameObject);

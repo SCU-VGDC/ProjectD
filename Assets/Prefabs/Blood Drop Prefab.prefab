@@ -249,5 +249,5 @@ MonoBehaviour:
   thrust_lower: 50
   trajectory_range: 1
   detection_range: 20
-  gravitational_constamt: 600000
-  fake_player_mass: 20000
+  gravitational_constamt: 6
+  fake_player_mass: 2000

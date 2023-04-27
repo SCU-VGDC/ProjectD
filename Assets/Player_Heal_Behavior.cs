@@ -15,12 +15,12 @@ public class Player_Heal_Behavior : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        Debug.Log("Collide!");
+        //Debug.Log("Collide!");
         if(collider.gameObject.layer == 14)
         {
             //heal player
             pd.AddPlayerHealth(1);
-            Debug.Log("Heal!");
+            //Debug.Log("Heal!");
         }
     }
 }
