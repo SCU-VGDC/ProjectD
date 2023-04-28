@@ -30,11 +30,15 @@ namespace Backend {
 
         // you have to do this weird getter and setter thing bc of JsonUtility.ToJson
         //   more info: https://gamedev.stackexchange.com/a/178746
+        // when adding a new variable to the persistent data make sure to do the weird getter and setter (instructions above)
+        //   and also add to the functions CopyFrom and InitValues
         // player:
         [SerializeField] private string playerCurrentState;
         public string PlayerCurrentState { get { return this.playerCurrentState; } set { this.playerCurrentState = value; } }
         [SerializeField] private int playerHealth;
         public int PlayerHealth { get { return this.playerHealth; } set { this.playerHealth = value; } }
+        [SerializeField] private int playerMaxHealth;
+        public int PlayerMaxHealth { get { return this.playerMaxHealth; } set { this.playerMaxHealth = value; } }
         [SerializeField] private int playerNumDashes;
         public int PlayerNumDashes { get { return this.playerNumDashes; } set { this.playerNumDashes = value; } }
         [SerializeField] private int playerMaximumDashes;
@@ -74,9 +78,13 @@ namespace Backend {
 
 
         // player functions:
+        /// <summary> Adds the amount to the player health if the amount is less than max player health </summary>
         public void AddPlayerHealth(int amount) 
         {
-            playerHealth += amount;
+            if (playerHealth < playerMaxHealth || (amount < 0 && playerHealth > 0)) 
+            {
+                playerHealth += amount;
+            }
         }
 
         public void AddPlayerNumDashes(int amount) 
@@ -120,6 +128,7 @@ namespace Backend {
         {
             playerCurrentState = newPersistentData.PlayerCurrentState;
             playerHealth = newPersistentData.PlayerHealth;
+            playerMaxHealth = newPersistentData.PlayerMaxHealth;
             playerNumDashes = newPersistentData.PlayerNumDashes;
             playerCurrentGun = newPersistentData.PlayerCurrentGun;
             playerUnlockedGuns = newPersistentData.PlayerUnlockedGuns;
@@ -132,6 +141,7 @@ namespace Backend {
         {
             playerCurrentState = "alive";
             playerHealth = 20;
+            playerMaxHealth = 20;
             playerNumDashes = 3;
             playerMaximumDashes = 3;
             playerCurrentGun = null;

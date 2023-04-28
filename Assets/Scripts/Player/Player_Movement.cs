@@ -421,7 +421,7 @@ namespace Player_Movement_Namespace
         public void Respawn(){ 
             pd.PlayerCurrentState = "alive";
             //heals the player (Set to Max HP)
-            pd.PlayerHealth = 5;
+            pd.PlayerHealth = pd.PlayerMaxHealth;
             //sets player position to last checkpoint and enables shooting
             gameObject.transform.position = new Vector2(pd.PlayerCurrentCheckpoint.transform.position.x , pd.PlayerCurrentCheckpoint.transform.position.y);
             player_shooting_obj.setCanShoot(true);
