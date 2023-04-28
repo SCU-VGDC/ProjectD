@@ -3263,7 +3263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &210520023
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -21908,7 +21908,6 @@ MonoBehaviour:
   playerCollider: {fileID: 2012672197}
   thisCheckPoint: {fileID: 1576962647}
   checkpointCollider: {fileID: 1576962652}
-  playerMovement: {fileID: 2012672200}
 --- !u!212 &1576962650
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -23101,7 +23100,6 @@ MonoBehaviour:
   playerCollider: {fileID: 2012672197}
   thisCheckPoint: {fileID: 2039592210}
   checkpointCollider: {fileID: 2039592211}
-  playerMovement: {fileID: 2012672200}
 --- !u!212 &2039592214
 SpriteRenderer:
   m_ObjectHideFlags: 0
