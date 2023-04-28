@@ -49,6 +49,9 @@ public class Blood_Behavior : MonoBehaviour
         //make sure blood and player ignore collision
         //NOTE: Yeah I know that getting the player's collider via the player's transform is weird but it saves an unnecessary search 
         //Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), player_transform.gameObject.GetComponent<Collider2D>());
+
+        //destroy self if alive for three seconds
+        Destroy(gameObject, 3f);
     }
 
     //OnCollisionEnter2D called when blood drop collides with something
