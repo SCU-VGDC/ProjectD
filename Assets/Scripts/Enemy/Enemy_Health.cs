@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class Enemy_Health : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Enemy_Health : MonoBehaviour
     public Color damaged_color;
 
     [SerializeField] public GameObject blood_drop_prefab;
+    [SerializeField] int bloodDropCount = 10;
 
     void Start()
     {
@@ -36,11 +38,13 @@ public class Enemy_Health : MonoBehaviour
     {
         health -= damage;
 
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < bloodDropCount; i++)
         {
-            Instantiate(blood_drop_prefab, gameObject.transform.position, Quaternion.identity); 
+            GameObject droplet = GameManager.inst.bloodPool.Get();
+            droplet.transform.position = gameObject.transform.position;
+            droplet.GetComponent<Blood_Behavior>().Initialize();
         }
-        
+
         StartCoroutine(wait_time());
 
         if(health <= 0)
