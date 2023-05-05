@@ -17,22 +17,20 @@ public class RoomManager : MonoBehaviour
 
     void Start()
     {
-        
-
         foreach (Transform enem in transform) //finds enemies and entrance and exit
         {
+            // if enemy's children does contain enemy health script
             if (enem.transform.childCount != 0)
             {
                 foreach (Transform undprefab in enem.transform)
                 {
                     if (undprefab.GetComponent<Enemy_Health>())
                     {
-                        enemies.Add(undprefab.GetComponent<Enemy_Health>());
-                        undprefab.gameObject.SetActive(false);
-                        amountOfEnemies++;
+                        addToEnemyList(undprefab);
                     }
                 }
             }
+
             if (enem.name == "Entrance")
             {
                 entrance = enem.gameObject;
@@ -42,8 +40,16 @@ public class RoomManager : MonoBehaviour
                 exit = enem.gameObject;
             }
         }
+
         entrance.SetActive(false);
         exit.SetActive(false);
+    }
+
+    void addToEnemyList(Transform enem)
+    {
+        enemies.Add(enem.GetComponent<Enemy_Health>());
+        enem.gameObject.SetActive(false);
+        amountOfEnemies++;
     }
 
     public void Startbattle() //startbattle trigger

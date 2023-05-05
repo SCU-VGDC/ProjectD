@@ -31,11 +31,5 @@ namespace Player_Movement_Namespace {
                 pd.PlayerCurrentCheckpoint = thisCheckPoint;
             }
         }
-
-
-
-
-
-
    }
 }
