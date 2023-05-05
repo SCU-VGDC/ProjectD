@@ -53,6 +53,7 @@ namespace Player_Movement_Namespace
                 {
                     Die();
                 }
+            
             }
             
         }

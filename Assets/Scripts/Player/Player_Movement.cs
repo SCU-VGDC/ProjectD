@@ -42,7 +42,6 @@ namespace Player_Movement_Namespace
         [SerializeField] public float maxFastFallVelocity = -50;
 
         [Header("Melee Dash")]
-        public int maximum_dashes;
         public bool is_dashing;
         public float dash_distance;
         public float dash_time;
@@ -175,7 +174,7 @@ namespace Player_Movement_Namespace
             }
 
             //if a dash should be recharged
-            if(dash_recharge_time_counter >= dash_recharge_time && pd.PlayerNumDashes < maximum_dashes)
+            if(dash_recharge_time_counter >= dash_recharge_time && pd.PlayerNumDashes < pd.PlayerMaximumDashes)
             {
                 //increment current_dashes
                 pd.AddPlayerNumDashes(1);
@@ -422,7 +421,7 @@ namespace Player_Movement_Namespace
         public void Respawn(){ 
             pd.PlayerCurrentState = "alive";
             //heals the player (Set to Max HP)
-            pd.PlayerHealth = 5;
+            pd.PlayerHealth = pd.PlayerMaxHealth;
             //sets player position to last checkpoint and enables shooting
             gameObject.transform.position = new Vector2(pd.PlayerCurrentCheckpoint.transform.position.x , pd.PlayerCurrentCheckpoint.transform.position.y);
             player_shooting_obj.setCanShoot(true);

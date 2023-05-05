@@ -8,7 +8,7 @@ namespace Player_Movement_Namespace
     public class Dash_Orb_Behavior: MonoBehaviour
     {
         public GameObject player;
-        public Player_Movement player_movement;
+        //public Player_Movement player_movement; legacy
         public UnityEngine.Rendering.Universal.Light2D light;
         public float time_orb_gone = 0f; 
         public float orb_cool_down = 5f; // 5 seconds
@@ -23,7 +23,7 @@ namespace Player_Movement_Namespace
             pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
 
             player = GameObject.FindWithTag("Player");
-            player_movement = player.GetComponent<Player_Movement>();
+          //  player_movement = player.GetComponent<Player_Movement>(); legacy
             light = gameObject.GetComponent<UnityEngine.Rendering.Universal.Light2D>();
         }
 
@@ -57,9 +57,8 @@ namespace Player_Movement_Namespace
                 //Debug.Log("touched orb!");
                 // Debug.Log(player_movement.current_dashes);
                 // Debug.Log(player_movement.maximum_dashes);
-
                 
-                if(pd.PlayerNumDashes < player_movement.maximum_dashes)
+                if(pd.PlayerNumDashes < pd.PlayerMaximumDashes)
                 {
                     pd.AddPlayerNumDashes(1);
                 }
