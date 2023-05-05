@@ -10,6 +10,7 @@ namespace Player_Movement_Namespace
         [Header("Health and Is Invulnerable")]
         public bool is_vul = true;
         [SerializeField] float invul_time;
+        public float heal_radius = 0.5f;
 
         [Header("Sprite Renderer")]
         [SerializeField] public SpriteRenderer sr;
@@ -100,6 +101,13 @@ namespace Player_Movement_Namespace
             Debug.Log("LMAO you died XD");
             Debug.Log("Press enter to Respawn");
         }
-        
+
+        public void OnDrawGizmos()
+        {
+#if UNITY_EDITOR
+            UnityEditor.Handles.color = Color.green;
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, heal_radius);
+#endif
+        }
     }
 }
