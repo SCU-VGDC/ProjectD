@@ -7,9 +7,20 @@ using Dev;
 
 namespace Backend {
 
-    /// <summary>
-    /// To use, access from Persistent Data Manager like so:
-    /// pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
+    /// <summary> 
+    /// A class responsible for all data that is stored between game sessions and scenes <para />
+    /// <example>
+    /// For example:
+    /// <code>
+    /// Using Backend; <para />
+    /// <para />
+    /// private PersistentData pd; <para />
+    /// private void Start() <para />
+    /// { <para />
+    /// <para /> pd = GameObject.Find("Persistent Data Manager").GetComponent&lt;&#8203;PersistentDataManager&gt;().persistentData <para />
+    /// } <para />
+    /// </code>
+    /// </example>
     /// </summary>
     [SerializeField] public class PersistentData
     {
@@ -19,13 +30,19 @@ namespace Backend {
 
         // you have to do this weird getter and setter thing bc of JsonUtility.ToJson
         //   more info: https://gamedev.stackexchange.com/a/178746
+        // when adding a new variable to the persistent data make sure to do the weird getter and setter (instructions above)
+        //   and also add to the functions CopyFrom and InitValues
         // player:
         [SerializeField] private string playerCurrentState;
         public string PlayerCurrentState { get { return this.playerCurrentState; } set { this.playerCurrentState = value; } }
         [SerializeField] private int playerHealth;
         public int PlayerHealth { get { return this.playerHealth; } set { this.playerHealth = value; } }
+        [SerializeField] private int playerMaxHealth;
+        public int PlayerMaxHealth { get { return this.playerMaxHealth; } set { this.playerMaxHealth = value; } }
         [SerializeField] private int playerNumDashes;
         public int PlayerNumDashes { get { return this.playerNumDashes; } set { this.playerNumDashes = value; } }
+        [SerializeField] private int playerMaximumDashes;
+        public int PlayerMaximumDashes { get { return this.playerMaximumDashes; } set { this.playerMaximumDashes = value; } }
         
         // guns:
         [SerializeField] private string playerCurrentGun;
@@ -61,9 +78,13 @@ namespace Backend {
 
 
         // player functions:
+        /// <summary> Adds the amount to the player health if the amount is less than max player health </summary>
         public void AddPlayerHealth(int amount) 
         {
-            playerHealth += amount;
+            if (playerHealth < playerMaxHealth || (amount < 0 && playerHealth > 0)) 
+            {
+                playerHealth += amount;
+            }
         }
 
         public void AddPlayerNumDashes(int amount) 
@@ -77,7 +98,7 @@ namespace Backend {
             #if (UNITY_EDITOR)
                 DeveloperOptions devOptions = new DeveloperOptions().Load();
 
-                if (!devOptions.SavePersistentData)
+                if (devOptions != null && !devOptions.SavePersistentData)
                 {
                     return;
                 }
@@ -107,6 +128,7 @@ namespace Backend {
         {
             playerCurrentState = newPersistentData.PlayerCurrentState;
             playerHealth = newPersistentData.PlayerHealth;
+            playerMaxHealth = newPersistentData.PlayerMaxHealth;
             playerNumDashes = newPersistentData.PlayerNumDashes;
             playerCurrentGun = newPersistentData.PlayerCurrentGun;
             playerUnlockedGuns = newPersistentData.PlayerUnlockedGuns;
@@ -119,7 +141,9 @@ namespace Backend {
         {
             playerCurrentState = "alive";
             playerHealth = 20;
+            playerMaxHealth = 20;
             playerNumDashes = 3;
+            playerMaximumDashes = 3;
             playerCurrentGun = null;
             playerUnlockedGuns = new List<string>();
             playerCurrentCheckpoint = null;
