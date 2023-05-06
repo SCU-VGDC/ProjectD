@@ -130,6 +130,7 @@ namespace Backend {
             playerHealth = newPersistentData.PlayerHealth;
             playerMaxHealth = newPersistentData.PlayerMaxHealth;
             playerNumDashes = newPersistentData.PlayerNumDashes;
+            playerMaximumDashes = newPersistentData.PlayerMaximumDashes;
             playerCurrentGun = newPersistentData.PlayerCurrentGun;
             playerUnlockedGuns = newPersistentData.PlayerUnlockedGuns;
             playerCurrentCheckpoint = newPersistentData.PlayerCurrentCheckpoint;
