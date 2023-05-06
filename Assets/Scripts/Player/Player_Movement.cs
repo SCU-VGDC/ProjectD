@@ -25,6 +25,7 @@ namespace Player_Movement_Namespace
         [Header("Wall Jump")]
         private bool isWallSliding;
         [SerializeField] private float wallSlidingSpeed = 2f;
+
         [SerializeField]private bool isWallJumping;
         private float wallJumpingDirection;
         [SerializeField] private float wallJumpingTime = 0.2f;
@@ -33,15 +34,11 @@ namespace Player_Movement_Namespace
         private IEnumerator wallJumpCoroutine;
         [SerializeField] private Vector2 wallJumpingPower = new Vector2(8f, 16f);
         [SerializeField] private Transform wallCheck;
-        [SerializeField] private int numOfWallJumps = 0;
+        private int numOfWallJumps = 0;
         [SerializeField] private int maximumWallJumps = 3;
-        [SerializeField] private float wallMomentum = 150;
-        
-        [Header("Fast Fall")]
-        [SerializeField] public float thrust = 200;
-        [SerializeField] public float maxFastFallVelocity = -50;
 
         [Header("Melee Dash")]
+        public int maximum_dashes;
         public bool is_dashing;
         public float dash_distance;
         public float dash_time;
@@ -77,7 +74,8 @@ namespace Player_Movement_Namespace
         }
 
         private void Update()
-        {            
+        {
+            
             //tests to see if the player is alive
             if (pd.PlayerCurrentState != "alive"){
                 
@@ -99,6 +97,11 @@ namespace Player_Movement_Namespace
             horizontal = Input.GetAxisRaw("Horizontal");
             //this is for fast fall while pressing down
             vertical=Input.GetAxisRaw("Vertical");
+            
+            if(vertical < 0 && !IsGrounded())
+            {
+                rb.gravityScale=100;
+            }
             
             //*****coyote jump time set up*****:
             if (IsGrounded())
@@ -164,6 +167,7 @@ namespace Player_Movement_Namespace
             //if dash button pressed...
 
             if(Input.GetButtonDown("Dash") && pd.PlayerNumDashes > 0)
+
             {
                 //dash
                 StartCoroutine(Dash());
@@ -173,7 +177,7 @@ namespace Player_Movement_Namespace
             }
 
             //if a dash should be recharged
-            if(dash_recharge_time_counter >= dash_recharge_time && pd.PlayerNumDashes < pd.PlayerMaximumDashes)
+            if(dash_recharge_time_counter >= dash_recharge_time && pd.PlayerNumDashes < maximum_dashes)
             {
                 //increment current_dashes
                 pd.AddPlayerNumDashes(1);
@@ -183,21 +187,12 @@ namespace Player_Movement_Namespace
             }
 
             // wall jumping:
-            OneWallContact();
             WallJump();
             WallSlide();
         }
 
         private void FixedUpdate()
         {
-            // check if dead
-            if (pd.PlayerCurrentState != "alive")
-            {
-                rb.velocity = new Vector2(0, 0);
-
-                return;
-            }
-
             if (!is_dashing && !isWallJumping)
             {
                 //move with horizontal inputs
@@ -205,18 +200,6 @@ namespace Player_Movement_Namespace
 
                 //increment dash charge
                 dash_recharge_time_counter += Time.deltaTime;
-            }
-
-            // fast fall
-            if(vertical < 0 && !IsGrounded() && Mathf.Abs(rb.velocity.y) < Mathf.Abs(maxFastFallVelocity))
-            {
-                rb.AddForce(new Vector2(0, -1) * thrust, ForceMode2D.Force);
-            }
-
-            // speed cap 
-            if(rb.velocity.y <= maxFastFallVelocity && !IsGrounded())
-            {
-                rb.velocity = new Vector2(0, maxFastFallVelocity);
             }
         }
 
@@ -230,17 +213,8 @@ namespace Player_Movement_Namespace
             return hit.collider != null;
         }
 
-        // adds momentum to make jumping onto a wall smoother
-        private void OneWallContact()
-        {
-            if(IsTouchingWall() && !IsGrounded() && !isWallSliding && numOfWallJumps == 0 && rb.velocity.y > 0)
-            {
-                rb.AddForce(transform.up * wallMomentum, ForceMode2D.Force);
-            }
-        }
-
         private void WallSlide()
-        {        
+        {
             if (IsTouchingWall() && !IsGrounded())
             {
                 isWallSliding = true;
@@ -420,7 +394,7 @@ namespace Player_Movement_Namespace
         public void Respawn(){ 
             pd.PlayerCurrentState = "alive";
             //heals the player (Set to Max HP)
-            pd.PlayerHealth = pd.PlayerMaxHealth;
+            pd.PlayerHealth = 5;
             //sets player position to last checkpoint and enables shooting
             gameObject.transform.position = new Vector2(pd.PlayerCurrentCheckpoint.transform.position.x , pd.PlayerCurrentCheckpoint.transform.position.y);
             player_shooting_obj.setCanShoot(true);

@@ -56,7 +56,7 @@ namespace Player_Movement_Namespace
                 if(player_movement.is_dashing)
                 {
                     // add one if you aren't at max
-                    if(pd.PlayerNumDashes < pd.PlayerMaximumDashes) 
+                    if(pd.PlayerNumDashes < player_movement.maximum_dashes) 
                     {
                         pd.AddPlayerNumDashes(1);
                     }

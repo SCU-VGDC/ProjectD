@@ -13,35 +13,39 @@ public class Enemy_Shooting : MonoBehaviour
     public Transform fire_point;
     private Transform player_transform;
     private AIPath AIPath_component;
-    private AIDestinationSetter destination_setter;
 
     // Start is called before the first frame update
     void Start()
     {
         player_transform = GameObject.FindWithTag("Player").transform;
         AIPath_component = GetComponent<AIPath>();
-        destination_setter = GetComponent<AIDestinationSetter>();
-
-        destination_setter.target = player_transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.DrawRay(fire_point.position, player_transform.position - transform.position);
+        float distance_to_player = Vector2.Distance(player_transform.position, transform.position);
 
-        RaycastHit2D hit = Physics2D.Raycast(fire_point.position, player_transform.position - transform.position, shooting_range, LayerMask.GetMask("Player", "Platforms"));
-        if (next_fire_time < Time.time && hit.collider != null && hit.collider.tag == "Player")
+        //if the enemy's distance to the player is less then or equal to the shooting range, then stop moving and spawn a bullet
+        if(distance_to_player <= shooting_range)
         {
-            //TODO: Make bullet's fire angle based on angle between target and enemy
-            Instantiate(bullet_prefab, fire_point.position, Quaternion.identity);
-            next_fire_time = Time.time + fire_rate;
+            AIPath_component.enabled = false;
+
+            if(next_fire_time < Time.time)
+            {
+                Instantiate(bullet_prefab, fire_point.position, fire_point.rotation);
+                next_fire_time = Time.time + fire_rate;
+            }
+        }
+        else
+        {
+            AIPath_component.enabled = true;
         }
     }
 
-    void OnDrawGizmos()
+    void OnDrawGizmoSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, shooting_range / 2);
+        Gizmos.DrawWireSphere(transform.position, shooting_range);
     }
 }
