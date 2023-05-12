@@ -57,7 +57,7 @@ Transform:
   m_GameObject: {fileID: 6044913521731590084}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6044913522586167189}
@@ -165,7 +165,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -188,6 +188,8 @@ MonoBehaviour:
   sr: {fileID: 6044913521731590104}
   normal_color: {r: 0.00046646595, g: 1, b: 0, a: 1}
   damaged_color: {r: 0.9811321, g: 0, b: 0, a: 1}
+  blood_drop_prefab: {fileID: 0}
+  bloodDropCount: 10
 --- !u!114 &3018342682162114348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,9 +209,6 @@ MonoBehaviour:
   completed_path: 0
   nextPos: {x: 0, y: 0, z: 0}
   sr: {fileID: 6044913521731590104}
-  wander_state:
-    wander_radius: 5
-    wander_delay: 3
   aggro_state:
     fire_point: {fileID: 1783772253612563142}
     projectile: {fileID: 4193023076128913139, guid: 1725483b24bcfbe43bf1e2c052d91966, type: 3}
@@ -294,7 +293,7 @@ MonoBehaviour:
   traversableTags: -1
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
-    value: 2
+    value: -1
 --- !u!1 &6044913522586167190
 GameObject:
   m_ObjectHideFlags: 0

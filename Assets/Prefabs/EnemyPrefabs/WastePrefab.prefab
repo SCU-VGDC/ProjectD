@@ -319,6 +319,8 @@ MonoBehaviour:
   sr: {fileID: 2947540516558714946}
   normal_color: {r: 0.00046646595, g: 1, b: 0, a: 1}
   damaged_color: {r: 0.9811321, g: 0, b: 0, a: 1}
+  blood_drop_prefab: {fileID: 3879954631757837327, guid: 96340f7ea06a86a45a0038ec93d278ed, type: 3}
+  bloodDropCount: 10
 --- !u!1 &2947540517123930564
 GameObject:
   m_ObjectHideFlags: 0
