@@ -16,6 +16,8 @@ namespace Player_Movement_Namespace
 
         [Header("Game Manager")]
         private PersistentData pd;
+        private SpriteRenderer sr;
+        private Collider2D collider;
 
         // Start is called before the first frame update
         void Start()
@@ -25,12 +27,18 @@ namespace Player_Movement_Namespace
             player = GameObject.FindWithTag("Player");
           //  player_movement = player.GetComponent<Player_Movement>(); legacy
             light = gameObject.GetComponent<UnityEngine.Rendering.Universal.Light2D>();
+
+            GetComponent<Collider2D>().enabled = true;
+            GetComponent<SpriteRenderer>().enabled = true;
+
+            collider = gameObject.GetComponent<Collider2D>();
+            sr = gameObject.GetComponent<SpriteRenderer>();
         }
 
         void orb_visibility()
         {
-            GetComponent<Collider2D>().enabled = see;
-            GetComponent<SpriteRenderer>().enabled = see;
+            collider.enabled = see;
+            sr.enabled = see;
             light.enabled = see;
         }
 
