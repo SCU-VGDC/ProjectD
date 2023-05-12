@@ -5012,6 +5012,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   is_vul: 1
   invul_time: 1
+  heal_radius: 1.4
   sr: {fileID: 0}
   player_movement_obj: {fileID: 0}
   player_shooting_obj: {fileID: 0}
