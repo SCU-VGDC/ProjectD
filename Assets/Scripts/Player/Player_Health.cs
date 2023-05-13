@@ -55,6 +55,10 @@ namespace Player_Movement_Namespace
                 }
             
             }
+            else if(hit_info.gameObject.layer==15)
+            {
+                Die();
+            }
             
         }
 
