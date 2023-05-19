@@ -12,7 +12,7 @@ namespace Player_Movement_Namespace {
         [SerializeField] private Collider2D playerCollider;
         [SerializeField] private GameObject thisCheckPoint;
         [SerializeField] private Collider2D checkpointCollider;
-        [SerializeField] public Player_Movement playerMovement;
+      //  [SerializeField] public Player_Movement playerMovement; is legacy
 
         [Header("Game Manager")]
         private PersistentData pd;
@@ -21,7 +21,7 @@ namespace Player_Movement_Namespace {
 
             playerCollider = GetComponent<Collider2D>();
             checkpointCollider = GetComponent<Collider2D>();
-            playerMovement = player.GetComponent<Player_Movement>();
+           // playerMovement = player.GetComponent<Player_Movement>(); legacy
         }
 
         void OnTriggerEnter2D(Collider2D Other) {
@@ -31,11 +31,5 @@ namespace Player_Movement_Namespace {
                 pd.PlayerCurrentCheckpoint = thisCheckPoint;
             }
         }
-
-
-
-
-
-
    }
 }
