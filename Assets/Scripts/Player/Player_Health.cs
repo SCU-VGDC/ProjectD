@@ -26,7 +26,7 @@ namespace Player_Movement_Namespace
         void Start()
         {
             pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
-
+            healthbar = GameObject.Find("").GetComponent<PersistentDataManager>().persistentData;
             //set sr to sprite renderer
             sr = GetComponent<SpriteRenderer>();
             //store color in sr_color
@@ -44,6 +44,7 @@ namespace Player_Movement_Namespace
             {
                 //take damage
                 pd.AddPlayerHealth(-1);
+
 
                 //become invulnerable
                 StartCoroutine("Become_Invulnerable_Damage");
