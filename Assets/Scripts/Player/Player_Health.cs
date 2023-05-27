@@ -25,15 +25,15 @@ namespace Player_Movement_Namespace
 
         void Start()
         {
-            pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
+            pd = PersistentDataManager.inst.persistentData;
 
             //set sr to sprite renderer
             sr = GetComponent<SpriteRenderer>();
             //store color in sr_color
             sr_color = sr.material.color;
             //get an object for player movement
-            player_movement_obj = GetComponent<Player_Movement>();
-            player_shooting_obj = GetComponent<Player_Shooting>();
+            player_movement_obj = GameManager.inst.playerMovement;
+            player_shooting_obj = GameManager.inst.playerShooting;
         }
 
         void OnTriggerStay2D(Collider2D hit_info)

@@ -17,8 +17,7 @@ namespace Player_Movement_Namespace
         {
             //using Image component instead of sprite renderer because it's for UI
             image_switcher = gameObject.GetComponent<Image>();
-            player = GameObject.FindWithTag("Player");
-            pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
+            pd = PersistentDataManager.inst.persistentData;
         }
         
         private void Update() {
@@ -26,7 +25,7 @@ namespace Player_Movement_Namespace
         }
         void showDashes()
         {
-            switch(pd.PlayerNumDashes)
+            switch(GameManager.inst.playerMovement.currentDashes)
             {
                 case 0:
                     //no dashes

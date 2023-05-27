@@ -22,7 +22,7 @@ namespace Player_Movement_Namespace
         // Start is called before the first frame update
         void Start()
         {
-            pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
+            pd = PersistentDataManager.inst.persistentData;
 
             player = GameObject.FindWithTag("Player");
           //  player_movement = player.GetComponent<Player_Movement>(); legacy
@@ -66,9 +66,9 @@ namespace Player_Movement_Namespace
                 // Debug.Log(player_movement.current_dashes);
                 // Debug.Log(player_movement.maximum_dashes);
                 
-                if(pd.PlayerNumDashes < pd.PlayerMaximumDashes)
+                if(GameManager.inst.playerMovement.currentDashes < pd.PlayerMaximumDashes)
                 {
-                    pd.AddPlayerNumDashes(1);
+                    GameManager.inst.playerMovement.currentDashes++;
                 }
                 else
                 {

@@ -41,7 +41,7 @@ public class Blood_Behavior : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         tr = GetComponent<TrailRenderer>();
         player_transform = GameObject.FindWithTag("Player").transform;
-        pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
+        pd = PersistentDataManager.inst.persistentData;
         world_collider = GameObject.Find("Tilemap_Base_1").GetComponent<CompositeCollider2D>();
         player_health = player_transform.GetComponent<Player_Health>();
 

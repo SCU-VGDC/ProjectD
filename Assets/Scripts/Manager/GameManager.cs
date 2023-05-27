@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using Player_Movement_Namespace;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +15,13 @@ public class GameManager : MonoBehaviour
     public GameObject enemyBlood;
 
     public ObjectPool<GameObject> bloodPool;
+
+    public GameObject player;
+
+    public Player_Movement playerMovement;
+    public Player_Health playerHealth;
+    public Player_Shooting playerShooting;
+
 
     private void Awake()
     {
@@ -32,6 +40,11 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
 
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerMovement = player.GetComponent<Player_Movement>();
+        playerHealth = player.GetComponent<Player_Health>();
+        playerShooting = player.GetComponent<Player_Shooting>();
+
         bloodPool = new ObjectPool<GameObject>(
             createFunc: () => Instantiate(enemyBlood),
             actionOnGet: (obj) => {
@@ -46,5 +59,13 @@ public class GameManager : MonoBehaviour
             defaultCapacity: 10000,
             maxSize: 50000
         );
+    }
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerMovement = player.GetComponent<Player_Movement>();
+        playerHealth = player.GetComponent<Player_Health>();
+        playerShooting = player.GetComponent<Player_Shooting>();
     }
 }
