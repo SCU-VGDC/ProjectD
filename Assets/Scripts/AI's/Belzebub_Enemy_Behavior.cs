@@ -55,7 +55,7 @@ public class Belzebub_Idle_State : AI_State
 
     public override void Init(Base_Enemy context)
     {
-        player_transform = GameObject.FindGameObjectWithTag("Player").transform;
+        player_transform = GameManager.inst.player.transform;
     }
 
     public override void Action(Base_Enemy context)
@@ -92,7 +92,7 @@ public class Belzebub_Wander_State : AI_State
 
     public override void Init(Base_Enemy context)
     {
-        player_transform = GameObject.FindGameObjectWithTag("Player").transform;
+        player_transform = GameManager.inst.player.transform;
     }
 
     public override void Action(Base_Enemy context)
@@ -155,7 +155,7 @@ public class Belzebub_Aggro_State : AI_State
 
     public override void Init(Base_Enemy context)
     {
-        player_transform = GameObject.FindGameObjectWithTag("Player").transform;
+        player_transform = GameManager.inst.player.transform;
     }
 
     public override void Action(Base_Enemy context)

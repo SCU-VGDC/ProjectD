@@ -42,6 +42,7 @@ namespace Player_Movement_Namespace
         [SerializeField] public float maxFastFallVelocity = -50;
 
         [Header("Melee Dash")]
+        public int currentDashes;
         public bool is_dashing;
         public float dash_distance;
         public float dash_time;
@@ -69,11 +70,13 @@ namespace Player_Movement_Namespace
 
         private void Start()
         {
-            pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
+            pd = PersistentDataManager.inst.persistentData;
 
-            player_health_obj = GetComponent<Player_Health>();
-            player_shooting_obj = GetComponent<Player_Shooting>();
+            player_health_obj = GameManager.inst.playerHealth;
+            player_shooting_obj = GameManager.inst.playerShooting;
             isometric_diamond_sprite_rend = isometric_diamond_obj.GetComponent<SpriteRenderer>();
+
+            currentDashes = pd.PlayerMaximumDashes;
         }
 
         private void Update()
@@ -150,7 +153,7 @@ namespace Player_Movement_Namespace
 
             //*****Isometric Diamond color (Dash indicator)*****
             //if the player can dash...
-            if(pd.PlayerNumDashes > 0)
+            if(currentDashes > 0)
             {
                 //make the isometric diamond red
                 isometric_diamond_sprite_rend.color = Color.red;
@@ -164,7 +167,7 @@ namespace Player_Movement_Namespace
             //*****Dashing*****
             //if dash button pressed...
 
-            if(Input.GetButtonDown("Dash") && pd.PlayerNumDashes > 0)
+            if(Input.GetButtonDown("Dash") && currentDashes > 0)
             {
                 //dash
                 StartCoroutine(Dash());
@@ -174,10 +177,10 @@ namespace Player_Movement_Namespace
             }
 
             //if a dash should be recharged
-            if(dash_recharge_time_counter >= dash_recharge_time && pd.PlayerNumDashes < pd.PlayerMaximumDashes)
+            if(dash_recharge_time_counter >= dash_recharge_time && currentDashes < pd.PlayerMaximumDashes)
             {
                 //increment current_dashes
-                pd.AddPlayerNumDashes(1);
+                currentDashes++;
 
                 //reset dash_recharge_time_counter
                 dash_recharge_time_counter = 0f;
@@ -368,7 +371,7 @@ namespace Player_Movement_Namespace
         //corotine that handles dashing
         private IEnumerator Dash()
         {
-            pd.AddPlayerNumDashes(-1);
+            GameManager.inst.playerMovement.currentDashes--;
             //can_dash = false;
             is_dashing = true;
 

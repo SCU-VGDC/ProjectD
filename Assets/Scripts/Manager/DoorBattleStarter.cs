@@ -10,7 +10,7 @@ public class DoorBattleStarter : MonoBehaviour
 
     void Start()
     {
-        pl = GameObject.Find("Player").GetComponent<Player_Health>(); //gets player
+        pl = GameManager.inst.playerHealth; //gets player
     }
 
     void FixedUpdate()

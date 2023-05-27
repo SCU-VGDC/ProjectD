@@ -17,7 +17,7 @@ namespace Player_Movement_Namespace {
         [Header("Game Manager")]
         private PersistentData pd;
         void Start(){
-            pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
+            pd = PersistentDataManager.inst.persistentData;
 
             playerCollider = GetComponent<Collider2D>();
             checkpointCollider = GetComponent<Collider2D>();

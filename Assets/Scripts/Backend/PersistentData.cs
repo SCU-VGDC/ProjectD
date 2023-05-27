@@ -39,8 +39,8 @@ namespace Backend {
         public int PlayerHealth { get { return this.playerHealth; } set { this.playerHealth = value; } }
         [SerializeField] private int playerMaxHealth;
         public int PlayerMaxHealth { get { return this.playerMaxHealth; } set { this.playerMaxHealth = value; } }
-        [SerializeField] private int playerNumDashes;
-        public int PlayerNumDashes { get { return this.playerNumDashes; } set { this.playerNumDashes = value; } }
+        //[SerializeField] private int playerNumDashes;
+        //public int PlayerNumDashes { get { return this.playerNumDashes; } set { this.playerNumDashes = value; } }
         [SerializeField] private int playerMaximumDashes;
         public int PlayerMaximumDashes { get { return this.playerMaximumDashes; } set { this.playerMaximumDashes = value; } }
         
@@ -87,10 +87,10 @@ namespace Backend {
             }
         }
 
-        public void AddPlayerNumDashes(int amount) 
+        /*public void AddPlayerNumDashes(int amount) 
         {
             playerNumDashes += amount;
-        }
+        }*/
 
         /// <summary> Saves the current persistent data as JSON and writes it to disk </summary>
         public void Save()
@@ -129,7 +129,7 @@ namespace Backend {
             playerCurrentState = newPersistentData.PlayerCurrentState;
             playerHealth = newPersistentData.PlayerHealth;
             playerMaxHealth = newPersistentData.PlayerMaxHealth;
-            playerNumDashes = newPersistentData.PlayerNumDashes;
+            //playerNumDashes = newPersistentData.PlayerNumDashes;
             playerMaximumDashes = newPersistentData.PlayerMaximumDashes;
             playerCurrentGun = newPersistentData.PlayerCurrentGun;
             playerUnlockedGuns = newPersistentData.PlayerUnlockedGuns;
@@ -143,7 +143,7 @@ namespace Backend {
             playerCurrentState = "alive";
             playerHealth = 20;
             playerMaxHealth = 20;
-            playerNumDashes = 3;
+            //playerNumDashes = 3;
             playerMaximumDashes = 3;
             playerCurrentGun = null;
             playerUnlockedGuns = new List<string>();
