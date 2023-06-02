@@ -27,7 +27,7 @@ public class Belzebub_Enemy_Behavior : Base_Enemy
 
     void Update()
     {
-        Debug.Log(current_state.GetType());
+        //Debug.Log(current_state.GetType());
 
         completed_path = seeker.GetCurrentPath() == null || mover.reachedEndOfPath;
 
