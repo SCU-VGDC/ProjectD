@@ -50,18 +50,24 @@ public class Enemy_Health : MonoBehaviour
 
     public void Die()
     {
-        if(transform.parent != null)
+        if (transform.parent != null)
         {
             if (transform.parent.parent != null)
             {
-                if(transform.parent.parent.GetComponent<RoomManager>())
+                if (transform.parent.parent.GetComponent<RoomManager>())
                 {
                     transform.parent.parent.GetComponent<RoomManager>().enemies.Remove(this);
-                    transform.parent.parent.GetComponent<RoomManager>().amountOfEnemies--;
                 }
             }
             Destroy(transform.parent.gameObject);
+        } else 
+        {
+            if (transform.parent.GetComponent<RoomManager>())
+            {
+                transform.parent.GetComponent<RoomManager>().enemies.Remove(this);
+            }
         }
+
         Destroy(gameObject);
     }
 }
