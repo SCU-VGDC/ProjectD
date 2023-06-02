@@ -173,7 +173,7 @@ public class Belzebub_Aggro_State : AI_State
             else
             {
                 Pursue(proper_context);
-                RaycastHit2D hit = Physics2D.Raycast(fire_point.position, player_transform.position - proper_context.transform.position, attack_radius, LayerMask.GetMask("Player", "Platforms"));
+                RaycastHit2D hit = Physics2D.Raycast(fire_point.position, player_transform.position - fire_point.transform.position, attack_radius, LayerMask.GetMask("Player", "Platforms"));
                 if (next_fire_time < Time.time && hit.collider != null && hit.collider.tag == "Player")
                 {
                     //TODO: Make bullets fire at angle between target and enemy
@@ -184,7 +184,7 @@ public class Belzebub_Aggro_State : AI_State
         }
 
         //When attacking, face direction the player
-        proper_context.sr.flipX = (player_transform.position.x - proper_context.transform.position.x > 0);
+        context.transform.localScale = (player_transform.position.x - proper_context.transform.position.x > 0) ? new Vector3(-1, 1, 1) : Vector3.one;
     }
 
     public void Pursue(Belzebub_Enemy_Behavior context)
