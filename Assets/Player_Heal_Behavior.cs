@@ -10,7 +10,7 @@ public class Player_Heal_Behavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pd = GameObject.Find("Persistent Data Manager").GetComponent<PersistentDataManager>().persistentData;
+        pd = PersistentDataManager.inst.persistentData;
     }
 
     void OnTriggerEnter2D(Collider2D collider)
