@@ -1591,6 +1591,7 @@ MonoBehaviour:
   playerMovement: {fileID: 0}
   playerHealth: {fileID: 0}
   playerShooting: {fileID: 0}
+  playerAnimation: {fileID: 0}
 --- !u!1 &277425152
 GameObject:
   m_ObjectHideFlags: 0
@@ -5613,7 +5614,6 @@ MonoBehaviour:
   fire_rate_time_counter: 0
   enemy_health: {fileID: 0}
   player_bullet_damage: 1
-  rotate_point: {fileID: 277425152}
   fire_point: {fileID: 2106369602}
   bullet_trail_prefab: {fileID: 1162317494899849279, guid: 9780a03a2c982e34bb4290c67cfb4c77, type: 3}
   canShoot: 0
