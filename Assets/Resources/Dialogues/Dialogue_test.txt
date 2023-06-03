@@ -1,8 +1,8 @@
 S;
-R;Are you ready for the hit?
+R;Are you ready for the task?
 B;3
 Q;Who is my target?
-A;Your mom
+A;Your main enemy
 Q;Where is the target?
 A;The penthouse
 Q;I'm ready

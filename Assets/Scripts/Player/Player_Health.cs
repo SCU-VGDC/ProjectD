@@ -19,7 +19,7 @@ namespace Player_Movement_Namespace
         Color sr_color;
 
         [Header("Other Objects")]
-        [SerializeField] private Player_Movement player_movement_obj;
+        [SerializeField] private PlayerMov_FSM player_movement_obj;
         [SerializeField] private Player_Shooting player_shooting_obj;
         private PersistentData pd;
 
@@ -101,17 +101,10 @@ namespace Player_Movement_Namespace
         public void Die()
         {
             pd.PlayerCurrentState = "dead";
-            player_shooting_obj.setCanShoot(false);            
+            GameManager.inst.playerMovement.StateChange("Death");
             Debug.Log("LMAO you died XD");
             Debug.Log("Press enter to Respawn");
         }
 
-        public void OnDrawGizmos()
-        {
-#if UNITY_EDITOR
-            UnityEditor.Handles.color = Color.green;
-            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, heal_radius);
-#endif
-        }
     }
 }

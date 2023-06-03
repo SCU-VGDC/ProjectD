@@ -8,7 +8,7 @@ namespace Player_Movement_Namespace
     public class Dash_Through_Orb_Behavior: MonoBehaviour
     {
         public GameObject player;
-        public Player_Movement player_movement;
+        public PlayerMov_FSM player_movement;
         public UnityEngine.Rendering.Universal.Light2D light;
         public float time_orb_gone = 0f; 
         public float orb_cool_down = 5f; // 5 seconds
