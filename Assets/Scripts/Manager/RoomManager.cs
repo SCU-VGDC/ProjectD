@@ -8,7 +8,6 @@ public class RoomManager : MonoBehaviour
     public int id; //room id to save
     public bool battleStarted;  //if battle started
     public List<Enemy_Health> enemies; //list of enemies elements
-    public int amountOfEnemies; //number of enemies
 
     private GameObject entrance;
     private GameObject exit;
@@ -22,6 +21,13 @@ public class RoomManager : MonoBehaviour
             // if enemy's children does contain enemy health script
             if (enem.transform.childCount != 0)
             {
+                // check parent for enemy health script
+                if (enem.GetComponent<Enemy_Health>())
+                {
+                    addToEnemyList(enem);
+                }
+
+                // check children for enemy health script
                 foreach (Transform undprefab in enem.transform)
                 {
                     if (undprefab.GetComponent<Enemy_Health>())
@@ -49,12 +55,11 @@ public class RoomManager : MonoBehaviour
     {
         enemies.Add(enem.GetComponent<Enemy_Health>());
         enem.gameObject.SetActive(false);
-        amountOfEnemies++;
     }
 
     public void Startbattle() //startbattle trigger
     {
-        if(amountOfEnemies > 0)
+        if(enemies.Count > 0)
         {
             battleStarted = true;
         }
@@ -63,7 +68,7 @@ public class RoomManager : MonoBehaviour
     
     void FixedUpdate()
     {
-        if(amountOfEnemies == 0)
+        if(enemies.Count == 0)
         {
             battleStarted = false; //reset if no enemies
         }

@@ -427,7 +427,6 @@ namespace Player_Movement_Namespace
             pd.PlayerHealth = pd.PlayerMaxHealth;
             //sets player position to last checkpoint and enables shooting
             gameObject.transform.position = new Vector2(pd.PlayerCurrentCheckpoint.transform.position.x , pd.PlayerCurrentCheckpoint.transform.position.y);
-            player_shooting_obj.setCanShoot(true);
         }
     }
     
