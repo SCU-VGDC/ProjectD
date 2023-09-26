@@ -11,7 +11,7 @@ public class Blood_Behavior : MonoBehaviour
     private TrailRenderer tr;
     private PersistentData pd;
     private Collider2D world_collider;
-    private Player_Health player_health;
+    //private Player_Health player_health;
 
     //Number vars
     [SerializeField] public float thrust_upper;
@@ -43,7 +43,7 @@ public class Blood_Behavior : MonoBehaviour
         player_transform = GameObject.FindWithTag("Player").transform;
         pd = PersistentDataManager.inst.persistentData;
         world_collider = GameObject.Find("Tilemap_Base_1").GetComponent<CompositeCollider2D>();
-        player_health = player_transform.GetComponent<Player_Health>();
+        //player_health = player_transform.GetComponent<Player_Health>();
 
         //make sure blood and player ignore collision
         //NOTE: Yeah I know that getting the player's collider via the player's transform is weird but it saves an unnecessary search 
@@ -82,7 +82,7 @@ public class Blood_Behavior : MonoBehaviour
         }
 
         //Release to Pool to be reused if blood enters heal radius
-        if (Vector2.Distance(player_transform.position, transform.position) < player_health.heal_radius)
+        if (Vector2.Distance(player_transform.position, transform.position) < 1f)//player_health.heal_radius
         {
             pd.AddPlayerHealth(1);
             GameManager.inst.bloodPool.Release(gameObject);

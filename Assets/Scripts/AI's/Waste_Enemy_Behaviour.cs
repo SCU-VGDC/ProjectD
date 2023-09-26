@@ -23,12 +23,12 @@ public class Waste_Enemy_Behaviour : MonoBehaviour
     private int currentPoint; //current patroling point ID
     private bool angryAtPlayer; //aggro state
     private bool m_angryAtPlayer; //variable watecher for aggro
-    private Player_Health pl; //player
+    private GameObject pl; //player
     private Transform pathTarget; //current pathfidning tarhet
 
     void Start()
     {
-        pl = GameObject.Find("Player").GetComponent<Player_Health>(); //finding a player
+        pl = GameManager.inst.player; //finding a player
         ChangeTarget(); //initialize target
 
         leftmost = PointOfMovement[0]; //initializes
@@ -51,7 +51,7 @@ public class Waste_Enemy_Behaviour : MonoBehaviour
     {
         //this code will be deleted.
         //it is used to draw a gizmo over the enemy
-        if (pl.is_vul == true && attackIsOn == true)
+        if (attackIsOn == true)
         {
             AttackSprite.SetActive(false);
             attackIsOn = false;

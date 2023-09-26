@@ -46,7 +46,7 @@ public class PlayerMov_FSM : MonoBehaviour
     public float gladingSpeed;
     public int maxWallJumps;
     public Transform arm;
-
+    //those changes are retarded
     public int currentDashes;
     public float dash_time;
     public bool is_dashing;
@@ -205,7 +205,7 @@ public class PlayerMov_FSM : MonoBehaviour
 
         if(frim.ShootButton)
         {
-            GameManager.inst.playerShooting.Shoot();
+            //GameManager.inst.playerShooting.Shoot();
         }
 
         //movement handling
@@ -253,7 +253,7 @@ public class PlayerMov_FSM : MonoBehaviour
         //shooting
         if (frim.ShootButton)
         {
-            GameManager.inst.playerShooting.Shoot();
+            //GameManager.inst.playerShooting.Shoot();
         }
 
         if (!isGrounded && !isWallLeft && !isWallRight) //is not touching anything
@@ -327,7 +327,7 @@ public class PlayerMov_FSM : MonoBehaviour
         //shooting
         if (frim.ShootButton)
         {
-            GameManager.inst.playerShooting.Shoot();
+           // GameManager.inst.playerShooting.Shoot();
         }
 
         if (!isGrounded && (isWallLeft || isWallRight))
