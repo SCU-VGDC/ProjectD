@@ -11,14 +11,21 @@ public class Flyswarm_Enemy_Behavior : Base_Enemy
     {
         base.Init();
 
-        //Set starting state here.
-        //Run starting state's Init().
+        // Flyswarm only has pursue state, so it will never change from this
+        current_state = pursue_state;
+        current_state.Init(this);
     }
 
     // Update is called once per frame
     void Update()
     {
+        completed_path = seeker.GetCurrentPath() == null || mover.reachedEndOfPath;
+
         current_state.Action(this);
+
+        Quaternion nextRot;
+        mover.MovementUpdate(Time.deltaTime, out nextPos, out nextRot);
+        mover.FinalizeMovement(nextPos, nextRot);
     }
 }
 
@@ -27,13 +34,32 @@ public class Flyswarm_Enemy_Behavior : Base_Enemy
  **/
 public class Flyswarm_Pursue_State : AI_State
 {
+    private Transform player_transform
+
     public override void Init(Base_Enemy context)
     {
-
+        player_transform = GameManager.inst.player.transform;
     }
 
     public override void Action(Base_Enemy context)
     {
+        Flyswarm_Enemy_Behavior proper_context = (Flyswarm_Enemy_Behavior)context;
+        Pursue(proper_context)
+    }
 
+    public void Pursue(Flyswarm_Enemy_Behavior context)
+    {
+        //Try to reach the player
+        //Code lifted from https://stackoverflow.com/questions/300871/best-way-to-find-a-point-on-a-circle-closest-to-a-given-point
+        float vX = context.transform.position.x - player_transform.position.x;
+        float vY = context.transform.position.y - player_transform.position.y;
+        float magV = Mathf.Sqrt(vX * vX + vY * vY);
+        float target_x = player_transform.position.x + vX / magV;
+        float target_y = player_transform.position.y + vY / magV;
+
+        Vector2 target_pos = new Vector2(target_x, target_y);
+
+        //Actually build and send the path to the enemy!
+        context.seeker.StartPath(context.transform.position, target_pos);
     }
 }
