@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject player;
 
+    public ActorHealth playerHealth;
     public PlayerMov_FSM playerMovement;
     public PlayerAnimator playerAnimation;
 
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
         }
 
         player = GameObject.FindGameObjectWithTag("Player");
+        playerHealth = player.GetComponent<ActorHealth>();
         playerMovement = player.GetComponent<PlayerMov_FSM>();
         playerAnimation = player.transform.Find("BodyModel").GetComponent<PlayerAnimator>();
 

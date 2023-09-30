@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class ActorHealth : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public int currentHealth;
+    
+    public int maxHealth;
+
+    public void ApplyDamage(int damageAmount)
     {
-        
+        currentHealth -= damageAmount;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Heal(int healAmount)
     {
-        
+        currentHealth += healAmount;
     }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Waste_Enemy_Behaviour : MonoBehaviour
+public class Waste_Enemy_Old_Behaviour : MonoBehaviour
 {
 
     public GameObject AttackSprite; //delete after animation temp
