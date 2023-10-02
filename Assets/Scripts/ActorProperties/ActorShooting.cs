@@ -10,11 +10,20 @@ using UnityEngine;
 public class ActorShooting : MonoBehaviour
 {
     
-    public  Transform bulletspawn;//this puts the spawn position 
-    public GameObject bulletprefab;//this creates a gameobject;
- public void shoot()
-    {
-        Instantiate(bulletprefab,bulletspawn.position, bulletspawn.rotation);
+    public  Transform bulletspawn; //this puts the spawn position 
+    public GameObject bulletprefab; //this creates a gameobject;
 
+    public void Shoot(Transform target = null)
+    {
+        GameObject proj = Instantiate(bulletprefab, bulletspawn.position, bulletspawn.rotation);
+        if(target)
+        {
+            proj.transform.LookAt(target.position);
+        }
+    }
+
+    public void SetBullet(GameObject newBullet)
+    {
+        bulletprefab = newBullet;
     }
 }
