@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b19e11b2017ae4f46ad0a22d488a05c7
+guid: f3d12c2638892604da4844247f8aeb69
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -101,11 +101,107 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Dirt Tiles v3_0
+      name: Dirt Tiles v4_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d27d26e78e8a0d4b946a09692076ff1
+      internalID: -60732157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dirt Tiles v4_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c6313bf68355534c85e284c215c9e5f
+      internalID: 1384362248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dirt Tiles v4_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d01fedc12b1b65a4eaa615f27c5815a2
+      internalID: -839556486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dirt Tiles v4_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e3da4e89c7ebde45acb74ea661983d1
+      internalID: -377290386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dirt Tiles v4_4
       rect:
         serializedVersion: 2
         x: 0
@@ -119,14 +215,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3e50f0d7c0522fd41afb6952f8379175
-      internalID: -93336487
+      spriteID: b3cd1e065909ea94f9d9018888525bae
+      internalID: 1667599441
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dirt Tiles v3_1
+      name: Dirt Tiles v4_5
       rect:
         serializedVersion: 2
         x: 16
@@ -140,14 +236,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3f6a7beadaac6ee40acdc28bbd165bc9
-      internalID: -994565455
+      spriteID: 100f573d6caefc84781f3d19a86e2f40
+      internalID: 263345826
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dirt Tiles v3_2
+      name: Dirt Tiles v4_6
       rect:
         serializedVersion: 2
         x: 32
@@ -161,14 +257,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c18ae44b6e8f549499608d51cc00eec6
-      internalID: -1106692205
+      spriteID: 764246f3a8b38264ab2670a4a01a5b9b
+      internalID: -1155470831
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dirt Tiles v3_3
+      name: Dirt Tiles v4_7
       rect:
         serializedVersion: 2
         x: 48
@@ -182,14 +278,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 665c42a0d327c31459c3e3e2928528df
-      internalID: 1200154707
+      spriteID: efdf190286b29da47a580c44fad87519
+      internalID: 186214770
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dirt Tiles v3_4
+      name: Dirt Tiles v4_8
       rect:
         serializedVersion: 2
         x: 0
@@ -203,14 +299,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bbff98e4bd7b5f146afd22250778d667
-      internalID: 759159482
+      spriteID: 43be5a864cf7447498e34a36396b6b47
+      internalID: -468536762
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dirt Tiles v3_5
+      name: Dirt Tiles v4_9
       rect:
         serializedVersion: 2
         x: 16
@@ -224,14 +320,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec6666bc52e01f146a996a667dafea6f
-      internalID: -2057577846
+      spriteID: e3d51014cedd3284ca05909de0747a50
+      internalID: -311849704
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dirt Tiles v3_6
+      name: Dirt Tiles v4_10
       rect:
         serializedVersion: 2
         x: 32
@@ -245,14 +341,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2cdf2ce81d35021488d63e7e34e1b3e7
-      internalID: 1943827736
+      spriteID: b830b93adba25ef4496fbf406a07dca3
+      internalID: -229730016
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dirt Tiles v3_7
+      name: Dirt Tiles v4_11
       rect:
         serializedVersion: 2
         x: 48
@@ -266,14 +362,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 125e0b28b49b19a4380b52a48c87b946
-      internalID: 798314369
+      spriteID: 209810e6aa8ca2d4e98619a87b11b0cd
+      internalID: -1931812063
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dirt Tiles v3_8
+      name: Dirt Tiles v4_12
       rect:
         serializedVersion: 2
         x: 0
@@ -287,14 +383,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf52e1f3ac6bae6408f264b17b872c5c
-      internalID: 161008833
+      spriteID: 8d2e2816e1ea45241a01998bfa3cc197
+      internalID: 1209692908
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dirt Tiles v3_9
+      name: Dirt Tiles v4_13
       rect:
         serializedVersion: 2
         x: 16
@@ -308,14 +404,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 02bce112abad0c645a0a8cd82dde5c15
-      internalID: -128008999
+      spriteID: 65c01b2cd8c771440a336b4607682556
+      internalID: 1090127707
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dirt Tiles v3_10
+      name: Dirt Tiles v4_14
       rect:
         serializedVersion: 2
         x: 32
@@ -329,14 +425,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 20428bac221730e4f93f071e86f71ffa
-      internalID: 682608243
+      spriteID: aacb6cbde10be644eac1c0682028a5a0
+      internalID: 738242744
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dirt Tiles v3_11
+      name: Dirt Tiles v4_15
       rect:
         serializedVersion: 2
         x: 48
@@ -350,14 +446,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5f83370c5355fc5418ac1f9e0e9b2d70
-      internalID: -282510959
+      spriteID: 8e14932ce91dca148a739a239ee6ddd6
+      internalID: 862991511
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dirt Tiles v3_12
+      name: Dirt Tiles v4_16
       rect:
         serializedVersion: 2
         x: 0
@@ -371,8 +467,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: babc57c8b4fe75f40848465a3e7e8476
-      internalID: -192923545
+      spriteID: 22c1146a7645c1949b2f854831df854d
+      internalID: -1056811757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dirt Tiles v4_17
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2e3df01218c4344da4ff0ae3e768360
+      internalID: 1668168794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dirt Tiles v4_18
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27c13d41b7d7ef24b9183db326c929b7
+      internalID: -1570711860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dirt Tiles v4_19
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a80d5ce704315b040bb976da44231504
+      internalID: 702117030
       vertices: []
       indices: 
       edges: []
@@ -388,19 +547,26 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Dirt Tiles v3_2: -1106692205
-      Dirt Tiles v3_7: 798314369
-      Dirt Tiles v3_6: 1943827736
-      Dirt Tiles v3_3: 1200154707
-      Dirt Tiles v3_0: -93336487
-      Dirt Tiles v3_10: 682608243
-      Dirt Tiles v3_5: -2057577846
-      Dirt Tiles v3_9: -128008999
-      Dirt Tiles v3_4: 759159482
-      Dirt Tiles v3_12: -192923545
-      Dirt Tiles v3_1: -994565455
-      Dirt Tiles v3_8: 161008833
-      Dirt Tiles v3_11: -282510959
+      Dirt Tiles v4_12: 1209692908
+      Dirt Tiles v4_1: 1384362248
+      Dirt Tiles v4_5: 263345826
+      Dirt Tiles v4_7: 186214770
+      Dirt Tiles v4_4: 1667599441
+      Dirt Tiles v4_8: -468536762
+      Dirt Tiles v4_14: 738242744
+      Dirt Tiles v4_0: -60732157
+      Dirt Tiles v4_13: 1090127707
+      Dirt Tiles v4_18: -1570711860
+      Dirt Tiles v4_17: 1668168794
+      Dirt Tiles v4_2: -839556486
+      Dirt Tiles v4_11: -1931812063
+      Dirt Tiles v4_9: -311849704
+      Dirt Tiles v4_6: -1155470831
+      Dirt Tiles v4_19: 702117030
+      Dirt Tiles v4_16: -1056811757
+      Dirt Tiles v4_10: -229730016
+      Dirt Tiles v4_15: 862991511
+      Dirt Tiles v4_3: -377290386
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
