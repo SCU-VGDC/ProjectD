@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Flyswarm_Enemy_Behavior : Base_Enemy
 {
+    [Header("Properties")]
+    public bool completed_path;
+    public Vector3 nextPos;
+
+    [Header("States")]
     public Flyswarm_Pursue_State pursue_state;
 
     // Start is called before the first frame update
@@ -32,9 +37,10 @@ public class Flyswarm_Enemy_Behavior : Base_Enemy
 /**
  * In this state, the Flyswarm should actively chase the player, dealing damage on contact.
  **/
+ [System.Serializable]
 public class Flyswarm_Pursue_State : AI_State
 {
-    private Transform player_transform
+    private Transform player_transform;
 
     public override void Init(Base_Enemy context)
     {
@@ -44,12 +50,12 @@ public class Flyswarm_Pursue_State : AI_State
     public override void Action(Base_Enemy context)
     {
         Flyswarm_Enemy_Behavior proper_context = (Flyswarm_Enemy_Behavior)context;
-        Pursue(proper_context)
+        Pursue(proper_context);
     }
 
     public void Pursue(Flyswarm_Enemy_Behavior context)
     {
-        //Try to reach the player
+        //Try to reach the player.
         //Code lifted from https://stackoverflow.com/questions/300871/best-way-to-find-a-point-on-a-circle-closest-to-a-given-point
         float vX = context.transform.position.x - player_transform.position.x;
         float vY = context.transform.position.y - player_transform.position.y;
