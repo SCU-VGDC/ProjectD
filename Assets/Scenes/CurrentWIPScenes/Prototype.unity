@@ -1089,7 +1089,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 238309747}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.2222238, y: 0.88468003, z: -10}
+  m_LocalPosition: {x: -6.2275143, y: 0.88469005, z: -10}
   m_LocalScale: {x: 0.91996324, y: 1.0014611, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -27469,6 +27469,18 @@ PrefabInstance:
     - target: {fileID: 2191496448248054630, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054636, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: wallJumpTime
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054636, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: wallSideJumpX
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054636, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: wallSideJumpY
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2191496448449171927, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
       propertyPath: m_IsActive

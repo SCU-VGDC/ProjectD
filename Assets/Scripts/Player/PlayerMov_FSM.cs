@@ -44,7 +44,11 @@ public class PlayerMov_FSM : MonoBehaviour
     public float Gravity; //I am so sorry
     public float wallSlidingSpeed;
     public float tightJumpScale;
-    public float wallSideJump;
+    public float wallSideJumpX;
+
+    public float wallSideJumpY;
+    public float wallJumpTime;
+    public float tempWallJumpTime;
     public float gladingSpeed;
     public int maxWallJumps;
     public Transform arm;
@@ -70,6 +74,8 @@ public class PlayerMov_FSM : MonoBehaviour
     {
         FrameInput thisFrame = InputHandler(); // this can be chnaged into AI
         //DebugPrintInpput(thisFrame);
+
+        tempWallJumpTime += Time.deltaTime;
 
         UpdateArmPos(thisFrame);
         //StateChange();
@@ -300,8 +306,9 @@ public class PlayerMov_FSM : MonoBehaviour
             {
                 if (isWallLeft)
                 {
-                    rb.velocity = new Vector2(wallSideJump, wallSideJump * 2); //right
+                    rb.velocity = new Vector2(wallSideJumpX, wallSideJumpY * 2); //right
                     GameManager.inst.playerAnimation.SetAnim("Jump");
+                    tempWallJumpTime = 0;
                     StateChange("OnFly");
                     StartCoroutine(StateMutexWait(0.2f));
                     return;
@@ -309,8 +316,9 @@ public class PlayerMov_FSM : MonoBehaviour
 
                 if (isWallRight)
                 {
-                    rb.velocity = new Vector2(-wallSideJump, wallSideJump * 2); //left
+                    rb.velocity = new Vector2(-wallSideJumpX, wallSideJumpY * 2); //left
                     GameManager.inst.playerAnimation.SetAnim("Jump");
+                    tempWallJumpTime = 0;
                     StateChange("OnFly");
                     StartCoroutine(StateMutexWait(0.2f));
                     return;
@@ -346,7 +354,7 @@ public class PlayerMov_FSM : MonoBehaviour
         }
 
         float horizontal = 0;
-        if (frim.RightButton && frim.LeftButton)
+        if (frim.RightButton == frim.LeftButton)
         {
             horizontal = 0;
         }
@@ -370,7 +378,7 @@ public class PlayerMov_FSM : MonoBehaviour
 
         float movement = horizontal * gladingSpeed;
 
-        if(movement == 0)
+        if (tempWallJumpTime >= wallJumpTime)
         {
             movement = rb.velocity.x;
         }
