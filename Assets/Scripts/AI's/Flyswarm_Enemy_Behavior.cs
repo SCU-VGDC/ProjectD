@@ -37,7 +37,7 @@ public class Flyswarm_Enemy_Behavior : Base_Enemy
 /**
  * In this state, the Flyswarm should actively chase the player, dealing damage on contact.
  **/
- [System.Serializable]
+[System.Serializable]
 public class Flyswarm_Pursue_State : AI_State
 {
     private Transform player_transform;
@@ -51,17 +51,21 @@ public class Flyswarm_Pursue_State : AI_State
     {
         Flyswarm_Enemy_Behavior proper_context = (Flyswarm_Enemy_Behavior)context;
         Pursue(proper_context);
+
+        //When attacking, face direction the player
+        context.transform.localScale = (player_transform.position.x - proper_context.transform.position.x > 0) ? new Vector3(-1, 1, 1) : Vector3.one;
+        Debug.Log("B");
     }
 
     public void Pursue(Flyswarm_Enemy_Behavior context)
     {
         //Try to reach the player.
         //Code lifted from https://stackoverflow.com/questions/300871/best-way-to-find-a-point-on-a-circle-closest-to-a-given-point
-        float vX = context.transform.position.x - player_transform.position.x;
-        float vY = context.transform.position.y - player_transform.position.y;
-        float magV = Mathf.Sqrt(vX * vX + vY * vY);
-        float target_x = player_transform.position.x + vX / magV;
-        float target_y = player_transform.position.y + vY / magV;
+        //float vX = context.transform.position.x - player_transform.position.x;
+        //float vY = context.transform.position.y - player_transform.position.y;
+        //float magV = Mathf.Sqrt(vX * vX + vY * vY);
+        float target_x = player_transform.position.x;
+        float target_y = player_transform.position.y;
 
         Vector2 target_pos = new Vector2(target_x, target_y);
 
