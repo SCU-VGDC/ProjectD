@@ -36,6 +36,7 @@ public class PlayerMov_FSM : MonoBehaviour
     private bool isGrounded, isWallRight, isWallLeft;
     private bool m_Jump;
     private int numOfWallJumps;
+    private float currentWallJumpTime;
 
     public string currentState; // 1-Dash, 2-OnGround, 3-OnWall, 4-OnFly, 5-Death
 
@@ -48,7 +49,6 @@ public class PlayerMov_FSM : MonoBehaviour
 
     public float wallSideJumpY;
     public float wallJumpTime;
-    public float tempWallJumpTime;
     public float gladingSpeed;
     public int maxWallJumps;
     public Transform arm;
@@ -75,7 +75,7 @@ public class PlayerMov_FSM : MonoBehaviour
         FrameInput thisFrame = InputHandler(); // this can be chnaged into AI
         //DebugPrintInpput(thisFrame);
 
-        tempWallJumpTime += Time.deltaTime;
+        currentWallJumpTime += Time.deltaTime;
 
         UpdateArmPos(thisFrame);
         //StateChange();
@@ -308,7 +308,7 @@ public class PlayerMov_FSM : MonoBehaviour
                 {
                     rb.velocity = new Vector2(wallSideJumpX, wallSideJumpY * 2); //right
                     GameManager.inst.playerAnimation.SetAnim("Jump");
-                    tempWallJumpTime = 0;
+                    currentWallJumpTime = 0;
                     StateChange("OnFly");
                     StartCoroutine(StateMutexWait(0.2f));
                     return;
@@ -318,7 +318,7 @@ public class PlayerMov_FSM : MonoBehaviour
                 {
                     rb.velocity = new Vector2(-wallSideJumpX, wallSideJumpY * 2); //left
                     GameManager.inst.playerAnimation.SetAnim("Jump");
-                    tempWallJumpTime = 0;
+                    currentWallJumpTime = 0;
                     StateChange("OnFly");
                     StartCoroutine(StateMutexWait(0.2f));
                     return;
@@ -378,7 +378,7 @@ public class PlayerMov_FSM : MonoBehaviour
 
         float movement = horizontal * gladingSpeed;
 
-        if (tempWallJumpTime >= wallJumpTime)
+        if (currentWallJumpTime < wallJumpTime)
         {
             movement = rb.velocity.x;
         }
