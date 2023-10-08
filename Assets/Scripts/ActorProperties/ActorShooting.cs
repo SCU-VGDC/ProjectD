@@ -18,7 +18,7 @@ public class ActorShooting : MonoBehaviour
         GameObject proj = Instantiate(bulletprefab, bulletspawn.position, bulletspawn.rotation);
         if(target)
         {
-            proj.transform.LookAt(target.position);
+            proj.transform.right = target.position - transform.position;
         }
     }
 
