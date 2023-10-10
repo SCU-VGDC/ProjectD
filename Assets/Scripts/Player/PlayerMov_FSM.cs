@@ -6,7 +6,6 @@ using UnityEditor.Rendering;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Rendering.UI;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class PlayerMov_FSM : MonoBehaviour
 {
@@ -16,8 +15,11 @@ public class PlayerMov_FSM : MonoBehaviour
         public bool LeftButton;
         public bool UpButton;
         public bool DownButton;
+
         public bool DashButton;
         public bool ShootButton;
+        public bool ShootAltButton;
+
         public bool RespawnButton;
 
         public float armRotation;
@@ -46,7 +48,8 @@ public class PlayerMov_FSM : MonoBehaviour
     public float gladingSpeed;
     public int maxWallJumps;
     public Transform arm;
-    //those changes are retarded
+
+    //those changes are retarded LEGACY???
     public int currentDashes;
     public float dash_time;
     public bool is_dashing;
@@ -74,12 +77,6 @@ public class PlayerMov_FSM : MonoBehaviour
         
     }
 
-    void DebugPrintInpput(FrameInput frim)
-    {
-        Debug.Log(frim.RightButton + ", " + frim.LeftButton + ", " + frim.UpButton + ", "
-            + frim.DownButton + ", " + frim.DashButton + ", " + frim.ShootButton + ", " + frim.armRotation);
-    }
-
     FrameInput InputHandler()
     {
         FrameInput thisFrame = new FrameInput { };
@@ -100,6 +97,7 @@ public class PlayerMov_FSM : MonoBehaviour
 
         thisFrame.DashButton = Input.GetButton("Dash");
         thisFrame.ShootButton = Input.GetButton("Shoot");
+        thisFrame.ShootAltButton = Input.GetButton("AltShoot");
 
 
         Vector3 Mouse_Pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -155,16 +153,31 @@ public class PlayerMov_FSM : MonoBehaviour
             return;
         }
 
-        if(NextState == "OnGround")
+        //previous state hadling
+        if(currentState == "OnGround")
+        {
+            EventManager.singleton.AddEvent(new ChangedGroundstatemsg(gameObject, false));
+        }
+        if (currentState == "OnWall")
+        {
+            EventManager.singleton.AddEvent(new ChangedWallstatemsg(gameObject, false));
+        }
+
+
+        //next state hadling
+        if (NextState == "OnGround")
         {
             numOfWallJumps = 0;
+            EventManager.singleton.AddEvent(new ChangedGroundstatemsg(gameObject, true));
         }
         if(NextState == "OnWall")
         {
             numOfWallJumps++;
+            EventManager.singleton.AddEvent(new ChangedWallstatemsg(gameObject, true));
         }
         if(NextState == "Dash")
         {
+            EventManager.singleton.AddEvent(new Dashmsg(gameObject));
             StartCoroutine(StateMutexWait(1f));
         }
 
@@ -178,6 +191,8 @@ public class PlayerMov_FSM : MonoBehaviour
         arm.localRotation = Quaternion.Euler(0, 0, frim.armRotation);
     }
 
+    //--------------------------------States updates--------------------------------------------\
+
     void AnyStateUpdate(FrameInput frim)
     {
         isGrounded = rb.IsTouching(cfGround);
@@ -186,7 +201,6 @@ public class PlayerMov_FSM : MonoBehaviour
 
         if(frim.DashButton)
         {
-            GameManager.inst.playerAnimation.SetAnim("Dash");
             StateChange("Dash");
         }
 
@@ -205,7 +219,7 @@ public class PlayerMov_FSM : MonoBehaviour
 
         if(frim.ShootButton)
         {
-            //GameManager.inst.playerShooting.Shoot();
+            EventManager.singleton.AddEvent(new playerShootGunmsg(0));
         }
 
         //movement handling
@@ -228,24 +242,21 @@ public class PlayerMov_FSM : MonoBehaviour
         if(frim.UpButton)
         {
             rb.velocity = new Vector2(horizontal * speed, jump_power);
-            GameManager.inst.playerAnimation.SetAnim("Jump");
+            EventManager.singleton.AddEvent(new Jumpmsg(gameObject));
             StateChange("OnFly");
             return;
         }
 
-        rb.velocity = new Vector2(horizontal * speed, 0); //sets jump
+        if (rb.velocity.x != 0 && horizontal == 0) //if it was moving previous frame and stopped in this
+        {
+            EventManager.singleton.AddEvent(new ChangedMOVstatemsg(gameObject, false));
+        }
+        else if(rb.velocity.x == 0 && horizontal != 0) //if it was stopped previous frame and moving in this
+        {
+            EventManager.singleton.AddEvent(new ChangedMOVstatemsg(gameObject, true));
+        }
 
-        //animation handling
-        GameManager.inst.playerAnimation.SetAnim("Ground", true);
-        GameManager.inst.playerAnimation.SetAnim("Wall", false);
-        if (horizontal != 0)
-        {
-            GameManager.inst.playerAnimation.SetAnim("Moving", true);
-        }
-        else
-        {
-            GameManager.inst.playerAnimation.SetAnim("Moving", false);
-        }
+        rb.velocity = new Vector2(horizontal * speed, 0); //sets jump
     }
 
     void OnWallUpdate(FrameInput frim)
@@ -253,7 +264,7 @@ public class PlayerMov_FSM : MonoBehaviour
         //shooting
         if (frim.ShootButton)
         {
-            //GameManager.inst.playerShooting.Shoot();
+            EventManager.singleton.AddEvent(new playerShootGunmsg(0));
         }
 
         if (!isGrounded && !isWallLeft && !isWallRight) //is not touching anything
@@ -297,7 +308,7 @@ public class PlayerMov_FSM : MonoBehaviour
                 if (isWallLeft)
                 {
                     rb.velocity = new Vector2(wallSideJump, wallSideJump * 2); //right
-                    GameManager.inst.playerAnimation.SetAnim("Jump");
+                    EventManager.singleton.AddEvent(new Jumpmsg(gameObject));
                     StateChange("OnFly");
                     StartCoroutine(StateMutexWait(0.2f));
                     return;
@@ -306,7 +317,7 @@ public class PlayerMov_FSM : MonoBehaviour
                 if (isWallRight)
                 {
                     rb.velocity = new Vector2(-wallSideJump, wallSideJump * 2); //left
-                    GameManager.inst.playerAnimation.SetAnim("Jump");
+                    EventManager.singleton.AddEvent(new Jumpmsg(gameObject));
                     StateChange("OnFly");
                     StartCoroutine(StateMutexWait(0.2f));
                     return;
@@ -316,10 +327,6 @@ public class PlayerMov_FSM : MonoBehaviour
         }
         //one wall contact see
         rb.velocity = new Vector2(0 , -wallSlidingSpeed);
-
-        //animation handling
-        GameManager.inst.playerAnimation.SetAnim("Ground", false);
-        GameManager.inst.playerAnimation.SetAnim("Wall", true);
     }
 
     void OnFlyUpdate(FrameInput frim)
@@ -327,7 +334,7 @@ public class PlayerMov_FSM : MonoBehaviour
         //shooting
         if (frim.ShootButton)
         {
-           // GameManager.inst.playerShooting.Shoot();
+           EventManager.singleton.AddEvent(new playerShootGunmsg(0));
         }
 
         if (!isGrounded && (isWallLeft || isWallRight))
@@ -372,10 +379,6 @@ public class PlayerMov_FSM : MonoBehaviour
         }
 
         rb.velocity = new Vector2(movement, rb.velocity.y - tempGravity);
-
-        //animation handling
-        GameManager.inst.playerAnimation.SetAnim("Ground", false);
-        GameManager.inst.playerAnimation.SetAnim("Wall", false);
     }
 
     void OnDashUpdate()
@@ -388,10 +391,18 @@ public class PlayerMov_FSM : MonoBehaviour
 
     }
 
+    // ----------------------Helper Functions--------------------------
+
     IEnumerator StateMutexWait(float waitTime)
     {
         StateMutex = true;
         yield return new WaitForSeconds(waitTime);
         StateMutex = false;
+    }
+
+    void DebugPrintInpput(FrameInput frim)
+    {
+        Debug.Log(frim.RightButton + ", " + frim.LeftButton + ", " + frim.UpButton + ", "
+            + frim.DownButton + ", " + frim.DashButton + ", " + frim.ShootButton + ", " + frim.armRotation);
     }
 }

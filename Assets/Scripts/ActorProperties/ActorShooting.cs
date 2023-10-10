@@ -1,18 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.WebSockets;
+using Mono.Cecil;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
+
 
 public class ActorShooting : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    
+    public  Transform bulletspawn; //this puts the spawn position 
+    public GameObject bulletprefab; //this creates a gameobject;
+
+    public void Shoot(Transform target = null)
     {
-        
+        GameObject proj = Instantiate(bulletprefab, bulletspawn.position, bulletspawn.rotation);
+        if(target)
+        {
+            proj.transform.right = target.position - transform.position;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetBullet(GameObject newBullet)
     {
-        
+        bulletprefab = newBullet;
     }
 }

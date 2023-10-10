@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using UnityEditor.Tilemaps;
 
+[RequireComponent(typeof(ActorShooting))]
 public class Belzebub_Enemy_Behavior : Base_Enemy
 {
     [Header("Properties")]
@@ -166,8 +168,8 @@ public class Belzebub_Aggro_State : AI_State
                 RaycastHit2D hit = Physics2D.Raycast(fire_point.position, player_transform.position - fire_point.transform.position, attack_radius, LayerMask.GetMask("Player", "Platforms"));
                 if (next_fire_time < Time.time && hit.collider != null && hit.collider.tag == "Player")
                 {
-                    //TODO: Make bullets fire at angle between target and enemy
-                    GameObject.Instantiate(projectile, fire_point.position, Quaternion.identity);
+                    //LEGACY TODO: Make bullets fire at angle between target and enemy
+                    EventManager.singleton.AddEvent(new shootmsg(proper_context.gameObject, player_transform));
                     next_fire_time = Time.time + fire_delay;
                 }
             }
