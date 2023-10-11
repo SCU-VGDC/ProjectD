@@ -4,7 +4,7 @@ using UnityEngine;
 using Backend;
 using UnityEngine.Rendering.Universal;
 
-public class OrbsPickUp : MonoBehaviour
+public class OrbsPickUp : Interactable
 {
 
     public Light2D light;
@@ -61,23 +61,20 @@ public class OrbsPickUp : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D hit_info)
+    public override void Activation()
     {
         //if the player is dashing and goes through, it'll disappear for 5s
-        if (hit_info.gameObject.layer == 7)
+
+        if (this_is_dash_through_orb && (player_movement.currentState != "Dash"))
         {
-            if(this_is_dash_through_orb && (player_movement.currentState != "Dash"))
-            {
-                return;
-            }
-
-            EventManager.singleton.AddEvent(new OrbPickUpmsg(gameObject, this_is_dash_through_orb));
-
-            can_see_orb = false;
-            orb_visibility();
-            time_orb_gone = 0f;
-            
+            return;
         }
+
+        EventManager.singleton.AddEvent(new OrbPickUpmsg(gameObject, this_is_dash_through_orb));
+
+        can_see_orb = false;
+        orb_visibility();
+        time_orb_gone = 0f;
     }
 
 

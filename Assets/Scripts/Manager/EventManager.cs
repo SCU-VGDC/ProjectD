@@ -12,6 +12,8 @@ public class EventManager : MonoBehaviour
     Queue<msg> EventQueue;
     public int QueueSize;
 
+    public Interactable LastInteractable;
+
     private void Awake()
     {
         singleton = this;
@@ -260,6 +262,22 @@ public class ChangedWallstatemsg : msg
         else
         {
             Sender.GetComponent<AnimatorManager>().SetAnim("Wall", false);
+        }
+    }
+}
+
+public class interactmsg : msg
+{
+    public interactmsg(GameObject m_sender) : base(m_sender)
+    {
+
+    }
+
+    public override void Run()
+    {
+        if(EventManager.singleton.LastInteractable != null)
+        {
+            EventManager.singleton.LastInteractable.Activation();
         }
     }
 }
