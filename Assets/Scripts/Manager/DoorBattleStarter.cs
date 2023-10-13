@@ -6,11 +6,11 @@ using UnityEngine;
 public class DoorBattleStarter : MonoBehaviour
 {
     public float maxdist = 0.3f;
-    private Player_Health pl;
+    private GameObject pl;
 
     void Start()
     {
-        pl = GameManager.inst.playerHealth; //gets player
+        pl = GameManager.inst.player; //gets player
     }
 
     void FixedUpdate()

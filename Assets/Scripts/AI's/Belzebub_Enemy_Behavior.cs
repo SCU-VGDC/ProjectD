@@ -68,11 +68,6 @@ public class Belzebub_Idle_State : AI_State
             proper_context.Transition(proper_context.aggro_state);
         }
     }
-
-    public override void OnDrawGizmos(Base_Enemy context)
-    {
-        
-    }
 }
 
 
@@ -128,11 +123,6 @@ public class Belzebub_Wander_State : AI_State
 
         //BUG: This doesn't belong here! Move it somewhere else or just make the wander_delay really long
         next_wander = Time.time + wander_delay;
-    }
-
-    public override void OnDrawGizmos(Base_Enemy context)
-    {
-
     }
 }
 

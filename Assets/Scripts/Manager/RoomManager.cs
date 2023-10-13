@@ -7,7 +7,7 @@ public class RoomManager : MonoBehaviour
 {
     public int id; //room id to save
     public bool battleStarted;  //if battle started
-    public List<Enemy_Health> enemies; //list of enemies elements
+    public List<ActorHealth> enemies; //list of enemies elements
 
     private GameObject entrance;
     private GameObject exit;
@@ -22,7 +22,7 @@ public class RoomManager : MonoBehaviour
             if (enem.transform.childCount != 0)
             {
                 // check parent for enemy health script
-                if (enem.GetComponent<Enemy_Health>())
+                if (enem.GetComponent<ActorHealth>())
                 {
                     addToEnemyList(enem);
                 }
@@ -30,7 +30,7 @@ public class RoomManager : MonoBehaviour
                 // check children for enemy health script
                 foreach (Transform undprefab in enem.transform)
                 {
-                    if (undprefab.GetComponent<Enemy_Health>())
+                    if (undprefab.GetComponent<ActorHealth>())
                     {
                         addToEnemyList(undprefab);
                     }
@@ -53,7 +53,7 @@ public class RoomManager : MonoBehaviour
 
     void addToEnemyList(Transform enem)
     {
-        enemies.Add(enem.GetComponent<Enemy_Health>());
+        enemies.Add(enem.GetComponent<ActorHealth>());
         enem.gameObject.SetActive(false);
     }
 
@@ -85,7 +85,7 @@ public class RoomManager : MonoBehaviour
 
             if (battleStarted == true) //set active all enemies and close doors
             {
-                foreach(Enemy_Health i in enemies)
+                foreach(ActorHealth i in enemies)
                 {
                     i.gameObject.SetActive(true);
                 }

@@ -6,11 +6,9 @@ using TMPro;
 public class ToolTip : MonoBehaviour
 {
     private GameObject textGameObject;
-    private TextMeshPro text;
     void Start()
     {
         textGameObject = gameObject.transform.GetChild(0).gameObject;
-        text = textGameObject.GetComponent<TextMeshPro>();
     }
 
     void OnTriggerEnter2D(Collider2D other) 

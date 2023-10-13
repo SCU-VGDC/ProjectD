@@ -6,7 +6,6 @@ using UnityEditor.Rendering;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Rendering.UI;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class PlayerMov_FSM : MonoBehaviour
 {
@@ -16,8 +15,11 @@ public class PlayerMov_FSM : MonoBehaviour
         public bool LeftButton;
         public bool UpButton;
         public bool DownButton;
+
         public bool DashButton;
         public bool ShootButton;
+        public bool ShootAltButton;
+
         public bool RespawnButton;
 
         public float armRotation;
@@ -47,6 +49,7 @@ public class PlayerMov_FSM : MonoBehaviour
     public int maxWallJumps;
     public Transform arm;
 
+    //those changes are retarded
     public int currentDashes;
     public float dash_time;
     public bool is_dashing;
@@ -100,6 +103,7 @@ public class PlayerMov_FSM : MonoBehaviour
 
         thisFrame.DashButton = Input.GetButton("Dash");
         thisFrame.ShootButton = Input.GetButton("Shoot");
+        thisFrame.ShootAltButton = Input.GetButton("AltShoot");
 
 
         Vector3 Mouse_Pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -205,7 +209,7 @@ public class PlayerMov_FSM : MonoBehaviour
 
         if(frim.ShootButton)
         {
-            GameManager.inst.playerShooting.Shoot();
+            //GameManager.inst.playerShooting.Shoot();
         }
 
         //movement handling
@@ -253,7 +257,7 @@ public class PlayerMov_FSM : MonoBehaviour
         //shooting
         if (frim.ShootButton)
         {
-            GameManager.inst.playerShooting.Shoot();
+            //GameManager.inst.playerShooting.Shoot();
         }
 
         if (!isGrounded && !isWallLeft && !isWallRight) //is not touching anything
@@ -327,7 +331,7 @@ public class PlayerMov_FSM : MonoBehaviour
         //shooting
         if (frim.ShootButton)
         {
-            GameManager.inst.playerShooting.Shoot();
+           // GameManager.inst.playerShooting.Shoot();
         }
 
         if (!isGrounded && (isWallLeft || isWallRight))

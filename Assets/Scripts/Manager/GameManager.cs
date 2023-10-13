@@ -18,9 +18,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject player;
 
+    public ActorHealth playerHealth;
     public PlayerMov_FSM playerMovement;
-    public Player_Health playerHealth;
-    public Player_Shooting playerShooting;
     public PlayerAnimator playerAnimation;
 
 
@@ -42,9 +41,8 @@ public class GameManager : MonoBehaviour
         }
 
         player = GameObject.FindGameObjectWithTag("Player");
+        playerHealth = player.GetComponent<ActorHealth>();
         playerMovement = player.GetComponent<PlayerMov_FSM>();
-        playerHealth = player.GetComponent<Player_Health>();
-        playerShooting = player.GetComponent<Player_Shooting>();
         playerAnimation = player.transform.Find("BodyModel").GetComponent<PlayerAnimator>();
 
         bloodPool = new ObjectPool<GameObject>(
@@ -67,8 +65,6 @@ public class GameManager : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerMovement = player.GetComponent<PlayerMov_FSM>();
-        playerHealth = player.GetComponent<Player_Health>();
-        playerShooting = player.GetComponent<Player_Shooting>();
         playerAnimation = player.transform.Find("BodyModel").GetComponent<PlayerAnimator>();
     }
 }

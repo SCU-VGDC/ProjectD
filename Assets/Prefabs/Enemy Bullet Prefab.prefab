@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4193023076128913137}
   - component: {fileID: 4193023076128913138}
   - component: {fileID: 4193023076128913143}
-  - component: {fileID: 4193023076128913142}
   m_Layer: 12
   m_Name: Enemy Bullet Prefab
   m_TagString: Untagged
@@ -124,18 +123,3 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &4193023076128913142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4193023076128913139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 550992348b135904b9c3db3972391ac0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet_speed: 12
-  bullet_lifetime: 4
-  target: {fileID: 0}
