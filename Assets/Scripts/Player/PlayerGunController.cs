@@ -10,7 +10,6 @@ public class PlayerGunController : MonoBehaviour
 
     [Header("Guns Avalibilty")]
     public bool isPistol;
-    public bool isDash;
     public bool isSniper;
     public bool isShotgun;
 

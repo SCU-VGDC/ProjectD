@@ -3,33 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using Backend;
 
-namespace Player_Movement_Namespace {
+public class Checkpoint : Interactable
+{
+    public int CheckPointId;
+    public bool LastActivated;
 
-    public class Checkpoint : MonoBehaviour
+    public override void Activation()
     {
-        [SerializeField] private GameObject player;
-        
-        [SerializeField] private Collider2D playerCollider;
-        [SerializeField] private GameObject thisCheckPoint;
-        [SerializeField] private Collider2D checkpointCollider;
-      //  [SerializeField] public Player_Movement playerMovement; is legacy
-
-        [Header("Game Manager")]
-        private PersistentData pd;
-        void Start(){
-            pd = PersistentDataManager.inst.persistentData;
-
-            playerCollider = GetComponent<Collider2D>();
-            checkpointCollider = GetComponent<Collider2D>();
-           // playerMovement = player.GetComponent<Player_Movement>(); legacy
+        if(LastActivated)
+        {
+            return;
         }
 
-        void OnTriggerEnter2D(Collider2D Other) {
-            //players hitbox is hit updates checkpoint
-            
-            if (Other.gameObject.layer == 7){
-                pd.PlayerCurrentCheckpoint = thisCheckPoint;
-            }
+        foreach (Checkpoint cp in FindObjectsOfType<Checkpoint>())
+        {
+            cp.LastActivated = false;
         }
-   }
+
+        LastActivated = true;
+
+        EventManager.singleton.AddEvent(new newCheckPointmsg(gameObject));
+    }
 }

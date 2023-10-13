@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -77,6 +78,25 @@ public class shootmsg : msg
     }
 }
 
+public class meleeDamagemsg : msg
+{
+    public Transform target;
+    public int damage;
+
+    public meleeDamagemsg(GameObject m_shooter, Transform m_target = null, int m_damage = 0) : base(m_shooter)
+    {
+        target = m_target;
+        damage = m_damage;
+    }
+
+    public override void Run()
+    {
+        EventManager.singleton.AddEvent(new applyDamagemsg(Sender, target.GetComponent<ActorHealth>(), damage));
+        Sender.GetComponent<AudioManager>().PlaySound("MeleeAttack");
+        Sender.GetComponent<AnimatorManager>().SetAnim("MeleeAttack");
+    }
+}
+
 public class applyDamagemsg : msg
 {
     public ActorHealth target;
@@ -92,7 +112,7 @@ public class applyDamagemsg : msg
     {
         target.ApplyDamage(damage);
         target.GetComponent<AudioManager>().PlaySound("TakeDamage");
-        Sender.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
+        target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
     }
 }
 
@@ -140,6 +160,34 @@ public class playerChangeGunmsg : msg
         Sender.GetComponent<PlayerGunController>().AskedToChangeGun(GunType);
         Debug.Log("Change Sound");
         Debug.Log("Update Gun Sound");
+    }
+}
+
+public class playerDiedmsg : msg
+{
+
+
+    public playerDiedmsg() : base(GameManager.inst.player)
+    {
+    }
+
+    public override void Run()
+    {
+        //TODO
+    }
+}
+
+public class playerRespawnmsg : msg
+{
+
+
+    public playerRespawnmsg() : base(GameManager.inst.player)
+    {
+    }
+
+    public override void Run()
+    {
+        //TODO
     }
 }
 
@@ -279,5 +327,35 @@ public class interactmsg : msg
         {
             EventManager.singleton.LastInteractable.Activation();
         }
+    }
+}
+
+public class actorDiedmsg : msg
+{
+    public actorDiedmsg(GameObject m_shooter) : base(m_shooter)
+    {
+
+    }
+
+    public override void Run()
+    {
+        //TODO
+        Sender.GetComponent<AudioManager>().PlaySound("Death");
+        Sender.GetComponent<AnimatorManager>().SetAnim("Death");
+    }
+}
+
+public class newCheckPointmsg : msg
+{
+    public newCheckPointmsg(GameObject m_shooter) : base(m_shooter)
+    {
+
+    }
+
+    public override void Run()
+    {
+        SaveSystem.singleton.SaveData();
+        Sender.GetComponent<AudioManager>().PlaySound("Checkpoint");
+        Sender.GetComponent<AnimatorManager>().SetAnim("Checkpoint");
     }
 }

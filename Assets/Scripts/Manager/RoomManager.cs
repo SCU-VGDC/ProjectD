@@ -1,6 +1,6 @@
-using Player_Movement_Namespace;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class Wave {
@@ -41,6 +41,8 @@ public class Wave {
 
 public class RoomManager : MonoBehaviour
 {
+    public int ArenaId;
+
     private bool inBattle;  // if battle started
     private bool m_inBattle;
     public List<Wave> waves = new List<Wave>();
@@ -57,6 +59,8 @@ public class RoomManager : MonoBehaviour
 
     public float waveDelayTime = 2.5f;
     public float enemySpawnDelayTime = 1.0f;
+
+    public bool isCompleted;
 
     void Start()
     {
@@ -90,11 +94,16 @@ public class RoomManager : MonoBehaviour
 
         // default the gates open
         entrance.SetActive(false);
-        exit.SetActive(true);
+        exit.SetActive(false);
     }
 
     void FixedUpdate()
     {
+        if(isCompleted)
+        {
+            return;
+        }
+
         // check if player has entered the arena
         float playerDist = Vector2.Distance(player.transform.position, doorCloser.transform.position);
         if(playerDist < doorCloserDistance)
@@ -168,6 +177,7 @@ public class RoomManager : MonoBehaviour
 
         // be free
         exit.SetActive(false);
+        isCompleted = true;
     }
 
 
