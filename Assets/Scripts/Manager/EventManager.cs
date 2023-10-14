@@ -101,8 +101,6 @@ public class applyDamagemsg : msg
 {
     public ActorHealth target;
     public int damage;
-    public float delta_time = 0.0f;
-    public float invincibility_time = 2.0f;
 
     public applyDamagemsg(GameObject m_shooter, ActorHealth m_target, int m_damage) : base(m_shooter)
     {
@@ -114,20 +112,15 @@ public class applyDamagemsg : msg
     {
         if(target == GameManager.inst.player)
         {
-            delta_time += Time.deltaTime;
-            Console.WriteLine(delta_time);
+            invulnerability_time = target.invulnerability_time;
 
-            if(delta_time > invincibility_time)
+            if(invulnerability_time <= 0)
             {
-                delta_time = 0;
-
+                target.GiveInvulnerability();
                 target.ApplyDamage(damage);
                 target.GetComponent<AudioManager>().PlaySound("TakeDamage");
                 target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
-
-                Console.WriteLine("Player hit");
             }
-        }
 
         else
         {
