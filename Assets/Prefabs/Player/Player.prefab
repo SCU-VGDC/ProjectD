@@ -340,10 +340,12 @@ MonoBehaviour:
   currentState: OnFly
   speed: 8
   jump_power: 20
-  Gravity: 2
+  gravity: 2
   wallSlidingSpeed: 2
   tightJumpScale: 2
-  wallSideJump: 10
+  wallSideJumpX: 0
+  wallSideJumpY: 0
+  wallJumpTime: 0
   gladingSpeed: 8
   maxWallJumps: 3
   arm: {fileID: 2191496449829646115}
