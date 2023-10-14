@@ -322,7 +322,7 @@ public class PlayerMov_FSM : MonoBehaviour
 
                 else if (isWallRight)
                 {
-                    rb.velocity = new Vector2(-wallSideJump, wallSideJump * 2); //left
+                    rb.velocity = new Vector2(-wallSideJumpX, wallSideJumpY * 2); //left
                     EventManager.singleton.AddEvent(new Jumpmsg(gameObject));
                     StateChange("OnWallJumping");
                     StartCoroutine(StateMutexWait(wallJumpTime));
@@ -345,7 +345,8 @@ public class PlayerMov_FSM : MonoBehaviour
 
     }
 
-    void OnWallJumpingUpdate(FrameInput frim) {
+    void OnWallJumpingUpdate(FrameInput frim) 
+    {
         rb.velocity = ApplyGravity(frim.UpButton, rb.velocity);
         // StateMutex will block this state from changing to OnFly until the wall jump time is over
         StateChange("OnFly");
@@ -356,7 +357,7 @@ public class PlayerMov_FSM : MonoBehaviour
         //shooting
         if (frim.ShootButton)
         {
-           EventManager.singleton.AddEvent(new playerShootGunmsg(0));
+            EventManager.singleton.AddEvent(new playerShootGunmsg(0));
         }
 
         if (!isGrounded && (isWallLeft || isWallRight))
@@ -390,7 +391,7 @@ public class PlayerMov_FSM : MonoBehaviour
 
         rb.velocity = ApplyGravity(frim.UpButton, new Vector2(movement, rb.velocity.y));
 
-        rb.velocity = new Vector2(movement, rb.velocity.y - tempGravity);
+    }
 
         //animation handling
     void OnDashUpdate()

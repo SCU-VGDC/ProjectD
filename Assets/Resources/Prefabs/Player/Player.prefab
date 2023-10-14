@@ -349,9 +349,9 @@ MonoBehaviour:
   gravity: 2
   wallSlidingSpeed: 2
   tightJumpScale: 2
-  wallSideJumpX: 0
-  wallSideJumpY: 0
-  wallJumpTime: 0
+  wallSideJumpX: 10
+  wallSideJumpY: 10
+  wallJumpTime: 0.2
   gladingSpeed: 8
   maxWallJumps: 3
   arm: {fileID: 2191496449829646115}
@@ -384,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae15c0d895a6d34e8d866129954d60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 0
+  currentHealth: 20
   maxHealth: 0
 --- !u!82 &1901154283
 AudioSource:
@@ -501,7 +501,6 @@ MonoBehaviour:
     soundNormal: 
     soundMagic: 
   isPistol: 0
-  isDash: 0
   isSniper: 0
   isShotgun: 0
   pistol:
