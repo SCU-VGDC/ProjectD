@@ -53,9 +53,12 @@ public class PlayerMov_FSM : MonoBehaviour
     public Transform arm;
 
     //those changes are retarded
-    public int currentDashes;
-    public float dash_time;
-    public bool is_dashing;
+    public int dashes;
+    public float dashLength;
+    private int dashesRemaining;
+    private float dashTime;
+    private bool isDashing;
+    private Vector3 dashDirection;
 
 
     //public ContactFilter2D contactFilter;
@@ -77,7 +80,8 @@ public class PlayerMov_FSM : MonoBehaviour
         UpdateArmPos(thisFrame);
         //StateChange();
         StateHandling(thisFrame);
-        
+
+        dashTime += Time.deltaTime;
     }
 
     void DebugPrintInpput(FrameInput frim)
@@ -175,7 +179,7 @@ public class PlayerMov_FSM : MonoBehaviour
         }
         if(NextState == "Dash")
         {
-            StartCoroutine(StateMutexWait(1f));
+            dashTime = 0;
         }
 
         Debug.Log("State Changed to " + NextState);
@@ -210,6 +214,8 @@ public class PlayerMov_FSM : MonoBehaviour
             StateChange("OnFly");
             return;
         }
+
+        dashesRemaining = dashes;
 
         //shooting
 
@@ -393,6 +399,32 @@ public class PlayerMov_FSM : MonoBehaviour
 
     void OnDashUpdate()
     {
+        // Immediately change to OnFly if the player doesn't have any dashes left
+        if (dashesRemaining <= 0) {
+            StateChange("OnFly");
+            return;
+        }
+
+        if (dashTime >= dashLength) {
+            StateChange("OnFly");
+            isDashing = false;
+            dashesRemaining--;
+            rb.velocity = new Vector2(0, 0);
+            return;
+        }
+
+        if (!isDashing) {
+            // Save the dash direction
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = 0;
+            dashDirection = mousePos - transform.position;
+            dashDirection.Normalize();
+        }
+
+        isDashing = true;
+
+        rb.velocity = dashDirection * speed * 5;
+
         StateChange("OnFly");
     }
 

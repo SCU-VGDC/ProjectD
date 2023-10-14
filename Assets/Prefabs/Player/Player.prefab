@@ -349,9 +349,7 @@ MonoBehaviour:
   gladingSpeed: 8
   maxWallJumps: 3
   arm: {fileID: 2191496449829646115}
-  currentDashes: 0
-  dash_time: 0
-  is_dashing: 0
+  dashes: 1
 --- !u!1 &2191496448306692533
 GameObject:
   m_ObjectHideFlags: 0
