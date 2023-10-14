@@ -41,10 +41,13 @@ public class PlayerMov_FSM : MonoBehaviour
 
     public float speed;
     public float jump_power;
-    public float Gravity; //I am so sorry
+    public float gravity; //I am so sorry
     public float wallSlidingSpeed;
     public float tightJumpScale;
-    public float wallSideJump;
+    public float wallSideJumpX;
+
+    public float wallSideJumpY;
+    public float wallJumpTime;
     public float gladingSpeed;
     public int maxWallJumps;
     public Transform arm;
@@ -123,6 +126,9 @@ public class PlayerMov_FSM : MonoBehaviour
                 break;
             case "OnWall":
                 OnWallUpdate(frin);
+                break;
+            case "OnWallJumping":
+                OnWallJumpingUpdate(frin);
                 break;
             case "OnFly":
                 OnFlyUpdate(frin);
@@ -307,26 +313,42 @@ public class PlayerMov_FSM : MonoBehaviour
             {
                 if (isWallLeft)
                 {
-                    rb.velocity = new Vector2(wallSideJump, wallSideJump * 2); //right
+                    rb.velocity = new Vector2(wallSideJumpX, wallSideJumpY * 2); //right
                     EventManager.singleton.AddEvent(new Jumpmsg(gameObject));
-                    StateChange("OnFly");
-                    StartCoroutine(StateMutexWait(0.2f));
+                    StateChange("OnWallJumping");
+                    StartCoroutine(StateMutexWait(wallJumpTime));
                     return;
                 }
 
-                if (isWallRight)
+                else if (isWallRight)
                 {
                     rb.velocity = new Vector2(-wallSideJump, wallSideJump * 2); //left
                     EventManager.singleton.AddEvent(new Jumpmsg(gameObject));
-                    StateChange("OnFly");
-                    StartCoroutine(StateMutexWait(0.2f));
+                    StateChange("OnWallJumping");
+                    StartCoroutine(StateMutexWait(wallJumpTime));
                     return;
                 }
 
             }
         }
+
         //one wall contact see
-        rb.velocity = new Vector2(0 , -wallSlidingSpeed);
+        if (rb.velocity.y < 0)
+        {
+            rb.velocity = new Vector2(0 , -wallSlidingSpeed);
+
+        }
+        else {
+            rb.velocity = ApplyGravity(frim.UpButton);
+        }
+            
+
+    }
+
+    void OnWallJumpingUpdate(FrameInput frim) {
+        rb.velocity = ApplyGravity(frim.UpButton, rb.velocity);
+        // StateMutex will block this state from changing to OnFly until the wall jump time is over
+        StateChange("OnFly");
     }
 
     void OnFlyUpdate(FrameInput frim)
@@ -349,7 +371,7 @@ public class PlayerMov_FSM : MonoBehaviour
         }
 
         float horizontal = 0;
-        if (frim.RightButton && frim.LeftButton)
+        if (frim.RightButton == frim.LeftButton)
         {
             horizontal = 0;
         }
@@ -364,23 +386,13 @@ public class PlayerMov_FSM : MonoBehaviour
             model.localScale = new Vector3(-1f, 1, 1); //left
         }
 
-        float tempGravity = Gravity;
-
-        if (frim.UpButton)
-        {
-            tempGravity = Gravity / tightJumpScale; //tight jumping
-        }
-
         float movement = horizontal * gladingSpeed;
 
-        if(movement == 0)
-        {
-            movement = rb.velocity.x;
-        }
+        rb.velocity = ApplyGravity(frim.UpButton, new Vector2(movement, rb.velocity.y));
 
         rb.velocity = new Vector2(movement, rb.velocity.y - tempGravity);
-    }
 
+        //animation handling
     void OnDashUpdate()
     {
         StateChange("OnFly");
@@ -400,9 +412,21 @@ public class PlayerMov_FSM : MonoBehaviour
         StateMutex = false;
     }
 
-    void DebugPrintInpput(FrameInput frim)
-    {
-        Debug.Log(frim.RightButton + ", " + frim.LeftButton + ", " + frim.UpButton + ", "
-            + frim.DownButton + ", " + frim.DashButton + ", " + frim.ShootButton + ", " + frim.armRotation);
+        void DebugPrintInpput(FrameInput frim)
+        {
+            Debug.Log(frim.RightButton + ", " + frim.LeftButton + ", " + frim.UpButton + ", "
+                + frim.DownButton + ", " + frim.DashButton + ", " + frim.ShootButton + ", " + frim.armRotation);
+        }
+
+        Vector2 ApplyGravity(bool tightJump)
+        {
+            return ApplyGravity(tightJump, rb.velocity);
+        }
+
+        Vector2 ApplyGravity(bool tightJump, Vector2 vector)
+        {
+            float gravityEffect = tightJump ? gravity / tightJumpScale : gravity;
+            return new Vector2(vector.x, vector.y - gravityEffect);
+        }
+
     }
-}
