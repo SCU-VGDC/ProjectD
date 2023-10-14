@@ -74,8 +74,6 @@ public class PlayerMov_FSM : MonoBehaviour
         FrameInput thisFrame = InputHandler(); // this can be chnaged into AI
         //DebugPrintInpput(thisFrame);
 
-        currentWallJumpTime += Time.deltaTime;
-
         UpdateArmPos(thisFrame);
         //StateChange();
         StateHandling(thisFrame);
