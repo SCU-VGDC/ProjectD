@@ -21,6 +21,7 @@ public class PlayerMov_FSM : MonoBehaviour
         public bool ShootAltButton;
 
         public bool RespawnButton;
+        public bool InteractButton;
 
         public float armRotation;
     }
@@ -64,7 +65,7 @@ public class PlayerMov_FSM : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         model = transform.Find("BodyModel");
-        cfGround.SetNormalAngle(85,95); //perpendicular to ground
+        cfGround.SetNormalAngle(85, 95); //perpendicular to ground
         cfWallL.SetNormalAngle(0, 5); //perpendicular to left wall
         cfWallR.SetNormalAngle(175, 185); //perpendicual to right wall
     }
@@ -77,8 +78,10 @@ public class PlayerMov_FSM : MonoBehaviour
         UpdateArmPos(thisFrame);
         //StateChange();
         StateHandling(thisFrame);
-        
+
     }
+
+    //--------------------------------Inputs--------------------------------------------\
 
     FrameInput InputHandler()
     {
@@ -112,6 +115,13 @@ public class PlayerMov_FSM : MonoBehaviour
         return thisFrame;
     }
 
+    void UpdateArmPos(FrameInput frim)
+    {
+        arm.localRotation = Quaternion.Euler(0, 0, frim.armRotation);
+    }
+
+    //--------------------------------States changes--------------------------------------------\
+
     void StateHandling(FrameInput frin)
     {
         AnyStateUpdate(frin); //return if any state have changed the state
@@ -141,7 +151,7 @@ public class PlayerMov_FSM : MonoBehaviour
                 break;
         }
 
-        if(frin.UpButton != m_Jump) //jump button state
+        if (frin.UpButton != m_Jump) //jump button state
         {
             m_Jump = frin.UpButton;
         }
@@ -149,18 +159,18 @@ public class PlayerMov_FSM : MonoBehaviour
 
     public void StateChange(string NextState)
     {
-        if(NextState == currentState) //beacuse same state
+        if (NextState == currentState) //beacuse same state
         {
             return;
         }
 
-        if(StateMutex == true) //mutex
+        if (StateMutex == true) //mutex
         {
             return;
         }
 
         //previous state hadling
-        if(currentState == "OnGround")
+        if (currentState == "OnGround")
         {
             EventManager.singleton.AddEvent(new ChangedGroundstatemsg(gameObject, false));
         }
@@ -176,12 +186,12 @@ public class PlayerMov_FSM : MonoBehaviour
             numOfWallJumps = 0;
             EventManager.singleton.AddEvent(new ChangedGroundstatemsg(gameObject, true));
         }
-        if(NextState == "OnWall")
+        if (NextState == "OnWall")
         {
             numOfWallJumps++;
             EventManager.singleton.AddEvent(new ChangedWallstatemsg(gameObject, true));
         }
-        if(NextState == "Dash")
+        if (NextState == "Dash")
         {
             EventManager.singleton.AddEvent(new Dashmsg(gameObject));
             StartCoroutine(StateMutexWait(1f));
@@ -192,11 +202,6 @@ public class PlayerMov_FSM : MonoBehaviour
         currentState = NextState;
     }
 
-    void UpdateArmPos(FrameInput frim)
-    {
-        arm.localRotation = Quaternion.Euler(0, 0, frim.armRotation);
-    }
-
     //--------------------------------States updates--------------------------------------------\
 
     void AnyStateUpdate(FrameInput frim)
@@ -205,7 +210,7 @@ public class PlayerMov_FSM : MonoBehaviour
         isWallLeft = rb.IsTouching(cfWallL);
         isWallRight = rb.IsTouching(cfWallR);
 
-        if(frim.DashButton)
+        if (frim.DashButton)
         {
             StateChange("Dash");
         }
@@ -213,9 +218,9 @@ public class PlayerMov_FSM : MonoBehaviour
     }
 
     void OnGroundUpdate(FrameInput frim)
-    {       
+    {
         //state change
-        if (!isGrounded) 
+        if (!isGrounded)
         {
             StateChange("OnFly");
             return;
@@ -223,7 +228,7 @@ public class PlayerMov_FSM : MonoBehaviour
 
         //shooting
 
-        if(frim.ShootButton)
+        if (frim.ShootButton)
         {
             EventManager.singleton.AddEvent(new playerShootGunmsg(0));
         }
@@ -242,10 +247,10 @@ public class PlayerMov_FSM : MonoBehaviour
         else if (frim.LeftButton)
         {
             horizontal = -1;
-            model.localScale = new Vector3(-1f,1,1); //left
+            model.localScale = new Vector3(-1f, 1, 1); //left
         }
-      
-        if(frim.UpButton)
+
+        if (frim.UpButton)
         {
             rb.velocity = new Vector2(horizontal * speed, jump_power);
             EventManager.singleton.AddEvent(new Jumpmsg(gameObject));
@@ -257,7 +262,7 @@ public class PlayerMov_FSM : MonoBehaviour
         {
             EventManager.singleton.AddEvent(new ChangedMOVstatemsg(gameObject, false));
         }
-        else if(rb.velocity.x == 0 && horizontal != 0) //if it was stopped previous frame and moving in this
+        else if (rb.velocity.x == 0 && horizontal != 0) //if it was stopped previous frame and moving in this
         {
             EventManager.singleton.AddEvent(new ChangedMOVstatemsg(gameObject, true));
         }
@@ -302,7 +307,7 @@ public class PlayerMov_FSM : MonoBehaviour
 
         if (frim.LeftButton && isWallRight)
         {
-            rb.velocity = new Vector2(-speed , 0);
+            rb.velocity = new Vector2(-speed, 0);
             StateChange("OnFly");
             return;
         }
@@ -335,17 +340,18 @@ public class PlayerMov_FSM : MonoBehaviour
         //one wall contact see
         if (rb.velocity.y < 0)
         {
-            rb.velocity = new Vector2(0 , -wallSlidingSpeed);
+            rb.velocity = new Vector2(0, -wallSlidingSpeed);
 
         }
-        else {
+        else
+        {
             rb.velocity = ApplyGravity(frim.UpButton);
         }
-            
+
 
     }
 
-    void OnWallJumpingUpdate(FrameInput frim) 
+    void OnWallJumpingUpdate(FrameInput frim)
     {
         rb.velocity = ApplyGravity(frim.UpButton, rb.velocity);
         // StateMutex will block this state from changing to OnFly until the wall jump time is over
@@ -393,7 +399,7 @@ public class PlayerMov_FSM : MonoBehaviour
 
     }
 
-        //animation handling
+    //animation handling
     void OnDashUpdate()
     {
         StateChange("OnFly");
@@ -413,21 +419,21 @@ public class PlayerMov_FSM : MonoBehaviour
         StateMutex = false;
     }
 
-        void DebugPrintInpput(FrameInput frim)
-        {
-            Debug.Log(frim.RightButton + ", " + frim.LeftButton + ", " + frim.UpButton + ", "
-                + frim.DownButton + ", " + frim.DashButton + ", " + frim.ShootButton + ", " + frim.armRotation);
-        }
-
-        Vector2 ApplyGravity(bool tightJump)
-        {
-            return ApplyGravity(tightJump, rb.velocity);
-        }
-
-        Vector2 ApplyGravity(bool tightJump, Vector2 vector)
-        {
-            float gravityEffect = tightJump ? gravity / tightJumpScale : gravity;
-            return new Vector2(vector.x, vector.y - gravityEffect);
-        }
-
+    void DebugPrintInpput(FrameInput frim)
+    {
+        Debug.Log(frim.RightButton + ", " + frim.LeftButton + ", " + frim.UpButton + ", "
+            + frim.DownButton + ", " + frim.DashButton + ", " + frim.ShootButton + ", " + frim.armRotation);
     }
+
+    Vector2 ApplyGravity(bool tightJump)
+    {
+        return ApplyGravity(tightJump, rb.velocity);
+    }
+
+    Vector2 ApplyGravity(bool tightJump, Vector2 vector)
+    {
+        float gravityEffect = tightJump ? gravity / tightJumpScale : gravity;
+        return new Vector2(vector.x, vector.y - gravityEffect);
+    }
+
+}
