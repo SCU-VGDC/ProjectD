@@ -28568,5 +28568,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tooltip
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9044967622148482636, guid: 15dda43133a29db41a71995097d1e75e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 15dda43133a29db41a71995097d1e75e, type: 3}
+--- !u!1 &9044967620914974043 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9044967622148482639, guid: 15dda43133a29db41a71995097d1e75e, type: 3}
+  m_PrefabInstance: {fileID: 9044967620914974042}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9044967620914974044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9044967620914974043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39b4e7ecb673144858ba1923f7d1a146, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requiresActivation: 0
