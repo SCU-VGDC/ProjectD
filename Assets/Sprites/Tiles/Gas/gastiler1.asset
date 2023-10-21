@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
-  m_Name: Gas Tile
+  m_Name: gastiler1
   m_EditorClassIdentifier: 
   m_AnimatedSprites:
-  - {fileID: 1089583862, guid: 119e031407cbd5449be5b43700f6d7a4, type: 3}
-  - {fileID: -756701014, guid: 119e031407cbd5449be5b43700f6d7a4, type: 3}
-  - {fileID: 1961284676, guid: 119e031407cbd5449be5b43700f6d7a4, type: 3}
-  - {fileID: 1202601106, guid: 119e031407cbd5449be5b43700f6d7a4, type: 3}
-  - {fileID: 858845417, guid: 119e031407cbd5449be5b43700f6d7a4, type: 3}
+  - {fileID: -66904082, guid: 1e7008890087398428fa4f9fe1d1f861, type: 3}
+  - {fileID: 944828672, guid: 1e7008890087398428fa4f9fe1d1f861, type: 3}
+  - {fileID: 2029081948, guid: 1e7008890087398428fa4f9fe1d1f861, type: 3}
+  - {fileID: -2133392227, guid: 1e7008890087398428fa4f9fe1d1f861, type: 3}
+  - {fileID: 133056386, guid: 1e7008890087398428fa4f9fe1d1f861, type: 3}
   m_MinSpeed: 6
   m_MaxSpeed: 12
   m_AnimationStartTime: 0
