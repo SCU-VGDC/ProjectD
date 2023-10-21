@@ -12,6 +12,8 @@ using Pathfinding.Util;
  **/
 public abstract class Base_Enemy : MonoBehaviour
 {
+	public string PrefabName;
+
 	public float speed = 3;
 
     public AI_State current_state;
@@ -41,9 +43,20 @@ public abstract class Base_Enemy : MonoBehaviour
 
 	public void OnTriggerEnter2D(Collider2D collider2D)
     {
-		if (dealsContactDamage && collider2D.tag == "Player")
+		if (collider2D.tag == "Player")
         {
-			GameManager.inst.playerHealth.ApplyDamage(contactDamageAmount);
+			if (GameManager.inst.playerMovement.currentState == "Dash") //player is dashing thus provoking damage
+			{
+				//DASH DAMAGE SET HERE
+				EventManager.singleton.AddEvent(new applyDamagemsg(collider2D.gameObject, GetComponent<ActorHealth>(), 1));
+				return;
+			}
+			
+			if(dealsContactDamage)
+			{
+                EventManager.singleton.AddEvent(new meleeDamagemsg(gameObject, collider2D.transform, contactDamageAmount));
+                return;
+			}
         }
     }
 }

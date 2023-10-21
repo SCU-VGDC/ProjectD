@@ -1,120 +1,433 @@
 using System;
 using System.Collections;
+using System.IO;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Dialogue_Manager : MonoBehaviour
+public class Dialogue_Manager : Interactable
 {
-    public List<String> dialToString;
-    public int currentReadString;
-    public bool skipped;
-    public TextMeshProUGUI leftSpeech;
-    public TextMeshProUGUI rightSpeech;
-    public GameObject QuestionSpawner;
+    public bool startWithScene;
 
-    private List<GameObject> questions;
-    private bool inQA;
-    private int amountOfQuestions;
-    
+    public string dialoguePlace;
+
+    public Dictionary<int, DialogueSlide> currentDialogueDB = new Dictionary<int, DialogueSlide>();
+
+    private List<DialogueSlide> dsfromimport;
+
+    public DialogueSlide currentSlide;
+
+    public bool HaveSpawnedOptions;
+
+    [Header("SetUp")]
+    public Image Photo;
+    public TMP_Text NameBox;
+    public TMP_Text TextBox;
+    public List<Button> Options;
+
     void Start()
     {
-        string textFile = Resources.Load("Dialogues/Dialogue_test").ToString();
-        dialToString = new List<string>(textFile.Split('\n'));
-        questions = new List<GameObject>();
-
-        //ReadNextLine();
-    }
-
-    void Update()
-    {
-        if (skipped == true)
+        if(startWithScene)
         {
-            skipped = false;
-            ReadNextLine();
+            Activation();
         }
+
+        //1 - M(1) S("Privet", 0, 0) O(2,3,4)
+
+        //Read all lines
+
+        //Every line
+        //Check that starts with number
+        //Check that syntax is correct -> Throw error
+        //Transform Line into DialogueSlide
+        //Add to dictionary
     }
 
-    public void Askedquestion(int questID)
+    public override void Activation()
     {
-        Debug.Log(questID);
-        if(questID == amountOfQuestions)
+        GetData();
+        SetUpDictionary();
+        currentSlide = currentDialogueDB[1];
+        PerformAction(0);
+    }
+
+    //-------------------Dialogue SetUp-----------------
+
+    void GetData()
+    {
+        string textFile = Resources.Load(dialoguePlace).ToString();
+
+        List<string> strings = new List<string>(textFile.Split('\n'));
+
+        dsfromimport = new List<DialogueSlide>();
+
+        for (int i = 0; i < strings.Count; i++)
         {
-            currentReadString = currentReadString + amountOfQuestions * 2;
-            foreach(GameObject question in questions)
+            int test = performSyntaxCheck(strings[i]);
+
+            if(test >= 1)
             {
-                Destroy(question);
+                dsfromimport.Add(CreateDS(strings[i]));
             }
-            questions = new List<GameObject>();
-            ReadNextLine();
-            return;
-        }
-
-        string rightSting = dialToString[currentReadString + questID * 2];
-        string leftSting = dialToString[currentReadString - 1 + questID * 2];
-        leftSpeech.text = leftSting.Substring(2);
-        rightSpeech.text = rightSting.Substring(2);
-    }
-
-    public void SpawnQuestions()
-    {
-        for(int i = 1; i <= amountOfQuestions; i++)
-        {
-            GameObject spawned = Instantiate(QuestionSpawner, 
-                new Vector3(QuestionSpawner.transform.position.x, 
-                QuestionSpawner.transform.position.y - (1 * i), QuestionSpawner.transform.position.z),                 
-                Quaternion.identity, QuestionSpawner.transform.parent);
-           
-            spawned.name = "Quest" + i;
-            spawned.SetActive(true);
-
-            string textin = dialToString[currentReadString + i * 2 - 1].Substring(2);
-            spawned.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = textin;
-            int temp = i;
-            spawned.GetComponent<Button>().onClick.AddListener(() => Askedquestion(temp));
-
-            questions.Add(spawned.gameObject);
-        }
-    }
-
-    public void ReadNextLine()
-    {        
-        string curSting = dialToString[currentReadString];
-        char special = curSting[1];
-        char caller = curSting[0];
-
-        if (special == ';')
-        {
-            switch (caller)
+            else if(test < 0)
             {
-                case 'S': //Start the speaking sequence
-                    currentReadString++;
-                    ReadNextLine();
-                    return;
-                case 'L':
-                    leftSpeech.text = "";
-                    rightSpeech.text = "";
-                    leftSpeech.text = curSting.Substring(2);
-                    currentReadString++;
-                    break;
-                case 'R':
-                    leftSpeech.text = "";
-                    rightSpeech.text = "";
-                    rightSpeech.text = curSting.Substring(2);
-                    currentReadString++;                 
-                    break;
-                case 'B':
-                    char temp = curSting[2];
-                    amountOfQuestions = temp - '0';
-                    inQA = true;
-                    SpawnQuestions();
-                    break;
-                case 'E':
-                    //exit
-                    break;
+                Debug.LogError("Error occured in line " + i + " of type - " + ThrowErrorOnDialogue(test));
             }
         }
+    }
+
+    DialogueSlide CreateDS(string s)
+    {
+        DialogueSlide ds = new DialogueSlide();
+
+        ds.Functions = new List<DialogueFunction>();
+
+        for (int i = 1; i < s.Length; i++)
+        {
+            if (s[i] == '=')  //getting id
+            {
+                string idText = "";
+
+                for(int j = 1; j < i; j++)
+                {
+                    idText += s[j];
+                }
+
+                ds.id = int.Parse(idText);
+            }
+
+            if (s[i] == '(') //function start
+            {
+                int closingPlace = i;
+                string insideText = "";
+
+                for (int j = i + 1; j < s.Length; j++) //gets insides of a function
+                {                  
+                    if (s[j] == ')')
+                    {
+                        closingPlace = j;
+                        break;
+                    }
+
+                    insideText += s[j];
+                }
+
+                if (s[i - 1] == 'S')
+                {
+                    string[] innerShowText = new string[3];
+                    int stringCounter = 0;
+
+                    for (int k = 0; k < insideText.Length; k++) //gets insides of show
+                    {
+                        if (k == (insideText.Length - 1)) //add last letter explicitly
+                        {
+                            innerShowText[stringCounter] = innerShowText[stringCounter] + insideText[k];
+                        }
+
+                        if (insideText[k] == '|' || k == (insideText.Length - 1))
+                        {
+                            stringCounter++;
+                            continue;
+                        }
+
+                        innerShowText[stringCounter] = innerShowText[stringCounter] + insideText[k];
+                    }
+
+                    ds.Functions.Add(new ShowText(innerShowText[0], innerShowText[1], innerShowText[2]));
+                }
+                
+                if (s[i - 1] == 'M')
+                {
+                    ds.Functions.Add(new MoveSlide(int.Parse(insideText)));
+                }
+                
+                if (s[i - 1] == 'O')
+                {
+                    List<int> fo = new List<int>();
+
+                    string OinsideText = "";
+
+                    for (int k = 0; k < insideText.Length; k++) //gets insides of Options
+                    { 
+                        if(k == (insideText.Length - 1)) //add last letter explicitly
+                        {
+                            OinsideText = OinsideText + insideText[k];
+                        }
+
+                        if (insideText[k] == '|' || k  == (insideText.Length - 1))
+                        {
+                            //Debug.Log(OinsideText + " " + k + " " + i); 
+                            int temp_option = int.Parse(OinsideText);
+                            fo.Add(temp_option);
+                            OinsideText = "";
+                            continue;
+                        }
+
+                        OinsideText = OinsideText + insideText[k];
+                    }
+
+                    ds.Functions.Add(new ShowOptions(fo));
+                }
+                
+                if (s[i - 1] == 'C')
+                {
+                    ds.Functions.Add(new CodeSlide(int.Parse(insideText)));
+                }
+
+                i = closingPlace;
+            }
+        }
+
+        return ds;
+    }
+
+    int performSyntaxCheck(string s)
+    {
+        if (s[0] != '+') //check that correct string
+        {
+            return 0; //not a dialogue
+        }
+
+        int openBrackets = 0;
+        int closedBrackets = 0;
+
+        for (int i = 1; i < s.Length; i++)
+        {
+            if (s[i] == '=') //check that int
+            {
+                //TODO
+            }
+
+            if (s[i] == '(') //function start
+            {
+                openBrackets++;
+
+                if (s[i-1] == 'S')
+                {
+                    
+                }
+                else if (s[i - 1] == 'M')
+                {
+
+                }
+                else if (s[i - 1] == 'O')
+                {
+
+                }
+                else if (s[i - 1] == 'C')
+                {
+
+                }
+                else
+                {
+                    return -1; //unknown function
+                }
+            }
+
+            if(s[i] == ')')
+            {
+                closedBrackets++;
+            }
+
+        }
+
+        if(openBrackets != closedBrackets)
+        {
+            return -2; //syntax error
+        }
+
+
+        return 1; //test passed
+    }
+
+    string ThrowErrorOnDialogue(int test)
+    {
+        switch (test)
+        {
+            case 1:
+                return "no Errors";
+            case 0:
+                return "Not a Dialogue";
+            case -1:
+                return "Unknown function was used";
+            case -2:
+                return "Syntax error with function declarations";
+            case -3:
+                return "Syntax error inside S() function";
+        }
+
+        return "Unknown Error";
+    }
+
+    void SetUpDictionary()
+    {
+        foreach(DialogueSlide ds in dsfromimport)
+        {
+            currentDialogueDB.Add(ds.id, ds);
+        }
+    }
+
+    //-------------------Dialogue Actions-----------------
+    public void PerformAction(int actionID)
+    {
+        DialogueSlide ds;
+
+        if(HaveSpawnedOptions)
+        {
+            HaveSpawnedOptions = false;
+            foreach (Button bop in Options)
+            {
+                bop.gameObject.SetActive(false);
+            }
+        }
+
+        if(actionID <= 0)
+        {
+            ds = currentSlide;
+        }
+        else
+        {
+            ds = currentDialogueDB[actionID];
+        }
+
+        foreach (DialogueFunction func in ds.Functions)
+        {
+            func.Function(this);
+        }    
+    }
+}
+
+//1 Show(Privet eto zenya) Move(2)
+//2 Show(Privet a eto kirill) Option(3, 4)
+//3 Show(Zhto Delayesh) Move(5)
+//4 Show(Udi s bahmuta) Move(6)
+//5 Show(V Bahnute ebashimsya) Exit(Some Code)
+//6 Show(Ne, Ne mogu) Exit(Some Code)
+
+// Move (1)
+// show dialogue ("Privet Kak Dela" karitnka1 textboxplace)
+// create options (2345)
+
+[Serializable]
+public class DialogueSlide
+{
+    public int id;
+    public List<DialogueFunction> Functions;
+}
+
+[Serializable]
+public class DialogueFunction
+{
+    public string SlideType;
+
+    public DialogueFunction(string m_ST)
+    {
+        SlideType = m_ST;
+    }
+
+    public virtual void Function(Dialogue_Manager dm)
+    {
+
+    }
+}
+
+[Serializable]
+public class ShowText : DialogueFunction
+{
+    public string NameData;
+    public string textData;
+    public string photoPath;
+
+    public ShowText(string m_name, string m_text, string m_photoPath) : base("T")
+    {
+        NameData = m_name;
+        textData = m_text;
+        photoPath = m_photoPath;
+    }
+
+    public override void Function(Dialogue_Manager dm)
+    {
+        //Debug.Log(textData);
+        dm.TextBox.text = textData;
+        dm.NameBox.text = NameData;
+        dm.Photo.sprite = Resources.Load<Sprite>(photoPath);
+
+    }
+}
+
+[Serializable]
+public class MoveSlide : DialogueFunction
+{
+    public int NextId;
+
+    public MoveSlide(int m_nextID) : base("M")
+    {
+        NextId = m_nextID;
+    }
+
+    public override void Function(Dialogue_Manager dm)
+    {
+        dm.currentSlide = dm.currentDialogueDB[NextId];
+    }
+}
+
+public class ShowOptions : DialogueFunction
+{
+    public List<int> Options;
+
+    public ShowOptions(List<int> m_options) : base("O")
+    {
+        Options = m_options;
+    }
+
+    public override void Function(Dialogue_Manager dm)
+    {
+        if(Options.Count > 4)
+        {
+            Debug.LogError("Too many options cut the lowest ones");
+        }
+
+        foreach (Button bop in dm.Options)
+        {
+            bop.gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < Options.Count; i++)
+        {
+            dm.Options[i].gameObject.SetActive(true);
+
+            DialogueSlide ds = dm.currentDialogueDB[Options[i]];
+
+            foreach (DialogueFunction df in ds.Functions)
+            {
+                if(df.SlideType == "T")
+                {
+                    var st = (ShowText)df;
+                    dm.Options[i].transform.GetChild(0).GetComponent<TMP_Text>().text = st.textData;
+                    dm.Options[i].onClick.AddListener(delegate { dm.PerformAction( ds.id ); });
+                    dm.HaveSpawnedOptions = true;
+                    //TODO add functionality
+                    break;
+                }
+            }           
+        }
+    }
+}
+
+public class CodeSlide : DialogueFunction
+{
+    public int code;
+
+    public CodeSlide(int m_code) : base("C")
+    {
+        code = m_code;
+    }
+
+    public override void Function(Dialogue_Manager dm)
+    {
+        //code sending
+        Debug.Log("A code " + code + " was received");
     }
 }

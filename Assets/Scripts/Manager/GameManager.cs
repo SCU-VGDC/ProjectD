@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
-using Player_Movement_Namespace;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,7 +19,6 @@ public class GameManager : MonoBehaviour
 
     public ActorHealth playerHealth;
     public PlayerMov_FSM playerMovement;
-    public PlayerAnimator playerAnimation;
 
 
     private void Awake()
@@ -43,7 +41,6 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         playerHealth = player.GetComponent<ActorHealth>();
         playerMovement = player.GetComponent<PlayerMov_FSM>();
-        playerAnimation = player.transform.Find("BodyModel").GetComponent<PlayerAnimator>();
 
         bloodPool = new ObjectPool<GameObject>(
             createFunc: () => Instantiate(enemyBlood),
@@ -65,6 +62,5 @@ public class GameManager : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerMovement = player.GetComponent<PlayerMov_FSM>();
-        playerAnimation = player.transform.Find("BodyModel").GetComponent<PlayerAnimator>();
     }
 }

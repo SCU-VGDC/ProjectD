@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Backend;
-using Player_Movement_Namespace;
 
 public class Blood_Behavior : MonoBehaviour
 {
