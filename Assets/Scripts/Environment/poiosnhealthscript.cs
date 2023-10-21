@@ -12,14 +12,11 @@ public class poiosnhealthscript : MonoBehaviour
     public void OnTriggerStay2D(Collider2D collision)
         {
             totaltime+=Time.deltaTime;
-            Debug.Log("Hit");
             if(collision.tag=="Player")
             {   
-                Debug.Log("hit player");
                 if(totaltime>damagetime)///checks if the ammount of time is greatear than the total time to not constantly apply damage.
                 {
                     GameManager.inst.player.GetComponent<ActorHealth>().ApplyDamage(damage);//applies damage
-                    Debug.Log("damage");
                     totaltime=0;//resets so it doesn't instantl tick and kill
 
                 }
