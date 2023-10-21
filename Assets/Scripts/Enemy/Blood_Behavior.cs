@@ -8,30 +8,28 @@ public class Blood_Behavior : MonoBehaviour
     //GameObject Vars
     private Rigidbody2D rb;
     private TrailRenderer tr;
-    private PersistentData pd;
     private Collider2D world_collider;
-    //private Player_Health player_health;
 
     //Number vars
-    [SerializeField] public float thrust_upper;
-    [SerializeField] public float thrust_lower;
+    [SerializeField] public float thrust_upper = 100f;
+    [SerializeField] public float thrust_lower = 50f;
     private float thrust;
     private float trajectory_x;
-    [SerializeField] public float trajectory_range;
+    [SerializeField] public float trajectory_range = 1f;
 
     //Attraction to player vars
-    [SerializeField] private float detection_range;
+    [SerializeField] private float detection_range = 20f;
     private Transform player_transform;
     private Vector3 dir_to_player;
     private float dst_to_player;
     private float force_magnitude;
     private Vector3 force;
-    [SerializeField] private float gravitational_constamt;
-    [SerializeField] private float fake_player_mass;
+    [SerializeField] private float gravitational_constamt = 6;
+    [SerializeField] private float fake_player_mass = 2000;
 
     //Self-Destruct
     public float lifetime = 3f;
-    private float birthday;
+    private float age;
 
     // Awake is called when the script instance is being loaded
     void Awake()
@@ -40,7 +38,6 @@ public class Blood_Behavior : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         tr = GetComponent<TrailRenderer>();
         player_transform = GameObject.FindWithTag("Player").transform;
-        pd = PersistentDataManager.inst.persistentData;
         world_collider = GameObject.Find("Tilemap_Base_1").GetComponent<CompositeCollider2D>();
         //player_health = player_transform.GetComponent<Player_Health>();
 
@@ -54,6 +51,7 @@ public class Blood_Behavior : MonoBehaviour
     {
         rb.velocity = Vector3.zero;
         tr.emitting = true;
+        age = 0;
 
         //calculate random thrust and trajectory
         thrust = Random.Range(thrust_lower, thrust_upper);
@@ -63,7 +61,6 @@ public class Blood_Behavior : MonoBehaviour
         rb.AddForce(new Vector3(trajectory_x, 2, 0) * thrust);
 
         //update blood's expiration timer
-        birthday = Time.time;
     }
 
     public void Deinitialize()
@@ -75,16 +72,18 @@ public class Blood_Behavior : MonoBehaviour
     void Update()
     {
         //Release back to Pool to be reused if blood has expired or touched terrain
-        if (Time.time > birthday + lifetime  || world_collider.OverlapPoint(transform.position))
+        if (age > lifetime  || world_collider.OverlapPoint(transform.position))
         {
             GameManager.inst.bloodPool.Release(gameObject);
+            return;
         }
 
         //Release to Pool to be reused if blood enters heal radius
-        if (Vector2.Distance(player_transform.position, transform.position) < 1f)//player_health.heal_radius
+        if (Vector2.Distance(player_transform.position, transform.position) < 3.5f)//player_health.heal_radius
         {
-            pd.AddPlayerHealth(1);
+            EventManager.singleton.AddEvent(new healActormsg(gameObject, GameManager.inst.playerHealth, 1));
             GameManager.inst.bloodPool.Release(gameObject);
+            return;
         }
 
         //calculate direction of player
@@ -101,5 +100,6 @@ public class Blood_Behavior : MonoBehaviour
 
         //apply force to blood drop rigidbody
         rb.AddForce(force);
+        age += Time.deltaTime;
     }
 }

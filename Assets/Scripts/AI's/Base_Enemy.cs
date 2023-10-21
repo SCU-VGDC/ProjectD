@@ -23,8 +23,11 @@ public abstract class Base_Enemy : MonoBehaviour
 	[HideInInspector]
 	public AILerp mover;
 
-	public bool dealsContactDamage;
+	[Header("Contact Damage")]
+	public bool dealsContactDamage = false;
 	public int contactDamageAmount;
+	public LayerMask contactLayers;
+	public bool destroyOnContact = false;
 
 	public void Init()
     {
@@ -41,6 +44,25 @@ public abstract class Base_Enemy : MonoBehaviour
         current_state.Init(this);
     }
 
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (!dealsContactDamage) return;
+
+		//This looks complicated, but just checks if the collided object is within our hittable layers.
+		if ((contactLayers & (1 << collision.gameObject.layer)) != 0)
+		{
+			if (collision.gameObject.tag == "Player")
+			{
+				EventManager.singleton.AddEvent(new applyDamagemsg(gameObject, GameManager.inst.playerHealth, contactDamageAmount));
+			}
+
+			if (destroyOnContact)
+            {
+				Destroy(gameObject);
+			}
+		}
+	}
+
 	public void OnTriggerEnter2D(Collider2D collider2D)
     {
 		if (collider2D.tag == "Player")
@@ -50,12 +72,6 @@ public abstract class Base_Enemy : MonoBehaviour
 				//DASH DAMAGE SET HERE
 				EventManager.singleton.AddEvent(new applyDamagemsg(collider2D.gameObject, GetComponent<ActorHealth>(), 1));
 				return;
-			}
-			
-			if(dealsContactDamage)
-			{
-                EventManager.singleton.AddEvent(new meleeDamagemsg(gameObject, collider2D.transform, contactDamageAmount));
-                return;
 			}
         }
     }

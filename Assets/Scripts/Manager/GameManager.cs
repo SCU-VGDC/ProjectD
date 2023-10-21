@@ -46,10 +46,11 @@ public class GameManager : MonoBehaviour
             createFunc: () => Instantiate(enemyBlood),
             actionOnGet: (obj) => {
                 obj.SetActive(true);
+                obj.GetComponent<Blood_Behavior>().Initialize();
             },
             actionOnRelease: (obj) => {
-                obj.SetActive(false);
                 obj.GetComponent<Blood_Behavior>().Deinitialize();
+                obj.SetActive(false);
             },
             collectionCheck: true,
             actionOnDestroy: (obj) => Destroy(obj),

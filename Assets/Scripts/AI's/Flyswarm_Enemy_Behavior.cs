@@ -9,12 +9,13 @@ public class Flyswarm_Enemy_Behavior : Base_Enemy
     public Vector3 nextPos;
 
     [Header("States")]
-    public Flyswarm_Pursue_State pursue_state;
+    public SimpleChaseState pursue_state;
 
     // Start is called before the first frame update
     void Start()
     {
         base.Init();
+        pursue_state = new SimpleChaseState(GameManager.inst.player.transform, speed);
 
         // Flyswarm only has pursue state, so it will never change from this
         current_state = pursue_state;

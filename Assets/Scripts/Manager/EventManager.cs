@@ -72,7 +72,13 @@ public class shootmsg : msg
 
     public override void Run()
     {
-        Sender.GetComponent<ActorShooting>().Shoot(target);
+        if (Sender.GetComponent<ActorShooting>().raycastToggle)
+        {
+            Sender.GetComponent<ActorShooting>().ShootRaycast(0);
+        }
+        else {
+            Sender.GetComponent<ActorShooting>().Shoot(target);
+        }
         Sender.GetComponent<AudioManager>().PlaySound(specShootSound);
         Sender.GetComponent<AnimatorManager>().SetAnim("Attack");
     }
@@ -111,8 +117,39 @@ public class applyDamagemsg : msg
     public override void Run()
     {
         target.ApplyDamage(damage);
+
+        if (target.tag != "Player")
+        {
+            int bloodCount = 50;
+            Debug.Log("Tried to spawn blood!");
+            for (int i = 0; i < bloodCount; i++)
+            {
+                Vector2 rand = UnityEngine.Random.insideUnitCircle;
+                GameObject droplet;
+                GameManager.inst.bloodPool.Get(out droplet);
+                droplet.transform.position = target.transform.position + new Vector3(rand.x, rand.y, 0);
+            }
+        }
+
         target.GetComponent<AudioManager>().PlaySound("TakeDamage");
         target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
+    }
+}
+
+public class healActormsg : msg
+{
+    public ActorHealth target;
+    public int heal;
+
+    public healActormsg(GameObject m_shooter, ActorHealth m_target, int m_heal) : base(m_shooter)
+    {
+        target = m_target;
+        heal = m_heal;
+    }
+
+    public override void Run()
+    {
+        target.ApplyDamage(-heal);
     }
 }
 
