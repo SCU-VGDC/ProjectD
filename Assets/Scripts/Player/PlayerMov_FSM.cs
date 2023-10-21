@@ -42,6 +42,7 @@ public class PlayerMov_FSM : MonoBehaviour
     public float speed;
     public float jump_power;
     public float gravity; //I am so sorry
+    public float terminalVelocity;
     public float wallSlidingSpeed;
     public float tightJumpScale;
     public float wallSideJumpX;
@@ -54,10 +55,12 @@ public class PlayerMov_FSM : MonoBehaviour
 
     //those changes are retarded
     public int dashes;
-    public float dashLength;
+    public float dashTime;
+    public float dashSpeed;
     private int dashesRemaining;
-    private float dashTime;
+    private float currentDashTime;
     private bool isDashing;
+    private bool dashButtonReleased = true;
     private Vector3 dashDirection;
 
 
@@ -81,7 +84,7 @@ public class PlayerMov_FSM : MonoBehaviour
         //StateChange();
         StateHandling(thisFrame);
 
-        dashTime += Time.deltaTime;
+        currentDashTime += Time.deltaTime;
     }
 
     void DebugPrintInpput(FrameInput frim)
@@ -129,7 +132,7 @@ public class PlayerMov_FSM : MonoBehaviour
         switch (currentState)
         {
             case "Dash":
-                OnDashUpdate();
+                OnDashUpdate(frin);
                 break;
             case "OnGround":
                 OnGroundUpdate(frin);
@@ -177,10 +180,6 @@ public class PlayerMov_FSM : MonoBehaviour
         {
             numOfWallJumps++;
         }
-        if(NextState == "Dash")
-        {
-            dashTime = 0;
-        }
 
         Debug.Log("State Changed to " + NextState);
 
@@ -198,9 +197,11 @@ public class PlayerMov_FSM : MonoBehaviour
         isWallLeft = rb.IsTouching(cfWallL);
         isWallRight = rb.IsTouching(cfWallR);
 
-        if(frim.DashButton)
-        {
-            GameManager.inst.playerAnimation.SetAnim("Dash");
+        if (!frim.DashButton) {
+            dashButtonReleased = true;
+        }
+
+        if (frim.DashButton && dashButtonReleased) {
             StateChange("Dash");
         }
 
@@ -397,35 +398,38 @@ public class PlayerMov_FSM : MonoBehaviour
         GameManager.inst.playerAnimation.SetAnim("Wall", false);
     }
 
-    void OnDashUpdate()
+    void OnDashUpdate(FrameInput frim)
     {
-        // Immediately change to OnFly if the player doesn't have any dashes left
-        if (dashesRemaining <= 0) {
-            StateChange("OnFly");
-            return;
-        }
-
-        if (dashTime >= dashLength) {
-            StateChange("OnFly");
-            isDashing = false;
-            dashesRemaining--;
-            rb.velocity = new Vector2(0, 0);
-            return;
-        }
-
-        if (!isDashing) {
+        if (frim.DashButton && !isDashing && dashesRemaining > 0) {
+            
             // Save the dash direction
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos.z = 0;
             dashDirection = mousePos - transform.position;
             dashDirection.Normalize();
+
+            isDashing = true;
+            dashButtonReleased = false;
+            currentDashTime = 0;
+            dashesRemaining--;
+            GameManager.inst.playerAnimation.SetAnim("Dash");
         }
 
-        isDashing = true;
-
-        rb.velocity = dashDirection * speed * 5;
-
-        StateChange("OnFly");
+        if (isDashing) {
+            if (currentDashTime >= dashTime) {
+                isDashing = false;
+                // Set velocity to almost zero
+                rb.velocity = dashDirection * dashSpeed * 0.2f;
+                StateChange("OnFly");
+            }
+            else {
+                Debug.Log("currentDashTime: " + currentDashTime + ", dashTime: " + dashTime);
+                rb.velocity = dashDirection * dashSpeed;
+            }
+        }
+        else {
+            StateChange("OnFly");
+        }
     }
 
     void OnDeathUpdate()
@@ -446,6 +450,13 @@ public class PlayerMov_FSM : MonoBehaviour
 
     Vector2 ApplyGravity(bool tightJump, Vector2 vector) {
         float gravityEffect = tightJump ? gravity / tightJumpScale : gravity;
-        return new Vector2(vector.x, vector.y - gravityEffect);
+        // return new Vector2(vector.x, vector.y - gravityEffect);
+        
+        // implement terminal velocity
+        float newY = vector.y - gravityEffect;
+        if (newY < -terminalVelocity) {
+            newY = -terminalVelocity;
+        }
+        return new Vector2(vector.x, newY);
     }
 }
