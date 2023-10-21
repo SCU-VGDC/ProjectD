@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
-  m_Name: Gas Tile
+  m_Name: gastiler3
   m_EditorClassIdentifier: 
   m_AnimatedSprites:
-  - {fileID: 1089583862, guid: 119e031407cbd5449be5b43700f6d7a4, type: 3}
-  - {fileID: -756701014, guid: 119e031407cbd5449be5b43700f6d7a4, type: 3}
-  - {fileID: 1961284676, guid: 119e031407cbd5449be5b43700f6d7a4, type: 3}
-  - {fileID: 1202601106, guid: 119e031407cbd5449be5b43700f6d7a4, type: 3}
-  - {fileID: 858845417, guid: 119e031407cbd5449be5b43700f6d7a4, type: 3}
+  - {fileID: 769320991, guid: 7ceae7ef1e39be34e9af522aad14c2bc, type: 3}
+  - {fileID: 1656720383, guid: 7ceae7ef1e39be34e9af522aad14c2bc, type: 3}
+  - {fileID: -701352079, guid: 7ceae7ef1e39be34e9af522aad14c2bc, type: 3}
+  - {fileID: -1814899501, guid: 7ceae7ef1e39be34e9af522aad14c2bc, type: 3}
+  - {fileID: -1485224941, guid: 7ceae7ef1e39be34e9af522aad14c2bc, type: 3}
   m_MinSpeed: 6
   m_MaxSpeed: 12
   m_AnimationStartTime: 0
   m_AnimationStartFrame: 0
-  m_TileColliderType: 2
+  m_TileColliderType: 0
