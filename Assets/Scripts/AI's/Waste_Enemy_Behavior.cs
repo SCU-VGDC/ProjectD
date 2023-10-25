@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Waste_Enemy_Behavior : Base_Enemy
 {
+    [Header("Waste Properties")]
     public Transform point1;
     public Transform point2;
     public Waste_Idle_Patrol idlePatrolState;

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ba5a5b17644d1b043996567fbe2bca19
+guid: 75aabce88ced6ee4693a0df0cea4fbd7
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -70,7 +70,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -105,7 +105,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: fly_enemy_death_0
+      name: waste_female_1_bitch_slap_0
       rect:
         serializedVersion: 2
         x: 0
@@ -119,14 +119,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e85fb118c3d6494d95f540659611d90
-      internalID: -187850665
+      spriteID: 446cbcce9f1d210418703d7c418627a7
+      internalID: -92952292
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fly_enemy_death_1
+      name: waste_female_1_bitch_slap_1
       rect:
         serializedVersion: 2
         x: 64
@@ -140,14 +140,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 457e3987518f9fb4495612b6728e46b2
-      internalID: -884276014
+      spriteID: 176542b56b132704d87ba84b23b230a7
+      internalID: -702125016
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fly_enemy_death_2
+      name: waste_female_1_bitch_slap_2
       rect:
         serializedVersion: 2
         x: 128
@@ -161,14 +161,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1d46fcde14f2f5409985949160e2c17
-      internalID: 1669415556
+      spriteID: 0d55aa5f798c34e40b7691a8215b4a20
+      internalID: 1325575933
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fly_enemy_death_3
+      name: waste_female_1_bitch_slap_3
       rect:
         serializedVersion: 2
         x: 192
@@ -182,14 +182,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63a00626d32421448a3c7eeb64f69ff9
-      internalID: -262250107
+      spriteID: e827c86d36e55384183a0c339b490298
+      internalID: -696106839
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fly_enemy_death_4
+      name: waste_female_1_bitch_slap_4
       rect:
         serializedVersion: 2
         x: 256
@@ -203,14 +203,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c3a8a1c313d6134a86866a34e43f88a
-      internalID: -384953998
+      spriteID: 4bba3cd35c9979f4cb938a6ae0f0ec13
+      internalID: -2063493997
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fly_enemy_death_5
+      name: waste_female_1_bitch_slap_5
       rect:
         serializedVersion: 2
         x: 320
@@ -224,14 +224,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0edd78d7c8aa3344491c729e19ba2622
-      internalID: 611049689
+      spriteID: 060402db074083544b98673c011df0d0
+      internalID: 948297348
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fly_enemy_death_6
+      name: waste_female_1_bitch_slap_6
       rect:
         serializedVersion: 2
         x: 384
@@ -245,92 +245,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce73b7a9d00e46c4a9eef5b9b5640f0b
-      internalID: 1958323488
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fly_enemy_death_7
-      rect:
-        serializedVersion: 2
-        x: 448
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b0428b0659326224d9a90473a3fbbec5
-      internalID: 1793923001
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fly_enemy_death_8
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2c9ecfa5cb3f718489a5f8250135c48a
-      internalID: 1755838254
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fly_enemy_death_9
-      rect:
-        serializedVersion: 2
-        x: 576
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bfa27dc9cbded1445ab5eb6330162506
-      internalID: -464009575
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fly_enemy_death_10
-      rect:
-        serializedVersion: 2
-        x: 640
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 58a1217a5f4e04c44ae1b96ba18e60f1
-      internalID: -813776998
+      spriteID: ef134ff1e660d31469fed01ed9271233
+      internalID: 85634811
       vertices: []
       indices: 
       edges: []
@@ -346,17 +262,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      fly_enemy_death_8: 1755838254
-      fly_enemy_death_9: -464009575
-      fly_enemy_death_7: 1793923001
-      fly_enemy_death_6: 1958323488
-      fly_enemy_death_0: -187850665
-      fly_enemy_death_4: -384953998
-      fly_enemy_death_3: -262250107
-      fly_enemy_death_1: -884276014
-      fly_enemy_death_5: 611049689
-      fly_enemy_death_10: -813776998
-      fly_enemy_death_2: 1669415556
+      waste_female_1_bitch_slap_4: -2063493997
+      waste_female_1_bitch_slap_2: 1325575933
+      waste_female_1_bitch_slap_0: -92952292
+      waste_female_1_bitch_slap_3: -696106839
+      waste_female_1_bitch_slap_6: 85634811
+      waste_female_1_bitch_slap_5: 948297348
+      waste_female_1_bitch_slap_1: -702125016
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

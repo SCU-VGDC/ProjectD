@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ba5a5b17644d1b043996567fbe2bca19
+guid: 56340d591980bd04999a3bde099c19bb
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -70,7 +70,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -105,13 +105,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: fly_enemy_death_0
+      name: Waste_Female_1_Death_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
-        height: 64
+        width: 80
+        height: 65
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -119,20 +119,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e85fb118c3d6494d95f540659611d90
-      internalID: -187850665
+      spriteID: 9163741c2edea5441aa882c61cc82daf
+      internalID: -1473782317
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fly_enemy_death_1
+      name: Waste_Female_1_Death_1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 80
         y: 0
-        width: 64
-        height: 64
+        width: 80
+        height: 65
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,20 +140,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 457e3987518f9fb4495612b6728e46b2
-      internalID: -884276014
+      spriteID: e73f1aad805dded4f9b6c96d9e8440ee
+      internalID: 2068763420
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fly_enemy_death_2
+      name: Waste_Female_1_Death_2
       rect:
         serializedVersion: 2
-        x: 128
+        x: 160
         y: 0
-        width: 64
-        height: 64
+        width: 80
+        height: 65
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,20 +161,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1d46fcde14f2f5409985949160e2c17
-      internalID: 1669415556
+      spriteID: 0b2987fc414dcc843a68a23fcdf0c917
+      internalID: -1554063977
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fly_enemy_death_3
+      name: Waste_Female_1_Death_3
       rect:
         serializedVersion: 2
-        x: 192
+        x: 240
         y: 0
-        width: 64
-        height: 64
+        width: 80
+        height: 65
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -182,41 +182,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63a00626d32421448a3c7eeb64f69ff9
-      internalID: -262250107
+      spriteID: dd180b9b36dabe34ca73eb1ff1c4cf24
+      internalID: 1219286457
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fly_enemy_death_4
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3c3a8a1c313d6134a86866a34e43f88a
-      internalID: -384953998
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fly_enemy_death_5
+      name: Waste_Female_1_Death_4
       rect:
         serializedVersion: 2
         x: 320
         y: 0
-        width: 64
-        height: 64
+        width: 80
+        height: 65
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -224,20 +203,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0edd78d7c8aa3344491c729e19ba2622
-      internalID: 611049689
+      spriteID: fe228aa727889ec459fd16bc841a5fad
+      internalID: 2064141472
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fly_enemy_death_6
+      name: Waste_Female_1_Death_5
       rect:
         serializedVersion: 2
-        x: 384
+        x: 400
         y: 0
-        width: 64
-        height: 64
+        width: 80
+        height: 65
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -245,92 +224,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce73b7a9d00e46c4a9eef5b9b5640f0b
-      internalID: 1958323488
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fly_enemy_death_7
-      rect:
-        serializedVersion: 2
-        x: 448
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b0428b0659326224d9a90473a3fbbec5
-      internalID: 1793923001
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fly_enemy_death_8
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2c9ecfa5cb3f718489a5f8250135c48a
-      internalID: 1755838254
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fly_enemy_death_9
-      rect:
-        serializedVersion: 2
-        x: 576
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bfa27dc9cbded1445ab5eb6330162506
-      internalID: -464009575
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fly_enemy_death_10
-      rect:
-        serializedVersion: 2
-        x: 640
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 58a1217a5f4e04c44ae1b96ba18e60f1
-      internalID: -813776998
+      spriteID: 7b38ed474723edb4aa34d4f69117d81e
+      internalID: 1384201564
       vertices: []
       indices: 
       edges: []
@@ -346,17 +241,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      fly_enemy_death_8: 1755838254
-      fly_enemy_death_9: -464009575
-      fly_enemy_death_7: 1793923001
-      fly_enemy_death_6: 1958323488
-      fly_enemy_death_0: -187850665
-      fly_enemy_death_4: -384953998
-      fly_enemy_death_3: -262250107
-      fly_enemy_death_1: -884276014
-      fly_enemy_death_5: 611049689
-      fly_enemy_death_10: -813776998
-      fly_enemy_death_2: 1669415556
+      Waste_Female_1_Death_3: 1219286457
+      Waste_Female_1_Death_4: 2064141472
+      Waste_Female_1_Death_0: -1473782317
+      Waste_Female_1_Death_1: 2068763420
+      Waste_Female_1_Death_5: 1384201564
+      Waste_Female_1_Death_2: -1554063977
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
