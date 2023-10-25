@@ -35,18 +35,17 @@ public class PlayerMov_FSM : MonoBehaviour
     private ContactFilter2D cfWallL;
 
     private bool isGrounded, isWallRight, isWallLeft;
-    private bool m_Jump;
+    private bool mJump;
     private int numOfWallJumps;
 
     public string currentState; // 1-Dash, 2-OnGround, 3-OnWall, 4-OnFly, 5-Death
 
     public float speed;
-    public float jump_power;
+    public float jumpPower;
     public float gravity; //I am so sorry
     public float wallSlidingSpeed;
     public float tightJumpScale;
     public float wallSideJumpX;
-
     public float wallSideJumpY;
     public float wallJumpTime;
     public float gladingSpeed;
@@ -54,10 +53,14 @@ public class PlayerMov_FSM : MonoBehaviour
     public Transform arm;
 
     //those changes are retarded LEGACY???
-    public int currentDashes;
-    public float dash_time;
-    public bool is_dashing;
+    public int dashes;
+    public float dashTime;
+    public float dashSpeed;
+    public int dashesRemaining;
 
+    private bool isDashing;
+    private bool dashButtonReleased = true;
+    private Vector3 dashDirection;
 
     //public ContactFilter2D contactFilter;
 
@@ -151,9 +154,9 @@ public class PlayerMov_FSM : MonoBehaviour
                 break;
         }
 
-        if (frin.UpButton != m_Jump) //jump button state
+        if (frin.UpButton != mJump) //jump button state
         {
-            m_Jump = frin.UpButton;
+            mJump = frin.UpButton;
         }
     }
 
@@ -184,6 +187,7 @@ public class PlayerMov_FSM : MonoBehaviour
         if (NextState == "OnGround")
         {
             numOfWallJumps = 0;
+            dashesRemaining = dashes;
             EventManager.singleton.AddEvent(new ChangedGroundstatemsg(gameObject, true));
         }
         if (NextState == "OnWall")
@@ -194,7 +198,6 @@ public class PlayerMov_FSM : MonoBehaviour
         if (NextState == "Dash")
         {
             EventManager.singleton.AddEvent(new Dashmsg(gameObject));
-            StartCoroutine(StateMutexWait(1f));
         }
 
         Debug.Log("State Changed to " + NextState);
@@ -210,9 +213,23 @@ public class PlayerMov_FSM : MonoBehaviour
         isWallLeft = rb.IsTouching(cfWallL);
         isWallRight = rb.IsTouching(cfWallR);
 
-        if (frim.DashButton)
-        {
-            StateChange("Dash");
+        if (!frim.DashButton) {
+            dashButtonReleased = true;
+        }
+
+        Debug.Log(isDashing);
+        if (frim.DashButton && dashButtonReleased && !isDashing && dashesRemaining > 0) {
+            // Save the dash direction
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = 0;
+            dashDirection = mousePos - transform.position;
+            dashDirection.Normalize();
+
+            isDashing = true;
+            dashButtonReleased = false;
+            dashesRemaining--;
+
+            StartCoroutine(StateMutexWait(dashTime));
         }
 
     }
@@ -252,7 +269,7 @@ public class PlayerMov_FSM : MonoBehaviour
 
         if (frim.UpButton)
         {
-            rb.velocity = new Vector2(horizontal * speed, jump_power);
+            rb.velocity = new Vector2(horizontal * speed, jumpPower);
             EventManager.singleton.AddEvent(new Jumpmsg(gameObject));
             StateChange("OnFly");
             return;
@@ -312,7 +329,7 @@ public class PlayerMov_FSM : MonoBehaviour
             return;
         }
 
-        if (m_Jump != frim.UpButton) //checks that jump button was released before
+        if (mJump != frim.UpButton) //checks that jump button was released before
         {
             if (frim.UpButton && numOfWallJumps <= maxWallJumps)
             {
@@ -402,7 +419,15 @@ public class PlayerMov_FSM : MonoBehaviour
     //animation handling
     void OnDashUpdate()
     {
-        StateChange("OnFly");
+        rb.velocity = dashDirection * dashSpeed;
+
+        // Wait for the StateMutexWait to be over
+        if (!StateMutex) {
+            // Set velocity to almost zero
+            rb.velocity = dashDirection * dashSpeed * 0.2f;
+            isDashing = false;
+            StateChange("OnFly");
+        }
     }
 
     void OnDeathUpdate()
@@ -419,7 +444,7 @@ public class PlayerMov_FSM : MonoBehaviour
         StateMutex = false;
     }
 
-    void DebugPrintInpput(FrameInput frim)
+    void DebugPrintInput(FrameInput frim)
     {
         Debug.Log(frim.RightButton + ", " + frim.LeftButton + ", " + frim.UpButton + ", "
             + frim.DownButton + ", " + frim.DashButton + ", " + frim.ShootButton + ", " + frim.armRotation);

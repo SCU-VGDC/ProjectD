@@ -248,7 +248,7 @@ public class OrbPickUpmsg : msg
             Debug.Log("Orb Thorugh Sound");
         }
 
-        GameManager.inst.playerMovement.currentDashes++;
+        GameManager.inst.playerMovement.dashesRemaining++;
     }
 }
 
