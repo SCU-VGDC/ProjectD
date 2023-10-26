@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 05c199c4ef621f54d9e35313a30303d4
+guid: 0ce29f353e9708e46a0a01e19edc3afe
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,7 +105,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player_char_idle_0
+      name: Tank Idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -119,14 +119,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 359646125e7cc424d8b5549cde30b586
-      internalID: 24252182
+      spriteID: b500200e9c2c0aa46b13c1d7bc1f3ce0
+      internalID: -1853168253
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_char_idle_1
+      name: Tank Idle_1
       rect:
         serializedVersion: 2
         x: 64
@@ -140,14 +140,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 16096e3fe0275294dbe3174a637adcc1
-      internalID: -964425788
+      spriteID: 7ebb35b7e31151142b63867187caf335
+      internalID: -1918712017
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_char_idle_2
+      name: Tank Idle_2
       rect:
         serializedVersion: 2
         x: 128
@@ -161,14 +161,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bf168a5a21b6acb4ca9ed888d381fda9
-      internalID: 418266012
+      spriteID: c3b6337ce492c4e47b8a85d896004396
+      internalID: 1981731552
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_char_idle_3
+      name: Tank Idle_3
       rect:
         serializedVersion: 2
         x: 192
@@ -182,134 +182,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b9f92f10cbed8134c84e7f8ea02bf303
-      internalID: -149945723
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player_char_idle_4
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4405ec533c977a34f87e41aa3536f6ab
-      internalID: 519722535
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player_char_idle_5
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c985e8ff42fdd0d448b453e2664e677f
-      internalID: 1363433946
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player_char_idle_6
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 19e17ec78be7b414999fadf382bfd8ba
-      internalID: -1348213520
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player_char_idle_7
-      rect:
-        serializedVersion: 2
-        x: 448
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 42d06ee3df33ee44691bbcf0cbd1aaa2
-      internalID: 1129513499
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player_char_idle_8
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 25322e1b7ba807d478550f9a55ba6c55
-      internalID: -180817741
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player_char_idle_9
-      rect:
-        serializedVersion: 2
-        x: 576
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 245b7391f0d11004ea85250a8c3aaa6c
-      internalID: -113418693
+      spriteID: bc190e852ad100544aaacac353d1487b
+      internalID: -1856830340
       vertices: []
       indices: 
       edges: []
@@ -325,16 +199,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      player_char_idle_5: 1363433946
-      player_char_idle_2: 418266012
-      player_char_idle_3: -149945723
-      player_char_idle_1: -964425788
-      player_char_idle_8: -180817741
-      player_char_idle_4: 519722535
-      player_char_idle_0: 24252182
-      player_char_idle_6: -1348213520
-      player_char_idle_7: 1129513499
-      player_char_idle_9: -113418693
+      Tank Idle_1: -1918712017
+      Tank Idle_3: -1856830340
+      Tank Idle_2: 1981731552
+      Tank Idle_0: -1853168253
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 05c199c4ef621f54d9e35313a30303d4
+guid: 32adec61388df8744b4573cfcb4865de
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,7 +105,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player_char_idle_0
+      name: Tank Death v2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -119,14 +119,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 359646125e7cc424d8b5549cde30b586
-      internalID: 24252182
+      spriteID: 360b2336120aece4e8493f9c4c0fe180
+      internalID: -2006940252
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_char_idle_1
+      name: Tank Death v2_1
       rect:
         serializedVersion: 2
         x: 64
@@ -140,14 +140,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 16096e3fe0275294dbe3174a637adcc1
-      internalID: -964425788
+      spriteID: 9f7d7b9c319c48c4b97f9ea824414d9d
+      internalID: 963566883
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_char_idle_2
+      name: Tank Death v2_2
       rect:
         serializedVersion: 2
         x: 128
@@ -161,14 +161,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bf168a5a21b6acb4ca9ed888d381fda9
-      internalID: 418266012
+      spriteID: 4260130e05cfc1444858e32438979275
+      internalID: -1245456397
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_char_idle_3
+      name: Tank Death v2_3
       rect:
         serializedVersion: 2
         x: 192
@@ -182,14 +182,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b9f92f10cbed8134c84e7f8ea02bf303
-      internalID: -149945723
+      spriteID: 932df78f6fbc6824fa876058886f4aa6
+      internalID: 281026288
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_char_idle_4
+      name: Tank Death v2_4
       rect:
         serializedVersion: 2
         x: 256
@@ -203,14 +203,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4405ec533c977a34f87e41aa3536f6ab
-      internalID: 519722535
+      spriteID: 8cb80bb0d467d154caca6b04157c63fa
+      internalID: -1373282184
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_char_idle_5
+      name: Tank Death v2_5
       rect:
         serializedVersion: 2
         x: 320
@@ -224,14 +224,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c985e8ff42fdd0d448b453e2664e677f
-      internalID: 1363433946
+      spriteID: 62b649673a0c5cb48aac06b8060f73e9
+      internalID: -844003027
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_char_idle_6
+      name: Tank Death v2_6
       rect:
         serializedVersion: 2
         x: 384
@@ -245,14 +245,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 19e17ec78be7b414999fadf382bfd8ba
-      internalID: -1348213520
+      spriteID: 09d917a658231df4cb82f2c9350e5ef9
+      internalID: -1458191398
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_char_idle_7
+      name: Tank Death v2_7
       rect:
         serializedVersion: 2
         x: 448
@@ -266,50 +266,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 42d06ee3df33ee44691bbcf0cbd1aaa2
-      internalID: 1129513499
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player_char_idle_8
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 25322e1b7ba807d478550f9a55ba6c55
-      internalID: -180817741
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player_char_idle_9
-      rect:
-        serializedVersion: 2
-        x: 576
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 245b7391f0d11004ea85250a8c3aaa6c
-      internalID: -113418693
+      spriteID: 530ca11ce74f1b949a1e32592542c3bd
+      internalID: -1099115920
       vertices: []
       indices: 
       edges: []
@@ -325,16 +283,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      player_char_idle_5: 1363433946
-      player_char_idle_2: 418266012
-      player_char_idle_3: -149945723
-      player_char_idle_1: -964425788
-      player_char_idle_8: -180817741
-      player_char_idle_4: 519722535
-      player_char_idle_0: 24252182
-      player_char_idle_6: -1348213520
-      player_char_idle_7: 1129513499
-      player_char_idle_9: -113418693
+      Tank Death v2_2: -1245456397
+      Tank Death v2_0: -2006940252
+      Tank Death v2_1: 963566883
+      Tank Death v2_3: 281026288
+      Tank Death v2_4: -1373282184
+      Tank Death v2_5: -844003027
+      Tank Death v2_7: -1099115920
+      Tank Death v2_6: -1458191398
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
