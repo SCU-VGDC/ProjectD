@@ -9,7 +9,7 @@ using UnityEngine.Rendering.UI;
 
 public class PlayerMov_FSM : MonoBehaviour
 {
-    struct FrameInput
+    public struct FrameInput
     {
         public bool RightButton;
         public bool LeftButton;
@@ -27,18 +27,24 @@ public class PlayerMov_FSM : MonoBehaviour
     }
 
     private bool StateMutex;
-    private Rigidbody2D rb;
-    private Transform model;
+    [HideInInspector]
+    public Rigidbody2D rb;
+    [HideInInspector]
+    public Transform model;
 
     private ContactFilter2D cfGround;
     private ContactFilter2D cfWallR;
     private ContactFilter2D cfWallL;
 
-    private bool isGrounded, isWallRight, isWallLeft;
+    // Make sure to update this array when adding new states
+    private State[] states = new State[6];
+    private string currentState;
+
+    [HideInInspector]
+    public bool isGrounded, isWallRight, isWallLeft;
+
     private bool mJump;
     private int numOfWallJumps;
-
-    public string currentState; // 1-Dash, 2-OnGround, 3-OnWall, 4-OnFly, 5-Death
 
     public float speed;
     public float jumpPower;
@@ -58,7 +64,7 @@ public class PlayerMov_FSM : MonoBehaviour
     public float dashSpeed;
     public int dashesRemaining;
 
-    private bool isDashing;
+    private bool isDashing = false;
     private bool dashButtonReleased = true;
     private Vector3 dashDirection;
 
@@ -125,9 +131,9 @@ public class PlayerMov_FSM : MonoBehaviour
 
     //--------------------------------States changes--------------------------------------------\
 
-    void StateHandling(FrameInput frin)
+    void StateHandling(FrameInput frim)
     {
-        AnyStateUpdate(frin); //return if any state have changed the state
+        AnyStateUpdate(frim); //return if any state have changed the state
 
         switch (currentState)
         {
@@ -135,16 +141,16 @@ public class PlayerMov_FSM : MonoBehaviour
                 OnDashUpdate();
                 break;
             case "OnGround":
-                OnGroundUpdate(frin);
+                OnGroundUpdate(frim);
                 break;
             case "OnWall":
-                OnWallUpdate(frin);
+                OnWallUpdate(frim);
                 break;
             case "OnWallJumping":
-                OnWallJumpingUpdate(frin);
+                OnWallJumpingUpdate(frim);
                 break;
             case "OnFly":
-                OnFlyUpdate(frin);
+                OnFlyUpdate(frim);
                 break;
             case "Death":
                 OnDeathUpdate();
@@ -154,15 +160,15 @@ public class PlayerMov_FSM : MonoBehaviour
                 break;
         }
 
-        if (frin.UpButton != mJump) //jump button state
+        if (frim.UpButton != mJump) //jump button state
         {
-            mJump = frin.UpButton;
+            mJump = frim.UpButton;
         }
     }
 
-    public void StateChange(string NextState)
+    public void StateChange(string nextState)
     {
-        if (NextState == currentState) //beacuse same state
+        if (nextState == currentState) //beacuse same state
         {
             return;
         }
@@ -184,25 +190,25 @@ public class PlayerMov_FSM : MonoBehaviour
 
 
         //next state hadling
-        if (NextState == "OnGround")
+        if (nextState == "OnGround")
         {
             numOfWallJumps = 0;
             dashesRemaining = dashes;
             EventManager.singleton.AddEvent(new ChangedGroundstatemsg(gameObject, true));
         }
-        if (NextState == "OnWall")
+        if (nextState == "OnWall")
         {
             numOfWallJumps++;
             EventManager.singleton.AddEvent(new ChangedWallstatemsg(gameObject, true));
         }
-        if (NextState == "Dash")
+        if (nextState == "Dash")
         {
             EventManager.singleton.AddEvent(new Dashmsg(gameObject));
         }
 
-        Debug.Log("State Changed to " + NextState);
+        Debug.Log("State Changed to " + nextState);
 
-        currentState = NextState;
+        currentState = nextState;
     }
 
     //--------------------------------States updates--------------------------------------------\
@@ -217,7 +223,6 @@ public class PlayerMov_FSM : MonoBehaviour
             dashButtonReleased = true;
         }
 
-        Debug.Log(isDashing);
         if (frim.DashButton && dashButtonReleased && !isDashing && dashesRemaining > 0) {
             // Save the dash direction
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

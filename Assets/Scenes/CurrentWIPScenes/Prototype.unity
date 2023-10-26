@@ -1089,7 +1089,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 238309747}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.58, y: -2, z: -10}
+  m_LocalPosition: {x: -0.9682195, y: 2.90946, z: -10}
   m_LocalScale: {x: 0.91996324, y: 1.0014611, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1164,7 +1164,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3
+  orthographic size: 9
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3195,7 +3195,7 @@ MonoBehaviour:
   m_Follow: {fileID: 817815781}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 3
+    OrthographicSize: 9
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -27632,6 +27632,38 @@ PrefabInstance:
     - target: {fileID: 2191496448248054630, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054636, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: speed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054636, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: dashes
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054636, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: dashTime
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054636, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: dashSpeed
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054636, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: jumpPower
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054636, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: wallSideJumpX
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054638, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: m_Size.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054638, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: m_Size.y
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5200559129683492465, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
       propertyPath: maxHealth
