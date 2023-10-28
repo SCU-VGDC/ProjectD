@@ -68,11 +68,6 @@ public class PlayerMov_FSM : MonoBehaviour
     [HideInInspector]
     public int dashesRemaining;
 
-    [HideInInspector]
-    public bool dashButtonReleased = true;
-    [HideInInspector]
-    public Vector3 dashDirection;
-
     //public ContactFilter2D contactFilter;
 
     private void Start()

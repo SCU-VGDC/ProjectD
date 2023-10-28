@@ -2,28 +2,26 @@ using UnityEngine;
 
 class Dashing : State
 {
+    private bool dashButtonReleased = true;
+    private Vector3 dashDirection;
+
     public Dashing(PlayerMov_FSM pm) : base(pm) { }
 
     public override string name { get { return "Dashing"; } }
 
-    public override void Start() {
-        base.Start();
-        EventManager.singleton.AddEvent(new Dashmsg(pm.gameObject));
-    }
-
     public override bool CanStart(PlayerMov_FSM.FrameInput frim) {
         if (!frim.DashButton) {
-            pm.dashButtonReleased = true;
+            dashButtonReleased = true;
         }
 
-        if (frim.DashButton && pm.dashButtonReleased && pm.dashesRemaining > 0) {
+        if (frim.DashButton && dashButtonReleased && pm.dashesRemaining > 0) {
             // Save the dash direction
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos.z = 0;
-            pm.dashDirection = mousePos - pm.transform.position;
-            pm.dashDirection.Normalize();
+            dashDirection = mousePos - pm.transform.position;
+            dashDirection.Normalize();
 
-            pm.dashButtonReleased = false;
+            dashButtonReleased = false;
             pm.dashesRemaining--;
 
             return true;
@@ -32,14 +30,19 @@ class Dashing : State
         return false;
     }
 
+    public override void Start() {
+        base.Start();
+        EventManager.singleton.AddEvent(new Dashmsg(pm.gameObject));
+    }
+
     public override void Update(PlayerMov_FSM.FrameInput frim) {
         base.Update(frim);
 
-        pm.rb.velocity = pm.dashDirection * pm.dashSpeed;
+        pm.rb.velocity = dashDirection * pm.dashSpeed;
 
         if (StateTimeExceeds(pm.dashTime)) {
             // Set velocity to almost zero
-            pm.rb.velocity = pm.dashDirection * pm.dashSpeed * 0.2f;
+            pm.rb.velocity = dashDirection * pm.dashSpeed * 0.2f;
             SetState("Airborne");
         }
     }
