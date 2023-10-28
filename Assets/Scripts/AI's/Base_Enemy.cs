@@ -10,7 +10,7 @@ using Pathfinding.Util;
  * Mandates all components that all enemies will need (Pathfinder and basic locomotion).
  * Also contains basic information such as speed and the current state that the AI is in.
  **/
-public abstract class Base_Enemy : MonoBehaviour
+public class Base_Enemy : MonoBehaviour
 {
 	public string PrefabName;
 

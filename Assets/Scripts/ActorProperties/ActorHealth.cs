@@ -16,5 +16,6 @@ public class ActorHealth : MonoBehaviour
     public void Heal(int healAmount)
     {
         currentHealth += healAmount;
+        
     }
 }
