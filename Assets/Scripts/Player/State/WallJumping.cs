@@ -1,4 +1,4 @@
-class WallJumping : State {
+class WallJumping : PlayerState {
     public WallJumping(PlayerMov_FSM pm) : base(pm) { }
 
     public override string name { get { return "WallJumping"; } }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-class OnWall : State
+class OnWall : PlayerState
 {
     public OnWall(PlayerMov_FSM pm) : base(pm) { }
 

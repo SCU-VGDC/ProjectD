@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public abstract class State
+public abstract class PlayerState
 {
     protected PlayerMov_FSM pm;
-    private float timeInState = 0;
+    public float timeInState = 0;
 
-    public State(PlayerMov_FSM pm)
+    public PlayerState(PlayerMov_FSM pm)
     {
         this.pm = pm;
     }

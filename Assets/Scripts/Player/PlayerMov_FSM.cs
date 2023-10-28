@@ -37,8 +37,8 @@ public class PlayerMov_FSM : MonoBehaviour
     private ContactFilter2D cfWallL;
 
     // Make sure to update this array when adding new states
-    private State[] states = new State[6];
-    public State currentState;
+    private PlayerState[] states = new PlayerState[6];
+    public PlayerState currentState;
 
     [HideInInspector]
     public bool isGrounded, isWallRight, isWallLeft;
@@ -79,7 +79,7 @@ public class PlayerMov_FSM : MonoBehaviour
         cfWallR.SetNormalAngle(175, 185); //perpendicual to right wall
 
         // The order of these states matter- the first state where CanStart is true will be the one that starts
-        states = new State[] {
+        states = new PlayerState[] {
             new Dashing(this),
             new Grounded(this),
             new OnWall(this),
@@ -144,7 +144,7 @@ public class PlayerMov_FSM : MonoBehaviour
     //--------------------------------States changes--------------------------------------------\
 
     private void StateHandling(FrameInput frim) {
-        foreach (State state in states) {
+        foreach (PlayerState state in states) {
             if (state.CanStart(frim)) {
                 SetState(state);
                 break;
@@ -161,7 +161,7 @@ public class PlayerMov_FSM : MonoBehaviour
 
     // Passing in the state name will search for the matching State object and change to that
     public void SetState(string stateName) {
-        foreach (State state in states) {
+        foreach (PlayerState state in states) {
             if (state.name == stateName) {
                 SetState(state);
                 return;
@@ -171,7 +171,7 @@ public class PlayerMov_FSM : MonoBehaviour
         Debug.LogError("State " + stateName + " not found");
     }
 
-    public void SetState(State nextState)
+    public void SetState(PlayerState nextState)
     {
         if (nextState == currentState) //beacuse same state
         {

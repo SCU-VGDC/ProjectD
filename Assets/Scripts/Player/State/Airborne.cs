@@ -1,6 +1,6 @@
 using UnityEngine;
 
-class Airborne : State
+class Airborne : PlayerState
 {
     public Airborne(PlayerMov_FSM pm) : base(pm) { }
 

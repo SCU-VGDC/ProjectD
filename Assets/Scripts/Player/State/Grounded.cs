@@ -1,6 +1,6 @@
 using UnityEngine;
 
-class Grounded : State {
+class Grounded : PlayerState {
     public Grounded(PlayerMov_FSM pm) : base(pm) { }
 
     public override string name { get { return "Grounded"; } }
