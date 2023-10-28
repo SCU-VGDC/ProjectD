@@ -24,8 +24,10 @@ public abstract class State
         timeInState += Time.deltaTime;
     }
 
-    protected void ChangeState(string name) {
-        pm.ChangeState(name);
+    public virtual void Exit() { }
+
+    protected void SetState(string name) {
+        pm.SetState(name);
     }
 
     // Used for states that have a time limit

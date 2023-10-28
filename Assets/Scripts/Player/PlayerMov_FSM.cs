@@ -151,7 +151,7 @@ public class PlayerMov_FSM : MonoBehaviour
     private void StateHandling(FrameInput frim) {
         foreach (State state in states) {
             if (state.CanStart(frim)) {
-                ChangeState(state);
+                SetState(state);
                 break;
             }
         }
@@ -165,10 +165,10 @@ public class PlayerMov_FSM : MonoBehaviour
     }
 
     // Passing in the state name will search for the matching State object and change to that
-    public void ChangeState(string stateName) {
+    public void SetState(string stateName) {
         foreach (State state in states) {
             if (state.name == stateName) {
-                ChangeState(state);
+                SetState(state);
                 return;
             }
         }
@@ -176,13 +176,14 @@ public class PlayerMov_FSM : MonoBehaviour
         Debug.LogError("State " + stateName + " not found");
     }
 
-    public void ChangeState(State nextState)
+    public void SetState(State nextState)
     {
         if (nextState == currentState) //beacuse same state
         {
             return;
         }
 
+        currentState.Exit();
         currentState = nextState;
         currentState.Start();
         Debug.Log("State Changed to " + nextState);

@@ -9,7 +9,7 @@ class OnWall : State
     public override void Start() {
         base.Start();
         pm.numOfWallJumps++;
-        EventManager.singleton.AddEvent(new ChangedWallstatemsg(pm.gameObject, false));
+        EventManager.singleton.AddEvent(new ChangedWallstatemsg(pm.gameObject, true));
     }
 
     public override void Update(PlayerMov_FSM.FrameInput frim) {
@@ -23,11 +23,11 @@ class OnWall : State
 
         if (!pm.isGrounded && !pm.isWallLeft && !pm.isWallRight) //is not touching anything
         {
-            ChangeState("Airborne");
+            SetState("Airborne");
         }
         else if (pm.isGrounded)
         {
-            ChangeState("Grounded");
+            SetState("Grounded");
             return;
         }
 
@@ -44,14 +44,14 @@ class OnWall : State
         if (frim.RightButton && pm.isWallLeft)
         {
             pm.rb.velocity = new Vector2(pm.speed, 0);
-            ChangeState("Airborne");
+            SetState("Airborne");
             return;
         }
 
         if (frim.LeftButton && pm.isWallRight)
         {
             pm.rb.velocity = new Vector2(-pm.speed, 0);
-            ChangeState("Airborne");
+            SetState("Airborne");
             return;
         }
 
@@ -63,7 +63,7 @@ class OnWall : State
                 {
                     pm.rb.velocity = new Vector2(pm.wallSideJumpX, pm.wallSideJumpY * 2); //right
                     EventManager.singleton.AddEvent(new Jumpmsg(pm.gameObject));
-                    ChangeState("WallJumping");
+                    SetState("WallJumping");
                     return;
                 }
 
@@ -71,7 +71,7 @@ class OnWall : State
                 {
                     pm.rb.velocity = new Vector2(-pm.wallSideJumpX, pm.wallSideJumpY * 2); //left
                     EventManager.singleton.AddEvent(new Jumpmsg(pm.gameObject));
-                    ChangeState("WallJumping");
+                    SetState("WallJumping");
                     return;
                 }
 
@@ -88,5 +88,10 @@ class OnWall : State
         {
             pm.rb.velocity = pm.ApplyGravity(frim.UpButton);
         }
+    }
+
+    public override void Exit() {
+        base.Exit();
+        EventManager.singleton.AddEvent(new ChangedWallstatemsg(pm.gameObject, false));
     }
 }

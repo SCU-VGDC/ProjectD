@@ -7,7 +7,7 @@ class Grounded : State {
 
     public override void Start() {
         base.Start();
-        EventManager.singleton.AddEvent(new ChangedGroundstatemsg(pm.gameObject, false));
+        EventManager.singleton.AddEvent(new ChangedGroundstatemsg(pm.gameObject, true));
         pm.numOfWallJumps = 0;
         pm.dashesRemaining = pm.dashes;
     }
@@ -18,7 +18,7 @@ class Grounded : State {
         //state change
         if (!pm.isGrounded)
         {
-            ChangeState("Airborne");
+            SetState("Airborne");
             return;
         }
 
@@ -49,7 +49,7 @@ class Grounded : State {
         {
             pm.rb.velocity = new Vector2(horizontal * pm.speed, pm.jumpPower);
             EventManager.singleton.AddEvent(new Jumpmsg(pm.gameObject));
-            ChangeState("Airborne");
+            SetState("Airborne");
             return;
         }
 
@@ -63,5 +63,9 @@ class Grounded : State {
         }
 
         pm.rb.velocity = new Vector2(horizontal * pm.speed, 0); //sets jump
+    }
+
+    public override void Exit() {
+        EventManager.singleton.AddEvent(new ChangedGroundstatemsg(pm.gameObject, false));
     }
 }

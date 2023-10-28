@@ -22,12 +22,12 @@ class Airborne : State
 
         if (!pm.isGrounded && (pm.isWallLeft || pm.isWallRight))
         {
-            ChangeState("OnWall");
+            SetState("OnWall");
             return;
         }
         else if (pm.isGrounded)
         {
-            ChangeState("Grounded");
+            SetState("Grounded");
             return;
         }
 

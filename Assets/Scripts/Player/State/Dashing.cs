@@ -40,7 +40,7 @@ class Dashing : State
         if (StateTimeExceeds(pm.dashTime)) {
             // Set velocity to almost zero
             pm.rb.velocity = pm.dashDirection * pm.dashSpeed * 0.2f;
-            ChangeState("Airborne");
+            SetState("Airborne");
         }
     }
 }
