@@ -51,6 +51,7 @@ public class PlayerMov_FSM : MonoBehaviour
     public float speed;
     public float jumpPower;
     public float gravity; //I am so sorry
+    public float maxFallSpeed; // Max falling speed
     public float wallSlidingSpeed;
     public float tightJumpScale;
     public float wallSideJumpX;
@@ -204,7 +205,12 @@ public class PlayerMov_FSM : MonoBehaviour
     public Vector2 ApplyGravity(bool tightJump, Vector2 vector)
     {
         float gravityEffect = tightJump ? gravity / tightJumpScale : gravity;
-        return new Vector2(vector.x, vector.y - gravityEffect);
+        float newY = vector.y - gravityEffect;
+        if (newY < -maxFallSpeed)
+        {
+            newY = -maxFallSpeed;
+        }
+        return new Vector2(vector.x, newY);
     }
 
 }
