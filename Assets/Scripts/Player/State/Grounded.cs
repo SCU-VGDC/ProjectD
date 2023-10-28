@@ -1,19 +1,24 @@
 using UnityEngine;
 
 class Grounded : State {
-    public Grounded(PlayerMov_FSM playerMovement) : base(playerMovement) { }
+    public Grounded(PlayerMov_FSM pm) : base(pm) { }
 
-    public override string stateName { get { return "Grounded"; } }
+    public override string name { get { return "Grounded"; } }
 
     public override void Start() {
-        EventManager.singleton.AddEvent(new ChangedGroundstatemsg(playerMovement.gameObject, false));
+        base.Start();
+        EventManager.singleton.AddEvent(new ChangedGroundstatemsg(pm.gameObject, false));
+        pm.numOfWallJumps = 0;
+        pm.dashesRemaining = pm.dashes;
     }
 
     public override void Update(PlayerMov_FSM.FrameInput frim) {
+        base.Update(frim);
+
         //state change
-        if (!playerMovement.isGrounded)
+        if (!pm.isGrounded)
         {
-            StateChange("OnFly");
+            StateChange("Airborne");
             return;
         }
 
@@ -32,31 +37,31 @@ class Grounded : State {
         else if (frim.RightButton)
         {
             horizontal = 1;
-            playerMovement.model.localScale = new Vector3(1, 1, 1); //right
+            pm.model.localScale = new Vector3(1, 1, 1); //right
         }
         else if (frim.LeftButton)
         {
             horizontal = -1;
-            playerMovement.model.localScale = new Vector3(-1f, 1, 1); //left
+            pm.model.localScale = new Vector3(-1f, 1, 1); //left
         }
 
         if (frim.UpButton)
         {
-            playerMovement.rb.velocity = new Vector2(horizontal * playerMovement.speed, playerMovement.jumpPower);
-            EventManager.singleton.AddEvent(new Jumpmsg(playerMovement.gameObject));
-            StateChange("OnFly");
+            pm.rb.velocity = new Vector2(horizontal * pm.speed, pm.jumpPower);
+            EventManager.singleton.AddEvent(new Jumpmsg(pm.gameObject));
+            StateChange("Airborne");
             return;
         }
 
-        if (playerMovement.rb.velocity.x != 0 && horizontal == 0) //if it was moving previous frame and stopped in this
+        if (pm.rb.velocity.x != 0 && horizontal == 0) //if it was moving previous frame and stopped in this
         {
-            EventManager.singleton.AddEvent(new ChangedMOVstatemsg(playerMovement.gameObject, false));
+            EventManager.singleton.AddEvent(new ChangedMOVstatemsg(pm.gameObject, false));
         }
-        else if (playerMovement.rb.velocity.x == 0 && horizontal != 0) //if it was stopped previous frame and moving in this
+        else if (pm.rb.velocity.x == 0 && horizontal != 0) //if it was stopped previous frame and moving in this
         {
-            EventManager.singleton.AddEvent(new ChangedMOVstatemsg(playerMovement.gameObject, true));
+            EventManager.singleton.AddEvent(new ChangedMOVstatemsg(pm.gameObject, true));
         }
 
-        playerMovement.rb.velocity = new Vector2(horizontal * playerMovement.speed, 0); //sets jump
+        pm.rb.velocity = new Vector2(horizontal * pm.speed, 0); //sets jump
     }
 }

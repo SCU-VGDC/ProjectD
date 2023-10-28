@@ -1,14 +1,35 @@
-abstract class State
-{
-    protected PlayerMov_FSM playerMovement;
+using UnityEngine;
 
-    public State(PlayerMov_FSM playerMovement)
+public abstract class State
+{
+    protected PlayerMov_FSM pm;
+    private float timeInState = 0;
+
+    public State(PlayerMov_FSM pm)
     {
-        this.playerMovement = playerMovement;
+        this.pm = pm;
     }
 
-    public abstract string stateName { get; }
-    public abstract void Start();
-    public abstract void Update(PlayerMov_FSM.FrameInput frim);
-    public virtual void Exit() { }
+    public abstract string name { get; }
+
+    public virtual void Start() {
+        timeInState = 0;
+    }
+
+    public virtual bool CanStart(PlayerMov_FSM.FrameInput frim) {
+        return false;
+    }
+    
+    public virtual void Update(PlayerMov_FSM.FrameInput frim) {
+        timeInState += Time.deltaTime;
+    }
+
+    protected void StateChange(string name) {
+        pm.ChangeState(name);
+    }
+
+    // Used for states that have a time limit
+    protected bool StateTimeExceeds(float time) {
+        return timeInState >= time;
+    }
 }
