@@ -24,7 +24,7 @@ public abstract class State
         timeInState += Time.deltaTime;
     }
 
-    protected void StateChange(string name) {
+    protected void ChangeState(string name) {
         pm.ChangeState(name);
     }
 

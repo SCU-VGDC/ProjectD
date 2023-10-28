@@ -18,7 +18,7 @@ class Grounded : State {
         //state change
         if (!pm.isGrounded)
         {
-            StateChange("Airborne");
+            ChangeState("Airborne");
             return;
         }
 
@@ -49,7 +49,7 @@ class Grounded : State {
         {
             pm.rb.velocity = new Vector2(horizontal * pm.speed, pm.jumpPower);
             EventManager.singleton.AddEvent(new Jumpmsg(pm.gameObject));
-            StateChange("Airborne");
+            ChangeState("Airborne");
             return;
         }
 

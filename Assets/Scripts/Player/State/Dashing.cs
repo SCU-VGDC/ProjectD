@@ -16,16 +16,13 @@ class Dashing : State
             pm.dashButtonReleased = true;
         }
 
-        Debug.Log(pm.isDashing);
-
-        if (frim.DashButton && pm.dashButtonReleased && !pm.isDashing && pm.dashesRemaining > 0) {
+        if (frim.DashButton && pm.dashButtonReleased && pm.dashesRemaining > 0) {
             // Save the dash direction
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos.z = 0;
             pm.dashDirection = mousePos - pm.transform.position;
             pm.dashDirection.Normalize();
 
-            pm.isDashing = true;
             pm.dashButtonReleased = false;
             pm.dashesRemaining--;
 
@@ -43,8 +40,7 @@ class Dashing : State
         if (StateTimeExceeds(pm.dashTime)) {
             // Set velocity to almost zero
             pm.rb.velocity = pm.dashDirection * pm.dashSpeed * 0.2f;
-            pm.isDashing = false;
-            StateChange("Airborne");
+            ChangeState("Airborne");
         }
     }
 }

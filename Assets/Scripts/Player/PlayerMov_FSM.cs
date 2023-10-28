@@ -68,8 +68,6 @@ public class PlayerMov_FSM : MonoBehaviour
     public int dashesRemaining;
 
     [HideInInspector]
-    public bool isDashing = false;
-    [HideInInspector]
     public bool dashButtonReleased = true;
     [HideInInspector]
     public Vector3 dashDirection;
@@ -157,7 +155,6 @@ public class PlayerMov_FSM : MonoBehaviour
             }
         }
 
-        Debug.Log("Current State: " + currentState.name);
         currentState.Update(frim);
 
         if (frim.UpButton != mJump) //jump button state

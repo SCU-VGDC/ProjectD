@@ -23,11 +23,11 @@ class OnWall : State
 
         if (!pm.isGrounded && !pm.isWallLeft && !pm.isWallRight) //is not touching anything
         {
-            StateChange("Dashing");
+            ChangeState("Airborne");
         }
         else if (pm.isGrounded)
         {
-            StateChange("Grounded");
+            ChangeState("Grounded");
             return;
         }
 
@@ -44,14 +44,14 @@ class OnWall : State
         if (frim.RightButton && pm.isWallLeft)
         {
             pm.rb.velocity = new Vector2(pm.speed, 0);
-            StateChange("Airborne");
+            ChangeState("Airborne");
             return;
         }
 
         if (frim.LeftButton && pm.isWallRight)
         {
             pm.rb.velocity = new Vector2(-pm.speed, 0);
-            StateChange("Airborne");
+            ChangeState("Airborne");
             return;
         }
 
@@ -63,7 +63,7 @@ class OnWall : State
                 {
                     pm.rb.velocity = new Vector2(pm.wallSideJumpX, pm.wallSideJumpY * 2); //right
                     EventManager.singleton.AddEvent(new Jumpmsg(pm.gameObject));
-                    StateChange("WallJumping");
+                    ChangeState("WallJumping");
                     return;
                 }
 
@@ -71,7 +71,7 @@ class OnWall : State
                 {
                     pm.rb.velocity = new Vector2(-pm.wallSideJumpX, pm.wallSideJumpY * 2); //left
                     EventManager.singleton.AddEvent(new Jumpmsg(pm.gameObject));
-                    StateChange("WallJumping");
+                    ChangeState("WallJumping");
                     return;
                 }
 

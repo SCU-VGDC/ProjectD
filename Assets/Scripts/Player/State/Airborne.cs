@@ -9,7 +9,6 @@ class Airborne : State
     public override void Start() {
         base.Start();
         EventManager.singleton.AddEvent(new ChangedGroundstatemsg(pm.gameObject, false));
-        pm.dashesRemaining = pm.dashes;
     }
 
     public override void Update(PlayerMov_FSM.FrameInput frim) {
@@ -23,12 +22,12 @@ class Airborne : State
 
         if (!pm.isGrounded && (pm.isWallLeft || pm.isWallRight))
         {
-            StateChange("OnWall");
+            ChangeState("OnWall");
             return;
         }
         else if (pm.isGrounded)
         {
-            StateChange("Grounded");
+            ChangeState("Grounded");
             return;
         }
 

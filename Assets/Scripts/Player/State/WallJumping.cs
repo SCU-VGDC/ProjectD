@@ -14,7 +14,7 @@ class WallJumping : State {
         pm.rb.velocity = pm.ApplyGravity(frim.UpButton, pm.rb.velocity);
 
         if (StateTimeExceeds(pm.wallJumpTime)) {
-            StateChange("Airborne");
+            ChangeState("Airborne");
         }
     }
 }
