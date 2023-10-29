@@ -27907,6 +27907,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054636, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: speed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054636, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: dashes
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054636, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: dashTime
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054636, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: dashSpeed
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054636, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: jumpPower
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054636, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: maxFallSpeed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054636, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: wallSideJumpX
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054638, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: m_Size.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191496448248054638, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: m_Size.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5200559129683492465, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: maxHealth
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5200559129683492465, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
+      propertyPath: currentHealth
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
 --- !u!1001 &1569253207

@@ -65,7 +65,7 @@ public class OrbsPickUp : Interactable
     {
         //if the player is dashing and goes through, it'll disappear for 5s
 
-        if (this_is_dash_through_orb && (player_movement.currentState != "Dash"))
+        if (this_is_dash_through_orb && (player_movement.currentState.name != "Dashing"))
         {
             return;
         }
