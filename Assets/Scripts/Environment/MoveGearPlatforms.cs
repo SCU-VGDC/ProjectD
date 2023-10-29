@@ -4,67 +4,68 @@ using UnityEngine;
 
 public class MoveGearPlatforms : MonoBehaviour
 {
-    public GameObject player;
-    public GameObject gear;
-    public GameObject start;
-    public GameObject end;
+    public Transform start;
+    public Transform end;
 
-    private GameObject platform;
+    private Transform platform;
 
     public float speed = 3f;
 
-    // testing stuff
-    public bool trigger = false;
-    public bool triggerback = false;
-
     private Vector3 target;
 
-    // Start is called before the first frame update
-    void Start() {
-        platform = this.gameObject;
+    void Start() 
+    {
+        platform = transform;
 
-        platform.transform.position = start.transform.position;
-        target = start.transform.position;
+        platform.position = start.position;
+        target = start.position;
     }
 
-    // Update is called once per frame
-    void FixedUpdate() {
-        Vector3 currentPos = platform.transform.position;
-
-        // ----- Temporary Debug Stuff -----
-        if(trigger) {
-            Move();
-            trigger = false;
-        }
-
-        if(triggerback) {
-            MoveBack();
-            triggerback = false;
-        }
-        // ---------------------------------
+    void FixedUpdate() 
+    {
+        Vector3 currentPos = platform.position;
  
-        if(currentPos != target) {
-            platform.transform.position = Vector3.MoveTowards(platform.transform.position, target, speed * Time.deltaTime);
+        if(currentPos != target) 
+        {
+            platform.position = Vector3.MoveTowards(platform.position, target, speed * Time.deltaTime);
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other){
-        // Debug.Log("TriggerEnter" + other.gameObject);
-
-        player.transform.SetParent(platform.transform, true);
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        other.transform.SetParent(platform, true);
     }
 
-    private void OnTriggerExit2D(Collider2D other){
-        // Debug.Log("TriggerExit" + other.gameObject);
-        
-        player.transform.SetParent(null);
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        other.transform.SetParent(null);
     }
 
-    void Move(){
-        target = end.transform.position;
+    public void ChangeMove()
+    {
+        if(target == start.position)
+        {
+            target = end.position;
+            return;
+        }
+
+        if (target == end.position)
+        {
+            target = start.position;
+            return;
+        }
     }
 
-    void MoveBack(){
-        target = start.transform.position;
+    void OnDrawGizmosSelected()
+    {
+        #if UNITY_EDITOR
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawWireSphere(start.position, 1f);
+
+        Gizmos.color = Color.green;
+
+        Gizmos.DrawWireSphere(end.position, 1f);
+        #endif
     }
 }

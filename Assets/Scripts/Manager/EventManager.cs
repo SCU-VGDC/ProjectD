@@ -118,6 +118,21 @@ public class applyDamagemsg : msg
     {
         target.ApplyDamage(damage);
 
+        target.GetComponent<AudioManager>().PlaySound("TakeDamage");
+        target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
+
+        if (target.transform.childCount != 0)
+        {
+            if (target.transform.GetChild(0).GetComponent<MoveGearPlatforms>()) //cheking for movegears
+            {
+
+                MoveGearPlatforms mvg = target.transform.GetChild(0).GetComponent<MoveGearPlatforms>();
+                mvg.ChangeMove();
+                return;
+
+            }
+        }
+
         if (target.tag != "Player")
         {
             int bloodCount = 50;
@@ -130,9 +145,6 @@ public class applyDamagemsg : msg
                 droplet.transform.position = target.transform.position + new Vector3(rand.x, rand.y, 0);
             }
         }
-
-        target.GetComponent<AudioManager>().PlaySound("TakeDamage");
-        target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
     }
 }
 

@@ -121,7 +121,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.75}
+  m_Size: {x: 2, y: 3}
   m_EdgeRadius: 0
 --- !u!50 &2191496448248054639
 Rigidbody2D:
@@ -370,8 +370,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45ac6dd7bbf4b1b4885551121bd378b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trailSpawn: {fileID: 0}
   bulletspawn: {fileID: 2191496448641651465}
   bulletprefab: {fileID: 4193023076128913139, guid: 1725483b24bcfbe43bf1e2c052d91966, type: 3}
+  hittableLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  raycastToggle: 0
 --- !u!114 &5200559129683492465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,8 +389,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae15c0d895a6d34e8d866129954d60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 20
-  maxHealth: 0
+  currentHealth: 10
+  maxHealth: 10
 --- !u!82 &1901154283
 AudioSource:
   m_ObjectHideFlags: 0
@@ -583,8 +588,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2191496448306692533}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.2, y: 0, z: 0}
-  m_LocalScale: {x: 0.48556304, y: 0.10432405, z: 1}
+  m_LocalPosition: {x: 1.028, y: 0.388, z: 0}
+  m_LocalScale: {x: 1.720884, y: 0.36973488, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2191496448641651465}
@@ -753,7 +758,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2191496449172677792}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

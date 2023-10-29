@@ -10,7 +10,7 @@ using Pathfinding.Util;
  * Mandates all components that all enemies will need (Pathfinder and basic locomotion).
  * Also contains basic information such as speed and the current state that the AI is in.
  **/
-public abstract class Base_Enemy : MonoBehaviour
+public class Base_Enemy : MonoBehaviour
 {
 	public string PrefabName;
 
@@ -48,12 +48,12 @@ public abstract class Base_Enemy : MonoBehaviour
 	{
 		if (!dealsContactDamage) return;
 
-		//This looks complicated, but just checks if the collided object is within our hittable layers.
-		if ((contactLayers & (1 << collision.gameObject.layer)) != 0)
+        //This looks complicated, but just checks if the collided object is within our hittable layers.
+        if ((contactLayers & (1 << collision.gameObject.layer)) != 0)
 		{
 			if (collision.gameObject.tag == "Player")
 			{
-				EventManager.singleton.AddEvent(new applyDamagemsg(gameObject, GameManager.inst.playerHealth, contactDamageAmount));
+                EventManager.singleton.AddEvent(new meleeDamagemsg(gameObject, GameManager.inst.player.transform, contactDamageAmount));
 			}
 
 			if (destroyOnContact)
