@@ -98,6 +98,7 @@ public class meleeDamagemsg : msg
     public override void Run()
     {
         EventManager.singleton.AddEvent(new applyDamagemsg(Sender, target.GetComponent<ActorHealth>(), damage));
+        Debug.Log("Do da damage ya");
         Sender.GetComponent<AudioManager>().PlaySound("MeleeAttack");
         Sender.GetComponent<AnimatorManager>().SetAnim("MeleeAttack");
     }
