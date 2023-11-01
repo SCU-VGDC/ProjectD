@@ -488,8 +488,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae15c0d895a6d34e8d866129954d60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 0
-  maxHealth: 0
+  currentHealth: 10
+  maxHealth: 10
 --- !u!114 &6858825802009552124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -507,7 +507,7 @@ MonoBehaviour:
   bulletprefab: {fileID: 4193023076128913139, guid: 1725483b24bcfbe43bf1e2c052d91966, type: 3}
   hittableLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 192
   raycastToggle: 0
 --- !u!114 &6858825802009552125
 MonoBehaviour:
