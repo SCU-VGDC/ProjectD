@@ -192,7 +192,7 @@ MonoBehaviour:
   seeker: {fileID: 0}
   mover: {fileID: 0}
   dealsContactDamage: 1
-  contactDamageAmount: 2
+  contactDamageAmount: 3
   contactLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -220,8 +220,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae15c0d895a6d34e8d866129954d60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 10
-  maxHealth: 10
+  currentHealth: 3
+  maxHealth: 3
 --- !u!114 &862610817
 MonoBehaviour:
   m_ObjectHideFlags: 0

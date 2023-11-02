@@ -16,10 +16,7 @@ class OnWall : PlayerState
         base.Update(frim);
 
         //shooting
-        if (frim.ShootButton)
-        {
-            EventManager.singleton.AddEvent(new playerShootGunmsg(0));
-        }
+        bool isFacingRight = (frim.armRotation < 90 && frim.armRotation > -90);
 
         if (!pm.isGrounded && !pm.isWallLeft && !pm.isWallRight) //is not touching anything
         {
@@ -34,11 +31,19 @@ class OnWall : PlayerState
         if (pm.isWallLeft)
         {
             pm.model.localScale = new Vector3(1, 1, 1); //right
+            if (frim.ShootButton && isFacingRight)
+            {
+                EventManager.singleton.AddEvent(new playerShootGunmsg(0));
+            }
         }
 
         if (pm.isWallRight)
         {
             pm.model.localScale = new Vector3(-1f, 1, 1); //left
+            if (frim.ShootButton && !isFacingRight)
+            {
+                EventManager.singleton.AddEvent(new playerShootGunmsg(0));
+            }
         }
 
         if (frim.RightButton && pm.isWallLeft)

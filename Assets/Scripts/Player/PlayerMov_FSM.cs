@@ -99,9 +99,9 @@ public class PlayerMov_FSM : MonoBehaviour
         isWallLeft = rb.IsTouching(cfWallL);
         isWallRight = rb.IsTouching(cfWallR);
 
-        UpdateArmPos(thisFrame);
         StateHandling(thisFrame);
 
+        UpdateArmPos(thisFrame);
     }
 
     //--------------------------------Inputs--------------------------------------------\
@@ -116,6 +116,7 @@ public class PlayerMov_FSM : MonoBehaviour
         thisFrame.DownButton = false;
         thisFrame.DashButton = false;
         thisFrame.ShootButton = false;
+        thisFrame.ShootAltButton = false;
 
         thisFrame.armRotation = 0;
 
@@ -137,8 +138,18 @@ public class PlayerMov_FSM : MonoBehaviour
         return thisFrame;
     }
 
-    void UpdateArmPos(FrameInput frim) {
+    void UpdateArmPos(FrameInput frim) 
+    {
+
         arm.localRotation = Quaternion.Euler(0, 0, frim.armRotation);
+        if(frim.armRotation > 90 || frim.armRotation < -90)
+        {
+            arm.GetChild(0).localScale = new Vector3(1f, -1f, 1f); 
+        }
+        else
+        {
+            arm.GetChild(0).localScale = new Vector3(1f, 1f, 1f);
+        }
     }
 
     //--------------------------------States changes--------------------------------------------\

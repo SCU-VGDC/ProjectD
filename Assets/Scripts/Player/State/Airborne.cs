@@ -31,6 +31,16 @@ class Airborne : PlayerState
             return;
         }
 
+        bool isFacingRight = (frim.armRotation < 90 && frim.armRotation > -90);
+        if (isFacingRight)
+        {
+            pm.model.localScale = new Vector3(1f, 1f, 1f); //right
+        }
+        else
+        {
+            pm.model.localScale = new Vector3(-1f, 1f, 1f); ; //left
+        }
+
         float horizontal = 0;
         if (frim.RightButton == frim.LeftButton)
         {
@@ -39,12 +49,10 @@ class Airborne : PlayerState
         else if (frim.RightButton)
         {
             horizontal = 1;
-            pm.model.localScale = new Vector3(1, 1, 1); //right
         }
         else if (frim.LeftButton)
         {
             horizontal = -1;
-            pm.model.localScale = new Vector3(-1f, 1, 1); //left
         }
 
         float movement = horizontal * pm.gladingSpeed;
