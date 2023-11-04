@@ -52,6 +52,8 @@ public class PlayerGunController : MonoBehaviour
         if(TimeSpent > currentGun.firerate)
         {
             EventManager.singleton.AddEvent(new shootmsg(gameObject));
+            //HAND shit solution???
+            GetComponent<PlayerMov_FSM>().arm.GetComponent<AnimatorManager>().SetAnim(currentGun.shotAnimation);
             TimeSpent = 0;
         }
     }
@@ -66,9 +68,10 @@ public class PlayerGunController : MonoBehaviour
 [System.Serializable]
 public class Gun
 {
-    public int firerate;
+    public float firerate;
     public GameObject projectileNormal;
     public GameObject projectileMagic;
+    public string shotAnimation;
     public string soundNormal;
     public string soundMagic;
 }

@@ -100,6 +100,14 @@ public class meleeDamagemsg : msg
         EventManager.singleton.AddEvent(new applyDamagemsg(Sender, target.GetComponent<ActorHealth>(), damage));
         Sender.GetComponent<AudioManager>().PlaySound("MeleeAttack");
         Sender.GetComponent<AnimatorManager>().SetAnim("MeleeAttack");
+
+        if(Sender.GetComponent<Base_Enemy>())
+        {
+            if(Sender.GetComponent<Base_Enemy>().destroyOnContact)
+            {
+                UnityEngine.Object.Destroy(Sender);
+            }
+        }
     }
 }
 
@@ -117,6 +125,21 @@ public class applyDamagemsg : msg
     public override void Run()
     {
         target.ApplyDamage(damage);
+
+        target.GetComponent<AudioManager>().PlaySound("TakeDamage");
+        target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
+
+        if (target.transform.childCount != 0)
+        {
+            if (target.transform.GetChild(0).GetComponent<MoveGearPlatforms>()) //cheking for movegears
+            {
+
+                MoveGearPlatforms mvg = target.transform.GetChild(0).GetComponent<MoveGearPlatforms>();
+                mvg.ChangeMove();
+                return;
+
+            }
+        }
 
         if (target.tag != "Player")
         {
@@ -253,7 +276,7 @@ public class OrbPickUpmsg : msg
             Debug.Log("Orb Thorugh Sound");
         }
 
-        GameManager.inst.playerMovement.currentDashes++;
+        GameManager.inst.playerMovement.dashesRemaining++;
     }
 }
 
@@ -303,10 +326,44 @@ public class ChangedMOVstatemsg : msg
         {
             Sender.GetComponent<AudioManager>().PlaySound("Moving");
             Sender.GetComponent<AnimatorManager>().SetAnim("Moving", true);
+            //HAND
+            if(Sender.GetComponent<PlayerMov_FSM>())
+            {
+                Sender.GetComponent<PlayerMov_FSM>().arm.GetComponent<AnimatorManager>().SetAnim("Moving", true);
+            }
+
         }
         else
         {
             Sender.GetComponent<AnimatorManager>().SetAnim("Moving", false);
+            //HAND
+            if (Sender.GetComponent<PlayerMov_FSM>())
+            {
+                Sender.GetComponent<PlayerMov_FSM>().arm.GetComponent<AnimatorManager>().SetAnim("Moving", false);
+            }
+        }
+    }
+}
+
+public class ChangedMOVBackstatemsg : msg
+{
+    bool is_moving;
+
+    public ChangedMOVBackstatemsg(GameObject m_sender, bool m_is_moving) : base(m_sender)
+    {
+        is_moving = m_is_moving;
+    }
+
+    public override void Run()
+    {
+        if (is_moving)
+        {
+            Sender.GetComponent<AudioManager>().PlaySound("Moving");
+            Sender.GetComponent<AnimatorManager>().SetAnim("BackMoving", true);
+        }
+        else
+        {
+            Sender.GetComponent<AnimatorManager>().SetAnim("BackMoving", false);
         }
     }
 }

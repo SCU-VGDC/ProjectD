@@ -8,10 +8,8 @@ public abstract class Interactable : MonoBehaviour
     public bool requiresActivation;
 
     public abstract void Activation();
-    public virtual void Deactivation()
-    {
-        
-    }
+
+    public virtual void Deactivation() { }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
