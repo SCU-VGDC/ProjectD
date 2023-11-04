@@ -1246,7 +1246,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 238309747}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.6454208, y: 2.89682, z: -10}
+  m_LocalPosition: {x: -2.3590164, y: 2.9028997, z: -10}
   m_LocalScale: {x: 0.91996324, y: 1.0014611, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -29193,6 +29193,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4488935566848758035, guid: 70d282401acf66c4dbd3427b4353553a, type: 3}
+      propertyPath: dealsContactDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4488935566848758035, guid: 70d282401acf66c4dbd3427b4353553a, type: 3}
+      propertyPath: aggro_state.attack_radius
+      value: 7.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4488935566848758047, guid: 70d282401acf66c4dbd3427b4353553a, type: 3}
       propertyPath: m_RootOrder
       value: 10

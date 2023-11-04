@@ -40,6 +40,12 @@ public class Belzebub_Enemy_Behavior : Base_Enemy
 
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, aggro_state.attack_radius);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, aggro_radius);
+
         if (!Application.isPlaying) return;
 
         current_state.OnDrawGizmos(this);
@@ -158,16 +164,17 @@ public class Belzebub_Aggro_State : AI_State
             {
                 //TODO: Save last seen player location & velocity and search nearby!
                 //For now, just wander again.
-                proper_context.Transition(proper_context.idle_state);
+                //proper_context.Transition(proper_context.idle_state);
+                Pursue(proper_context);
                 EventManager.singleton.AddEvent(new ChangedMOVstatemsg(context.gameObject, false));
             }
             else
             {
-                Pursue(proper_context);
-                RaycastHit2D hit = Physics2D.Raycast(fire_point.position, player_transform.position - fire_point.transform.position, attack_radius, LayerMask.GetMask("Player", "Platforms"));
+                
+                RaycastHit2D hit = Physics2D.Raycast(fire_point.position, player_transform.position - fire_point.transform.position, attack_radius, LayerMask.GetMask("Player"));
                 if (next_fire_time < Time.time && hit.collider != null && hit.collider.tag == "Player")
                 {
-                    //LEGACY TODO: Make bullets fire at angle between target and enemy
+                    Hover(proper_context);
                     EventManager.singleton.AddEvent(new shootmsg(proper_context.gameObject, player_transform));
                     next_fire_time = Time.time + fire_delay;
                 }
@@ -195,8 +202,18 @@ public class Belzebub_Aggro_State : AI_State
         context.seeker.StartPath(context.transform.position, target_pos);
     }
 
+    public void Hover(Belzebub_Enemy_Behavior context)
+    {
+
+    }
+
     public override void OnDrawGizmos(Base_Enemy context)
     {
-        Gizmos.DrawWireSphere(context.transform.position, attack_radius);
+        Vector3 targetPos = GameManager.inst.player.transform.position;
+        targetPos.z = fire_point.position.z;
+        Vector3 dir = targetPos - fire_point.position;
+
+        Gizmos.color = Color.black;
+        Gizmos.DrawRay(fire_point.position, dir);
     }
 }
