@@ -130,9 +130,14 @@ public class applyDamagemsg : msg
                 droplet.transform.position = target.transform.position + new Vector3(rand.x, rand.y, 0);
             }
         }
+        else
+        {
+            EventManager.singleton.GetComponent<UIManager>().updateHealthUI();
+        }
 
         target.GetComponent<AudioManager>().PlaySound("TakeDamage");
         target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
+        
     }
 }
 
@@ -264,6 +269,7 @@ public class Dashmsg : msg
     {
         Sender.GetComponent<AudioManager>().PlaySound("Dash");
         Sender.GetComponent<AnimatorManager>().SetAnim("Dash");
+        EventManager.singleton.GetComponent<UIManager>().updateDashUI();
     }
 }
 
