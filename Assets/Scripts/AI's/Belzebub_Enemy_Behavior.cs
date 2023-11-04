@@ -29,8 +29,6 @@ public class Belzebub_Enemy_Behavior : Base_Enemy
 
     void Update()
     {
-        //Debug.Log(current_state.GetType());
-
         completed_path = seeker.GetCurrentPath() == null || mover.reachedEndOfPath;
 
         current_state.Action(this);
@@ -68,6 +66,7 @@ public class Belzebub_Idle_State : AI_State
         if (Vector2.Distance(player_transform.position, proper_context.transform.position) < proper_context.aggro_radius)
         {
             proper_context.Transition(proper_context.aggro_state);
+            EventManager.singleton.AddEvent(new ChangedMOVstatemsg(context.gameObject, true));
         }
     }
 }
@@ -135,7 +134,6 @@ public class Belzebub_Aggro_State : AI_State
      * This needs a timer that begins when the enemy loses sight of the player, afterwhich the mob will drop aggro and return to Wandering
      */
 
-
     [Header("Attack Properties")]
     public Transform fire_point;
     public GameObject projectile;
@@ -161,6 +159,7 @@ public class Belzebub_Aggro_State : AI_State
                 //TODO: Save last seen player location & velocity and search nearby!
                 //For now, just wander again.
                 proper_context.Transition(proper_context.idle_state);
+                EventManager.singleton.AddEvent(new ChangedMOVstatemsg(context.gameObject, false));
             }
             else
             {
