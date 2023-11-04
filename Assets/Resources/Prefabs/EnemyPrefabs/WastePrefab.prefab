@@ -202,7 +202,7 @@ MonoBehaviour:
   idlePatrolState:
     minIdleWalkTime: 0.5
     maxIdleWalkTime: 2
-    aggroRange: 5
+    aggroRange: 10
     aggroOnlyInFront: 0
   wasteChaseState:
     giveUpRange: 10
