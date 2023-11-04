@@ -33,6 +33,11 @@ class Grounded : PlayerState
 
         //movement handling
 
+        if(frim.DownButton) //for semisolids
+        {
+            EventManager.singleton.AddEvent(new playerPressedCrouch(pm.gameObject));
+        }
+
         float horizontal = 0;
         if (frim.RightButton && frim.LeftButton)
         {

@@ -30,8 +30,11 @@ public abstract class Interactable : MonoBehaviour
     {
         if (requiresActivation == false)
         {
-            Deactivation();
-            EventManager.singleton.LastInteractable = null;
+            Deactivation();          
         }
+        else
+        {
+            EventManager.singleton.LastInteractable = null;
+        }        
     }
 }
