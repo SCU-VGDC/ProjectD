@@ -48,7 +48,6 @@ public class Waste_Enemy_Behavior : Base_Enemy
         private float walkTime = 0;
         private float walkTimeGoal = 0;
         private int direction = -1;
-        private int dDelta = 1;
         [NonSerialized] public Waste_Chase chase;
         [NonSerialized] public float leftX;
         [NonSerialized] public float rightX;
@@ -60,9 +59,11 @@ public class Waste_Enemy_Behavior : Base_Enemy
         public override void Init(Base_Enemy context)
         {
             walkTime = 0;
+            walkTimeGoal = 0;
         }
         public override void Action(Base_Enemy context)
         {
+            SpriteRenderer spriteR = context.GetComponent<SpriteRenderer>();
             bool oobLeft = context.transform.position.x < leftX;
             bool oobRight = context.transform.position.x > rightX;
             walkTime += Time.deltaTime;
@@ -71,6 +72,7 @@ public class Waste_Enemy_Behavior : Base_Enemy
                 direction = UnityEngine.Random.Range(oobLeft ? 1 : -1, oobRight ? 0 : 2);
                 walkTime = 0;
                 walkTimeGoal = UnityEngine.Random.Range(minIdleWalkTime, maxIdleWalkTime);
+                spriteR.flipX = direction != 0 ? direction == -1 : spriteR.flipX;
             }
             context.transform.position += new Vector3(context.speed * direction * Time.deltaTime, 0);
 
@@ -108,6 +110,7 @@ public class Waste_Enemy_Behavior : Base_Enemy
                 int direction = Math.Sign(xdiff);
                 float rawX = context.transform.position.x + (context.speed * aggroSpeedMult * direction * Time.deltaTime);
                 context.transform.position = new Vector2(Mathf.Clamp(rawX, leftX, rightX), context.transform.position.y);
+                context.GetComponent<SpriteRenderer>().flipX = direction == -1;
             }
 
             bool plrOutOfRange = Vector2.Distance(playerTrans.position, context.transform.position) > giveUpRange;
