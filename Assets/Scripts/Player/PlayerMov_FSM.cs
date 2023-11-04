@@ -9,7 +9,7 @@ using UnityEngine.Rendering.UI;
 
 public class PlayerMov_FSM : MonoBehaviour
 {
-    struct FrameInput
+    public struct FrameInput
     {
         public bool RightButton;
         public bool LeftButton;
