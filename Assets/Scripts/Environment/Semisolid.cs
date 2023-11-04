@@ -5,16 +5,18 @@ using UnityEngine.Tilemaps;
 
 public class Semisolid : MonoBehaviour
 {
-    private TilemapCollider2D tilemapCollider2D;
     private GameObject player;
     private bool falling;
     private float delay = 0.25f;
+    private PlatformEffector2D platformEffector2D;
+    private LayerMask currentLayer;
 
     // Start is called before the first frame update
     void Start()
     {
-        tilemapCollider2D = gameObject.GetComponent<TilemapCollider2D>();
+        platformEffector2D = GetComponent<PlatformEffector2D>();
         player = GameObject.Find("Player");
+        currentLayer = platformEffector2D.colliderMask;
     }
 
     // Update is called once per frame
@@ -27,7 +29,7 @@ public class Semisolid : MonoBehaviour
             {
                 Debug.Log("Attempted to Fall Through Semisolid");
                 falling = true;
-                player.layer = LayerMask.NameToLayer("Default");
+                platformEffector2D.colliderMask = currentLayer & ~LayerMask.GetMask("Player");
                 Invoke("FallCooldown", delay);
             }
         }
@@ -36,6 +38,6 @@ public class Semisolid : MonoBehaviour
     private void FallCooldown()
     {
         falling = false;
-        player.layer = LayerMask.NameToLayer("Player");
+        platformEffector2D.colliderMask = currentLayer | LayerMask.GetMask("Player");
     }
 }
