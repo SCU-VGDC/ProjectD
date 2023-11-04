@@ -459,3 +459,17 @@ public class newCheckPointmsg : msg
         Sender.GetComponent<AnimatorManager>().SetAnim("Checkpoint");
     }
 }
+
+public class overrideMovement : msg
+{
+    public overrideMovement(GameObject endTransition, PlayerMov_FSM.FrameInput frameInput) : base(endTransition)
+    {
+
+    }
+
+    public override void Run()
+    {
+        // TODO
+        
+    }
+}
