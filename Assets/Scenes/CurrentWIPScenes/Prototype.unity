@@ -2301,6 +2301,7 @@ GameObject:
   - component: {fileID: 792893015}
   - component: {fileID: 792893014}
   - component: {fileID: 792893013}
+  - component: {fileID: 792893017}
   m_Layer: 11
   m_Name: Tilemap_SemiSolid
   m_TagString: Untagged
@@ -2334,7 +2335,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 131062
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
@@ -3037,6 +3038,18 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &792893017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792893010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e0a419c62bfa4bc28dbc89719135a3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &817815781 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2191496448248054629, guid: 6dc37c0e6951bf64fa3f9d07d86cc069, type: 3}
