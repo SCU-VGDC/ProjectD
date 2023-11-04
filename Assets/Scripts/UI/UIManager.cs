@@ -44,7 +44,7 @@ public class UIManager : MonoBehaviour
 
     public void updateDashUI()
     {
-        int numDashes = GameManager.inst.playerMovement.currentDashes;
+        int numDashes = GameManager.inst.playerMovement.dashesRemaining;
         switch(numDashes)
         {
             case 0:
