@@ -10,7 +10,7 @@ using Pathfinding.Util;
  * Mandates all components that all enemies will need (Pathfinder and basic locomotion).
  * Also contains basic information such as speed and the current state that the AI is in.
  **/
-public abstract class Base_Enemy : MonoBehaviour
+public class Base_Enemy : MonoBehaviour
 {
 	public string PrefabName;
 
@@ -23,8 +23,11 @@ public abstract class Base_Enemy : MonoBehaviour
 	[HideInInspector]
 	public AILerp mover;
 
-	public bool dealsContactDamage;
+	[Header("Contact Damage")]
+	public bool dealsContactDamage = false;
 	public int contactDamageAmount;
+	public LayerMask contactLayers;
+	public bool destroyOnContact = false;
 
 	public void Init()
     {
@@ -41,22 +44,39 @@ public abstract class Base_Enemy : MonoBehaviour
         current_state.Init(this);
     }
 
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (!dealsContactDamage) return;
+
+        //This looks complicated, but just checks if the collided object is within our hittable layers.
+        if ((contactLayers & (1 << collision.gameObject.layer)) != 0)
+		{
+			if (collision.gameObject.GetComponent<ActorHealth>())
+			{
+                EventManager.singleton.AddEvent(new meleeDamagemsg(gameObject, collision.transform, contactDamageAmount));
+			}
+		}
+	}
+
 	public void OnTriggerEnter2D(Collider2D collider2D)
     {
-		if (collider2D.tag == "Player")
-        {
-			if (GameManager.inst.playerMovement.currentState == "Dash") //player is dashing thus provoking damage
+		if ((contactLayers & (1 << collider2D.gameObject.layer)) != 0)
+		{
+
+			if (collider2D.tag == "Player")
 			{
-				//DASH DAMAGE SET HERE
-				EventManager.singleton.AddEvent(new applyDamagemsg(collider2D.gameObject, GetComponent<ActorHealth>(), 1));
-				return;
+				if (GameManager.inst.playerMovement.currentState.name == "Dashing") //player is dashing thus provoking damage
+				{
+					//DASH DAMAGE SET HERE
+					EventManager.singleton.AddEvent(new applyDamagemsg(collider2D.gameObject, GetComponent<ActorHealth>(), 1));
+					return;
+				}					
 			}
-			
-			if(dealsContactDamage)
+
+			if(collider2D.gameObject.GetComponent<ActorHealth>())
 			{
                 EventManager.singleton.AddEvent(new meleeDamagemsg(gameObject, collider2D.transform, contactDamageAmount));
-                return;
-			}
+            }
         }
     }
 }

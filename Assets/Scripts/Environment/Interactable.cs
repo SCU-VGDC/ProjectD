@@ -9,6 +9,8 @@ public abstract class Interactable : MonoBehaviour
 
     public abstract void Activation();
 
+    public virtual void Deactivation() { }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (requiresActivation == false)
@@ -26,8 +28,9 @@ public abstract class Interactable : MonoBehaviour
 
     public void OnTriggerExit2D(Collider2D collision)
     {
-        if (requiresActivation == true)
+        if (requiresActivation == false)
         {
+            Deactivation();
             EventManager.singleton.LastInteractable = null;
         }
     }
