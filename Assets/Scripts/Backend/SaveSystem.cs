@@ -192,7 +192,7 @@ public class SaveSystem : MonoBehaviour
         //LastUpdatedInGameLS = GetLevelData();
         //Debug.Log(Application.persistentDataPath + "/saves.json");
         //SaveData();
-        LoadData();
+        //LoadData();
         //CreateWorld(LastUpdatedInGameLS);
     }
 

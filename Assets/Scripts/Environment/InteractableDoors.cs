@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractableDoors : MonoBehaviour
+public class InteractableDoors : Interactable
 {
-    // Start is called before the first frame update
-    void Start()
+    public Transform targetDoor;
+    public override void Activation() 
     {
-        
+        GameManager.inst.player.transform.position=targetDoor.position;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
