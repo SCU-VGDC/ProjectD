@@ -16,11 +16,14 @@ public class ActorHealth : MonoBehaviour
 
     public void ApplyDamage(int damageAmount)
     {
-        currentHealth -= damageAmount;
+        if (isVulnerable) { // damage cooldown must be inactive
+            currentHealth -= damageAmount;
 
         if (currentHealth <= 0)
         {
             EventManager.singleton.AddEvent(new actorDiedmsg(gameObject));
+            isVulnerable = false;
+            timeSinceLastHit = 0f;
         }
     }
 
@@ -33,5 +36,17 @@ public class ActorHealth : MonoBehaviour
     {
         GetComponent<Base_Enemy>().Disable();
         Destroy(gameObject);
+    }
+
+    private void Update()
+    {
+        if (!isVulnerable) // counts damage cooldown
+        {
+            timeSinceLastHit += Time.deltaTime;
+            if (timeSinceLastHit >= vulnerabilityCooldown)
+            {
+                isVulnerable = true;
+            }
+        }
     }
 }

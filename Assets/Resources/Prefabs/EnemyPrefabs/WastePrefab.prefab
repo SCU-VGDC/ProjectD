@@ -195,7 +195,7 @@ MonoBehaviour:
   contactDamageAmount: 3
   contactLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   destroyOnContact: 0
   point1: {fileID: 3979810772122672856}
   point2: {fileID: 3979810772441674829}
@@ -248,9 +248,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46b74cd268f8d824d8e6d034cb2f1965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animatorSource: {fileID: 0}
-  boolsAnimation: []
-  triggerAnimation: []
+  animatorSource: {fileID: 6151305987411060403}
+  boolsAnimation:
+  - Moving
+  - Dash
+  triggerAnimation:
+  - TakeDamage
+  - MeleeAttack
 --- !u!95 &6151305987411060403
 Animator:
   serializedVersion: 5
