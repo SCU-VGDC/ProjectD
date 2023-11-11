@@ -17,9 +17,9 @@ GameObject:
   - component: {fileID: 4224238066945239747}
   - component: {fileID: -7422719150086264458}
   - component: {fileID: 959245908003530800}
-  - component: {fileID: 425783006961018909}
+  - component: {fileID: -227606473398949693}
   m_Layer: 8
-  m_Name: Playersniper
+  m_Name: PlayerSniper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,7 +124,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -201,6 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 1
   maxHealth: 1
+  vulnerabilityCooldown: 1
 --- !u!114 &-7422719150086264458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,7 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
   AudioFiles: []
---- !u!114 &425783006961018909
+--- !u!114 &-227606473398949693
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -243,11 +244,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrefabName: 
-  speed: 10
+  speed: 3
   seeker: {fileID: 0}
   mover: {fileID: 0}
   dealsContactDamage: 1
-  contactDamageAmount: 5
+  contactDamageAmount: 0
   contactLayers:
     serializedVersion: 2
     m_Bits: 576
