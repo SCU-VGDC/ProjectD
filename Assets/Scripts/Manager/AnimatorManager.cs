@@ -9,20 +9,21 @@ public class AnimatorManager : MonoBehaviour
     public List<string> boolsAnimation = new List<string>();
     public List<string> triggerAnimation = new List<string>();
 
-    public void SetAnim(string name, bool value = false)
+    public bool SetAnim(string name, bool value = false)
     {
         if (boolsAnimation.Contains(name))
         {
             animatorSource.SetBool(name, value);
-            return;
+            return true;
         }
 
         if (triggerAnimation.Contains(name))
         {
             animatorSource.SetTrigger(name);
-            return;
+            return true;
         }
 
         Debug.LogWarning(gameObject + " requested missing animation " + name);
+        return false;
     }
 }

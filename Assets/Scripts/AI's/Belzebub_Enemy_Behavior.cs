@@ -7,6 +7,9 @@ using UnityEditor.Tilemaps;
 [RequireComponent(typeof(ActorShooting))]
 public class Belzebub_Enemy_Behavior : Base_Enemy
 {
+    public CircleCollider2D col;
+    public int repathRate = 60;
+
     [Header("Properties")]
     public float aggro_radius;
     public bool completed_path;
@@ -19,6 +22,7 @@ public class Belzebub_Enemy_Behavior : Base_Enemy
 
     void Start()
     {
+        col = GetComponent<CircleCollider2D>();
         //Initializes some important variables contained in Base_Enemy
         base.Init();
 
@@ -141,11 +145,12 @@ public class Belzebub_Aggro_State : AI_State
      */
 
     [Header("Attack Properties")]
-    public Transform fire_point;
-    public GameObject projectile;
     public float attack_radius = 10f;
-    public float fire_delay;
+    public float fire_delay = 2f;
+    public float flyswarm_delay = 3.5f;
     public float next_fire_time;
+    public GameObject flyswarm;
+    public Transform fire_point;
 
     private Transform player_transform;
 
@@ -158,7 +163,7 @@ public class Belzebub_Aggro_State : AI_State
     {
         Belzebub_Enemy_Behavior proper_context = (Belzebub_Enemy_Behavior)context;
 
-        if (proper_context.completed_path)
+        if (proper_context.completed_path && Time.frameCount % proper_context.repathRate == 0)
         {
             if (Vector2.Distance(player_transform.position, context.transform.position) > proper_context.aggro_radius)
             {
@@ -170,13 +175,21 @@ public class Belzebub_Aggro_State : AI_State
             }
             else
             {
-                
+                Hover(proper_context);
                 RaycastHit2D hit = Physics2D.Raycast(fire_point.position, player_transform.position - fire_point.transform.position, attack_radius, LayerMask.GetMask("Player"));
-                if (next_fire_time < Time.time && hit.collider != null && hit.collider.tag == "Player")
+                if (next_fire_time < Time.time)
                 {
-                    Hover(proper_context);
-                    EventManager.singleton.AddEvent(new shootmsg(proper_context.gameObject, player_transform));
-                    next_fire_time = Time.time + fire_delay;
+                    float randy = Random.Range(0f, 1f);
+                    if (randy < 0.66f && hit.collider != null && hit.collider.tag == "Player")
+                    {
+                        EventManager.singleton.AddEvent(new shootmsg(proper_context.gameObject, player_transform));
+                        next_fire_time = Time.time + fire_delay;
+                    }
+                    else
+                    {
+                        Object.Instantiate(flyswarm, fire_point.position, Quaternion.identity);
+                        next_fire_time = Time.time + flyswarm_delay;
+                    }
                 }
             }
         }
@@ -187,6 +200,7 @@ public class Belzebub_Aggro_State : AI_State
 
     public void Pursue(Belzebub_Enemy_Behavior context)
     {
+        float pursueVariance = 2f;
 
         //Try to stay within a safe distance of the player.
         //Code lifted from https://stackoverflow.com/questions/300871/best-way-to-find-a-point-on-a-circle-closest-to-a-given-point
@@ -196,7 +210,13 @@ public class Belzebub_Aggro_State : AI_State
         float target_x = player_transform.position.x + vX / magV * attack_radius;
         float target_y = player_transform.position.y + vY / magV * attack_radius;
 
-        Vector2 target_pos = new Vector2(target_x, target_y);
+        Vector2 target_pos = new Vector2(target_x, target_y) + (Random.insideUnitCircle * pursueVariance);
+
+        while (Physics2D.OverlapCircle(target_pos, context.col.radius, LayerMask.NameToLayer("Platforms")) != null)
+        {
+            pursueVariance += 0.5f;
+            target_pos = new Vector2(target_x, target_y) + (Random.insideUnitCircle * pursueVariance);
+        }
 
         //Actually build and send the path to the enemy!
         context.seeker.StartPath(context.transform.position, target_pos);
@@ -204,7 +224,17 @@ public class Belzebub_Aggro_State : AI_State
 
     public void Hover(Belzebub_Enemy_Behavior context)
     {
+        float hoverVariance = 3f;
 
+        Vector2 target_pos = new Vector2(context.transform.position.x, context.transform.position.y) + (Random.insideUnitCircle * hoverVariance);
+
+        while (Physics2D.OverlapCircle(target_pos, context.col.radius, LayerMask.NameToLayer("Platforms")) != null)
+        {
+            target_pos = new Vector2(context.transform.position.x, context.transform.position.y) + (Random.insideUnitCircle * hoverVariance);
+        }
+
+        //Actually build and send the path to the enemy!
+        context.seeker.StartPath(context.transform.position, target_pos);
     }
 
     public override void OnDrawGizmos(Base_Enemy context)

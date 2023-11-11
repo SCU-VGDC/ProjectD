@@ -9,8 +9,6 @@ public class ActorHealth : MonoBehaviour
     
     public int maxHealth;
 
-    public Action DeathFunction;
-
     private void Awake()
     {
         currentHealth = maxHealth;
@@ -22,12 +20,18 @@ public class ActorHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            DeathFunction();
+            EventManager.singleton.AddEvent(new actorDiedmsg(gameObject));
         }
     }
 
     public void Heal(int healAmount)
     {
         currentHealth += healAmount;
+    }
+
+    public void Die()
+    {
+        GetComponent<Base_Enemy>().Disable();
+        Destroy(gameObject);
     }
 }

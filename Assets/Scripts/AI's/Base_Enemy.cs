@@ -76,10 +76,20 @@ public class Base_Enemy : MonoBehaviour
 				}
 			}
 
-			if(collider2D.gameObject.GetComponent<ActorHealth>())
+			if (collider2D.gameObject.GetComponent<ActorHealth>())
 			{
                 EventManager.singleton.AddEvent(new meleeDamagemsg(gameObject, collider2D.transform, contactDamageAmount));
             }
-        }
+			else if (destroyOnContact)
+            {
+				Destroy(gameObject);
+            }
+		}
+    }
+
+	public void Disable()
+    {
+		enabled = false;
+		mover.canMove = false;
     }
 }

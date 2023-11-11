@@ -97,9 +97,10 @@ public class meleeDamagemsg : msg
 
     public override void Run()
     {
-        EventManager.singleton.AddEvent(new applyDamagemsg(Sender, target.GetComponent<ActorHealth>(), damage));
         Sender.GetComponent<AudioManager>().PlaySound("MeleeAttack");
         Sender.GetComponent<AnimatorManager>().SetAnim("MeleeAttack");
+
+        EventManager.singleton.AddEvent(new applyDamagemsg(Sender, target.GetComponent<ActorHealth>(), damage));
 
         if(Sender.GetComponent<Base_Enemy>())
         {
@@ -124,6 +125,9 @@ public class applyDamagemsg : msg
 
     public override void Run()
     {
+        //Save initial health for Blood calculation.
+        int initialHealth = target.currentHealth;
+
         target.ApplyDamage(damage);
 
         target.GetComponent<AudioManager>().PlaySound("TakeDamage");
@@ -143,8 +147,13 @@ public class applyDamagemsg : msg
 
         if (target.tag != "Player")
         {
-            int bloodCount = 50;
-            Debug.Log("Tried to spawn blood!");
+            //TODO: Perhaps make blood coefficient be set on a per-enemy basis? i.e. bosses spawn less to make more challenging.
+            float bloodCoeff = 1.5f;
+
+            //Spawn blood droplets based on the *effective* damage dealth.
+            //i.e. if you deal 10 damage but the enemy has 3 health, spawn blood based on the 3 health you actually take away.
+            int bloodCount = Mathf.FloorToInt(Mathf.Min(Mathf.Abs(damage), Mathf.Abs(initialHealth)) * bloodCoeff);
+            Debug.LogFormat("Spawning {0} blood particles.", bloodCount);
             for (int i = 0; i < bloodCount; i++)
             {
                 Vector2 rand = UnityEngine.Random.insideUnitCircle;
@@ -441,7 +450,10 @@ public class actorDiedmsg : msg
     {
         //TODO
         Sender.GetComponent<AudioManager>().PlaySound("Death");
-        Sender.GetComponent<AnimatorManager>().SetAnim("Death");
+        if (!Sender.GetComponent<AnimatorManager>().SetAnim("Death", true))
+        {
+            GameObject.Destroy(Sender);
+        }
     }
 }
 

@@ -29387,7 +29387,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 74.99997, y: 215.00002}
+  m_AnchoredPosition: {x: 75, y: 215.00002}
   m_SizeDelta: {x: 238.24, y: 47.74}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &2142672988
@@ -29435,14 +29435,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4488935566848758035, guid: 70d282401acf66c4dbd3427b4353553a, type: 3}
-      propertyPath: dealsContactDamage
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4488935566848758035, guid: 70d282401acf66c4dbd3427b4353553a, type: 3}
-      propertyPath: aggro_state.attack_radius
-      value: 7.5
-      objectReference: {fileID: 0}
     - target: {fileID: 4488935566848758047, guid: 70d282401acf66c4dbd3427b4353553a, type: 3}
       propertyPath: m_RootOrder
       value: 5
