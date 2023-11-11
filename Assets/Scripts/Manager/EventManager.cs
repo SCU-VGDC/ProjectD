@@ -187,6 +187,7 @@ public class healActormsg : msg
     public override void Run()
     {
         target.ApplyDamage(-heal);
+        EventManager.singleton.GetComponent<UIManager>().updateHealthUI();
     }
 }
 

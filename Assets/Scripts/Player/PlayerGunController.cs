@@ -31,19 +31,19 @@ public class PlayerGunController : MonoBehaviour
 
     public void AskedToChangeGun(int gunType) // 0 - pistol, 1 - sniper, 2 - shotgun
     {
-        if(gunType == 0)
+        if(gunType == 0 && isPistol)
         {
             currentGun = pistol;
         }
 
-        if (gunType == 1)
+        if (gunType == 1 && isSniper)
         {
-            currentGun = pistol;
+            currentGun = sniper;
         }
 
-        if (gunType == 2)
+        if (gunType == 2 && isShotgun)
         {
-            currentGun = pistol;
+            currentGun = shotgun;
         }
     }
 

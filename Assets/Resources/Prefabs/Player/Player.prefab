@@ -397,6 +397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae15c0d895a6d34e8d866129954d60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vulnerabilityCooldown: 1
   currentHealth: 10
   maxHealth: 10
 --- !u!82 &1901154283
@@ -514,9 +515,9 @@ MonoBehaviour:
     shotAnimation: 
     soundNormal: 
     soundMagic: 
-  isPistol: 0
+  isPistol: 1
   isSniper: 0
-  isShotgun: 0
+  isShotgun: 1
   pistol:
     firerate: 0.5
     projectileNormal: {fileID: 4193023076128913139, guid: 32c676a5e0c04bd438e2d0a5bf92b50d, type: 3}
@@ -532,12 +533,12 @@ MonoBehaviour:
     soundNormal: 
     soundMagic: 
   shotgun:
-    firerate: 0
-    projectileNormal: {fileID: 0}
-    projectileMagic: {fileID: 0}
-    shotAnimation: 
-    soundNormal: 
-    soundMagic: 
+    firerate: 0.5
+    projectileNormal: {fileID: 1847135152085424171, guid: 83d9aaeb1245b9d4d99af280077c60bc, type: 3}
+    projectileMagic: {fileID: 1847135152085424171, guid: 83d9aaeb1245b9d4d99af280077c60bc, type: 3}
+    shotAnimation: PistolShot
+    soundNormal: ShotgunShot
+    soundMagic: ShotgunShot
 --- !u!114 &1901154284
 MonoBehaviour:
   m_ObjectHideFlags: 0

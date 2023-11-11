@@ -23,6 +23,10 @@ public class PlayerMov_FSM : MonoBehaviour
         public bool RespawnButton;
         public bool InteractButton;
 
+        public bool Gun1Button;
+        public bool Gun2Button;
+        public bool Gun3Button;
+
         public float armRotation;
     }
 
@@ -118,6 +122,11 @@ public class PlayerMov_FSM : MonoBehaviour
         thisFrame.ShootButton = false;
         thisFrame.ShootAltButton = false;
         thisFrame.InteractButton = false;
+        thisFrame.RespawnButton = false;
+        thisFrame.Gun1Button = false;
+        thisFrame.Gun2Button = false;
+        thisFrame.Gun3Button = false;
+
 
         thisFrame.armRotation = 0;
 
@@ -131,6 +140,11 @@ public class PlayerMov_FSM : MonoBehaviour
         thisFrame.ShootAltButton = Input.GetButton("AltShoot");
 
         thisFrame.InteractButton = Input.GetButton("Interact");
+        thisFrame.RespawnButton = Input.GetButton("Respawn");
+
+        thisFrame.Gun1Button = Input.GetButton("Gun1");
+        thisFrame.Gun2Button = Input.GetButton("Gun2");
+        thisFrame.Gun3Button = Input.GetButton("Gun3");
 
         Vector3 Mouse_Pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 rotation = Mouse_Pos - transform.position;
@@ -174,7 +188,18 @@ public class PlayerMov_FSM : MonoBehaviour
             EventManager.singleton.AddEvent(new interactmsg(gameObject));
         }
 
-
+        if (frim.Gun1Button)
+        {
+            EventManager.singleton.AddEvent(new playerChangeGunmsg(0));
+        }
+        if (frim.Gun2Button)
+        {
+            EventManager.singleton.AddEvent(new playerChangeGunmsg(1));
+        }
+        if (frim.Gun3Button)
+        {
+            EventManager.singleton.AddEvent(new playerChangeGunmsg(2));
+        }
 
         if (Dialogue_Manager.DialogueInAction != null)
         {

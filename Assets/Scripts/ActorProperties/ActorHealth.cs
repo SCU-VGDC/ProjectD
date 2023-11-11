@@ -7,7 +7,7 @@ public class ActorHealth : MonoBehaviour
 {
     bool isVulnerable;
     float timeSinceLastHit;
-    float vulnerabilityCooldown;
+    public float vulnerabilityCooldown;
     public int currentHealth;
     
     public int maxHealth;
@@ -19,8 +19,16 @@ public class ActorHealth : MonoBehaviour
 
     public void ApplyDamage(int damageAmount)
     {
-        if (isVulnerable) // damage cooldown must be inactive
+        if(currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        if (isVulnerable)
+        {// damage cooldown must be inactive
             currentHealth -= damageAmount;
+            isVulnerable = false;
+        }
 
         if (currentHealth <= 0)
         {
@@ -28,11 +36,6 @@ public class ActorHealth : MonoBehaviour
             isVulnerable = false;
             timeSinceLastHit = 0f;
         }
-    }
-
-    public void Heal(int healAmount)
-    {
-        currentHealth += healAmount;
     }
 
     public void Die()
@@ -49,6 +52,7 @@ public class ActorHealth : MonoBehaviour
             if (timeSinceLastHit >= vulnerabilityCooldown)
             {
                 isVulnerable = true;
+                timeSinceLastHit = 0;
             }
         }
     }
