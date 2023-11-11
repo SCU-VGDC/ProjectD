@@ -16,7 +16,6 @@ public class newsniperbehavior : Base_Enemy
         current_state.Init(this);
         destroyOnContact=false;
         contactDamageAmount=5;
-        dealsContactDamage=true;
         speed=10;
     }
     
