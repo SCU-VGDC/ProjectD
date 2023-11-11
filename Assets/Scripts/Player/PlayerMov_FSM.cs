@@ -174,6 +174,17 @@ public class PlayerMov_FSM : MonoBehaviour
             EventManager.singleton.AddEvent(new interactmsg(gameObject));
         }
 
+
+
+        if (Dialogue_Manager.DialogueInAction != null)
+        {
+            if (frim.ShootButton && !Dialogue_Manager.DialogueInAction.HaveSpawnedOptions)
+            {
+                Dialogue_Manager.DialogueInAction.PerformAction(0);
+            }
+            return;
+        }
+
         currentState.Update(frim);
 
         if (frim.UpButton != mJump) //jump button state

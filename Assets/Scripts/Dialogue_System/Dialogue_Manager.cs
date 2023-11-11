@@ -3,13 +3,17 @@ using System.Collections;
 using System.IO;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Dialogue_Manager : Interactable
 {
+    public static Dialogue_Manager DialogueInAction;
+    private int chillTime;
+
     public bool startWithScene;
+
+    public bool isRepeatable;
 
     public string dialoguePlace;
 
@@ -27,22 +31,21 @@ public class Dialogue_Manager : Interactable
     public TMP_Text TextBox;
     public List<Button> Options;
 
+    private void FixedUpdate()
+    {
+        chillTime++;
+        if(chillTime > 100)
+        {
+            chillTime = 100;
+        }
+    }
+
     void Start()
     {
         if(startWithScene)
         {
             Activation();
         }
-
-        //1 - M(1) S("Privet", 0, 0) O(2,3,4)
-
-        //Read all lines
-
-        //Every line
-        //Check that starts with number
-        //Check that syntax is correct -> Throw error
-        //Transform Line into DialogueSlide
-        //Add to dictionary
     }
 
     public override void Activation()
@@ -50,8 +53,21 @@ public class Dialogue_Manager : Interactable
         GetData();
         SetUpDictionary();
         currentSlide = currentDialogueDB[1];
+        Photo.transform.parent.gameObject.SetActive(true);
+        DialogueInAction = this;
         PerformAction(0);
     }
+
+    public override void Deactivation()
+    {
+        Photo.transform.parent.gameObject.SetActive(false);
+        DialogueInAction = null;
+        if(!isRepeatable && !startWithScene)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 
     //-------------------Dialogue SetUp-----------------
 
@@ -263,6 +279,7 @@ public class Dialogue_Manager : Interactable
 
     void SetUpDictionary()
     {
+        currentDialogueDB =  new Dictionary<int, DialogueSlide>();
         foreach(DialogueSlide ds in dsfromimport)
         {
             currentDialogueDB.Add(ds.id, ds);
@@ -272,6 +289,13 @@ public class Dialogue_Manager : Interactable
     //-------------------Dialogue Actions-----------------
     public void PerformAction(int actionID)
     {
+        if(chillTime < 20)
+        {
+            return;
+        }
+
+        chillTime = 0;
+
         DialogueSlide ds;
 
         if(HaveSpawnedOptions)
@@ -296,6 +320,16 @@ public class Dialogue_Manager : Interactable
         {
             func.Function(this);
         }    
+    }
+
+    public void codeDecipher(int codeReceived)
+    {
+        switch(codeReceived)
+        {
+            case 0:
+                Deactivation();
+                break;
+        }
     }
 }
 
@@ -397,6 +431,7 @@ public class ShowOptions : DialogueFunction
         for (int i = 0; i < Options.Count; i++)
         {
             dm.Options[i].gameObject.SetActive(true);
+            dm.Options[i].onClick.RemoveAllListeners();
 
             DialogueSlide ds = dm.currentDialogueDB[Options[i]];
 
@@ -429,5 +464,6 @@ public class CodeSlide : DialogueFunction
     {
         //code sending
         Debug.Log("A code " + code + " was received");
+        dm.codeDecipher(code);
     }
 }
