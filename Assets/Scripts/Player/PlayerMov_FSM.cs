@@ -117,6 +117,7 @@ public class PlayerMov_FSM : MonoBehaviour
         thisFrame.DashButton = false;
         thisFrame.ShootButton = false;
         thisFrame.ShootAltButton = false;
+        thisFrame.InteractButton = false;
 
         thisFrame.armRotation = 0;
 
@@ -128,6 +129,8 @@ public class PlayerMov_FSM : MonoBehaviour
         thisFrame.DashButton = Input.GetButton("Dash");
         thisFrame.ShootButton = Input.GetButton("Shoot");
         thisFrame.ShootAltButton = Input.GetButton("AltShoot");
+
+        thisFrame.InteractButton = Input.GetButton("Interact");
 
         Vector3 Mouse_Pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 rotation = Mouse_Pos - transform.position;
@@ -154,12 +157,21 @@ public class PlayerMov_FSM : MonoBehaviour
 
     //--------------------------------States changes--------------------------------------------\
 
-    private void StateHandling(FrameInput frim) {
-        foreach (PlayerState state in states) {
-            if (state.CanStart(frim)) {
+    private void StateHandling(FrameInput frim) 
+    {
+        foreach (PlayerState state in states) 
+        {
+            if (state.CanStart(frim)) 
+            {
                 SetState(state);
                 break;
             }
+        }
+
+        //LOOK OVER IT, I am sending messages no matter which state, is this okay??
+        if(frim.InteractButton)
+        {
+            EventManager.singleton.AddEvent(new interactmsg(gameObject));
         }
 
         currentState.Update(frim);

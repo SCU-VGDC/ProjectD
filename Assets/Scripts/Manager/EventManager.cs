@@ -459,3 +459,30 @@ public class newCheckPointmsg : msg
         Sender.GetComponent<AnimatorManager>().SetAnim("Checkpoint");
     }
 }
+
+public class playerPressedCrouch : msg
+{
+    public playerPressedCrouch(GameObject m_shooter) : base(m_shooter)
+    {
+
+    }
+
+    public override void Run()
+    {
+        Semisolid.SemiSolidTilemapInst.FallSemiSolid();
+    }
+}
+
+public class overrideMovement : msg
+{
+    public overrideMovement(GameObject endTransition, PlayerMov_FSM.FrameInput frameInput) : base(endTransition)
+    {
+
+    }
+
+    public override void Run()
+    {
+        // TODO
+        
+    }
+}
