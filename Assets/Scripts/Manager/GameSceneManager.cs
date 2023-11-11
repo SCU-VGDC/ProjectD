@@ -60,6 +60,8 @@ public class GameSceneManager : MonoBehaviour
         }
 
         fadeScreenCoroutineIsRunning = true;
+        
+        blackImageObject.SetActive(true);
 
         int iterations = 100;
         for (int i = 0; i < iterations; i++)
@@ -71,6 +73,8 @@ public class GameSceneManager : MonoBehaviour
 
             yield return new WaitForSeconds(0.01f);
         }
+
+        blackImageObject.SetActive(false);
 
         if (transitionToScene)
         {
