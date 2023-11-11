@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System;
+using UnityEngine.Rendering;
+using UnityEditorInternal;
+using Unity.VisualScripting;
 
 public class GameSceneManager : MonoBehaviour
 {
@@ -10,6 +14,12 @@ public class GameSceneManager : MonoBehaviour
     /// </summary>
     public static GameSceneManager inst;
 
+    public GameObject blackImageObject;
+    private UnityEngine.UI.Image blackImage;
+
+    private bool fadeScreenCoroutineIsRunning;
+
+    // singleton magic
     private void Awake()
     {
         if (inst == null)
@@ -24,8 +34,49 @@ public class GameSceneManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    void Transition(Scene scene)
+    private void Start()
     {
-        //UnityEngine.SceneManagement.SceneManager.LoadSceneAsync()
+        blackImage = blackImageObject.GetComponent<UnityEngine.UI.Image>();
+
+        fadeScreenCoroutineIsRunning = false;
+    }
+
+    public IEnumerator LoadAsyncScene(string sceneName)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+
+        // wait until the asynchronous scene fully loads
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+    }
+
+    public IEnumerator StartFadeScreen(bool transitionToScene, string nextScene)
+    {
+        if (fadeScreenCoroutineIsRunning) 
+        {
+            yield break;
+        }
+
+        fadeScreenCoroutineIsRunning = true;
+
+        int iterations = 100;
+        for (int i = 0; i < iterations; i++)
+        {
+            Color newColor = blackImage.color;
+            newColor.a = ((float) i) / iterations;
+
+            blackImage.color = newColor;
+
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        if (transitionToScene)
+        {
+            yield return StartCoroutine(LoadAsyncScene(nextScene));
+        }
+
+        fadeScreenCoroutineIsRunning = false;
     }
 }

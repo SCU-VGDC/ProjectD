@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractableDoors : MonoBehaviour
+public class InteractableDoors : Interactable
 {
-    // Start is called before the first frame update
-    void Start()
+    public Transform targetDoor;
+    private int cooldown = 1;
+    private bool canTeleportAgain = true;
+    public override void Activation() 
     {
-        
+        if (canTeleportAgain)
+        {
+            canTeleportAgain = false;
+            targetDoor.GetComponent<InteractableDoors>().canTeleportAgain = false;
+            GameManager.inst.player.transform.position = targetDoor.position;        
+            StartCoroutine(DoorCool());
+            StartCoroutine(targetDoor.GetComponent<InteractableDoors>().DoorCool());
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public IEnumerator DoorCool()
+    {   
+        yield return new WaitForSeconds(cooldown);
+        canTeleportAgain = true;
     }
+    
 }

@@ -51,9 +51,13 @@ public class Base_Enemy : MonoBehaviour
         //This looks complicated, but just checks if the collided object is within our hittable layers.
         if ((contactLayers & (1 << collision.gameObject.layer)) != 0)
 		{
-			if (collision.gameObject.GetComponent<ActorHealth>())
+			if (collision.gameObject.tag == "Player")
 			{
                 EventManager.singleton.AddEvent(new meleeDamagemsg(gameObject, collision.transform, contactDamageAmount));
+			}
+			else if (destroyOnContact)
+			{
+				Destroy(gameObject);
 			}
 		}
 	}
@@ -62,7 +66,6 @@ public class Base_Enemy : MonoBehaviour
     {
 		if ((contactLayers & (1 << collider2D.gameObject.layer)) != 0)
 		{
-
 			if (collider2D.tag == "Player")
 			{
 				if (GameManager.inst.playerMovement.currentState.name == "Dashing") //player is dashing thus provoking damage
@@ -70,7 +73,7 @@ public class Base_Enemy : MonoBehaviour
 					//DASH DAMAGE SET HERE
 					EventManager.singleton.AddEvent(new applyDamagemsg(collider2D.gameObject, GetComponent<ActorHealth>(), 1));
 					return;
-				}					
+				}
 			}
 
 			if(collider2D.gameObject.GetComponent<ActorHealth>())

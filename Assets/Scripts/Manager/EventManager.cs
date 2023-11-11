@@ -153,6 +153,14 @@ public class applyDamagemsg : msg
                 droplet.transform.position = target.transform.position + new Vector3(rand.x, rand.y, 0);
             }
         }
+        else
+        {
+            EventManager.singleton.GetComponent<UIManager>().updateHealthUI();
+        }
+
+        target.GetComponent<AudioManager>().PlaySound("TakeDamage");
+        target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
+        
     }
 }
 
@@ -284,6 +292,7 @@ public class Dashmsg : msg
     {
         Sender.GetComponent<AudioManager>().PlaySound("Dash");
         Sender.GetComponent<AnimatorManager>().SetAnim("Dash");
+        EventManager.singleton.GetComponent<UIManager>().updateDashUI();
     }
 }
 
@@ -448,5 +457,32 @@ public class newCheckPointmsg : msg
         SaveSystem.singleton.SaveData();
         Sender.GetComponent<AudioManager>().PlaySound("Checkpoint");
         Sender.GetComponent<AnimatorManager>().SetAnim("Checkpoint");
+    }
+}
+
+public class playerPressedCrouch : msg
+{
+    public playerPressedCrouch(GameObject m_shooter) : base(m_shooter)
+    {
+
+    }
+
+    public override void Run()
+    {
+        Semisolid.SemiSolidTilemapInst.FallSemiSolid();
+    }
+}
+
+public class overrideMovement : msg
+{
+    public overrideMovement(GameObject endTransition, PlayerMov_FSM.FrameInput frameInput) : base(endTransition)
+    {
+
+    }
+
+    public override void Run()
+    {
+        // TODO
+        
     }
 }
