@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class ActorHealth : MonoBehaviour
 {
+    bool isVulnerable;
+    float timeSinceLastHit;
+    float vulnerabilityCooldown;
     public int currentHealth;
     
     public int maxHealth;
@@ -16,7 +19,7 @@ public class ActorHealth : MonoBehaviour
 
     public void ApplyDamage(int damageAmount)
     {
-        if (isVulnerable) { // damage cooldown must be inactive
+        if (isVulnerable) // damage cooldown must be inactive
             currentHealth -= damageAmount;
 
         if (currentHealth <= 0)
