@@ -16,7 +16,6 @@ public class OrbsPickUp : Interactable
     private bool this_is_dash_through_orb = true;
 
     [Header("Game Manager")]
-    private PersistentData pd;
     private PlayerMov_FSM player_movement;
 
     [Header("Graphics")]
@@ -28,8 +27,6 @@ public class OrbsPickUp : Interactable
 
     void Start()
     {
-        pd = PersistentDataManager.inst.persistentData;
-
         player_movement = GameManager.inst.playerMovement;
         light = gameObject.GetComponent<UnityEngine.Rendering.Universal.Light2D>();
 

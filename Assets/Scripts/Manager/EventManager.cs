@@ -233,6 +233,7 @@ public class playerChangeGunmsg : msg
     public override void Run()
     {
         Sender.GetComponent<PlayerGunController>().AskedToChangeGun(GunType);
+        //TODO
         Debug.Log("Change Sound");
         Debug.Log("Update Gun Sound");
     }
@@ -277,15 +278,17 @@ public class OrbPickUpmsg : msg
 
     public override void Run()
     {
+        
         if(is_Dash_orb == false)
         {
-            Debug.Log("Orb Sound");
+            Sender.GetComponent<AudioManager>().PlaySound("OrbNormal");
         }
         if (is_Dash_orb == true)
         {
-            Debug.Log("Orb Thorugh Sound");
+            Sender.GetComponent<AudioManager>().PlaySound("OrbDash");
         }
 
+        //TODO
         GameManager.inst.playerMovement.dashesRemaining++;
     }
 }
@@ -468,8 +471,14 @@ public class newCheckPointmsg : msg
     public override void Run()
     {
         SaveSystem.singleton.SaveData();
+
+        foreach (Checkpoint cp in UnityEngine.Object.FindObjectsOfType<Checkpoint>())
+        {
+            Sender.GetComponent<AnimatorManager>().SetAnim("isActivated", false);
+        }
+
         Sender.GetComponent<AudioManager>().PlaySound("Checkpoint");
-        Sender.GetComponent<AnimatorManager>().SetAnim("Checkpoint");
+        Sender.GetComponent<AnimatorManager>().SetAnim("isActivated", true);
     }
 }
 

@@ -19,6 +19,7 @@ public class InteractableTooltips : Interactable
     void Start()
     {
        textGameObject = gameObject.transform.GetChild(0).gameObject;
+       textGameObject.SetActive(false);
     }
 
 }
