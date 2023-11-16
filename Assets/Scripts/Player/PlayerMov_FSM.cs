@@ -72,6 +72,9 @@ public class PlayerMov_FSM : MonoBehaviour
     [HideInInspector]
     public int dashesRemaining;
 
+    public bool overloadMovement;
+    public FrameInput overloadedInput;
+
     //public ContactFilter2D contactFilter;
 
     private void Start()
@@ -98,6 +101,11 @@ public class PlayerMov_FSM : MonoBehaviour
     private void FixedUpdate()
     {
         FrameInput thisFrame = InputHandler(); // this can be chnaged into AI
+
+        if(overloadMovement)
+        {
+            thisFrame = overloadedInput;
+        }
 
         isGrounded = rb.IsTouching(cfGround);
         isWallLeft = rb.IsTouching(cfWallL);
@@ -201,6 +209,7 @@ public class PlayerMov_FSM : MonoBehaviour
             EventManager.singleton.AddEvent(new playerChangeGunmsg(2));
         }
 
+        //йняршкэ
         if (Dialogue_Manager.DialogueInAction != null)
         {
             if (frim.ShootButton && !Dialogue_Manager.DialogueInAction.HaveSpawnedOptions)

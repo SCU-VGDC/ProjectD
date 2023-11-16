@@ -366,6 +366,7 @@ MonoBehaviour:
   dashTime: 0.15
   dashSpeed: 70
   dashesRemaining: 0
+  overloadMovement: 0
 --- !u!114 &5265058553035837672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,6 +556,13 @@ MonoBehaviour:
   AudioFiles:
   - name: PistolShot
     clip: {fileID: 8300000, guid: 62d4310157a9bc241809d4991260e805, type: 3}
+    Variants: []
+  - name: Dash
+    clip: {fileID: 8300000, guid: 932357ef57466d143b7582270fdc382c, type: 3}
+    Variants:
+    - {fileID: 8300000, guid: 932357ef57466d143b7582270fdc382c, type: 3}
+    - {fileID: 8300000, guid: 7954638182995464aa37b997b9f9f1a7, type: 3}
+    - {fileID: 8300000, guid: 2e5cbdcc648acd24c967856563c001d0, type: 3}
 --- !u!114 &1901154285
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -30,6 +30,7 @@ public class Dialogue_Manager : Interactable
     public TMP_Text NameBox;
     public TMP_Text TextBox;
     public List<Button> Options;
+    public AudioSource audioSource;
 
     private void FixedUpdate()
     {
@@ -55,6 +56,7 @@ public class Dialogue_Manager : Interactable
         currentSlide = currentDialogueDB[1];
         Photo.transform.parent.gameObject.SetActive(true);
         DialogueInAction = this;
+        chillTime = 90;
         PerformAction(0);
     }
 
@@ -132,7 +134,8 @@ public class Dialogue_Manager : Interactable
 
                 if (s[i - 1] == 'S')
                 {
-                    string[] innerShowText = new string[3];
+                    string[] innerShowText = new string[4];
+                    innerShowText[3] = "";
                     int stringCounter = 0;
 
                     for (int k = 0; k < insideText.Length; k++) //gets insides of show
@@ -151,7 +154,7 @@ public class Dialogue_Manager : Interactable
                         innerShowText[stringCounter] = innerShowText[stringCounter] + insideText[k];
                     }
 
-                    ds.Functions.Add(new ShowText(innerShowText[0], innerShowText[1], innerShowText[2]));
+                    ds.Functions.Add(new ShowText(innerShowText[0], innerShowText[1], innerShowText[2], innerShowText[3]));
                 }
                 
                 if (s[i - 1] == 'M')
@@ -326,7 +329,7 @@ public class Dialogue_Manager : Interactable
     {
         switch(codeReceived)
         {
-            case 0:
+            case 0: //code 0 for exiting dialogue
                 Deactivation();
                 break;
         }
@@ -373,12 +376,14 @@ public class ShowText : DialogueFunction
     public string NameData;
     public string textData;
     public string photoPath;
+    public string soundPath;
 
-    public ShowText(string m_name, string m_text, string m_photoPath) : base("T")
+    public ShowText(string m_name, string m_text, string m_photoPath, string m_soundPath) : base("T")
     {
         NameData = m_name;
         textData = m_text;
         photoPath = m_photoPath;
+        soundPath = m_soundPath;
     }
 
     public override void Function(Dialogue_Manager dm)
@@ -387,6 +392,11 @@ public class ShowText : DialogueFunction
         dm.TextBox.text = textData;
         dm.NameBox.text = NameData;
         dm.Photo.sprite = Resources.Load<Sprite>(photoPath);
+        if (soundPath != "")
+        {
+            dm.audioSource.clip = Resources.Load<AudioClip>(soundPath);
+            dm.audioSource.Play();
+        }
 
     }
 }

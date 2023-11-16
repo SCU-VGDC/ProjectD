@@ -36,7 +36,7 @@ public class EndTransition : MonoBehaviour
             StartCoroutine(GameSceneManager.inst.StartFadeScreen(true, nextScene));
 
             // override the player movement to continuously move right 
-            EventManager.singleton.AddEvent(new overrideMovement(gameObject, moveRightFrameInput));
+            EventManager.singleton.AddEvent(new overrideMovement(gameObject, moveRightFrameInput, true));
         }
     }
 }

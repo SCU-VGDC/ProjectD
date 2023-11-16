@@ -24,6 +24,18 @@ public class AudioManager : MonoBehaviour
         if (AudioData.ContainsKey(name))
         {
             audioSource.clip = AudioData[name].clip;
+
+            if (AudioData[name].Variants != null)
+            {
+                if (AudioData[name].Variants.Count > 0) //randomizes variant if present
+                {
+                    int rnd = Random.Range(0, AudioData[name].Variants.Count);
+                    audioSource.clip = AudioData[name].Variants[rnd];
+                }
+            }
+
+            audioSource.pitch = Random.Range(0.9f, 1.1f); //randomizes pitch for fun
+
             audioSource.Play();
         }
         else
@@ -60,5 +72,6 @@ public class AudioRecord
 {
     public string name;
     public AudioClip clip;
+    public List<AudioClip> Variants;
 }
 

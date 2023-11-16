@@ -497,14 +497,18 @@ public class playerPressedCrouch : msg
 
 public class overrideMovement : msg
 {
-    public overrideMovement(GameObject endTransition, PlayerMov_FSM.FrameInput frameInput) : base(endTransition)
-    {
+    bool start;
+    PlayerMov_FSM.FrameInput overrideInputGiven;
 
+    public overrideMovement(GameObject endTransition, PlayerMov_FSM.FrameInput m_frameInput, bool m_start) : base(endTransition)
+    {
+        start = m_start;
+        overrideInputGiven = m_frameInput;
     }
 
     public override void Run()
     {
-        // TODO
-        
+        GameManager.inst.playerMovement.overloadMovement = start;
+        GameManager.inst.playerMovement.overloadedInput = overrideInputGiven;
     }
 }
