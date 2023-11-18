@@ -62,7 +62,7 @@ public class Base_Enemy : MonoBehaviour
 		}
 	}
 
-	public void OnTriggerEnter2D(Collider2D collider2D)
+	public void OnTriggerStay2D(Collider2D collider2D)
     {
 		if ((contactLayers & (1 << collider2D.gameObject.layer)) != 0)
 		{
