@@ -521,3 +521,19 @@ public class overrideMovement : msg
         GameManager.inst.playerMovement.overloadedInput = overrideInputGiven;
     }
 }
+
+public class changeDoor : msg
+{
+    bool close;
+
+    public changeDoor(GameObject door, bool m_close) : base(door)
+    {
+        close = m_close;
+    }
+
+    public override void Run()
+    {
+        Sender.GetComponent<AnimatorManager>().SetAnim("Close", close);
+        Sender.GetComponent<BoxCollider2D>().enabled = close;
+    }
+}

@@ -62,7 +62,7 @@ public class Base_Enemy : MonoBehaviour
 		}
 	}
 
-	public virtual void OnTriggerEnter2D(Collider2D collider2D)
+	public void OnTriggerStay2D(Collider2D collider2D)
     {
 		if (Helpers.MatchesLayerMask(collider2D.gameObject, contactLayers))
 		{
