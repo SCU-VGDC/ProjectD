@@ -6,11 +6,25 @@ public class Bullet_Behavior : Base_Enemy
 {
     public Rigidbody2D rb;
     public Move_Forward_State move_state;
+    public bool ricochet = false;
+    [SerializeField]
+    int maxRicochetCount = 3;
+    [SerializeField]
+    int currentRicochetCount = 0;
+    [SerializeField]
+    public LayerMask ricochetLayers;
+    [HideInInspector]
+    public RaycastHit2D[] ricochetHits = new RaycastHit2D[1];
+    bool ricocheted = false;
 
     private void Start()
     {
         base.Init();
 
+        //Ricochet needs to make sure not to be destroyed on contact!
+        /*if (ricochet)
+            destroyOnContact = false;*/
+        move_state = new Move_Forward_State(transform.rotation);
         current_state = move_state;
         current_state.Init(this);
     }
@@ -26,21 +40,55 @@ public class Bullet_Behavior : Base_Enemy
 
         current_state.OnDrawGizmos(this);
     }
+
+    public override void OnTriggerEnter2D(Collider2D collider)
+    {
+        //Ricochet!
+        if (ricochet && !ricocheted && Helpers.MatchesLayerMask(collider.gameObject, ricochetLayers) && currentRicochetCount < maxRicochetCount)
+        {
+            ricocheted = true;
+            Quaternion reflectedRot = Quaternion.FromToRotation(transform.right, Vector2.Reflect(transform.right, -ricochetHits[0].normal)) * transform.rotation;
+            transform.rotation = reflectedRot;
+            move_state = new Move_Forward_State(reflectedRot);
+            current_state = move_state;
+            currentRicochetCount++;
+        }
+        else
+        {
+            base.OnTriggerEnter2D(collider);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        ricocheted = false;
+    }
 }
 
 [System.Serializable]
 public class Move_Forward_State : AI_State
 {
     Quaternion startRotation;
+    ContactFilter2D ricochetFilter;
+
+    public Move_Forward_State(Quaternion inputRotation)
+    {
+        startRotation = inputRotation;
+    }
 
     public override void Init(Base_Enemy context)
     {
-        startRotation = context.transform.rotation;
+        ricochetFilter = new ContactFilter2D();
+        ricochetFilter.SetLayerMask(((Bullet_Behavior)context).ricochetLayers);
     }
 
     public override void Action(Base_Enemy context)
     {
         Vector3 dir = context.transform.right;
+
+        //Get ricochet direction BEFORE you potentially move into the collider.
+        Physics2D.Raycast(context.transform.position, dir, ricochetFilter, ((Bullet_Behavior)context).ricochetHits, 1f);
+
         context.mover.FinalizeMovement(context.transform.position + (dir * context.speed * Time.deltaTime), startRotation);
     }
 

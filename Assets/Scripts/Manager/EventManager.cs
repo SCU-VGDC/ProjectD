@@ -131,7 +131,14 @@ public class applyDamagemsg : msg
         target.ApplyDamage(damage);
 
         target.GetComponent<AudioManager>().PlaySound("TakeDamage");
-        target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
+
+        //The TakeDamage animation sometimes overrides the Death animation! This fixes that
+        if (target.currentHealth > 0)
+        {
+            target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
+        }
+
+        
 
         if (target.transform.childCount != 0)
         {
@@ -145,6 +152,8 @@ public class applyDamagemsg : msg
             }
         }
 
+
+        //Only spawn blood for Enemies, not Player
         if (target.tag != "Player")
         {
             //TODO: Perhaps make blood coefficient be set on a per-enemy basis? i.e. bosses spawn less to make more challenging.
@@ -167,9 +176,9 @@ public class applyDamagemsg : msg
             EventManager.singleton.GetComponent<UIManager>().updateHealthUI();
         }
 
-        target.GetComponent<AudioManager>().PlaySound("TakeDamage");
-        target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
-        
+        //Not sure why this was here twice? Commented out -Gabe
+        //target.GetComponent<AudioManager>().PlaySound("TakeDamage");
+        //target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
     }
 }
 
