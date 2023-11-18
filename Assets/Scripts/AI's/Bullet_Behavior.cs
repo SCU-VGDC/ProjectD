@@ -41,7 +41,7 @@ public class Bullet_Behavior : Base_Enemy
         current_state.OnDrawGizmos(this);
     }
 
-    public override void OnTriggerEnter2D(Collider2D collider)
+    public void OnTriggerEnter2D(Collider2D collider)
     {
         //Ricochet!
         if (ricochet && !ricocheted && Helpers.MatchesLayerMask(collider.gameObject, ricochetLayers) && currentRicochetCount < maxRicochetCount)
@@ -52,10 +52,6 @@ public class Bullet_Behavior : Base_Enemy
             move_state = new Move_Forward_State(reflectedRot);
             current_state = move_state;
             currentRicochetCount++;
-        }
-        else
-        {
-            base.OnTriggerEnter2D(collider);
         }
     }
 
