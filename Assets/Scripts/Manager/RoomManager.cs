@@ -93,8 +93,8 @@ public class RoomManager : MonoBehaviour
         }
 
         // default the gates open
-        entrance.SetActive(false);
-        exit.SetActive(false);
+        EventManager.singleton.AddEvent(new changeDoor(entrance,false));
+        EventManager.singleton.AddEvent(new changeDoor(exit, false));
     }
 
     void FixedUpdate()
@@ -117,16 +117,16 @@ public class RoomManager : MonoBehaviour
 
             if (!inBattle) // battle has ended
             {
-                entrance.SetActive(false); //open doors
-                exit.SetActive(false);
+                EventManager.singleton.AddEvent(new changeDoor(entrance, false));
+                EventManager.singleton.AddEvent(new changeDoor(exit, false));
             }
 
 
             if (inBattle) //set active all enemies and close doors
             {
                 // boxed like a fish
-                entrance.SetActive(true);
-                exit.SetActive(true);
+                EventManager.singleton.AddEvent(new changeDoor(entrance, true));
+                EventManager.singleton.AddEvent(new changeDoor(exit, true));
 
                 coroutineSpawnWaves = spawnWaves();
                 StartCoroutine(coroutineSpawnWaves);
@@ -176,7 +176,8 @@ public class RoomManager : MonoBehaviour
         }
 
         // be free
-        exit.SetActive(false);
+        EventManager.singleton.AddEvent(new changeDoor(entrance, false));
+        EventManager.singleton.AddEvent(new changeDoor(exit, false));
         isCompleted = true;
     }
 
