@@ -517,22 +517,22 @@ MonoBehaviour:
     soundNormal: 
     soundMagic: 
   isPistol: 1
-  isSniper: 0
+  isSniper: 1
   isShotgun: 1
   pistol:
     firerate: 0.5
     projectileNormal: {fileID: 4193023076128913139, guid: 32c676a5e0c04bd438e2d0a5bf92b50d, type: 3}
-    projectileMagic: {fileID: 4193023076128913139, guid: 32c676a5e0c04bd438e2d0a5bf92b50d, type: 3}
+    projectileMagic: {fileID: 4193023076128913139, guid: 87919d1d4645f7341a517c051230d65b, type: 3}
     shotAnimation: PistolShot
     soundNormal: PistolShot
     soundMagic: PistolShot
   sniper:
-    firerate: 0
-    projectileNormal: {fileID: 0}
-    projectileMagic: {fileID: 0}
-    shotAnimation: 
-    soundNormal: 
-    soundMagic: 
+    firerate: 1
+    projectileNormal: {fileID: 4193023076128913139, guid: 1e003674292c7f546807d5b0dc499221, type: 3}
+    projectileMagic: {fileID: 4193023076128913139, guid: 1e003674292c7f546807d5b0dc499221, type: 3}
+    shotAnimation: PistolShot
+    soundNormal: PistolShot
+    soundMagic: PistolShot
   shotgun:
     firerate: 0.5
     projectileNormal: {fileID: 1847135152085424171, guid: 83d9aaeb1245b9d4d99af280077c60bc, type: 3}
@@ -930,3 +930,4 @@ MonoBehaviour:
   - Moving
   triggerAnimation:
   - PistolShot
+  - Dash

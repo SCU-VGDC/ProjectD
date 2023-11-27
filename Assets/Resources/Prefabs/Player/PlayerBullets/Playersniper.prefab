@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+  m_Color: {r: 0.2113207, g: 0.4952948, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -199,9 +199,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae15c0d895a6d34e8d866129954d60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vulnerabilityCooldown: 1
   currentHealth: 1
   maxHealth: 1
-  vulnerabilityCooldown: 1
 --- !u!114 &-7422719150086264458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,15 +244,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrefabName: 
-  speed: 3
+  speed: 10
   seeker: {fileID: 0}
   mover: {fileID: 0}
   dealsContactDamage: 1
-  contactDamageAmount: 0
+  contactDamageAmount: 5
   contactLayers:
     serializedVersion: 2
-    m_Bits: 576
-  destroyOnContact: 1
+    m_Bits: 512
+  destroyOnContact: 0
   rb: {fileID: 0}
 --- !u!1 &6342433615098411312
 GameObject:
@@ -328,7 +328,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.882162, b: 0.29622638, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

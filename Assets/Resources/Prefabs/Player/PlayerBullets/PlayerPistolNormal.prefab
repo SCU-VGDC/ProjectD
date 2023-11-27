@@ -210,9 +210,7 @@ MonoBehaviour:
     m_Bits: 576
   destroyOnContact: 1
   rb: {fileID: 4193023076128913138}
-  move_state:
-    startRotation: {x: 0, y: 0, z: 0, w: 0}
-  ricochet: 1
+  ricochet: 0
   maxRicochetCount: 3
   currentRicochetCount: 0
   ricochetLayers:

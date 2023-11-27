@@ -35,6 +35,10 @@ class OnWall : PlayerState
             {
                 EventManager.singleton.AddEvent(new playerShootGunmsg(0));
             }
+            if (frim.ShootAltButton && isFacingRight)
+            {
+                EventManager.singleton.AddEvent(new playerShootGunmsg(1));
+            }
         }
 
         if (pm.isWallRight)
@@ -43,6 +47,10 @@ class OnWall : PlayerState
             if (frim.ShootButton && !isFacingRight)
             {
                 EventManager.singleton.AddEvent(new playerShootGunmsg(0));
+            }
+            if (frim.ShootAltButton && !isFacingRight)
+            {
+                EventManager.singleton.AddEvent(new playerShootGunmsg(1));
             }
         }
 

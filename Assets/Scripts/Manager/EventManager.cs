@@ -244,7 +244,7 @@ public class playerChangeGunmsg : msg
         AudioManager ad = Sender.GetComponent<AudioManager>();
     
         Sender.GetComponent<PlayerGunController>().AskedToChangeGun(GunType);
-        ad.PlaySound("GunchangeSound");
+        ad.PlaySound("GunChangeSound");
     }
 }
 
@@ -314,6 +314,9 @@ public class Dashmsg : msg
     {
         Sender.GetComponent<AudioManager>().PlaySound("Dash");
         Sender.GetComponent<AnimatorManager>().SetAnim("Dash");
+
+        Sender.GetComponent<PlayerMov_FSM>().arm.GetComponent<AnimatorManager>().SetAnim("Dash");
+
         EventManager.singleton.GetComponent<UIManager>().updateDashUI();
     }
 }
@@ -483,7 +486,7 @@ public class newCheckPointmsg : msg
 
         foreach (Checkpoint cp in UnityEngine.Object.FindObjectsOfType<Checkpoint>())
         {
-            Sender.GetComponent<AnimatorManager>().SetAnim("isActivated", false);
+            cp.GetComponent<AnimatorManager>().SetAnim("isActivated", false);
         }
 
         Sender.GetComponent<AudioManager>().PlaySound("Checkpoint");

@@ -19,6 +19,10 @@ class Airborne : PlayerState
         {
             EventManager.singleton.AddEvent(new playerShootGunmsg(0));
         }
+        if (frim.ShootAltButton)
+        {
+            EventManager.singleton.AddEvent(new playerShootGunmsg(1));
+        }
 
         if (!pm.isGrounded && (pm.isWallLeft || pm.isWallRight))
         {

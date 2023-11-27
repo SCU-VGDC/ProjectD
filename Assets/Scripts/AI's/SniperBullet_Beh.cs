@@ -4,20 +4,18 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class newsniperbehavior : Base_Enemy
+public class SniperBullet_Beh : Base_Enemy
 {
+    //TODO GABE do you like it?
+
     public Rigidbody2D rb;
-    public Move_Forward_State move_state;
+    public Move_Forward_Statesniper move_state;
 
     private void Start()
     {
         base.Init();
         current_state = move_state;
         current_state.Init(this);
-        destroyOnContact=false;
-        contactDamageAmount=5;
-        dealsContactDamage=true;
-        speed=10;
     }
     
     private void Update()
@@ -33,8 +31,8 @@ public class newsniperbehavior : Base_Enemy
     }
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("enter");
-        if(collision.gameObject.layer==6)//this checks if it hits a platform.
+        Debug.LogError(collision.gameObject);
+        if(collision.gameObject.layer == 6)//this checks if it hits a platform.
             Destroy(gameObject);
     }
 }

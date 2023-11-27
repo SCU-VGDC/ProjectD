@@ -30,10 +30,14 @@ class Grounded : PlayerState
         {
             EventManager.singleton.AddEvent(new playerShootGunmsg(0));
         }
+        if (frim.ShootAltButton)
+        {
+            EventManager.singleton.AddEvent(new playerShootGunmsg(1));
+        }
 
         //movement handling
 
-        if(frim.DownButton) //for semisolids
+        if (frim.DownButton) //for semisolids
         {
             EventManager.singleton.AddEvent(new playerPressedCrouch(pm.gameObject));
         }

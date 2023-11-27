@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: -7422719150086264458}
   - component: {fileID: 959245908003530800}
   m_Layer: 8
-  m_Name: PlayerShotgunChild
+  m_Name: PlayerPistolMagic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,9 +81,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.7169812, g: 0.40998095, b: 0, a: 1}
+  m_Color: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -204,18 +204,18 @@ MonoBehaviour:
   seeker: {fileID: 0}
   mover: {fileID: 0}
   dealsContactDamage: 1
-  contactDamageAmount: 1
+  contactDamageAmount: 2
   contactLayers:
     serializedVersion: 2
     m_Bits: 576
   destroyOnContact: 1
   rb: {fileID: 4193023076128913138}
-  ricochet: 0
+  ricochet: 1
   maxRicochetCount: 3
   currentRicochetCount: 0
   ricochetLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!114 &4224238066945239747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,7 +334,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.51794124, b: 0, a: 1}
+  m_Color: {r: 0.07393074, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
