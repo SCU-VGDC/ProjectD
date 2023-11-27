@@ -241,10 +241,10 @@ public class playerChangeGunmsg : msg
 
     public override void Run()
     {
+        AudioManager ad = Sender.GetComponent<AudioManager>();
+    
         Sender.GetComponent<PlayerGunController>().AskedToChangeGun(GunType);
-        //TODO
-        Debug.Log("Change Sound");
-        Debug.Log("Update Gun Sound");
+        ad.PlaySound("GunchangeSound");
     }
 }
 
