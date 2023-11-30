@@ -110,9 +110,9 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_Interpolate: 2
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &4193023076128913143
 CircleCollider2D:
@@ -178,7 +178,7 @@ MonoBehaviour:
     maximumInterval: 2
     visualizeSensitivity: 0
   canMove: 1
-  speed: 3
+  speed: 8
   orientation: 1
   enableRotation: 1
   rotationSpeed: 10
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrefabName: 
-  speed: 10
+  speed: 16
   seeker: {fileID: 0}
   mover: {fileID: 0}
   dealsContactDamage: 1

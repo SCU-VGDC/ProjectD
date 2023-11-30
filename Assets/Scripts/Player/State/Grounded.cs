@@ -11,7 +11,9 @@ class Grounded : PlayerState
         base.Start();
         EventManager.singleton.AddEvent(new ChangedGroundstatemsg(pm.gameObject, true));
         pm.numOfWallJumps = 0;
+        //TODO    
         pm.dashesRemaining = pm.dashes;
+        EventManager.singleton.GetComponent<UIManager>().updateDashUI();
     }
 
     public override void Update(PlayerMov_FSM.FrameInput frim)

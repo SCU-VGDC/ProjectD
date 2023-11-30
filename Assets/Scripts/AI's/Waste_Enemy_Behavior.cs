@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 
 public class Waste_Enemy_Behavior : Base_Enemy

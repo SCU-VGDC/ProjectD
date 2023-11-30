@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Pathfinding;
-using UnityEditor.Tilemaps;
+
 
 [RequireComponent(typeof(ActorShooting))]
 public class Belzebub_Enemy_Behavior : Base_Enemy

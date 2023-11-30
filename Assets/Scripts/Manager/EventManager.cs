@@ -97,6 +97,17 @@ public class meleeDamagemsg : msg
 
     public override void Run()
     {
+        if (target)
+        {
+            if(target.GetComponent<ActorHealth>())
+            {
+                if (target.GetComponent<ActorHealth>().died)
+                {
+                    return;
+                }
+            }          
+        }
+
         Sender.GetComponent<AudioManager>().PlaySound("MeleeAttack");
         Sender.GetComponent<AnimatorManager>().SetAnim("MeleeAttack");
 
@@ -125,6 +136,12 @@ public class applyDamagemsg : msg
 
     public override void Run()
     {
+
+        if (target.died)
+        {
+            return;
+        }
+
         //Save initial health for Blood calculation.
         int initialHealth = target.currentHealth;
 
@@ -133,10 +150,9 @@ public class applyDamagemsg : msg
         target.GetComponent<AudioManager>().PlaySound("TakeDamage");
 
         //The TakeDamage animation sometimes overrides the Death animation! This fixes that
-        if (target.currentHealth > 0)
-        {
-            target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
-        }
+
+        target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
+
 
         
 
@@ -258,7 +274,10 @@ public class playerDiedmsg : msg
 
     public override void Run()
     {
-        //TODO
+        Sender.GetComponent<AudioManager>().PlaySound("Death");
+        Sender.GetComponent<AnimatorManager>().SetAnim("Death", true);
+
+        GameManager.inst.playerMovement.SetState("Death");
     }
 }
 
@@ -272,7 +291,19 @@ public class playerRespawnmsg : msg
 
     public override void Run()
     {
-        //TODO
+        foreach (RoomManager rm in GameObject.FindObjectsOfType<RoomManager>())
+        {
+            rm.RespawnEnemiesInside();
+        }
+
+        SaveSystem.singleton.LoadData();
+        SaveSystem.singleton.CreateWorld(SaveSystem.singleton.LastUpdatedInGameLS);
+
+        Sender.GetComponent<AudioManager>().PlaySound("Respawn");
+        Sender.GetComponent<AnimatorManager>().SetAnim("Death", false);       
+        GameManager.inst.playerHealth.currentHealth = GameManager.inst.playerHealth.maxHealth;
+        GameManager.inst.playerHealth.died = false;
+        EventManager.singleton.GetComponent<UIManager>().updateHealthUI();
     }
 }
 
@@ -451,6 +482,7 @@ public class interactmsg : msg
         if(EventManager.singleton.LastInteractable != null)
         {
             EventManager.singleton.LastInteractable.Activation();
+            EventManager.singleton.GetComponent<UIManager>().updateinteractUI(false);
         }
     }
 }
@@ -467,11 +499,6 @@ public class actorDiedmsg : msg
         Sender.GetComponent<AudioManager>().PlaySound("Death");
         Sender.GetComponent<AnimatorManager>().SetAnim("Death", true);
 
-        if(Sender.tag == "Player")
-        {
-            return;
-        }
-
         if (Sender.transform.parent)
         {
             if (Sender.transform.parent.tag == "ResourcePrefab")
@@ -481,6 +508,7 @@ public class actorDiedmsg : msg
         }
         else
         {
+
             GameObject.Destroy(Sender, 1f);
         }
 

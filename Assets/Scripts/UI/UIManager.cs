@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public Image dashImage;
     public Image healthImage;
     public Sprite[] spriteArray; //manually filled array up with pictures of ui!
+    public GameObject interactText;
     //public rectTransform tr;
     void Start()
     {
@@ -23,9 +24,9 @@ public class UIManager : MonoBehaviour
         
     }
 
-    void Update()
+    public void updateinteractUI(bool how)
     {
-
+        interactText.SetActive(how);
     }
     
     public void updateHealthUI()
@@ -34,12 +35,11 @@ public class UIManager : MonoBehaviour
         int healthWidth = health*20; 
         //THIS COEFFICIENT IS DEPENDENT ON HOW MANY BITS OF DAMAGE YOU CAN TAKE!
         //good health-full width is 200,so 10(max-health)*20= width;
-        Debug.Log(healthWidth);
+        //Debug.Log(healthWidth);
         //healthImage.sprite.rect.width = health;
         int healthHeight = 35;
         healthImage.rectTransform.sizeDelta = new Vector2(healthWidth,healthHeight);
-        //tr.sizeDelta = new Vector2(healthImage.sprite.rect.healthWidth, healthImage.sprite.rect.healthHeight);
-        
+        //tr.sizeDelta = new Vector2(healthImage.sprite.rect.healthWidth, healthImage.sprite.rect.healthHeight);     
     }
 
     public void updateDashUI()

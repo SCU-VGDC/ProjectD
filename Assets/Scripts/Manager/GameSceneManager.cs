@@ -1,10 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using System;
-using UnityEngine.Rendering;
-using UnityEditorInternal;
-using Unity.VisualScripting;
 
 public class GameSceneManager : MonoBehaviour
 {

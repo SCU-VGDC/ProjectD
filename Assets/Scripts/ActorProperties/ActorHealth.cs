@@ -9,6 +9,7 @@ public class ActorHealth : MonoBehaviour
     float timeSinceLastHit;
     public float vulnerabilityCooldown;
     public int currentHealth;
+    public bool died;
     
     public int maxHealth;
 
@@ -30,9 +31,17 @@ public class ActorHealth : MonoBehaviour
             isVulnerable = false;
         }
 
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && !died)
         {
-            EventManager.singleton.AddEvent(new actorDiedmsg(gameObject));
+            died = true;
+            if(gameObject.tag == "Player")
+            {
+                EventManager.singleton.AddEvent(new playerDiedmsg());
+            }
+            else
+            {
+                EventManager.singleton.AddEvent(new actorDiedmsg(gameObject));
+            }
             isVulnerable = false;
             timeSinceLastHit = 0f;
         }

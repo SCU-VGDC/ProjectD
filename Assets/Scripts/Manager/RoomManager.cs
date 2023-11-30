@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
+[System.Serializable]
 public class Wave {
     // an empty game object which contains all the enemies as children 
     public GameObject waveGameObject;
@@ -11,6 +14,8 @@ public class Wave {
     public float waveDelayTime = 0.0f;
     // the delay between enemies
     public float enemyDelayTime = 0.0f;
+
+    public List<BasicEnemyState>  EnemiesGMisnide;
 
     public bool waveOver 
     { 
@@ -31,8 +36,24 @@ public class Wave {
 
         waveOver = false;
 
+        EnemiesGMisnide = new List<BasicEnemyState>();
+
+
+        foreach (Base_Enemy enem in GameObject.FindObjectsOfType<Base_Enemy>())
+        {
+            if (enem.transform.parent == waveGameObject.transform || enem.transform.parent.parent == waveGameObject.transform)
+            {
+                BasicEnemyState bes = new BasicEnemyState();
+
+                bes.EnemyLocation = enem.transform.position;
+                bes.PrefabName = enem.GetComponent<Base_Enemy>().PrefabName;
+
+                EnemiesGMisnide.Add(bes);
+            }
+        }
+
         // make all enemies not enabled
-        foreach(Transform enemy in waveGameObject.transform) 
+        foreach (Transform enemy in waveGameObject.transform)
         {
             enemy.gameObject.SetActive(false);
         }
@@ -61,6 +82,28 @@ public class RoomManager : MonoBehaviour
     public float enemySpawnDelayTime = 1.0f;
 
     public bool isCompleted;
+
+    public void RespawnEnemiesInside()
+    {
+        isCompleted = false;
+        inBattle = false;
+        foreach (Wave wave in waves)
+        {
+            foreach (Transform enemy in wave.waveGameObject.transform)
+            {
+                Destroy(enemy.gameObject, 2f);
+            }
+
+            foreach(BasicEnemyState bes in wave.EnemiesGMisnide)
+            {
+                GameObject enemy = Instantiate(Resources.Load("Prefabs/EnemyPrefabs/" + bes.PrefabName)) as GameObject;              
+                enemy.transform.SetParent(wave.waveGameObject.transform, true);
+                enemy.transform.position = bes.EnemyLocation;
+                enemy.SetActive(false);
+            }
+        }
+
+    }
 
     void Start()
     {
@@ -169,7 +212,7 @@ public class RoomManager : MonoBehaviour
             StartCoroutine(coroutineWave);
 
             // wait until wave has been completed (all enemies are dead)
-            while (!currentWave.waveOver)
+            while (!currentWave.waveOver && !isCompleted)
             {
                 yield return null;
             }

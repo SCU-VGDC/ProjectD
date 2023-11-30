@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
@@ -23,6 +20,7 @@ public abstract class Interactable : MonoBehaviour
         else
         {
             EventManager.singleton.LastInteractable = this;
+            EventManager.singleton.GetComponent<UIManager>().updateinteractUI(true);
         }
     }
 
@@ -35,6 +33,7 @@ public abstract class Interactable : MonoBehaviour
         else
         {
             EventManager.singleton.LastInteractable = null;
+            EventManager.singleton.GetComponent<UIManager>().updateinteractUI(false);
         }        
     }
 }

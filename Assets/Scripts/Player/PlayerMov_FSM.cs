@@ -1,11 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.Rendering.UI;
 
 public class PlayerMov_FSM : MonoBehaviour
 {
@@ -91,7 +84,8 @@ public class PlayerMov_FSM : MonoBehaviour
             new Grounded(this),
             new OnWall(this),
             new WallJumping(this),
-            new Airborne(this)
+            new Airborne(this),
+            new Death(this)
         };
 
         // Set the initial state to be Grounded
@@ -148,7 +142,7 @@ public class PlayerMov_FSM : MonoBehaviour
         thisFrame.ShootAltButton = Input.GetButton("AltShoot");
 
         thisFrame.InteractButton = Input.GetButton("Interact");
-        thisFrame.RespawnButton = Input.GetButton("Respawn");
+        thisFrame.RespawnButton = Input.GetButton("Interact");
 
         thisFrame.Gun1Button = Input.GetButton("Gun1");
         thisFrame.Gun2Button = Input.GetButton("Gun2");

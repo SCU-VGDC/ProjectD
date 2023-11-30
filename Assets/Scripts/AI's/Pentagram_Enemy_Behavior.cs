@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 // Should always be chasing player,

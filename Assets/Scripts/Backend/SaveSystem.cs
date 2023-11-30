@@ -24,7 +24,7 @@ public class SaveSystem : MonoBehaviour
 
         LS.MaxDashes = 0; //where we would store those??
 
-        LS.MaxHealth = 0; //where we would store those??
+        LS.MaxHealth = GameManager.inst.playerHealth.maxHealth;
 
         LS.pistol = GameManager.inst.player.GetComponent<PlayerGunController>().isPistol ? 1 : 0;
         LS.sniper = GameManager.inst.player.GetComponent<PlayerGunController>().isSniper ? 1 : 0;
@@ -57,6 +57,11 @@ public class SaveSystem : MonoBehaviour
                 {
                     continue;
                 }
+            }
+
+            if(enem.gameObject.layer != 9) //enemies layer
+            {
+                continue;
             }
 
             BasicEnemyState bes = new BasicEnemyState();
@@ -113,7 +118,10 @@ public class SaveSystem : MonoBehaviour
                 }
             }
 
-            Destroy(enem.gameObject);
+            if (enem.gameObject.layer == 9)
+            {
+                Destroy(enem.gameObject);
+            }
         }
 
         foreach (BasicEnemyState enem in givenLevel.WanderingEnemies)
@@ -184,11 +192,18 @@ public class SaveSystem : MonoBehaviour
         Debug.LogError("NO SAVE FOUND");
     }
 
+    public void TempResetAllLevelsData()
+    {
+        string path = Application.persistentDataPath + @"\saves.json";
 
-    //Helper Functions
+        FileStream fileStream = File.Open(path, FileMode.Open);
+        fileStream.SetLength(0);
+        fileStream.Close();
+    }
 
     public void Start() //used for testing
     {
+        TempResetAllLevelsData();
         //LastUpdatedInGameLS = GetLevelData();
         //Debug.Log(Application.persistentDataPath + "/saves.json");
         //SaveData();

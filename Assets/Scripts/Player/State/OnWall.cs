@@ -10,6 +10,9 @@ class OnWall : PlayerState
         base.Start();
         pm.numOfWallJumps++;
         EventManager.singleton.AddEvent(new ChangedWallstatemsg(pm.gameObject, true));
+        //TODO    
+        pm.dashesRemaining = pm.dashes;
+        EventManager.singleton.GetComponent<UIManager>().updateDashUI();
     }
 
     public override void Update(PlayerMov_FSM.FrameInput frim) {
