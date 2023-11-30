@@ -240,8 +240,10 @@ MonoBehaviour:
   AudioFiles:
   - name: Death
     clip: {fileID: 8300000, guid: 521988ec511b5a54298b1a0eda6c9a1f, type: 3}
+    Variants: []
   - name: TakeDamage
     clip: {fileID: 8300000, guid: 02d4cd457934faf479f8417c5c9c0169, type: 3}
+    Variants: []
 --- !u!82 &2008324882343417022
 AudioSource:
   m_ObjectHideFlags: 0
@@ -556,7 +558,7 @@ GameObject:
   - component: {fileID: 3979810772978610571}
   m_Layer: 0
   m_Name: WastePrefab
-  m_TagString: Untagged
+  m_TagString: ResourcePrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

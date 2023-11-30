@@ -38,12 +38,6 @@ public class ActorHealth : MonoBehaviour
         }
     }
 
-    public void Die()
-    {
-        GetComponent<Base_Enemy>().Disable();
-        Destroy(gameObject);
-    }
-
     private void Update()
     {
         if (!isVulnerable) // counts damage cooldown

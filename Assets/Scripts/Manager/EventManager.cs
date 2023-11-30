@@ -464,12 +464,26 @@ public class actorDiedmsg : msg
 
     public override void Run()
     {
-        //TODO
         Sender.GetComponent<AudioManager>().PlaySound("Death");
-        if (!Sender.GetComponent<AnimatorManager>().SetAnim("Death", true))
+        Sender.GetComponent<AnimatorManager>().SetAnim("Death", true);
+
+        if(Sender.tag == "Player")
         {
-            GameObject.Destroy(Sender);
+            return;
         }
+
+        if (Sender.transform.parent)
+        {
+            if (Sender.transform.parent.tag == "ResourcePrefab")
+            {
+                GameObject.Destroy(Sender.transform.parent.gameObject, 1f);
+            }
+        }
+        else
+        {
+            GameObject.Destroy(Sender, 1f);
+        }
+
     }
 }
 

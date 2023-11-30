@@ -197,7 +197,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   destroyOnContact: 0
-  destroyOnTrigger: 0
   point1: {fileID: 6423628229201970039}
   point2: {fileID: 6423628229201970039}
   idlePatrolState:
@@ -221,6 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae15c0d895a6d34e8d866129954d60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vulnerabilityCooldown: 0
   currentHealth: 1
   maxHealth: 1
 --- !u!114 &522064220117989766
@@ -317,7 +317,7 @@ GameObject:
   - component: {fileID: 6423628229816177197}
   m_Layer: 0
   m_Name: TankPrefab
-  m_TagString: Untagged
+  m_TagString: ResourcePrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
