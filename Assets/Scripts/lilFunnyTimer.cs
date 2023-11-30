@@ -28,13 +28,13 @@ public class lilFunnyTimer : MonoBehaviour
         }
 
         timer++;
-        if(timer > 50)
+        if(timer >= 50)
         {
             seconds++;
             timer = 0;
         }
 
-        if(seconds > 60)
+        if(seconds >= 60)
         {
             minutes++;
             seconds = 0;

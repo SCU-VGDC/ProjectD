@@ -23,7 +23,7 @@ public class EventManager : MonoBehaviour
 
     private void Update()
     {
-        if(QueueSize != 0)
+        while(QueueSize != 0)
         {
             msg Popped = EventQueue.Dequeue();
             ResolveEvent(Popped);
