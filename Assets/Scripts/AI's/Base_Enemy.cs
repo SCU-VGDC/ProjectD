@@ -28,6 +28,7 @@ public class Base_Enemy : MonoBehaviour
 	public int contactDamageAmount;
 	public LayerMask contactLayers;
 	public bool destroyOnContact = false;
+	bool dead = false;
 
 	public void Init()
     {
@@ -46,7 +47,7 @@ public class Base_Enemy : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (!dealsContactDamage) return;
+		if (!dealsContactDamage || dead) return;
 
         //This looks complicated, but just checks if the collided object is within our hittable layers.
         if ((contactLayers & (1 << collision.gameObject.layer)) != 0)
@@ -64,6 +65,8 @@ public class Base_Enemy : MonoBehaviour
 
 	public void OnTriggerStay2D(Collider2D collider2D)
     {
+		if (dead) return;
+
 		if (Helpers.MatchesLayerMask(collider2D.gameObject, contactLayers))
 		{
 			if (collider2D.tag == "Player")
@@ -89,6 +92,8 @@ public class Base_Enemy : MonoBehaviour
 
 	public void Disable()
     {
+		Debug.Log("Disabled damage!");
+		dead = true;
 		enabled = false;
 		mover.canMove = false;
     }
