@@ -72,6 +72,7 @@ public class RoomManager : MonoBehaviour
     private IEnumerator coroutineSpawnWaves;
 
     private GameObject player;
+    public GameObject bounds;
     public GameObject doorCloser;
     private GameObject entrance;
     private GameObject exit;
@@ -113,6 +114,10 @@ public class RoomManager : MonoBehaviour
         {
             switch(child.gameObject.name) 
             {
+                case "Bounds":
+                    bounds = child.gameObject;
+                    break;
+
                 case "DoorCloser":
                     doorCloser = child.gameObject;
                     break;
@@ -162,6 +167,9 @@ public class RoomManager : MonoBehaviour
             {
                 EventManager.singleton.AddEvent(new changeDoor(entrance, false));
                 EventManager.singleton.AddEvent(new changeDoor(exit, false));
+
+                // reset camera
+                CameraManager.inst.resetCameraBoundary();
             }
 
 
@@ -170,6 +178,9 @@ public class RoomManager : MonoBehaviour
                 // boxed like a fish
                 EventManager.singleton.AddEvent(new changeDoor(entrance, true));
                 EventManager.singleton.AddEvent(new changeDoor(exit, true));
+
+                // bound the camera to the arena
+                CameraManager.inst.setCameraBoundary(bounds.GetComponent<PolygonCollider2D>());
 
                 coroutineSpawnWaves = spawnWaves();
                 StartCoroutine(coroutineSpawnWaves);
