@@ -14,7 +14,7 @@ class Dashing : PlayerState
     public override bool CanStart(PlayerMov_FSM.FrameInput frim) 
     {
         if (pm.currentState == this)
-            return true;
+            return !StateTimeExceeds(pm.dashTime);
 
         if (!frim.DashButton) 
         {
@@ -65,11 +65,6 @@ class Dashing : PlayerState
             // Smoothly decelerate using a curve
             float decelerationProgress = (progress - 0.8f) / 0.2f;
             pm.rb.velocity = Vector3.Lerp(targetVelocity, dashDirection * pm.dashSpeed * 0.2f, decelerationProgress);
-        }
-
-        if (StateTimeExceeds(pm.dashTime)) 
-        {
-            SetState("Airborne");
         }
     }
 }
