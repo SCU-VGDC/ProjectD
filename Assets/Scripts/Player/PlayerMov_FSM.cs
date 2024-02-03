@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerMov_FSM : MonoBehaviour
@@ -28,6 +30,8 @@ public class PlayerMov_FSM : MonoBehaviour
     public Rigidbody2D rb;
     [HideInInspector]
     public Transform model;
+    [NonSerialized]
+    public BoxCollider2D plrCollider;
 
     private ContactFilter2D cfGround;
     private ContactFilter2D cfWallR;
@@ -39,6 +43,11 @@ public class PlayerMov_FSM : MonoBehaviour
 
     [HideInInspector]
     public bool isGrounded, isWallRight, isWallLeft;
+    public bool infiniteWalljump = false;
+
+    // minimum angle between two walls' normals when walljumping, only applies when infiniteWallJump is true
+    [NonSerialized]
+    public int minWallstickNormalAngle = 90;
 
     [HideInInspector]
     public bool mJump;
@@ -48,7 +57,7 @@ public class PlayerMov_FSM : MonoBehaviour
     public float speed;
     public float jumpPower;
     public float gravity; //I am so sorry
-    public float maxFallSpeed; // Max falling speed
+    public float maxFallSpeed; // Max falling speed, someone help him he is in danger
     public float wallSlidingSpeed;
     public float tightJumpScale;
     public float wallSideJumpX;
@@ -73,6 +82,7 @@ public class PlayerMov_FSM : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        plrCollider = GetComponent<BoxCollider2D>();
         model = transform.Find("BodyModel");
         cfGround.SetNormalAngle(85, 95); //perpendicular to ground
         cfWallL.SetNormalAngle(0, 5); //perpendicular to left wall
@@ -236,15 +246,17 @@ public class PlayerMov_FSM : MonoBehaviour
     public void SetState(PlayerState nextState)
     {
         if (nextState == currentState) //beacuse same state
-        {
             return;
-        }
 
         currentState.Exit();
         currentState = nextState;
         currentState.Start();
-        Debug.Log("State Changed to " + nextState);
+        //Debug.Log("State Changed to " + nextState);
+    }
 
+    public T GetState<T>() where T:PlayerState
+    {
+        return (T)states.First(state => typeof(T) == state.GetType());
     }
 
     // ----------------------Helper Functions--------------------------

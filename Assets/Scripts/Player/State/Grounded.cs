@@ -1,10 +1,16 @@
 using UnityEngine;
+using System.Linq;
 
 class Grounded : PlayerState
 {
     public Grounded(PlayerMov_FSM pm) : base(pm) { }
 
     public override string name { get { return "Grounded"; } }
+
+    public override bool CanStart(PlayerMov_FSM.FrameInput frim)
+    {
+        return pm.isGrounded;
+    }
 
     public override void Start()
     {
@@ -14,18 +20,14 @@ class Grounded : PlayerState
         //TODO    
         pm.dashesRemaining = pm.dashes;
         EventManager.singleton.GetComponent<UIManager>().updateDashUI();
+
+        pm.GetState<OnWall>().lastWallNormal = Vector2.zero;
+        pm.GetState<OnWall>().currentWallNormal = Vector2.zero;
     }
 
     public override void Update(PlayerMov_FSM.FrameInput frim)
     {
         base.Update(frim);
-
-        //state change
-        if (!pm.isGrounded)
-        {
-            SetState("Airborne");
-            return;
-        }
 
         //shooting
         if (frim.ShootButton)
