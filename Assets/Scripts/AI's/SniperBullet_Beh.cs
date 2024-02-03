@@ -29,12 +29,20 @@ public class SniperBullet_Beh : Base_Enemy
 
         current_state.OnDrawGizmos(this);
     }
+    
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.LogError(collision.gameObject);
+        //Debug.LogError(collision.gameObject);
         if(collision.gameObject.layer == 6)//this checks if it hits a platform.
             Destroy(gameObject);
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject.layer == 6)
+            Destroy(gameObject);
+    }
+   
 }
 
 [System.Serializable]
