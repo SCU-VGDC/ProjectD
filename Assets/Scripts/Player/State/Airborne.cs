@@ -6,6 +6,11 @@ class Airborne : PlayerState
 
     public override string name { get { return "Airborne"; } }
 
+    public override bool CanStart(PlayerMov_FSM.FrameInput _)
+    {
+        return !pm.isGrounded && !pm.isWallLeft && !pm.isWallRight;
+    }
+
     public override void Start() {
         base.Start();
         EventManager.singleton.AddEvent(new ChangedGroundstatemsg(pm.gameObject, false));
@@ -22,17 +27,6 @@ class Airborne : PlayerState
         if (frim.ShootAltButton)
         {
             EventManager.singleton.AddEvent(new playerShootGunmsg(1));
-        }
-
-        if (!pm.isGrounded && (pm.isWallLeft || pm.isWallRight))
-        {
-            SetState("OnWall");
-            return;
-        }
-        else if (pm.isGrounded)
-        {
-            SetState("Grounded");
-            return;
         }
 
         bool isFacingRight = (frim.armRotation < 90 && frim.armRotation > -90);

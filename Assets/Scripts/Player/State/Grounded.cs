@@ -6,6 +6,11 @@ class Grounded : PlayerState
 
     public override string name { get { return "Grounded"; } }
 
+    public override bool CanStart(PlayerMov_FSM.FrameInput frim)
+    {
+        return pm.isGrounded;
+    }
+
     public override void Start()
     {
         base.Start();
@@ -19,13 +24,6 @@ class Grounded : PlayerState
     public override void Update(PlayerMov_FSM.FrameInput frim)
     {
         base.Update(frim);
-
-        //state change
-        if (!pm.isGrounded)
-        {
-            SetState("Airborne");
-            return;
-        }
 
         //shooting
         if (frim.ShootButton)
