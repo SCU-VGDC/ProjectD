@@ -30,6 +30,10 @@ public class CameraManager : MonoBehaviour
         resetCameraBoundary();
     }
 
+    /// <summary>
+    ///  NOTE: The polygon has to be larger than the VM camera size for it to work correctly
+    /// </summary>
+    /// <param name="boundaryToChangeTo"></param>
     public void setCameraBoundary(Collider2D boundaryToChangeTo) 
     {
         GetComponent<CinemachineConfiner2D>().m_BoundingShape2D = boundaryToChangeTo;
