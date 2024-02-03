@@ -13,10 +13,15 @@ public class lilFunnyTimer : MonoBehaviour
     int seconds, minutes;
     bool canCount;
 
+    string timerString;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        canCount = false;
+        minutes = 0;
+        seconds = 0;
+        timer = 0;
     }
 
     // Update is called once per frame
@@ -39,8 +44,31 @@ public class lilFunnyTimer : MonoBehaviour
             minutes++;
             seconds = 0;
         }
-
-        textTimer.text = minutes.ToString() + ":" + seconds.ToString() + "." + timer.ToString();
+        if (minutes > 0)
+        {
+            timerString = minutes.ToString() + ":";
+        }
+        else
+        {
+            timerString = "";
+        }
+        if (seconds < 10)
+        {
+            timerString += "0" + seconds.ToString();
+        }
+        else
+        {
+            timerString += seconds.ToString();
+        }
+        if (timer < 10)
+        {
+            timerString += ":0" + timer.ToString();
+        }
+        else
+        {
+            timerString += ":" + timer.ToString();
+        }
+        textTimer.text = timerString;
     }
 
     void OnTriggerEnter2D(Collider2D pl)
