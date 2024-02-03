@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerMov_FSM : MonoBehaviour
@@ -186,7 +187,7 @@ public class PlayerMov_FSM : MonoBehaviour
     {
         foreach (PlayerState state in states) 
         {
-            if (state != currentState && state.CanStart(frim)) 
+            if (state.CanStart(frim)) 
             {
                 SetState(state);
                 break;
@@ -251,6 +252,11 @@ public class PlayerMov_FSM : MonoBehaviour
         currentState = nextState;
         currentState.Start();
         //Debug.Log("State Changed to " + nextState);
+    }
+
+    public T GetState<T>() where T:PlayerState
+    {
+        return (T)states.First(state => typeof(T) == state.GetType());
     }
 
     // ----------------------Helper Functions--------------------------

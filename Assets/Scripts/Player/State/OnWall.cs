@@ -4,8 +4,8 @@ using UnityEngine;
 class OnWall : PlayerState
 {
     public OnWall(PlayerMov_FSM pm) : base(pm) { }
-    private Vector2 lastWallNormal;
-    private Vector2 currentWallNormal;
+    public Vector2 lastWallNormal;
+    public Vector2 currentWallNormal;
 
     public override string name { get { return "OnWall"; } }
 
@@ -25,11 +25,6 @@ class OnWall : PlayerState
         // when infinite wall jumps are enabled, the player should not be able to repeatedly walljump on the same side
         RaycastHit2D hit = Physics2D.Raycast(pm.model.position, new Vector2(pm.isWallLeft ? -1 : 1, 0), pm.plrCollider.size.x / 2f + 0.1f, LayerMask.GetMask("Platforms"));
         currentWallNormal = hit.normal;
-        if (pm.isGrounded)
-        {
-            lastWallNormal = Vector2.zero;
-            currentWallNormal = Vector2.zero;
-        }
 
         bool isWallNormalAcceptable = !pm.infiniteWalljump || lastWallNormal == Vector2.zero || Vector2.Angle(lastWallNormal, currentWallNormal) >= pm.minWallstickNormalAngle;
         return !frim.DownButton && pm.currentState.name == "Airborne" && !pm.isGrounded && (pm.isWallLeft || pm.isWallRight) && isWallNormalAcceptable;

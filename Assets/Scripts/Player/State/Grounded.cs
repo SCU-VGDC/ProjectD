@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Linq;
 
 class Grounded : PlayerState
 {
@@ -19,6 +20,9 @@ class Grounded : PlayerState
         //TODO    
         pm.dashesRemaining = pm.dashes;
         EventManager.singleton.GetComponent<UIManager>().updateDashUI();
+
+        pm.GetState<OnWall>().lastWallNormal = Vector2.zero;
+        pm.GetState<OnWall>().currentWallNormal = Vector2.zero;
     }
 
     public override void Update(PlayerMov_FSM.FrameInput frim)

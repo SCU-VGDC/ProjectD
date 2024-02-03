@@ -13,6 +13,9 @@ class Dashing : PlayerState
 
     public override bool CanStart(PlayerMov_FSM.FrameInput frim) 
     {
+        if (pm.currentState == this)
+            return true;
+
         if (!frim.DashButton) 
         {
             dashButtonReleased = true;
