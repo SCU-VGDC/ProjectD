@@ -44,8 +44,11 @@ public class Bullet_Behavior : Base_Enemy
     public void OnTriggerEnter2D(Collider2D collider)
     {
         //Ricochet!
+        Debug.Log("it enters");
         if (ricochet && !ricocheted && Helpers.MatchesLayerMask(collider.gameObject, ricochetLayers) && currentRicochetCount < maxRicochetCount)
         {
+            Debug.Log("it goes into condition");
+            destroyOnContact=false;
             ricocheted = true;
             Quaternion reflectedRot = Quaternion.FromToRotation(transform.right, Vector2.Reflect(transform.right, -ricochetHits[0].normal)) * transform.rotation;
             transform.rotation = reflectedRot;
@@ -58,6 +61,7 @@ public class Bullet_Behavior : Base_Enemy
     private void OnTriggerExit2D(Collider2D collision)
     {
         ricocheted = false;
+        destroyOnContact=true;
     }
 }
 
