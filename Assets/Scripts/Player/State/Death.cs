@@ -9,6 +9,8 @@ class Death : PlayerState
     public override void Start()
     {
         base.Start();
+
+        // stop the clock!
     }
 
     public override void Update(PlayerMov_FSM.FrameInput frim)

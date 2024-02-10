@@ -104,6 +104,9 @@ public class PlayerMov_FSM : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // if dead dont move--not even a CHANCE
+        if (GameManager.inst.playerHealth.died) return;
+
         FrameInput thisFrame = InputHandler(); // this can be chnaged into AI
 
         if(overloadMovement)
@@ -213,7 +216,7 @@ public class PlayerMov_FSM : MonoBehaviour
             EventManager.singleton.AddEvent(new playerChangeGunmsg(2));
         }
 
-        //йняршкэ
+        //О©╫О©╫О©╫О©╫О©╫О©╫О©╫
         if (Dialogue_Manager.DialogueInAction != null)
         {
             if (frim.ShootButton && !Dialogue_Manager.DialogueInAction.HaveSpawnedOptions)
@@ -245,7 +248,8 @@ public class PlayerMov_FSM : MonoBehaviour
 
     public void SetState(PlayerState nextState)
     {
-        if (nextState == currentState) //beacuse same state
+        
+        if (nextState == currentState || GameManager.inst.playerHealth.died) //because same state
             return;
 
         currentState.Exit();
