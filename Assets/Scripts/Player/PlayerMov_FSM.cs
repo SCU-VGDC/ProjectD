@@ -99,7 +99,7 @@ public class PlayerMov_FSM : MonoBehaviour
         };
 
         // Set the initial state to be Grounded
-        currentState = states[1];
+        currentState = GetState<Grounded>();
     }
 
     private void FixedUpdate()
@@ -114,6 +114,7 @@ public class PlayerMov_FSM : MonoBehaviour
         isGrounded = rb.IsTouching(cfGround);
         isWallLeft = rb.IsTouching(cfWallL);
         isWallRight = rb.IsTouching(cfWallR);
+
 
         StateHandling(thisFrame);
 
@@ -187,7 +188,7 @@ public class PlayerMov_FSM : MonoBehaviour
     {
         foreach (PlayerState state in states) 
         {
-            if (state.CanStart(frim)) 
+            if (state.CanStart(frim))
             {
                 SetState(state);
                 break;
@@ -251,7 +252,7 @@ public class PlayerMov_FSM : MonoBehaviour
         currentState.Exit();
         currentState = nextState;
         currentState.Start();
-        //Debug.Log("State Changed to " + nextState);
+        Debug.Log("State Changed to " + nextState);
     }
 
     public T GetState<T>() where T:PlayerState

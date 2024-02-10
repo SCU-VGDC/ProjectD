@@ -8,7 +8,7 @@ class Airborne : PlayerState
 
     public override bool CanStart(PlayerMov_FSM.FrameInput _)
     {
-        return !pm.isGrounded && !pm.isWallLeft && !pm.isWallRight;
+        return !pm.isGrounded;
     }
 
     public override void Start() {

@@ -22,6 +22,8 @@ class OnWall : PlayerState
 
     public override bool CanStart(PlayerMov_FSM.FrameInput frim)
     {
+        if (pm.currentState == this && (pm.isWallLeft || pm.isWallRight))
+            return true;
         // when infinite wall jumps are enabled, the player should not be able to repeatedly walljump on the same side
         RaycastHit2D hit = Physics2D.Raycast(pm.model.position, new Vector2(pm.isWallLeft ? -1 : 1, 0), pm.plrCollider.size.x / 2f + 0.1f, LayerMask.GetMask("Platforms"));
         currentWallNormal = hit.normal;
