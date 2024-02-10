@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 2280954836333016422}
   - component: {fileID: 5921012353791482085}
   m_Layer: 0
-  m_Name: Bounds
+  m_Name: Battle Room Bounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

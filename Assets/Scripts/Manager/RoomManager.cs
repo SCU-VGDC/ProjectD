@@ -114,7 +114,7 @@ public class RoomManager : MonoBehaviour
         {
             switch(child.gameObject.name) 
             {
-                case "Bounds":
+                case "Battle Room Bounds":
                     bounds = child.gameObject;
                     break;
 
