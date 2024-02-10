@@ -11,6 +11,11 @@ class Death : PlayerState
         base.Start();
     }
 
+    public override bool CanStart(PlayerMov_FSM.FrameInput frim)
+    {
+        return GameManager.inst.playerHealth.died;
+    }
+
     public override void Update(PlayerMov_FSM.FrameInput frim)
     {
         base.Update(frim);

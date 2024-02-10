@@ -90,12 +90,12 @@ public class PlayerMov_FSM : MonoBehaviour
 
         // The order of these states matter- the first state where CanStart is true will be the one that starts
         states = new PlayerState[] {
+            new Death(this),
             new Dashing(this),
             new Grounded(this),
             new OnWall(this),
             new WallJumping(this),
             new Airborne(this),
-            new Death(this)
         };
 
         // Set the initial state to be Grounded
