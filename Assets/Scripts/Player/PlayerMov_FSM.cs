@@ -1,5 +1,4 @@
 using UnityEngine;
-using Cinemachine;
 
 public class PlayerMov_FSM : MonoBehaviour
 {
@@ -69,9 +68,6 @@ public class PlayerMov_FSM : MonoBehaviour
     public bool overloadMovement;
     public FrameInput overloadedInput;
 
-    //Virtual Camera tracked object offset x value
-    public float vc_tracked_x;
-
     //public ContactFilter2D contactFilter;
 
     private void Start()
@@ -94,9 +90,6 @@ public class PlayerMov_FSM : MonoBehaviour
 
         // Set the initial state to be Grounded
         currentState = states[1];
-
-        //get and store Virtual Camera tracked object offset x value
-        vc_tracked_x = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>().m_TrackedObjectOffset.x;
     }
 
     private void FixedUpdate()

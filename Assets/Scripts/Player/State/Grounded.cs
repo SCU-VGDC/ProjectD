@@ -1,10 +1,14 @@
 using UnityEngine;
+using Cinemachine;
 
 class Grounded : PlayerState
 {
     public Grounded(PlayerMov_FSM pm) : base(pm) { }
 
     public override string name { get { return "Grounded"; } }
+
+    //Virtual Camera tracked object offset x value
+    public float vc_tracked_x;
 
     public override void Start()
     {
@@ -14,6 +18,9 @@ class Grounded : PlayerState
         //TODO    
         pm.dashesRemaining = pm.dashes;
         EventManager.singleton.GetComponent<UIManager>().updateDashUI();
+
+        //get and store Virtual Camera tracked object offset x value
+        vc_tracked_x = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>().m_TrackedObjectOffset.x;
     }
 
     public override void Update(PlayerMov_FSM.FrameInput frim)
@@ -53,11 +60,15 @@ class Grounded : PlayerState
         {
             horizontal = 1;
 
+            //change lookahead to face right
+            vc_tracked_x = 2;
         }
         else if (frim.LeftButton)
         {
             horizontal = -1;
 
+            //chnage lookahead to face left
+            vc_tracked_x = -2;
         }
 
         bool isFacingRight = (frim.armRotation < 90 && frim.armRotation > -90);
