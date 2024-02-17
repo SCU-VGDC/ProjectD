@@ -7,8 +7,9 @@ class Grounded : PlayerState
 
     public override string name { get { return "Grounded"; } }
 
-    //Virtual Camera tracked object offset x value
+    //Virtual Camera tracked object offset x and y value
     public float vc_tracked_x;
+    public float vc_tracked_y;
 
     public override void Start()
     {
@@ -21,6 +22,9 @@ class Grounded : PlayerState
 
         //get and store Virtual Camera tracked object offset x value
         vc_tracked_x = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>().m_TrackedObjectOffset.x;
+
+        //get and store Virtual Camera tracked object offset y value
+        vc_tracked_y = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>().m_TrackedObjectOffset.y;
     }
 
     public override void Update(PlayerMov_FSM.FrameInput frim)
