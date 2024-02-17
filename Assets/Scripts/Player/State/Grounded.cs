@@ -16,6 +16,7 @@ class Grounded : PlayerState
     {
         base.Start();
         EventManager.singleton.AddEvent(new ChangedGroundstatemsg(pm.gameObject, true));
+        EventManager.singleton.AddEvent(new Jumpmsg(pm.gameObject, false));//this code is to make sure it stops the jump animation trigger.
         pm.numOfWallJumps = 0;
         //TODO    
         pm.dashesRemaining = pm.dashes;
@@ -28,7 +29,6 @@ class Grounded : PlayerState
     public override void Update(PlayerMov_FSM.FrameInput frim)
     {
         base.Update(frim);
-
         //shooting
         if (frim.ShootButton)
         {
@@ -61,11 +61,8 @@ class Grounded : PlayerState
             horizontal = -1;
 
         }
-
         bool isFacingRight = (frim.armRotation < 90 && frim.armRotation > -90);
         bool wasFacingRight = (pm.model.localScale.x == 1f);
-
-
         if (pm.rb.velocity.x != 0 && horizontal == 0) //if it was moving previous frame and stopped in this
         {
             EventManager.singleton.AddEvent(new ChangedMOVstatemsg(pm.gameObject, false));
@@ -74,7 +71,8 @@ class Grounded : PlayerState
         else if (pm.rb.velocity.x <= 0 && horizontal > 0) //was stopped or moving left started moving right
         {
             if (isFacingRight) //turned right
-            {
+            {   
+                
                 EventManager.singleton.AddEvent(new ChangedMOVstatemsg(pm.gameObject, true));
                 EventManager.singleton.AddEvent(new ChangedMOVBackstatemsg(pm.gameObject, false));
             }
@@ -97,7 +95,39 @@ class Grounded : PlayerState
                 EventManager.singleton.AddEvent(new ChangedMOVBackstatemsg(pm.gameObject, false));
             }
         }
-
+        else if(pm.rb.velocity.x >0 && horizontal>0)//when you go to the air then lands and then your press the left button this allows it to keep the animation instead of gliding.
+        {
+                if (isFacingRight) //turned right
+            {   
+                
+                EventManager.singleton.AddEvent(new ChangedMOVstatemsg(pm.gameObject, true));
+                EventManager.singleton.AddEvent(new ChangedMOVBackstatemsg(pm.gameObject, false));
+            }
+            else //turned left
+            {
+                EventManager.singleton.AddEvent(new ChangedMOVBackstatemsg(pm.gameObject, true));
+                EventManager.singleton.AddEvent(new ChangedMOVstatemsg(pm.gameObject, false));
+            }
+        }
+        else if(pm.rb.velocity.x <0 && horizontal<0)//when you go to the air then lands and then lands and then your press the right button this allows it to keep the animation instead of glidin
+        {
+            if (isFacingRight) //turned right
+            {
+                EventManager.singleton.AddEvent(new ChangedMOVBackstatemsg(pm.gameObject, true));
+                EventManager.singleton.AddEvent(new ChangedMOVstatemsg(pm.gameObject, false));           
+            }
+            else //turned left
+            {
+                EventManager.singleton.AddEvent(new ChangedMOVstatemsg(pm.gameObject, true));
+                EventManager.singleton.AddEvent(new ChangedMOVBackstatemsg(pm.gameObject, false));
+            }
+        }
+       
+        else if(pm.rb.velocity.x==0) // this is to check whether or not it hit a wall. And then if you stop it'll end the animation.
+        {
+            EventManager.singleton.AddEvent(new ChangedMOVstatemsg(pm.gameObject, false));
+            EventManager.singleton.AddEvent(new ChangedMOVBackstatemsg(pm.gameObject, false));
+        }
         if (wasFacingRight != isFacingRight) //switched orientation
         {
             if (horizontal != 0) //and continue moving

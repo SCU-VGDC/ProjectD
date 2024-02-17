@@ -352,18 +352,27 @@ public class Dashmsg : msg
     }
 }
 
+
+
 public class Jumpmsg : msg
 {
-
-    public Jumpmsg(GameObject m_sender) : base(m_sender)
+    bool isjumping;
+    public Jumpmsg(GameObject m_sender,bool m_is_jumping=true) : base(m_sender)
     {
-        
+        isjumping=m_is_jumping;
     }
 
     public override void Run()
     {
+        if(isjumping==true)// defatul to true so need to add it in for anything.
+        {
         Sender.GetComponent<AudioManager>().PlaySound("Jump");
         Sender.GetComponent<AnimatorManager>().SetAnim("Jump");
+        }
+        else if(isjumping==false)
+        {
+        Sender.GetComponent<AnimatorManager>().SetAnim("Jump",true);//this is to reset the trigger and to send it but it needs a truth value.
+        }
     }
 }
 
