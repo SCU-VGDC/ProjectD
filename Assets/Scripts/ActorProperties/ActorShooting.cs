@@ -28,6 +28,7 @@ public class ActorShooting : MonoBehaviour
     {
         ContactFilter2D filter = new ContactFilter2D();
         filter.SetLayerMask(hittableLayers);
+        filter.useTriggers = true;
         Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         targetPos.z = bulletspawn.position.z;
 
@@ -36,20 +37,32 @@ public class ActorShooting : MonoBehaviour
         //RaycastHit2D hit = Physics2D.Raycast(bulletspawn.position, targetPos - bulletspawn.position, 100f, hittableLayers, -50f, 50f);
         Physics2D.Raycast(bulletspawn.position, targetPos - bulletspawn.position, filter, shotHits);
 
+        GameObject line = Instantiate(trailSpawn);
+        LineRenderer renderer = line.GetComponent<LineRenderer>();
+
+        Ray ray = new Ray(bulletspawn.position, (targetPos - bulletspawn.position));
+
+        Vector3 lastHitPos = ray.GetPoint(100);
+
         //If penetrations = 0, hit only the first enemy in the bullet's path.
         for (int i = 0; i < penetrations + 1 && i < shotHits.Length; i++)
         {
             //shotHits is initialized to a size, so we have to make sure that a hit actually exists
             if (shotHits[i].collider == null) break;
 
-            EventManager.singleton.AddEvent(new applyDamagemsg(gameObject, shotHits[i].transform.GetComponent<ActorHealth>(), 10));
+            Debug.Log(shotHits[i].transform.name);
+            ActorHealth targetHP = shotHits[i].transform.GetComponent<ActorHealth>();
+
+            lastHitPos = shotHits[i].point;
+
+            if (targetHP == null) break;
+
+            EventManager.singleton.AddEvent(new applyDamagemsg(gameObject, targetHP, 10));
         }
 
-        GameObject line = Instantiate(trailSpawn);
-        LineRenderer renderer = line.GetComponent<LineRenderer>();
+        //Debug.Log(lastHitPos);
 
-        Ray ray = new Ray(bulletspawn.position, (targetPos - bulletspawn.position));
-        renderer.SetPositions(new Vector3[2] { bulletspawn.position, ray.GetPoint(100) });
+        renderer.SetPositions(new Vector3[2] { bulletspawn.position, lastHitPos });
         StartCoroutine(KillTrail(renderer));
     }
 

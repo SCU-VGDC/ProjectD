@@ -114,6 +114,8 @@ public class PlayerMov_FSM : MonoBehaviour
 
     FrameInput InputHandler()
     {
+        if (GameManager.inst.playerHealth.died) return new FrameInput();
+
         FrameInput thisFrame = new FrameInput { };
 
         thisFrame.RightButton = false;
@@ -203,7 +205,7 @@ public class PlayerMov_FSM : MonoBehaviour
             EventManager.singleton.AddEvent(new playerChangeGunmsg(2));
         }
 
-        //йняршкэ
+        //???????
         if (Dialogue_Manager.DialogueInAction != null)
         {
             if (frim.ShootButton && !Dialogue_Manager.DialogueInAction.HaveSpawnedOptions)

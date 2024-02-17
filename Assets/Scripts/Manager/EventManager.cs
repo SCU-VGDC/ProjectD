@@ -498,6 +498,7 @@ public class actorDiedmsg : msg
     {
         Sender.GetComponent<AudioManager>().PlaySound("Death");
         Sender.GetComponent<AnimatorManager>().SetAnim("Death", true);
+        Sender.GetComponent<Collider2D>().enabled = false;
 
         if (Sender.transform.parent)
         {

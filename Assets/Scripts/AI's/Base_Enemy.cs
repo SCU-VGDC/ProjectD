@@ -92,7 +92,6 @@ public class Base_Enemy : MonoBehaviour
 
 	public void Disable()
     {
-		Debug.Log("Disabled damage!");
 		dead = true;
 		enabled = false;
 		mover.canMove = false;
