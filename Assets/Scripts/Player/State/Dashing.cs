@@ -41,12 +41,11 @@ class Dashing : PlayerState
     public override void Start() 
     {
         base.Start();
-
+        
+        EventManager.singleton.AddEvent(new Dashmsg(pm.gameObject));
         // Set initial and target velocities
         startVelocity = pm.rb.velocity;
         targetVelocity = dashDirection * pm.dashSpeed;
-
-        EventManager.singleton.AddEvent(new Dashmsg(pm.gameObject));
     }
 
     public override void Update(PlayerMov_FSM.FrameInput frim) 

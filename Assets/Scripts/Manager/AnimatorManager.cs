@@ -19,9 +19,17 @@ public class AnimatorManager : MonoBehaviour
 
         if (triggerAnimation.Contains(name))
         {
+            if(value==false)
+            {
             animatorSource.SetTrigger(name);
+            }
+            else if(value==true)//this is so we can have a reset trigger function. To make sure it trigger stuff correcttly.
+            {
+                animatorSource.ResetTrigger(name);
+            }
             return true;
         }
+        
 
         Debug.LogWarning(gameObject + " requested missing animation " + name);
         return false;

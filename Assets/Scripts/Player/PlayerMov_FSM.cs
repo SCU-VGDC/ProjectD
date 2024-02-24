@@ -176,6 +176,10 @@ public class PlayerMov_FSM : MonoBehaviour
         {
             arm.GetChild(0).localScale = new Vector3(1f, -1f, 1f); 
         }
+        else if(currentState==GetState<WallJumping>())
+        {
+
+        }
         else
         {
             arm.GetChild(0).localScale = new Vector3(1f, 1f, 1f);
@@ -214,7 +218,7 @@ public class PlayerMov_FSM : MonoBehaviour
             EventManager.singleton.AddEvent(new playerChangeGunmsg(2));
         }
 
-        //йняршкэ
+        //О©╫О©╫О©╫О©╫О©╫О©╫О©╫
         if (Dialogue_Manager.DialogueInAction != null)
         {
             if (frim.ShootButton && !Dialogue_Manager.DialogueInAction.HaveSpawnedOptions)
