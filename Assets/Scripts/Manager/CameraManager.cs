@@ -25,7 +25,6 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         Debug.Log("Ran");
-        defaultBoundary = GetComponent<CinemachineConfiner2D>().m_BoundingShape2D;
 
         resetCameraBoundary();
     }

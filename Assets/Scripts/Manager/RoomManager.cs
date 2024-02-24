@@ -234,7 +234,7 @@ public class RoomManager : MonoBehaviour
         EventManager.singleton.AddEvent(new changeDoor(exit, false));
 
         // bound the camera to the original bounds
-        CameraManager.inst.setCameraBoundary(GameObject.Find("Bounds").GetComponent<PolygonCollider2D>());
+        CameraManager.inst.resetCameraBoundary();
 
         isCompleted = true;
     }
