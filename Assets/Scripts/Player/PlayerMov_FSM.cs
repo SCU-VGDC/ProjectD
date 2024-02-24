@@ -70,6 +70,9 @@ public class PlayerMov_FSM : MonoBehaviour
     //those changes are retarded LEGACY???
     public int dashes;
     public float dashTime;
+    public float chargeTime;
+    public float chargeGravity;
+    public float chargeVelDecay;
     public float dashSpeed;
     [HideInInspector]
     public int dashesRemaining;
@@ -92,6 +95,7 @@ public class PlayerMov_FSM : MonoBehaviour
         states = new PlayerState[] {
             new Death(this),
             new Dashing(this),
+            new DashCharging(this),
             new Grounded(this),
             new OnWall(this),
             new WallJumping(this),
@@ -235,6 +239,10 @@ public class PlayerMov_FSM : MonoBehaviour
             mJump = frim.UpButton;
         }
     }
+    public void SetState<T>() where T : PlayerState
+    {
+        SetState(GetState<T>());
+    }
 
     // Passing in the state name will search for the matching State object and change to that
     public void SetState(string stateName) {
@@ -259,7 +267,7 @@ public class PlayerMov_FSM : MonoBehaviour
         Debug.Log("State Changed to " + nextState);
     }
 
-    public T GetState<T>() where T:PlayerState
+    public T GetState<T>() where T : PlayerState
     {
         return (T)states.First(state => typeof(T) == state.GetType());
     }
