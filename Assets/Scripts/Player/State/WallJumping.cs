@@ -7,14 +7,14 @@ class WallJumping : PlayerState {
         base.Start();
         EventManager.singleton.AddEvent(new ChangedGroundstatemsg(pm.gameObject, false));
     }
-
+    // Exit state when time runs exceeds pm.wallJumpTime
+    public override bool CanStart(PlayerMov_FSM.FrameInput frim)
+    {
+        return !StateTimeExceeds(pm.wallJumpTime);
+    }
     public override void Update(PlayerMov_FSM.FrameInput frim) {
         base.Update(frim);
 
         pm.rb.velocity = pm.ApplyGravity(frim.UpButton, pm.rb.velocity);
-
-        if (StateTimeExceeds(pm.wallJumpTime)) {
-            SetState("Airborne");
-        }
     }
 }

@@ -1,3 +1,4 @@
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 class Death : PlayerState
@@ -9,11 +10,26 @@ class Death : PlayerState
     public override void Start()
     {
         base.Start();
+        pm.rb.gravityScale = 1;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        pm.rb.gravityScale = 0;
+    }
+
+    public override bool CanStart(PlayerMov_FSM.FrameInput frim)
+    {
+        return GameManager.inst.playerHealth.died;
     }
 
     public override void Update(PlayerMov_FSM.FrameInput frim)
     {
         base.Update(frim);
+
+        if (pm.isGrounded)
+            pm.rb.velocity = Vector2.zero;
 
         if (frim.RespawnButton)
         {

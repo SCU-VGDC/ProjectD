@@ -13,6 +13,9 @@ class Dashing : PlayerState
 
     public override bool CanStart(PlayerMov_FSM.FrameInput frim) 
     {
+        if (pm.currentState == this)
+            return !StateTimeExceeds(pm.dashTime);
+
         if (!frim.DashButton) 
         {
             dashButtonReleased = true;
@@ -38,12 +41,11 @@ class Dashing : PlayerState
     public override void Start() 
     {
         base.Start();
-
+        
+        EventManager.singleton.AddEvent(new Dashmsg(pm.gameObject));
         // Set initial and target velocities
         startVelocity = pm.rb.velocity;
         targetVelocity = dashDirection * pm.dashSpeed;
-
-        EventManager.singleton.AddEvent(new Dashmsg(pm.gameObject));
     }
 
     public override void Update(PlayerMov_FSM.FrameInput frim) 
@@ -62,11 +64,6 @@ class Dashing : PlayerState
             // Smoothly decelerate using a curve
             float decelerationProgress = (progress - 0.8f) / 0.2f;
             pm.rb.velocity = Vector3.Lerp(targetVelocity, dashDirection * pm.dashSpeed * 0.2f, decelerationProgress);
-        }
-
-        if (StateTimeExceeds(pm.dashTime)) 
-        {
-            SetState("Airborne");
         }
     }
 }
