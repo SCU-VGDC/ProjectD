@@ -2,7 +2,6 @@ using UnityEngine;
 
 class Dashing : PlayerState
 {
-    private bool dashButtonReleased = true;
     private Vector3 dashDirection;
     private Vector3 startVelocity;
     private Vector3 targetVelocity;
@@ -16,33 +15,21 @@ class Dashing : PlayerState
         if (pm.currentState == this)
             return !StateTimeExceeds(pm.dashTime);
 
-        if (!frim.DashButton) 
-        {
-            dashButtonReleased = true;
-        }
-
-        if (frim.DashButton && dashButtonReleased && pm.dashesRemaining > 0) 
-        {
-            // Save the dash direction
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = 0;
-            dashDirection = mousePos - pm.transform.position;
-            dashDirection.Normalize();
-
-            dashButtonReleased = false;
-            pm.dashesRemaining--;
-
-            return true;
-        }
-
         return false;
     }
 
     public override void Start() 
     {
         base.Start();
-        
+
+        // Save the dash direction
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0;
+        dashDirection = mousePos - pm.transform.position;
+        dashDirection.Normalize();
+        pm.dashesRemaining--;
         EventManager.singleton.AddEvent(new Dashmsg(pm.gameObject));
+
         // Set initial and target velocities
         startVelocity = pm.rb.velocity;
         targetVelocity = dashDirection * pm.dashSpeed;
@@ -63,7 +50,7 @@ class Dashing : PlayerState
         {
             // Smoothly decelerate using a curve
             float decelerationProgress = (progress - 0.8f) / 0.2f;
-            pm.rb.velocity = Vector3.Lerp(targetVelocity, dashDirection * pm.dashSpeed * 0.2f, decelerationProgress);
+            pm.rb.velocity = Vector3.Lerp(targetVelocity, 0.2f * pm.dashSpeed * dashDirection, decelerationProgress);
         }
     }
 }
