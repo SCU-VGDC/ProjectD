@@ -7,18 +7,6 @@ class Death : PlayerState
 
     public override string name { get { return "Death"; } }
 
-    public override void Start()
-    {
-        base.Start();
-        pm.rb.gravityScale = 1;
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-        pm.rb.gravityScale = 0;
-    }
-
     public override bool CanStart(PlayerMov_FSM.FrameInput frim)
     {
         return GameManager.inst.playerHealth.died;
@@ -30,6 +18,8 @@ class Death : PlayerState
 
         if (pm.isGrounded)
             pm.rb.velocity = Vector2.zero;
+        else
+            pm.rb.velocity = pm.ApplyGravity(false);
 
         if (frim.RespawnButton)
         {
