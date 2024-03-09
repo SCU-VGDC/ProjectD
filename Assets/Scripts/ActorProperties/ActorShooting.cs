@@ -9,6 +9,7 @@ public class ActorShooting : MonoBehaviour
     public  Transform bulletspawn; //this puts the spawn position 
     public GameObject bulletprefab; //this creates a gameobject;
     public LayerMask hittableLayers;
+    public LayerMask wallLayers;
     public bool raycastToggle = false;
 
     private void Awake()
@@ -29,24 +30,33 @@ public class ActorShooting : MonoBehaviour
         Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         targetPos.z = bulletspawn.position.z;
 
-        RaycastHit2D[] shotHits = new RaycastHit2D[10];
+        // check if shotting in a wall
+        RaycastHit2D wallHit = Physics2D.Raycast(bulletspawn.position, - (targetPos - bulletspawn.position),  Vector3.Distance(targetPos, bulletspawn.position), wallLayers);
+        if (wallHit.collider != null) return;
 
+        // make raycast to see what is hit from shot
+        RaycastHit2D[] shotHits = new RaycastHit2D[10];
         shotHits = Physics2D.RaycastAll(bulletspawn.position, targetPos - bulletspawn.position, 100f, hittableLayers);
 
+        float lastHitDistance = 30f;
         //If penetrations = 0, hit only the first enemy in the bullet's path.
         for (int i = 0; i < penetrations + 1 && i < shotHits.Length; i++)
         {
-            //shotHits is initialized to a size, so we have to make sure that a hit actually exists
-            if (shotHits[i].collider == null) break;
+            RaycastHit2D hit = shotHits[i];
 
-            EventManager.singleton.AddEvent(new applyDamagemsg(gameObject, shotHits[i].transform.GetComponent<ActorHealth>(), 10));
+            lastHitDistance = hit.distance;
+
+            //shotHits is initialized to a size, so we have to make sure that a hit actually exists
+            if (hit.collider == null) break;
+
+            EventManager.singleton.AddEvent(new applyDamagemsg(gameObject, hit.transform.GetComponent<ActorHealth>(), 10));
         }
 
         GameObject line = Instantiate(trailSpawn);
         LineRenderer renderer = line.GetComponent<LineRenderer>();
 
         Ray ray = new Ray(bulletspawn.position, (targetPos - bulletspawn.position));
-        renderer.SetPositions(new Vector3[2] { bulletspawn.position, ray.GetPoint(100) });
+        renderer.SetPositions(new Vector3[2] { bulletspawn.position, ray.GetPoint(lastHitDistance) });
         StartCoroutine(KillTrail(renderer));
     }
 
