@@ -26,15 +26,12 @@ public class ActorShooting : MonoBehaviour
 
     public void ShootRaycast(int penetrations)
     {
-        ContactFilter2D filter = new ContactFilter2D();
-        filter.SetLayerMask(hittableLayers);
         Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         targetPos.z = bulletspawn.position.z;
 
         RaycastHit2D[] shotHits = new RaycastHit2D[10];
 
-        //RaycastHit2D hit = Physics2D.Raycast(bulletspawn.position, targetPos - bulletspawn.position, 100f, hittableLayers, -50f, 50f);
-        Physics2D.Raycast(bulletspawn.position, targetPos - bulletspawn.position, filter, shotHits);
+        shotHits = Physics2D.RaycastAll(bulletspawn.position, targetPos - bulletspawn.position, 100f, hittableLayers);
 
         //If penetrations = 0, hit only the first enemy in the bullet's path.
         for (int i = 0; i < penetrations + 1 && i < shotHits.Length; i++)
