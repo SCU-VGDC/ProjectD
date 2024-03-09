@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ActorShooting : MonoBehaviour
 {
-    Color rayColor = Color.red;
+    Color rayColor = Color.white;
     float fadeTime = 0.5f;
     public GameObject trailSpawn;
     public  Transform bulletspawn; //this puts the spawn position 
@@ -31,7 +31,7 @@ public class ActorShooting : MonoBehaviour
         targetPos.z = bulletspawn.position.z;
 
         // check if shotting in a wall
-        RaycastHit2D wallHit = Physics2D.Raycast(bulletspawn.position, - (targetPos - bulletspawn.position),  Vector3.Distance(targetPos, bulletspawn.position), wallLayers);
+        RaycastHit2D wallHit = Physics2D.Raycast(bulletspawn.position, -(targetPos - bulletspawn.position),  Vector3.Distance(GameManager.inst.player.transform.position, bulletspawn.position), wallLayers);
         if (wallHit.collider != null) return;
 
         // make raycast to see what is hit from shot
