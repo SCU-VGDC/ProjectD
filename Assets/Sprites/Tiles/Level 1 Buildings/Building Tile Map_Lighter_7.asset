@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: Building Tile Map_Lighter_7
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 1389910197, guid: 3f74da3841189974e8410cef5540f82c, type: 3}
+  m_Sprite: {fileID: 1565574819, guid: a4025364da9ff7e4e80ee1b0dffc9c68, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

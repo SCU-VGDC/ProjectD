@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ParralexEffect : MonoBehaviour
 {
-
     private List<Transform> parLayers;
     private Vector3 origCamPos;
 
