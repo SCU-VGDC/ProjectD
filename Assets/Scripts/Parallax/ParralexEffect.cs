@@ -5,51 +5,51 @@ using UnityEngine;
 
 public class ParralexEffect : MonoBehaviour
 {
-    private List<Transform> parLayers;
-    private Vector3 origCamPos;
-
-    void SetUpLayer()
-    {
-        parLayers = new List<Transform>();
-
-        foreach (Transform child in transform)
-        {
-            parLayers.Add(child);
-        }
-
-        origCamPos = Camera.main.transform.position;
-
-        foreach (Transform v in parLayers)
-        {
-            v.position = origCamPos;
-        }
-    }
+    private Vector3 lastCameraPos;
+    private int numLayers;
+    private Transform[] parLayers;
+    private float[] textureUnitSizesX;
+    [SerializeField] private Vector2[] paralaxEffectMults;
 
     void Start()
     {
-        SetUpLayer();
-    }
+        //set last camera pos
+        lastCameraPos = Camera.main.transform.position;
 
-    void MoveLayer(int LayerId)
-    {
-        Vector3 DistanceChange = Camera.main.transform.position - origCamPos;
+        //initialize numLayers
+        numLayers = transform.childCount;
 
-        float moveFactor = (((float)(LayerId + 1)) / (parLayers.Count + 1));
+        //allocate spave for vars
+        parLayers = new Transform[numLayers];
+        textureUnitSizesX = new float[numLayers];
 
-        Vector3 AppliedPosition = DistanceChange * moveFactor;
-
-        if (LayerId == 0)
+        for(int i = 0; i < numLayers; i++)
         {
-            AppliedPosition = DistanceChange;
-        }
+            parLayers[i] = transform.GetChild(i);
 
-        parLayers[LayerId].position = AppliedPosition;
+            Sprite sprite = parLayers[i].GetComponent<SpriteRenderer>().sprite;
+            Texture2D texture = sprite.texture;
+            textureUnitSizesX[i] = texture.width / sprite.pixelsPerUnit;
+        }
     }
+
     void LateUpdate()
     {
-        for(int i = 0; i < parLayers.Count; i++)
+        Vector3 deltaCamMovement = Camera.main.transform.position - lastCameraPos;
+
+        //for each paralax layer
+        for(int i = 0; i < numLayers; i++)
         {
-            MoveLayer(i);
+            parLayers[i].position += new Vector3(deltaCamMovement.x * paralaxEffectMults[i].x, deltaCamMovement.y * paralaxEffectMults[i].y, 0f);
+
+            if(Camera.main.transform.position.x - parLayers[i].position.x >= textureUnitSizesX[i])
+            {
+                float offsetPosX = (Camera.main.transform.position.x - transform.position.x) % textureUnitSizesX[i];
+                transform.position = new Vector3(Camera.main.transform.position.x, parLayers[i].position.x);
+            }
         }
+
+        //get last camera pos again
+        lastCameraPos = Camera.main.transform.position;
     }
 }
