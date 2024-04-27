@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DashCharging : PlayerState
@@ -12,13 +14,31 @@ public class DashCharging : PlayerState
 
     public override bool CanStart(PlayerMov_FSM.FrameInput frim)
     {
-        if (frim.DashButton)
-            return dashReady || pm.currentState == this;
-        else
+        //if dash button pressed,...
+        if(frim.DashButton)
         {
-            dashReady = true;
-            return false;
+            StartCoroutine(Recharge_Dash());
         }
+
+        //return dashReady
+        return dashReady;
+
+        // if (frim.DashButton)
+        //     return dashReady || pm.currentState == this;
+        // else
+        // {
+        //     dashReady = true;
+        //     return false;
+        // }
+    }
+
+    private IEnumerator Recharge_Dash()
+    {
+        //wait for 1 sec
+        yield return new WaitForSeconds(1f);
+
+        //set dashReady to true
+        dashReady = true;
     }
 
     public override void Start()
