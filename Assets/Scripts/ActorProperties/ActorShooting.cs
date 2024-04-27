@@ -1,4 +1,7 @@
 using System.Collections;
+using System.Net.Cache;
+using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ActorShooting : MonoBehaviour
@@ -9,11 +12,14 @@ public class ActorShooting : MonoBehaviour
     public  Transform bulletspawn; //this puts the spawn position 
     public GameObject bulletprefab; //this creates a gameobject;
     public LayerMask hittableLayers;
-    public LayerMask wallLayers;
+    public LayerMask reflectiveLayers;
+    private LayerMask allLayers;
+    public int numOfMaxRicochets = 3; 
     public bool raycastToggle = false;
 
     private void Awake()
     {
+        allLayers = hittableLayers + reflectiveLayers;
     }
 
     public void Shoot(Transform target = null)
@@ -25,39 +31,53 @@ public class ActorShooting : MonoBehaviour
         }
     }
 
-    public void ShootRaycast(int penetrations)
+    public void ShootRaycast(int numOfMaxPenetrations)
     {
         Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         targetPos.z = bulletspawn.position.z;
 
-        // check if shotting in a wall
-        RaycastHit2D wallHit = Physics2D.Raycast(bulletspawn.position, -(targetPos - bulletspawn.position),  Vector3.Distance(GameManager.inst.player.transform.position, bulletspawn.position), wallLayers);
-        if (wallHit.collider != null) return;
-
         // make raycast to see what is hit from shot
-        RaycastHit2D[] shotHits = new RaycastHit2D[10];
-        shotHits = Physics2D.RaycastAll(bulletspawn.position, targetPos - bulletspawn.position, 100f, hittableLayers);
+        Vector2 rayCastOrigin = bulletspawn.position;
+        Vector2 rayCastDir = targetPos - bulletspawn.position;
+        RaycastHit2D hit = Physics2D.Raycast(rayCastOrigin, rayCastDir, 100f, allLayers);
 
-        float lastHitDistance = 30f;
-        //If penetrations = 0, hit only the first enemy in the bullet's path.
-        for (int i = 0; i < penetrations + 1 && i < shotHits.Length; i++)
-        {
-            RaycastHit2D hit = shotHits[i];
+        // check for ricochets and hittable objects
+        int numOfRicochets = 0;
+        int numOfPenetrations = 0;
+        while (numOfRicochets <= numOfMaxRicochets && numOfPenetrations <= numOfMaxPenetrations) {
+            float lastHitDistance = hit.collider == null ? 30.0f : hit.distance;
+            
+            // draw a line
+            GameObject line = Instantiate(trailSpawn);
+            LineRenderer renderer = line.GetComponent<LineRenderer>();
 
-            lastHitDistance = hit.distance;
-
-            //shotHits is initialized to a size, so we have to make sure that a hit actually exists
+            Ray ray = new Ray(rayCastOrigin, rayCastDir);
+            renderer.SetPositions(new Vector3[2] { rayCastOrigin, ray.GetPoint(lastHitDistance) });
+            StartCoroutine(KillTrail(renderer));
+            
+            // make sure hit actually exists
             if (hit.collider == null) break;
 
-            EventManager.singleton.AddEvent(new applyDamagemsg(gameObject, hit.transform.GetComponent<ActorHealth>(), 10));
+            // if layer hit is in reflectiveLayers
+            if (reflectiveLayers == (reflectiveLayers | (1 << hit.collider.gameObject.layer)))
+            {
+                Debug.Log("reflect!");
+                rayCastDir = Vector2.Reflect(rayCastOrigin, hit.point);
+                rayCastOrigin = hit.point;
+
+                hit = Physics2D.Raycast(rayCastOrigin, rayCastDir, 100f, allLayers); 
+                numOfRicochets++;
+            } else {
+                // hit an object in hittableLayers
+                EventManager.singleton.AddEvent(new applyDamagemsg(gameObject, hit.transform.GetComponent<ActorHealth>(), 10));
+            }
+
+            //numOfPenetrations++;
+
+            // make another ray in direction if it can penetrates
+            //rayCastOrigin = hit.point;
+            //hit = Physics2D.Raycast(rayCastOrigin, rayCastDir, 100f, allLayers); 
         }
-
-        GameObject line = Instantiate(trailSpawn);
-        LineRenderer renderer = line.GetComponent<LineRenderer>();
-
-        Ray ray = new Ray(bulletspawn.position, (targetPos - bulletspawn.position));
-        renderer.SetPositions(new Vector3[2] { bulletspawn.position, ray.GetPoint(lastHitDistance) });
-        StartCoroutine(KillTrail(renderer));
     }
 
     public void SetBullet(GameObject newBullet)
