@@ -7,6 +7,7 @@ public class DashCharging : PlayerState
     private bool dashReady = true;
     private Vector2 lastVel;
     private float startGrav;
+    private ParticleSystem dashChargeParticle;
     public override string name { get { return "Dashing"; } }
 
     public override bool CanStart(PlayerMov_FSM.FrameInput frim)
@@ -27,12 +28,24 @@ public class DashCharging : PlayerState
         lastVel = pm.rb.velocity;
         startGrav = pm.gravity;
         pm.gravity = pm.chargeGravity;
+
+        //find particle system
+        dashChargeParticle = GameObject.Find("Dash Charge Particle System").GetComponent<ParticleSystem>();
+
+        //stop particle system
+        dashChargeParticle.Stop();
+
+        //play particle system
+        dashChargeParticle.Play();
     }
 
     public override void Exit()
     {
         base.Exit();
         pm.gravity = startGrav;
+
+        //stop particle system
+        dashChargeParticle.Stop();
     }
 
     // Update is called once per frame
