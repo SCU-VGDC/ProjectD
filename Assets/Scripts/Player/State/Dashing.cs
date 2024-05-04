@@ -39,6 +39,9 @@ class Dashing : PlayerState
     {
         base.Update(frim);
 
+        // Prevent pm from recovering dashes during Dashing state
+        pm.lastDashUpdate = Time.time;
+
         float progress = timeInState / pm.dashTime;
         
         if (progress <= 0.8f) 

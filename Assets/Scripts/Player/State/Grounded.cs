@@ -22,9 +22,6 @@ class Grounded : PlayerState
         EventManager.singleton.AddEvent(new ChangedGroundstatemsg(pm.gameObject, true));
         EventManager.singleton.AddEvent(new Jumpmsg(pm.gameObject, false));//this code is to make sure it stops the jump animation trigger.
         pm.numOfWallJumps = 0;
-        //TODO    
-        pm.dashesRemaining = pm.dashes;
-        EventManager.singleton.GetComponent<UIManager>().updateDashUI();
 
         //get and store Virtual Camera tracked object offset x value
         vc_tracked_x = GameObject.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>().m_TrackedObjectOffset.x;
