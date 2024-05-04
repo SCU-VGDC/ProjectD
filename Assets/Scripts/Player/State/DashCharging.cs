@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DashCharging : PlayerState
@@ -17,7 +15,9 @@ public class DashCharging : PlayerState
         //if dash button pressed,...
         if(frim.DashButton)
         {
-            StartCoroutine(Recharge_Dash());
+            dashReady = false;
+
+            //USE BEAKER VARIABLE
         }
 
         //return dashReady
@@ -30,15 +30,6 @@ public class DashCharging : PlayerState
         //     dashReady = true;
         //     return false;
         // }
-    }
-
-    private IEnumerator Recharge_Dash()
-    {
-        //wait for 1 sec
-        yield return new WaitForSeconds(1f);
-
-        //set dashReady to true
-        dashReady = true;
     }
 
     public override void Start()
