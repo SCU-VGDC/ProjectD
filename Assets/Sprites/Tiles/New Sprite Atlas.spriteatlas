@@ -32,44 +32,12 @@ SpriteAtlas:
     secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
-    - {fileID: 21300000, guid: dd6fd78dcb33e3747be078fa18dc6c52, type: 3}
     - {fileID: 2800000, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
-    - {fileID: 2800000, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-    - {fileID: 2800000, guid: d87f26c9dd55ceb4782f5d1178731885, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: -1643158329, guid: d87f26c9dd55ceb4782f5d1178731885, type: 3}
-  - {fileID: 1339572499, guid: d87f26c9dd55ceb4782f5d1178731885, type: 3}
-  - {fileID: 123537710, guid: d87f26c9dd55ceb4782f5d1178731885, type: 3}
-  - {fileID: 946434319, guid: d87f26c9dd55ceb4782f5d1178731885, type: 3}
-  - {fileID: 52619075, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: -248730018, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: 712687905, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: 1488989066, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: -1626101361, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: -565770655, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: -1763215305, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: 1460785806, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: -210920020, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: 696194588, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: 1767478230, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: 217829904, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: 706911427, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: -1516514366, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: 1480352853, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: -1240517365, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: -70930310, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: 1190632275, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: 543018987, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: 254032341, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: -1609202721, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: -2114976451, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: -361570530, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: 540501825, guid: 6f7f6ffabdbb30f46917b661a316ecce, type: 3}
-  - {fileID: 21300000, guid: dd6fd78dcb33e3747be078fa18dc6c52, type: 3}
   - {fileID: -1106199406, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
   - {fileID: 1761263433, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
   - {fileID: 2005569755, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
@@ -81,35 +49,6 @@ SpriteAtlas:
   - {fileID: -1866888029, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
   - {fileID: -1649081922, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
   m_PackedSpriteNamesToIndex:
-  - Tile_set_test (1)_2
-  - Tile_set_test (1)_3
-  - Tile_set_test (1)_0
-  - Tile_set_test (1)_1
-  - concrete_23
-  - concrete_22
-  - concrete_21
-  - concrete_20
-  - concrete_16
-  - concrete_17
-  - concrete_14
-  - concrete_15
-  - concrete_12
-  - concrete_13
-  - concrete_10
-  - concrete_11
-  - concrete_18
-  - concrete_19
-  - concrete_3
-  - concrete_2
-  - concrete_1
-  - concrete_0
-  - concrete_7
-  - concrete_6
-  - concrete_5
-  - concrete_4
-  - concrete_9
-  - concrete_8
-  - Semi-Solid
   - beamTileMap_8
   - beamTileMap_5
   - beamTileMap_4
