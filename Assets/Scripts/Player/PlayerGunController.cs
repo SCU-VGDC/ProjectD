@@ -31,7 +31,7 @@ public class PlayerGunController : MonoBehaviour
 
     public void AskedToChangeGun(int gunType) // 0 - pistol, 1 - sniper, 2 - shotgun
     {
-        if(gunType == 0 && isPistol)
+        if (gunType == 0 && isPistol)
         {
             currentGun = pistol;
         }
@@ -49,18 +49,19 @@ public class PlayerGunController : MonoBehaviour
 
     public void AskedToShoot() // 0 - normal, 1 - magic
     {
-        if(TimeSpent > currentGun.firerate)
+        if (TimeSpent > currentGun.firerate)
         {
             EventManager.singleton.AddEvent(new shootmsg(gameObject));
             //HAND shit solution???
             GetComponent<PlayerMov_FSM>().arm.GetComponent<AnimatorManager>().SetAnim(currentGun.shotAnimation);
+            Debug.Log("animaiton shot");
             TimeSpent = 0;
         }
     }
 
     public void AskedToDash()
     {
-        
+
     }
 
 }

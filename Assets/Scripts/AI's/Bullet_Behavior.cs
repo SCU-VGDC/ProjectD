@@ -7,6 +7,7 @@ public class Bullet_Behavior : Base_Enemy
     public Rigidbody2D rb;
     public Move_Forward_State move_state;
     public bool ricochet = false;
+    public bool knockback = false;
     [SerializeField]
     int maxRicochetCount = 3;
     [SerializeField]
