@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Net.Cache;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ActorShooting : MonoBehaviour
@@ -20,6 +17,10 @@ public class ActorShooting : MonoBehaviour
     private void Awake()
     {
         allLayers = hittableLayers + reflectiveLayers;
+        
+        if (numOfMaxRicochets > 0) {
+            numOfMaxRicochets--;
+        }
     }
 
     public void Shoot(Transform target = null)
@@ -33,18 +34,26 @@ public class ActorShooting : MonoBehaviour
 
     public void ShootRaycast(int numOfMaxPenetrations)
     {
+        if (numOfMaxPenetrations > 0) {
+            numOfMaxPenetrations--;
+        }
+
         Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         targetPos.z = bulletspawn.position.z;
 
-        // make raycast to see what is hit from shot
+        // set initial raycast values from player
         Vector2 rayCastOrigin = bulletspawn.position;
         Vector2 rayCastDir = targetPos - bulletspawn.position;
-        RaycastHit2D hit = Physics2D.Raycast(rayCastOrigin, rayCastDir, 100f, allLayers);
 
         // check for ricochets and hittable objects
+        RaycastHit2D hit;
         int numOfRicochets = 0;
         int numOfPenetrations = 0;
         while (numOfRicochets <= numOfMaxRicochets && numOfPenetrations <= numOfMaxPenetrations) {
+            // make raycast to see what is hit from shot
+            hit = Physics2D.Raycast(rayCastOrigin, rayCastDir, 100f, allLayers);
+            Debug.Log(hit.point); 
+
             float lastHitDistance = hit.collider == null ? 30.0f : hit.distance;
             
             // draw a line
@@ -61,22 +70,19 @@ public class ActorShooting : MonoBehaviour
             // if layer hit is in reflectiveLayers
             if (reflectiveLayers == (reflectiveLayers | (1 << hit.collider.gameObject.layer)))
             {
-                Debug.Log("reflect!");
-                rayCastDir = Vector2.Reflect(rayCastOrigin, hit.point);
-                rayCastOrigin = hit.point;
-
-                hit = Physics2D.Raycast(rayCastOrigin, rayCastDir, 100f, allLayers); 
                 numOfRicochets++;
+                Debug.Log("reflect!");
+
+                rayCastDir = Vector2.Reflect((hit.point - rayCastOrigin).normalized, hit.normal);
             } else {
                 // hit an object in hittableLayers
                 EventManager.singleton.AddEvent(new applyDamagemsg(gameObject, hit.transform.GetComponent<ActorHealth>(), 10));
+
+                numOfPenetrations++;
             }
+            rayCastOrigin = hit.point;
 
-            //numOfPenetrations++;
-
-            // make another ray in direction if it can penetrates
-            //rayCastOrigin = hit.point;
-            //hit = Physics2D.Raycast(rayCastOrigin, rayCastDir, 100f, allLayers); 
+            Debug.Log("here");
         }
     }
 
@@ -87,6 +93,7 @@ public class ActorShooting : MonoBehaviour
 
     IEnumerator KillTrail(LineRenderer renderer)
     {
+        Debug.Log("ran");
         Color start = new Color(rayColor.r, rayColor.g, rayColor.b, 1);
         Color end = new Color(rayColor.r, rayColor.g, rayColor.b, 0);
 
