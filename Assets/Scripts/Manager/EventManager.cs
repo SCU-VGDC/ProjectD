@@ -63,7 +63,6 @@ public class shootmsg : msg
 {
     public Transform target;
     public string specShootSound;
-
     public shootmsg(GameObject m_shooter, Transform m_target = null, string m_specShootSound = "GunShot") : base(m_shooter)
     {
         target = m_target;
@@ -80,7 +79,6 @@ public class shootmsg : msg
             Sender.GetComponent<ActorShooting>().Shoot(target);
         }
         Sender.GetComponent<AudioManager>().PlaySound(specShootSound);
-        Sender.GetComponent<AnimatorManager>().SetAnim("Attack");
     }
 }
 

@@ -19,6 +19,7 @@ public class AnimatorManager : MonoBehaviour
 
         if (triggerAnimation.Contains(name))
         {
+            Debug.Log("Animation: " + name);
             if(value==false)
             {
             animatorSource.SetTrigger(name);

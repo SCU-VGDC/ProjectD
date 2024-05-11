@@ -53,8 +53,8 @@ public class PlayerGunController : MonoBehaviour
         {
             EventManager.singleton.AddEvent(new shootmsg(gameObject));
             //HAND shit solution???
+            //Debug.Log("Animation Shot: " + currentGun.shotAnimation);
             GetComponent<PlayerMov_FSM>().arm.GetComponent<AnimatorManager>().SetAnim(currentGun.shotAnimation);
-            Debug.Log("animaiton shot");
             TimeSpent = 0;
         }
     }

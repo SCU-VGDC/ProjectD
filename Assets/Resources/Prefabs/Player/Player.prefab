@@ -528,7 +528,7 @@ MonoBehaviour:
     firerate: 0.5
     projectileNormal: {fileID: 4193023076128913139, guid: 32c676a5e0c04bd438e2d0a5bf92b50d, type: 3}
     projectileMagic: {fileID: 4193023076128913139, guid: 87919d1d4645f7341a517c051230d65b, type: 3}
-    shotAnimation: ShotgunShot
+    shotAnimation: PistolShot
     soundNormal: PistolShot
     soundMagic: PistolShot
   sniper:
