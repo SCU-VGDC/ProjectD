@@ -934,5 +934,6 @@ MonoBehaviour:
   boolsAnimation:
   - Moving
   triggerAnimation:
+  - ShotgunShot
   - PistolShot
   - Dash

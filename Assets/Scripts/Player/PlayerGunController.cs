@@ -21,7 +21,7 @@ public class PlayerGunController : MonoBehaviour
 
     public void Start()
     {
-        currentGun = pistol;
+        currentGun = shotgun;
     }
 
     public void Update()
