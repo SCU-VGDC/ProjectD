@@ -45,9 +45,9 @@ public class InteractableDoors : Interactable
             GameManager.inst.player.transform.position = targetDoor.position;
 
             //for every child of BackGroundParallaxTrans
-            for(int i = 0; i < numChildren; i++)
+            for(int i = 1; i < numChildren; i++)
             {
-                //move child to targetDoor's x position  plus it's initial offset from the player's x position
+                //move child to targetDoor's x position plus it's initial offset from the player's x position
                 paralaxBackgrounds[i].position = new Vector3(targetDoor.position.x + paralaxToPlayerOffsets[i].x, paralaxBackgrounds[i].position.y, 0f);
             }
 
