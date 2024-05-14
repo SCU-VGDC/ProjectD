@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
   m_Name: Goo Dirt Autotile
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 450068841, guid: 7d227ce61387d455dad92dea58801350, type: 3}
+  m_DefaultSprite: {fileID: 94763761, guid: 4f3365971ae166141a2ab511aef3e565, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
   m_TilingRules:
