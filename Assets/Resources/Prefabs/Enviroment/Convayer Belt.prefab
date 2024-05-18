@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6547925622382031558}
   - component: {fileID: 6547925622382031559}
   - component: {fileID: 6547925622382031556}
-  - component: {fileID: 6547925622382031557}
+  - component: {fileID: 114466443030484204}
   m_Layer: 6
   m_Name: Convayer Belt
   m_TagString: Untagged
@@ -134,7 +134,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &6547925622382031557
+--- !u!114 &114466443030484204
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

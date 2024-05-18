@@ -31,34 +31,13 @@ SpriteAtlas:
       enableAlphaDilation: 0
     secondaryTextureSettings: {}
     variantMultiplier: 1
-    packables:
-    - {fileID: 2800000, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
+    packables: []
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites:
-  - {fileID: -1106199406, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
-  - {fileID: 1761263433, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
-  - {fileID: 2005569755, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
-  - {fileID: 1203113750, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
-  - {fileID: -628925583, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
-  - {fileID: 1599620519, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
-  - {fileID: 2122962497, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
-  - {fileID: 1796316433, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
-  - {fileID: -1866888029, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
-  - {fileID: -1649081922, guid: 2c8f968f7088c12429ab099fbb89942d, type: 3}
-  m_PackedSpriteNamesToIndex:
-  - beamTileMap_8
-  - beamTileMap_5
-  - beamTileMap_4
-  - beamTileMap_7
-  - beamTileMap_6
-  - beamTileMap_1
-  - beamTileMap_0
-  - beamTileMap_3
-  - beamTileMap_2
-  - beamTileMap_9
+  m_PackedSprites: []
+  m_PackedSpriteNamesToIndex: []
   m_RenderDataMap: {}
   m_Tag: New Sprite Atlas
   m_IsVariant: 0
