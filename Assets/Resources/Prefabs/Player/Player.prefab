@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 1901154282}
   - component: {fileID: 1901154284}
   - component: {fileID: 1901154285}
+  - component: {fileID: 2205078265081477435}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -346,9 +347,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   model: {fileID: 0}
-  isGrounded: 0
-  isWallRight: 0
-  isWallLeft: 0
   infiniteWalljump: 0
   mJump: 0
   numOfWallJumps: 3
@@ -363,6 +361,7 @@ MonoBehaviour:
   wallJumpTime: 0.2
   gladingSpeed: 8
   maxWallJumps: 3
+  dashRecoverTime: 0
   arm: {fileID: 671308694876734697}
   dashes: 3
   dashTime: 0.15
@@ -370,7 +369,6 @@ MonoBehaviour:
   chargeGravity: 0
   chargeVelDecay: 0
   dashSpeed: 70
-  dashesRemaining: 0
   overloadMovement: 0
 --- !u!114 &5265058553035837672
 MonoBehaviour:
@@ -591,6 +589,18 @@ MonoBehaviour:
   triggerAnimation:
   - Jump
   - Dash
+--- !u!114 &2205078265081477435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2191496448248054630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc721dcd16c9da24c9218d2ad5147ba4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2191496448306692533
 GameObject:
   m_ObjectHideFlags: 0

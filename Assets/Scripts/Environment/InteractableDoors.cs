@@ -5,11 +5,13 @@ using UnityEngine;
 public class InteractableDoors : Interactable
 {
     public Transform targetDoor;
+    public string lockType = "";
     private int numChildren;
     private Transform[] paralaxBackgrounds;
     private Vector3[] paralaxToPlayerOffsets;
     private int cooldown = 1;
     private bool canTeleportAgain = true;
+    private PlayerLockInventory playerLockInventory;
     
     void Start()
     {
@@ -34,11 +36,34 @@ public class InteractableDoors : Interactable
             //put the offset between each of background paralax and the player into paralaxToPlayerOffsets
             paralaxToPlayerOffsets[i] = GameManager.inst.player.transform.position - paralaxBackgrounds[i].position;
         }
+
+        //find PlayerLockInventory script attatched to the player
+        playerLockInventory = GameObject.Find("Player").GetComponent<PlayerLockInventory>();
     }
     
     public override void Activation() 
     {
-        if (canTeleportAgain)
+        bool playerCanOpen = false;
+
+        //if door has no lockType...
+        if(lockType == "")
+        {
+            //player can open the door
+            playerCanOpen = true;
+        }
+        //else door has a lockType...
+        else
+        {
+            //if player has a key that matches the door's lockType...
+            if(playerLockInventory.playerKeys.ContainsKey(lockType))
+            {
+                //player can open door
+                playerCanOpen = true;
+            }
+        }
+
+        //if the door is ready to teleport the player and the player can open the door...
+        if (canTeleportAgain && playerCanOpen)
         {
             canTeleportAgain = false;
             targetDoor.GetComponent<InteractableDoors>().canTeleportAgain = false;
