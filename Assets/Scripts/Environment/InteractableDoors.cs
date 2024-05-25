@@ -76,6 +76,9 @@ public class InteractableDoors : Interactable
                 paralaxBackgrounds[i].position = new Vector3(targetDoor.position.x + paralaxToPlayerOffsets[i].x, paralaxBackgrounds[i].position.y, 0f);
             }
 
+            //turn off lock sprite
+            gameObject.GetComponent<SpriteRenderer>()
+
             StartCoroutine(DoorCool());
             StartCoroutine(targetDoor.GetComponent<InteractableDoors>().DoorCool());
         }
