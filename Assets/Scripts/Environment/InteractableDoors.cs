@@ -55,7 +55,7 @@ public class InteractableDoors : Interactable
         else
         {
             //if player has a key that matches the door's lockType...
-            if(playerLockInventory.playerKeys.ContainsKey(lockType))
+            if(playerLockInventory.playerKeys.Contains(lockType))
             {
                 //player can open door
                 playerCanOpen = true;
@@ -77,7 +77,7 @@ public class InteractableDoors : Interactable
             }
 
             //turn off lock sprite
-            gameObject.GetComponent<SpriteRenderer>()
+            gameObject.GetComponent<SpriteRenderer>().sprite = null;
 
             StartCoroutine(DoorCool());
             StartCoroutine(targetDoor.GetComponent<InteractableDoors>().DoorCool());

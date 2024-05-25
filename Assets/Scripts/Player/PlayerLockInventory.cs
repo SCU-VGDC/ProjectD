@@ -5,13 +5,13 @@ using UnityEngine;
 public class PlayerLockInventory : MonoBehaviour
 {
     //list of keys player has obtained
-    public Dictionary<string, bool> playerKeys;
+    public HashSet<string> playerKeys;
 
     // Start is called before the first frame update
     void Start()
     {
-        //create a dictionary
-        playerKeys = new Dictionary<string, bool>();
+        //create a set
+        playerKeys = new HashSet<string>();
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -23,11 +23,11 @@ public class PlayerLockInventory : MonoBehaviour
             // Debug.Log(col.gameObject.GetComponent<KeyBehavior>().keyType);
 
             //add key to inventory
-            playerKeys.Add(col.gameObject.GetComponent<KeyBehavior>().keyType, true);
-            
-            // Debug.Log(playerKeys.ContainsKey("bronze"));
-            // Debug.Log(playerKeys.ContainsKey("silver"));
-            // Debug.Log(playerKeys.ContainsKey("gold"));
+            playerKeys.Add(col.gameObject.GetComponent<KeyBehavior>().keyType);
+
+            // Debug.Log(playerKeys.Contains("bronze"));
+            // Debug.Log(playerKeys.Contains("silver"));
+            // Debug.Log(playerKeys.Contains("gold"));
 
             //destroy key
             Destroy(col.gameObject);
