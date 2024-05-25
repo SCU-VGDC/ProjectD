@@ -3,8 +3,11 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using JetBrains.Annotations;
+using UnityEditor.AnimatedValues;
 
 [RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(AnimatorManager))]
+[RequireComponent(typeof(ActorHealth))]
 public class Mobster_Enemy_Behavior : Base_Enemy
 {
     //public float aggroRange = 40f;
@@ -14,6 +17,8 @@ public class Mobster_Enemy_Behavior : Base_Enemy
     public float projectileSpeed = 110f;
     private float leftXLimit;
     private float rightXLimit;
+    private AnimatorManager animManager;
+    private ActorHealth health;
     public Transform limitPoint1;
     public Transform limitPoint2;
     public Mobster_Idle_Wander idleWanderState;
@@ -25,6 +30,9 @@ public class Mobster_Enemy_Behavior : Base_Enemy
     private void Start()
     {
         Init();
+        animManager = GetComponent<AnimatorManager>();
+        health = GetComponent<ActorHealth>();
+
         current_state = idleWanderState;
         current_state.Init(this);
 
@@ -38,6 +46,12 @@ public class Mobster_Enemy_Behavior : Base_Enemy
 
     private void FixedUpdate()
     {
+        if (health.died)
+        {
+            animManager.SetAnim("Shoot", true);
+            animManager.SetAnim("TakeDamage", true);
+            return;
+        }
         current_state.Action(this);
         float rawX = transform.position.x + (speed * currentSpeedMult * WalkDirection * Time.deltaTime);
         transform.position = new Vector2(Mathf.Clamp(rawX, leftXLimit, rightXLimit), transform.position.y);
@@ -149,14 +163,15 @@ public class Mobster_Enemy_Behavior : Base_Enemy
             bool oobRight = context.transform.position.x >= context.rightXLimit && goalX >= context.rightXLimit;
             gizmoGoalX = goalX;
 
+            // shoot!
             if (Mathf.Abs(toGoalX) <= 0.5f || oobLeft || oobRight)
             {
                 context.SetDirection(0);
                 //EventManager.singleton.AddEvent(new shootmsg(context.gameObject, plr));
                 gizmoShootVector = plr.position - context.transform.position;
-                Debug.Log("mobster shoot");
                 readyToRepos = true;
                 lastShotTime = Time.time;
+                context.animManager.SetAnim("Shoot", false);
             }
             else
                 context.SetDirection(MathF.Sign(toGoalX));
