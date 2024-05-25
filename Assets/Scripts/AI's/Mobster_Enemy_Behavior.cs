@@ -167,7 +167,7 @@ public class Mobster_Enemy_Behavior : Base_Enemy
             if (Mathf.Abs(toGoalX) <= 0.5f || oobLeft || oobRight)
             {
                 context.SetDirection(0);
-                //EventManager.singleton.AddEvent(new shootmsg(context.gameObject, plr));
+                EventManager.singleton.AddEvent(new shootmsg(context.gameObject, plr));
                 gizmoShootVector = plr.position - context.transform.position;
                 readyToRepos = true;
                 lastShotTime = Time.time;

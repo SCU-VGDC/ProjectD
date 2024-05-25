@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 8351955533238904752}
   - component: {fileID: 1265212107844672830}
   - component: {fileID: 1265212107844672801}
+  - component: {fileID: 7315118524078459899}
   m_Layer: 9
   m_Name: MobsterBody
   m_TagString: Untagged
@@ -155,7 +156,8 @@ Transform:
   m_LocalPosition: {x: 2.2589, y: 1.3511, z: 0}
   m_LocalScale: {x: 0.98561704, y: 0.98561704, z: 0.98561704}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7071693074990445923}
   m_Father: {fileID: 1265212106717212808}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -506,6 +508,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7315118524078459899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265212107844672817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45ac6dd7bbf4b1b4885551121bd378b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trailSpawn: {fileID: 0}
+  bulletspawn: {fileID: 7071693074990445923}
+  bulletprefab: {fileID: 4193023076128913139, guid: 1725483b24bcfbe43bf1e2c052d91966, type: 3}
+  hittableLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  reflectiveLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  raycastToggle: 0
 --- !u!1 &1265212108143566810
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,3 +614,34 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &6460618180089864465
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7071693074990445923}
+  m_Layer: 9
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7071693074990445923
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6460618180089864465}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.62, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1265212107844672824}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
