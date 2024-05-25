@@ -63,22 +63,40 @@ public class shootmsg : msg
 {
     public Transform target;
     public string specShootSound;
-    public shootmsg(GameObject m_shooter, Transform m_target = null, string m_specShootSound = "GunShot") : base(m_shooter)
+    public string typeShot;
+
+    public shootmsg(GameObject m_shooter, Transform m_target = null, string m_specShootSound = "GunShot", string m_typeShot = null) : base(m_shooter)
     {
         target = m_target;
         specShootSound = m_specShootSound;
+        typeShot = m_typeShot;
     }
 
     public override void Run()
     {
-        if (Sender.GetComponent<ActorShooting>().raycastToggle)
-        {
-            Sender.GetComponent<ActorShooting>().ShootRaycast(0);
+        switch (typeShot) {
+            // player shots
+            case "PistolShot":
+                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(10, 0, 0);
+
+                break;
+            case "PistolShotRicochet":
+                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(10, 0, 3);
+
+                break;
+            case "ShotgunShot":
+                Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(1, 5.0f, 90.0f, 10);
+
+                break;
+            // enemy shots
+            default:
+                Sender.GetComponent<ActorShooting>().Shoot(target);
+
+                break;
         }
-        else {
-            Sender.GetComponent<ActorShooting>().Shoot(target);
-        }
+
         Sender.GetComponent<AudioManager>().PlaySound(specShootSound);
+        Sender.GetComponent<AnimatorManager>().SetAnim("Attack");
     }
 }
 
@@ -224,14 +242,10 @@ public class playerShootGunmsg : msg
     }
 
     public override void Run()
-    {        
+    {
         PlayerGunController pgc = Sender.GetComponent<PlayerGunController>();
         ActorShooting ac = Sender.GetComponent<ActorShooting>();
         AudioManager ad = Sender.GetComponent<AudioManager>();
-        Rigidbody2D rb = Sender.GetComponent<Rigidbody2D>();
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
-        Vector3 knockbackpos = mousePos - rb.position;
 
         if (shootType == 0)
         {
@@ -240,12 +254,11 @@ public class playerShootGunmsg : msg
         }
         if (shootType == 1)
         {
-            rb.AddForce(knockbackpos, ForceMode2D.Impulse);
             ac.SetBullet(pgc.currentGun.projectileMagic);
             ad.ChangeSoundInDict("GunShot", pgc.currentGun.soundMagic);
         }
 
-        pgc.AskedToShoot();
+        pgc.AskedToShoot(shootType);
     }
 }
 
