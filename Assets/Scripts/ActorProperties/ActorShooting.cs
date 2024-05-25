@@ -28,7 +28,15 @@ public class ActorShooting : MonoBehaviour
         }
     }
 
-    public void ShootRaycast(int numOfMaxPenetrations, int numOfMaxRicochets)
+    private Vector2 getRayCastDir()
+    {
+        Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        targetPos.z = bulletspawn.position.z;
+
+        return (targetPos - bulletspawn.position).normalized;
+    }
+
+    public void ShootRaycastSingleBullet(int damage, int numOfMaxPenetrations, int numOfMaxRicochets)
     {
         // 0 index babyyy
         if (numOfMaxRicochets > 0) {
@@ -40,7 +48,7 @@ public class ActorShooting : MonoBehaviour
 
         // set initial raycast values from player
         Vector2 rayCastOrigin = bulletspawn.position;
-        Vector2 rayCastDir = (targetPos - bulletspawn.position).normalized;
+        Vector2 rayCastDir = getRayCastDir();
 
         // check for ricochets and hittable objects
         RaycastHit2D hit;
@@ -74,14 +82,58 @@ public class ActorShooting : MonoBehaviour
                 moveOriginBy = 0.1f;
             } else {
                 // hit an object in hittableLayers
-                EventManager.singleton.AddEvent(new applyDamagemsg(gameObject, hit.transform.GetComponent<ActorHealth>(), 10));
+                EventManager.singleton.AddEvent(new applyDamagemsg(gameObject, hit.transform.GetComponent<ActorHealth>(), damage));
 
                 numOfPenetrations++;
-                moveOriginBy = 5.0f; // TODO: will need a better fix eventually as some enemies may be larger
+                moveOriginBy = Mathf.Sqrt((hit.collider.bounds.size.x * hit.collider.bounds.size.x) + (hit.collider.bounds.size.y * hit.collider.bounds.size.y));
             }
 
             // setup raycast for next iteration
             rayCastOrigin = hit.point;
+        }
+    }
+
+    public void ShootRaycastSpreadBullets(int damage, float range, float degrees, int numOfRays)
+    {
+        // set initial raycast values from player
+        Vector2 rayCastOrigin = bulletspawn.position;
+        Vector2 rayCastDirMiddle = getRayCastDir();
+
+        // just a vector used to figure out angles relative to, prob no touchy
+        Vector3 referenceAngle = Vector3.forward;
+
+        // calculate the angle endpoints
+        float middleAngle = Vector2.Angle(rayCastDirMiddle, referenceAngle);
+        float startAngle = middleAngle + (degrees / 2);
+        float endAngle = middleAngle - (degrees / 2);        
+
+        for (int i = 0; i < numOfRays; i++) {
+            // find angle to shoot at
+            float angle = Mathf.Lerp(startAngle, endAngle, (float)i / numOfRays);
+            Debug.Log(angle);
+            
+            // convert angle to Vector2
+            Vector2 rayCastDir = Quaternion.AngleAxis(angle, referenceAngle) * rayCastDirMiddle;
+
+            // save hit
+            RaycastHit2D hit = Physics2D.Raycast(rayCastOrigin, rayCastDir, range, allLayers);
+            float lineDist = hit.collider == null ? range : hit.distance;
+
+            // make sure you hit something that takes damage, skill issue
+            if (hit.collider != null && hittableLayers == (hittableLayers | (1 << hit.collider.gameObject.layer))) {
+                // apply damage
+                EventManager.singleton.AddEvent(new applyDamagemsg(gameObject, hit.transform.GetComponent<ActorHealth>(), damage));
+
+                lineDist = range;
+            }
+
+            // draw line
+            GameObject line = Instantiate(trailSpawn);
+            LineRenderer renderer = line.GetComponent<LineRenderer>();
+
+            Ray ray = new Ray(rayCastOrigin, rayCastDir);
+            renderer.SetPositions(new Vector3[2] { rayCastOrigin, ray.GetPoint(lineDist) });
+            StartCoroutine(KillTrail(renderer));
         }
     }
 
