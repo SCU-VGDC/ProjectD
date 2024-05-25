@@ -224,10 +224,14 @@ public class playerShootGunmsg : msg
     }
 
     public override void Run()
-    {
+    {        
         PlayerGunController pgc = Sender.GetComponent<PlayerGunController>();
         ActorShooting ac = Sender.GetComponent<ActorShooting>();
         AudioManager ad = Sender.GetComponent<AudioManager>();
+        Rigidbody2D rb = Sender.GetComponent<Rigidbody2D>();
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0;
+        Vector3 knockbackpos = mousePos - rb.position;
 
         if (shootType == 0)
         {
@@ -236,6 +240,7 @@ public class playerShootGunmsg : msg
         }
         if (shootType == 1)
         {
+            rb.AddForce(knockbackpos, ForceMode2D.Impulse);
             ac.SetBullet(pgc.currentGun.projectileMagic);
             ad.ChangeSoundInDict("GunShot", pgc.currentGun.soundMagic);
         }
