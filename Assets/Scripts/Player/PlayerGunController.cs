@@ -47,11 +47,18 @@ public class PlayerGunController : MonoBehaviour
         }
     }
 
-    public void AskedToShoot() // 0 - normal, 1 - magic
+    public void AskedToShoot(int shootType) // 0 - normal, 1 - magic
     {
+
         if(TimeSpent > currentGun.firerate)
         {
-            EventManager.singleton.AddEvent(new shootmsg(gameObject));
+            if (shootType == 0) {
+                EventManager.singleton.AddEvent(new shootmsg(gameObject, null, "GunShot", "PistolShot"));
+
+            } else if (shootType == 1) {
+                EventManager.singleton.AddEvent(new shootmsg(gameObject, null, "GunShot", "PistolShotRicochet"));
+            }
+
             //HAND shit solution???
             GetComponent<PlayerMov_FSM>().arm.GetComponent<AnimatorManager>().SetAnim(currentGun.shotAnimation);
             TimeSpent = 0;

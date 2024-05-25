@@ -63,22 +63,38 @@ public class shootmsg : msg
 {
     public Transform target;
     public string specShootSound;
+    public string typeShot;
 
-    public shootmsg(GameObject m_shooter, Transform m_target = null, string m_specShootSound = "GunShot") : base(m_shooter)
+    public shootmsg(GameObject m_shooter, Transform m_target = null, string m_specShootSound = "GunShot", string m_typeShot = null) : base(m_shooter)
     {
         target = m_target;
         specShootSound = m_specShootSound;
+        typeShot = m_typeShot;
     }
 
     public override void Run()
     {
-        if (Sender.GetComponent<ActorShooting>().raycastToggle)
-        {
-            Sender.GetComponent<ActorShooting>().ShootRaycast(0);
+        switch (typeShot) {
+            // player shots
+            case "PistolShot":
+                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(10, 0, 0);
+
+                break;
+            case "PistolShotRicochet":
+                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(10, 0, 3);
+
+                break;
+            case "ShotgunShot":
+                Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(1, 5.0f, 90.0f, 10);
+
+                break;
+            // enemy shots
+            default:
+                Sender.GetComponent<ActorShooting>().Shoot(target);
+
+                break;
         }
-        else {
-            Sender.GetComponent<ActorShooting>().Shoot(target);
-        }
+
         Sender.GetComponent<AudioManager>().PlaySound(specShootSound);
         Sender.GetComponent<AnimatorManager>().SetAnim("Attack");
     }
@@ -242,7 +258,7 @@ public class playerShootGunmsg : msg
             ad.ChangeSoundInDict("GunShot", pgc.currentGun.soundMagic);
         }
 
-        pgc.AskedToShoot();
+        pgc.AskedToShoot(shootType);
     }
 }
 
