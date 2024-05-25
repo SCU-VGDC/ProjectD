@@ -123,8 +123,6 @@ public class ActorShooting : MonoBehaviour
             if (hit.collider != null && hittableLayers == (hittableLayers | (1 << hit.collider.gameObject.layer))) {
                 // apply damage
                 EventManager.singleton.AddEvent(new applyDamagemsg(gameObject, hit.transform.GetComponent<ActorHealth>(), damage));
-
-                lineDist = range;
             }
 
             // draw line
@@ -144,6 +142,8 @@ public class ActorShooting : MonoBehaviour
 
     IEnumerator KillTrail(LineRenderer renderer)
     {
+        renderer.startWidth = renderer.endWidth = 0.1f;
+
         Color start = new Color(rayColor.r, rayColor.g, rayColor.b, 1);
         Color end = new Color(rayColor.r, rayColor.g, rayColor.b, 0);
 
