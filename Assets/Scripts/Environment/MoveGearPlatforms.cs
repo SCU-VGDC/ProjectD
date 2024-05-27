@@ -31,7 +31,7 @@ public class MoveGearPlatforms : MonoBehaviour
     {
         Vector3 currentPos = platform.position;
         timer+=Time.deltaTime;
-        #pragma warning restore format
+        //checks if timer is greatera than change and moves towards the start.
         if(timer>timerchange)
         {
             platform.position=Vector3.MoveTowards(platform.position,start.position,speed*Time.deltaTime);
@@ -47,7 +47,7 @@ public class MoveGearPlatforms : MonoBehaviour
         }
         */
     }
-    public void collided()
+    public void collided()//checks collider if it hits Check the event manager it should have the call for when it collides.
     {
         timer=0f;
     }
