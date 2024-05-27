@@ -591,3 +591,16 @@ public class changeDoor : msg
         Sender.GetComponent<BoxCollider2D>().enabled = close;
     }
 }
+
+public class addKey : msg
+{
+    public addKey(GameObject m_player) : base(m_player)
+    {
+
+    }
+
+    public override void Run()
+    {
+
+    }
+}
