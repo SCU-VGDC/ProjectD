@@ -162,7 +162,7 @@ public class applyDamagemsg : msg
             {
 
                 MoveGearPlatforms mvg = target.transform.GetChild(0).GetComponent<MoveGearPlatforms>();
-                mvg.ChangeMove();
+                mvg.collided();
                 return;
 
             }
