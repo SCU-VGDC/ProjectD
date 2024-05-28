@@ -594,13 +594,19 @@ public class changeDoor : msg
 
 public class addKey : msg
 {
-    public addKey(GameObject m_player) : base(m_player)
-    {
+    Collider2D collider;
 
+    public addKey(GameObject m_player, Collider2D m_collider) : base(m_player)
+    {
+        collider = m_collider;
     }
 
     public override void Run()
     {
+        //add key to player key inventory
+        GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys.Add(collider.gameObject.GetComponent<KeyBehavior>().keyType);
 
+        //destroy key
+        GameObject.Destroy(collider.gameObject);
     }
 }

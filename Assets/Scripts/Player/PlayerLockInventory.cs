@@ -14,23 +14,25 @@ public class PlayerLockInventory : MonoBehaviour
         playerKeys = new HashSet<string>();
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    void Update()
+    {
+        Debug.Log(playerKeys);
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
     {
         //if other collider was a key...
-        if(col.gameObject.GetComponent<KeyBehavior>())
+        if(collider.gameObject.GetComponent<KeyBehavior>())
         {
             // Debug.Log("Key Touched");
             // Debug.Log(col.gameObject.GetComponent<KeyBehavior>().keyType);
 
-            //add key to inventory
-            playerKeys.Add(col.gameObject.GetComponent<KeyBehavior>().keyType);
-
+            //add key getKey event
+            EventManager.singleton.AddEvent(new addKey(gameObject, collider));
+            
             // Debug.Log(playerKeys.Contains("bronze"));
             // Debug.Log(playerKeys.Contains("silver"));
             // Debug.Log(playerKeys.Contains("gold"));
-
-            //destroy key
-            Destroy(col.gameObject);
         }
     }
 }
