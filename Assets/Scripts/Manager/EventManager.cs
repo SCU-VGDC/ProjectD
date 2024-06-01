@@ -94,7 +94,7 @@ public class shootmsg : msg
                 break;
 
             case "ShotgunShotKnockback":
-                Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(1, 5.0f, 90.0f, 10);
+                Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(1, 5.0f, 90.0f, 10, true);
                 Debug.Log("Knockback Shot");
 
                 break;

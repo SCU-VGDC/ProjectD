@@ -112,7 +112,10 @@ public class ActorShooting : MonoBehaviour
 
         Vector2 knockbackDirection = rayCastDirMiddle;
         knockbackDirection.Normalize();
-        pm.SetState<Knockback>();
+        if(knockback){
+            pm.SetState<Knockback>();
+        }
+        
         
 
         for (int i = 0; i < numOfRays; i++) {

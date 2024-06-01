@@ -13,7 +13,7 @@ class Knockback : PlayerState
     public override bool CanStart(PlayerMov_FSM.FrameInput frim) 
     {
         if (pm.currentState == this)
-            return !StateTimeExceeds(pm.dashTime);
+            return !StateTimeExceeds(pm.knockbackTime);
 
         return false;
     }
@@ -28,12 +28,12 @@ class Knockback : PlayerState
         dashDirection = mousePos - pm.transform.position;
         dashDirection = dashDirection * -1f;
         dashDirection.Normalize();
-        pm.dashesRemaining--;
-        EventManager.singleton.AddEvent(new Dashmsg(pm.gameObject));
+        pm.knockbacksRemaining--;
+        //EventManager.singleton.AddEvent(new Dashmsg(pm.gameObject));
 
         // Set initial and target velocities
         startVelocity = pm.rb.velocity;
-        targetVelocity = dashDirection * pm.dashSpeed;
+        targetVelocity = dashDirection * pm.knockbackSpeed;
     }
 
     public override void Update(PlayerMov_FSM.FrameInput frim) 
@@ -41,7 +41,7 @@ class Knockback : PlayerState
         base.Update(frim);
         Debug.Log("Here");
 
-        float progress = timeInState / pm.dashTime;
+        float progress = timeInState / pm.knockbackTime;
         
         if (progress <= 0.8f) 
         {
@@ -52,7 +52,7 @@ class Knockback : PlayerState
         {
             // Smoothly decelerate using a curve
             float decelerationProgress = (progress - 0.8f) / 0.2f;
-            pm.rb.velocity = Vector3.Lerp(targetVelocity, 0.2f * pm.dashSpeed * dashDirection, decelerationProgress);
+            pm.rb.velocity = Vector3.Lerp(targetVelocity, 0.2f * pm.knockbackSpeed * dashDirection, decelerationProgress);
         }
     }
 }
