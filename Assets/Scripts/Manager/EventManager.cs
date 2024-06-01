@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EventManager : MonoBehaviour
 {
@@ -608,5 +609,19 @@ public class addKey : msg
 
         //destroy key
         GameObject.Destroy(collider.gameObject);
+
+        //add appropriate key to UI
+        if(collider.gameObject.GetComponent<KeyBehavior>().keyType == "bronze")
+        {
+            GameObject.Find("Bronze Key UI").GetComponent<Image>().enabled = true;
+        }
+        else if(collider.gameObject.GetComponent<KeyBehavior>().keyType == "silver")
+        {
+            GameObject.Find("Silver Key UI").GetComponent<Image>().enabled = true;
+        }
+        else if(collider.gameObject.GetComponent<KeyBehavior>().keyType == "brass")
+        {
+            GameObject.Find("Brass Key UI").GetComponent<Image>().enabled = true;
+        }
     }
 }
