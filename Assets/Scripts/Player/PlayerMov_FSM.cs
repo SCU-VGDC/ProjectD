@@ -96,6 +96,7 @@ public class PlayerMov_FSM : MonoBehaviour
             new Death(this),
             new Dashing(this),
             new DashCharging(this),
+            new Knockback(this),
             new Grounded(this),
             new OnWall(this),
             new WallJumping(this),

@@ -21,7 +21,7 @@ public class PlayerGunController : MonoBehaviour
 
     public void Start()
     {
-        currentGun = pistol;
+        currentGun = shotgun;
     }
 
     public void Update()
@@ -49,14 +49,13 @@ public class PlayerGunController : MonoBehaviour
 
     public void AskedToShoot(int shootType) // 0 - normal, 1 - magic
     {
-
         if(TimeSpent > currentGun.firerate)
         {
             if (shootType == 0) {
-                EventManager.singleton.AddEvent(new shootmsg(gameObject, null, "GunShot", "PistolShot"));
+                EventManager.singleton.AddEvent(new shootmsg(gameObject, null, "GunShot", currentGun.projectileNormal));
 
             } else if (shootType == 1) {
-                EventManager.singleton.AddEvent(new shootmsg(gameObject, null, "GunShot", "PistolShotRicochet"));
+                EventManager.singleton.AddEvent(new shootmsg(gameObject, null, "GunShot", currentGun.projectileMagic));
             }
 
             //HAND shit solution???
@@ -76,8 +75,8 @@ public class PlayerGunController : MonoBehaviour
 public class Gun
 {
     public float firerate;
-    public GameObject projectileNormal;
-    public GameObject projectileMagic;
+    public string projectileNormal;
+    public string projectileMagic;
     public string shotAnimation;
     public string soundNormal;
     public string soundMagic;

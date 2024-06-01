@@ -93,7 +93,7 @@ public class ActorShooting : MonoBehaviour
         }
     }
 
-    public void ShootRaycastSpreadBullets(int damage, float range, float degrees, int numOfRays)
+    public void ShootRaycastSpreadBullets(int damage, float range, float degrees, int numOfRays, bool knockback = false)
     {
         // set initial raycast values from player
         Vector2 rayCastOrigin = bulletspawn.position;
@@ -106,11 +106,18 @@ public class ActorShooting : MonoBehaviour
         float middleAngle = Vector2.Angle(rayCastDirMiddle, referenceAngle);
         float startAngle = middleAngle + (degrees / 2);
         float endAngle = middleAngle - (degrees / 2);        
+        Debug.Log(gameObject.name);
+        Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
+        PlayerMov_FSM pm = GetComponent<PlayerMov_FSM>();
+
+        Vector2 knockbackDirection = rayCastDirMiddle;
+        knockbackDirection.Normalize();
+        pm.SetState<Knockback>();
+        
 
         for (int i = 0; i < numOfRays; i++) {
             // find angle to shoot at
             float angle = Mathf.Lerp(startAngle, endAngle, (float)i / numOfRays);
-            Debug.Log(angle);
             
             // convert angle to Vector2
             Vector2 rayCastDir = Quaternion.AngleAxis(angle, referenceAngle) * rayCastDirMiddle;

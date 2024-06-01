@@ -74,6 +74,10 @@ public class shootmsg : msg
 
     public override void Run()
     {
+        Rigidbody2D rb = Sender.GetComponent<Rigidbody2D>();
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0;
+        Vector3 dashDirection = mousePos - rb.transform.position;
         switch (typeShot) {
             // player shots
             case "PistolShot":
@@ -86,6 +90,12 @@ public class shootmsg : msg
                 break;
             case "ShotgunShot":
                 Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(1, 5.0f, 90.0f, 10);
+                
+                break;
+
+            case "ShotgunShotKnockback":
+                Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(1, 5.0f, 90.0f, 10);
+                Debug.Log("Knockback Shot");
 
                 break;
             // enemy shots
@@ -249,12 +259,12 @@ public class playerShootGunmsg : msg
 
         if (shootType == 0)
         {
-            ac.SetBullet(pgc.currentGun.projectileNormal);
+            //ac.SetBullet(pgc.currentGun.projectileNormal);
             ad.ChangeSoundInDict("GunShot", pgc.currentGun.soundNormal);
         }
         if (shootType == 1)
         {
-            ac.SetBullet(pgc.currentGun.projectileMagic);
+            //ac.SetBullet(pgc.currentGun.projectileMagic);
             ad.ChangeSoundInDict("GunShot", pgc.currentGun.soundMagic);
         }
 
