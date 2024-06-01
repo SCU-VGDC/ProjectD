@@ -223,6 +223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vulnerabilityCooldown: 0
   currentHealth: 3
+  died: 0
   maxHealth: 3
 --- !u!114 &862610817
 MonoBehaviour:
@@ -240,10 +241,36 @@ MonoBehaviour:
   AudioFiles:
   - name: Death
     clip: {fileID: 8300000, guid: 521988ec511b5a54298b1a0eda6c9a1f, type: 3}
-    Variants: []
+    Variants:
+    - {fileID: 8300000, guid: 0b68ad898ca88e246a3fc7cbe4ed481e, type: 3}
+    - {fileID: 8300000, guid: 521988ec511b5a54298b1a0eda6c9a1f, type: 3}
+    - {fileID: 8300000, guid: 3d2b154a6ab6fd64e85bfffee09a20bf, type: 3}
+    - {fileID: 8300000, guid: 873ad525ef7b0e64f90b69df4e8d37bf, type: 3}
+    randomPitch: 0
   - name: TakeDamage
     clip: {fileID: 8300000, guid: 02d4cd457934faf479f8417c5c9c0169, type: 3}
-    Variants: []
+    Variants:
+    - {fileID: 8300000, guid: 18ef91a83e8718f409fc9394817dccf5, type: 3}
+    - {fileID: 8300000, guid: 02d4cd457934faf479f8417c5c9c0169, type: 3}
+    - {fileID: 8300000, guid: 7a7fd6c57ddbae640b4b169be0684bfe, type: 3}
+    - {fileID: 8300000, guid: 6f1d48340a6732f47bd18a69fc2d82c5, type: 3}
+    randomPitch: 0
+  - name: Moving
+    clip: {fileID: 8300000, guid: 6c6dc4a649fd9c24c972eade0aaf82e3, type: 3}
+    Variants:
+    - {fileID: 8300000, guid: 6c6dc4a649fd9c24c972eade0aaf82e3, type: 3}
+    - {fileID: 8300000, guid: daab11b53ce64b54fa7d933423d64730, type: 3}
+    - {fileID: 8300000, guid: 53bb853e3257e1f46b0620c232063387, type: 3}
+    - {fileID: 8300000, guid: e62bde08aa27d784c876c8862312fe26, type: 3}
+    - {fileID: 8300000, guid: bb1ea7c5f5b9496499f0681b552f003d, type: 3}
+    - {fileID: 8300000, guid: 4852bd359240b854293eb03aaee0403c, type: 3}
+    - {fileID: 8300000, guid: 52ecb327b9cd67341b940ef19c4a4684, type: 3}
+    - {fileID: 8300000, guid: 9a3e00a071c777b4ba2ab9378544a773, type: 3}
+    - {fileID: 8300000, guid: 28df82bfdf4b48243b9616daaf421088, type: 3}
+    - {fileID: 8300000, guid: c88a9ac891bfea847b0c1f6e56eebf28, type: 3}
+    - {fileID: 8300000, guid: 87fcedd9af9db3c4b92782a5ac431a4c, type: 3}
+    - {fileID: 8300000, guid: d0a822c6b06862646be6f6f8f1ebef97, type: 3}
+    randomPitch: 0
 --- !u!82 &2008324882343417022
 AudioSource:
   m_ObjectHideFlags: 0
@@ -557,7 +584,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3979810772978610571}
   m_Layer: 0
-  m_Name: WastePrefab
+  m_Name: WastePrefabFemale
   m_TagString: ResourcePrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
