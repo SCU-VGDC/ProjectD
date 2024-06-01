@@ -41,7 +41,7 @@ public class PlayerMov_FSM : MonoBehaviour
     private PlayerState[] states = new PlayerState[6];
     public PlayerState currentState;
 
-    [HideInInspector]
+    [NonSerialized]
     public bool isGrounded, isWallRight, isWallLeft;
     public bool infiniteWalljump = false;
 
@@ -65,6 +65,7 @@ public class PlayerMov_FSM : MonoBehaviour
     public float wallJumpTime;
     public float gladingSpeed;
     public int maxWallJumps;
+    public float dashRecoverTime;
     public Transform arm;
 
     //those changes are retarded LEGACY???
@@ -74,7 +75,9 @@ public class PlayerMov_FSM : MonoBehaviour
     public float chargeGravity;
     public float chargeVelDecay;
     public float dashSpeed;
-    [HideInInspector]
+    [NonSerialized]
+    public float lastDashUpdate;
+    [NonSerialized]
     public int dashesRemaining;
 
     public bool overloadMovement;
@@ -105,6 +108,9 @@ public class PlayerMov_FSM : MonoBehaviour
 
         // Set the initial state to be Grounded
         currentState = GetState<Grounded>();
+        dashesRemaining = dashes;
+        lastDashUpdate = Time.time;
+        EventManager.singleton.GetComponent<UIManager>().updateDashUI();
     }
 
     private void FixedUpdate()
@@ -120,9 +126,14 @@ public class PlayerMov_FSM : MonoBehaviour
         isWallLeft = rb.IsTouching(cfWallL);
         isWallRight = rb.IsTouching(cfWallR);
 
+        if (dashesRemaining < dashes && Time.time - lastDashUpdate >= dashRecoverTime)
+        {
+            lastDashUpdate = Time.time;
+            dashesRemaining++;
+            EventManager.singleton.GetComponent<UIManager>().updateDashUI();
+        }
 
         StateHandling(thisFrame);
-
         UpdateArmPos(thisFrame);
     }
 
