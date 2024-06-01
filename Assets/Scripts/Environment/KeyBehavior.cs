@@ -7,9 +7,11 @@ public class KeyBehavior : MonoBehaviour
     //type of the key
     public string keyType = "";
 
+    //animation vars
     public float bobMagnitude = 1f;
     public float bobSpeed = 1f;
 
+    //component vars
     private Transform keyLightTrans;
     private float originalLightY;
     private Transform keySpriteTrans;
