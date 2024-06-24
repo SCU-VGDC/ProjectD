@@ -607,6 +607,9 @@ public class addKey : msg
         //add key to player key inventory
         GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys.Add(collider.gameObject.GetComponent<KeyBehavior>().keyType);
 
+        //play key pickup noise at position where key is
+        AudioSource.PlayClipAtPoint(collider.gameObject.GetComponent<KeyBehavior>().keyPickUpSound, collider.gameObject.transform.position);
+
         //destroy key
         GameObject.Destroy(collider.gameObject);
 

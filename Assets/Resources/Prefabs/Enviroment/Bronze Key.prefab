@@ -269,5 +269,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyType: bronze
+  keyPickUpSound: {fileID: 0}
   bobMagnitude: 0.35
   bobSpeed: 1

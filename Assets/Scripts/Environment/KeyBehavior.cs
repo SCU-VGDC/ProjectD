@@ -7,6 +7,9 @@ public class KeyBehavior : MonoBehaviour
     //type of the key
     public string keyType = "";
 
+    //key pickup sound
+    public AudioClip keyPickUpSound;
+
     //animation vars
     public float bobMagnitude = 1f;
     public float bobSpeed = 1f;
