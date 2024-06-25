@@ -140,9 +140,10 @@ public class SaveSystem : MonoBehaviour
             SpawnEnemy(enem);
         }
 
-        Debug.Log(givenLevel.LevelKeys);
+        //Debug.Log(givenLevel.LevelKeys);
         foreach (BasicKeyState key in givenLevel.LevelKeys)
         {
+            Debug.Log("Key to spawn is: " + key.PrefabName);
             SpawnKey(key);
         }
 
@@ -241,9 +242,25 @@ public class SaveSystem : MonoBehaviour
 
     void SpawnKey(BasicKeyState givenKey)
     {
-        Debug.Log("Prefabs/Environment/" + givenKey.PrefabName);
-        GameObject key = Instantiate(Resources.Load("Prefabs/Environment/" + givenKey.PrefabName)) as GameObject;
-        key.transform.position = givenKey.KeyLocation;
+        //look for a preexisting key
+        GameObject preExistingKey = GameObject.Find(givenKey.PrefabName);
+
+        //if there is NOT a preexisting key,...
+        if(preExistingKey != null)
+        {
+            Debug.Log("Pre Existing Key is " + preExistingKey.name + ", at location: " + preExistingKey.transform.position + "...... While new key is: " + givenKey.PrefabName + ", at location: " + givenKey.KeyLocation);
+            //if there is NOT a key of the same name already existing at the spawn location,...
+            if(preExistingKey.transform.position != (Vector3)givenKey.KeyLocation)
+            {
+                GameObject key = Instantiate(Resources.Load("Prefabs/Environment/" + givenKey.PrefabName)) as GameObject;
+                key.transform.position = givenKey.KeyLocation;
+                Debug.Log("So, " + givenKey.PrefabName + "SPAWNED");
+            }
+            else
+            {
+                Debug.Log("So, " + givenKey.PrefabName + "NOT spawned");
+            }
+        }
     }
 }
 
