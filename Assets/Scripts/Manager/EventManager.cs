@@ -292,6 +292,7 @@ public class playerRespawnmsg : msg
 
     public override void Run()
     {
+        Debug.Log("Player Respawn ran!!!");
         foreach (RoomManager rm in GameObject.FindObjectsOfType<RoomManager>())
         {
             rm.RespawnEnemiesInside();

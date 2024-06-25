@@ -140,6 +140,7 @@ public class SaveSystem : MonoBehaviour
             SpawnEnemy(enem);
         }
 
+        Debug.Log(givenLevel.LevelKeys);
         foreach (BasicKeyState key in givenLevel.LevelKeys)
         {
             SpawnKey(key);
@@ -240,6 +241,7 @@ public class SaveSystem : MonoBehaviour
 
     void SpawnKey(BasicKeyState givenKey)
     {
+        Debug.Log("Prefabs/Environment/" + givenKey.PrefabName);
         GameObject key = Instantiate(Resources.Load("Prefabs/Environment/" + givenKey.PrefabName)) as GameObject;
         key.transform.position = givenKey.KeyLocation;
     }
