@@ -72,6 +72,17 @@ public class SaveSystem : MonoBehaviour
             LS.WanderingEnemies.Add(bes);
         }
 
+        LS.LevelKeys = new List<BasicKeyState>();
+        foreach(KeyBehavior key in FindObjectsOfType<KeyBehavior>())
+        {
+            BasicKeyState bks = new BasicKeyState();
+
+            bks.KeyLocation = key.transform.position;
+            bks.PrefabName = key.PrefabName;
+
+            LS.LevelKeys.Add(bks);
+        }
+
         return LS;
     }
 
@@ -127,6 +138,11 @@ public class SaveSystem : MonoBehaviour
         foreach (BasicEnemyState enem in givenLevel.WanderingEnemies)
         {
             SpawnEnemy(enem);
+        }
+
+        foreach (BasicKeyState key in givenLevel.LevelKeys)
+        {
+            SpawnKey(key);
         }
 
         LastUpdatedInGameLS = givenLevel;
@@ -221,6 +237,12 @@ public class SaveSystem : MonoBehaviour
         GameObject enemy = Instantiate(Resources.Load("Prefabs/EnemyPrefabs/" + givenEnemy.PrefabName)) as GameObject;
         enemy.transform.position = givenEnemy.EnemyLocation;
     }
+
+    void SpawnKey(BasicKeyState givenKey)
+    {
+        GameObject key = Instantiate(Resources.Load("Prefabs/Environment/" + givenKey.PrefabName)) as GameObject;
+        key.transform.position = givenKey.KeyLocation;
+    }
 }
 
 
@@ -245,6 +267,7 @@ public class LevelState
     //World State
     public List<int> ClearedArenas;
     public List<BasicEnemyState> WanderingEnemies;
+    public List<BasicKeyState> LevelKeys;
 }
 
 [Serializable]
@@ -254,4 +277,9 @@ public class BasicEnemyState
     public string PrefabName;
 }
 
-
+[Serializable]
+public class BasicKeyState
+{
+    public Vector2 KeyLocation;
+    public string PrefabName;
+}

@@ -73,7 +73,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09822439cbbbb6429de86680389372d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PrefabName: Silver Key
   keyType: silver
+  keyPickUpSound: {fileID: 0}
   bobMagnitude: 0.35
   bobSpeed: 1
 --- !u!1 &4694809502976498761

@@ -608,7 +608,11 @@ public class addKey : msg
         GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys.Add(collider.gameObject.GetComponent<KeyBehavior>().keyType);
 
         //play key pickup noise at position where key is
-        AudioSource.PlayClipAtPoint(collider.gameObject.GetComponent<KeyBehavior>().keyPickUpSound, collider.gameObject.transform.position);
+        AudioClip tempClip = collider.gameObject.GetComponent<KeyBehavior>().keyPickUpSound;
+        if(tempClip != null)
+        {
+            AudioSource.PlayClipAtPoint(tempClip, collider.gameObject.transform.position);
+        }
 
         //destroy key
         GameObject.Destroy(collider.gameObject);
@@ -626,5 +630,21 @@ public class addKey : msg
         {
             GameObject.Find("Brass Key UI").GetComponent<Image>().enabled = true;
         }
+    }
+}
+
+public class unlockDoor : msg
+{
+    GameObject door;
+
+    public unlockDoor(GameObject m_door) : base(m_door)
+    {
+        door = m_door;
+    }
+
+    public override void Run()
+    {
+        //turn off lock sprite
+        door.GetComponent<SpriteRenderer>().sprite = null;
     }
 }

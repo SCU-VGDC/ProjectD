@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class KeyBehavior : MonoBehaviour
 {
+    //Prefab name
+    public string PrefabName = "";
+
     //type of the key
     public string keyType = "";
 
