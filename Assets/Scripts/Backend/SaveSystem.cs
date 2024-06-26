@@ -246,20 +246,30 @@ public class SaveSystem : MonoBehaviour
         GameObject preExistingKey = GameObject.Find(givenKey.PrefabName);
 
         //if there is NOT a preexisting key,...
-        if(preExistingKey != null)
+        // if(preExistingKey != null)
+        // {
+        //     Debug.Log("Pre Existing Key is " + preExistingKey.name + ", at location: " + preExistingKey.transform.position + "...... While new key is: " + givenKey.PrefabName + ", at location: " + givenKey.KeyLocation);
+        //     //if there is NOT a key of the same name already existing at the spawn location,...
+        //     if(preExistingKey.transform.position != (Vector3)givenKey.KeyLocation)
+        //     {
+        //         GameObject key = Instantiate(Resources.Load("Prefabs/Environment/" + givenKey.PrefabName)) as GameObject;
+        //         key.transform.position = givenKey.KeyLocation;
+        //         Debug.Log("So, " + givenKey.PrefabName + "SPAWNED");
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("So, " + givenKey.PrefabName + "NOT spawned");
+        //     }
+        // }
+
+        //if no preexisting key is found
+        if(preExistingKey == null)
         {
-            Debug.Log("Pre Existing Key is " + preExistingKey.name + ", at location: " + preExistingKey.transform.position + "...... While new key is: " + givenKey.PrefabName + ", at location: " + givenKey.KeyLocation);
-            //if there is NOT a key of the same name already existing at the spawn location,...
-            if(preExistingKey.transform.position != (Vector3)givenKey.KeyLocation)
-            {
-                GameObject key = Instantiate(Resources.Load("Prefabs/Environment/" + givenKey.PrefabName)) as GameObject;
-                key.transform.position = givenKey.KeyLocation;
-                Debug.Log("So, " + givenKey.PrefabName + "SPAWNED");
-            }
-            else
-            {
-                Debug.Log("So, " + givenKey.PrefabName + "NOT spawned");
-            }
+            Debug.Log("The " + givenKey.PrefabName + " is NOT pre-existing!");
+            //spawn the key
+            GameObject key = Instantiate(Resources.Load("Prefabs/Environment/" + givenKey.PrefabName)) as GameObject;
+            key.transform.position = givenKey.KeyLocation;
+            Debug.Log("So, " + givenKey.PrefabName + "SPAWNED");
         }
     }
 }
