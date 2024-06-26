@@ -254,11 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 100542720}
-  AudioFiles:
-  - name: Checkpoint
-    clip: {fileID: 8300000, guid: 54c2427a31d9a08409f14d98d33a2e1e, type: 3}
-    Variants: []
-    randomPitch: 0
+  AudioFiles: []
 --- !u!114 &100542722
 MonoBehaviour:
   m_ObjectHideFlags: 0

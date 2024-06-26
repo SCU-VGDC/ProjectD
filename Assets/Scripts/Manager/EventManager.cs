@@ -177,9 +177,7 @@ public class applyDamagemsg : msg
 
         //The TakeDamage animation sometimes overrides the Death animation! This fixes that
 
-        // Player shouldn't have a TakeDamage anim
-        if (target.GetComponent<PlayerMov_FSM>() == null)
-            target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
+        target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
 
 
         
@@ -502,7 +500,6 @@ public class ChangedWallstatemsg : msg
         }
         else
         {
-            Sender.GetComponent<AudioManager>().PlaySound("WallRelease");
             Sender.GetComponent<AnimatorManager>().SetAnim("Wall", false);
         }
     }
