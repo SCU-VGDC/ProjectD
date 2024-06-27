@@ -6,6 +6,7 @@ public class InteractableDoors : Interactable
 {
     public Transform targetDoor;
     public string lockType = "";
+    public Sprite lockedDoorSprite;
     private int numChildren;
     private Transform[] paralaxBackgrounds;
     private Vector3[] paralaxToPlayerOffsets;

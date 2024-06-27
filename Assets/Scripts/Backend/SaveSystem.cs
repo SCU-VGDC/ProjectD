@@ -87,6 +87,12 @@ public class SaveSystem : MonoBehaviour
             LS.LevelKeys.Add(bks);
         }
 
+        LS.lockedDoorSpriteRenderers = new List<SpriteRenderer>();
+        foreach(InteractableDoors interactableDoor in FindObjectsOfType<InteractableDoors>())
+        {
+            LS.lockedDoorSpriteRenderers.Add(interactableDoor.GetComponent<SpriteRenderer>());
+        }
+
         return LS;
     }
 
@@ -155,12 +161,17 @@ public class SaveSystem : MonoBehaviour
         //Debug.Log(givenLevel.LevelKeys);
         foreach (BasicKeyState key in givenLevel.LevelKeys)
         {  
-            Debug.Log("Looking for " + key.PrefabName + " in givenLevel.playerKeys. Result is: " + givenLevel.playerKeys.Contains(key.PrefabName));
+            //Debug.Log("Looking for " + key.PrefabName + " in givenLevel.playerKeys. Result is: " + givenLevel.playerKeys.Contains(key.PrefabName));
             //if the player's keys does NOT contain the key to spawn AND key is NOT already spawned,...
             if(!givenLevel.playerKeys.Contains(key.PrefabName) && GameObject.Find(key.PrefabName) == null)
             {
                 SpawnKey(key);
             }
+        }
+
+        foreach (Sprite sprite in givenLevel.lockedDoorSprites)
+        {
+            
         }
 
         LastUpdatedInGameLS = givenLevel;
@@ -283,6 +294,9 @@ public class LevelState
 
     //player keys
     public List<string> playerKeys;
+
+    //locked door sprite
+    public List<SpriteRenderer> lockedDoorSpriteRenderers;
 
     //Current CheckPoint
     public int checkpointId;
