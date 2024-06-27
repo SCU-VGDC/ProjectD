@@ -606,7 +606,7 @@ public class addKey : msg
     public override void Run()
     {
         //add key to player key inventory
-        GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys.Add(collider.gameObject.GetComponent<KeyBehavior>().keyType);
+        GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys.Add(collider.gameObject.GetComponent<KeyBehavior>().PrefabName);
 
         //play key pickup noise at position where key is
         AudioClip tempClip = collider.gameObject.GetComponent<KeyBehavior>().keyPickUpSound;
@@ -619,15 +619,15 @@ public class addKey : msg
         GameObject.Destroy(collider.gameObject);
 
         //add appropriate key to UI
-        if(collider.gameObject.GetComponent<KeyBehavior>().keyType == "bronze")
+        if(collider.gameObject.GetComponent<KeyBehavior>().PrefabName == "Bronze Key")
         {
             GameObject.Find("Bronze Key UI").GetComponent<Image>().enabled = true;
         }
-        else if(collider.gameObject.GetComponent<KeyBehavior>().keyType == "silver")
+        else if(collider.gameObject.GetComponent<KeyBehavior>().PrefabName == "Silver Key")
         {
             GameObject.Find("Silver Key UI").GetComponent<Image>().enabled = true;
         }
-        else if(collider.gameObject.GetComponent<KeyBehavior>().keyType == "brass")
+        else if(collider.gameObject.GetComponent<KeyBehavior>().PrefabName == "Brass Key")
         {
             GameObject.Find("Brass Key UI").GetComponent<Image>().enabled = true;
         }

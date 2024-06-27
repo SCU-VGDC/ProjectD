@@ -5,6 +5,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SaveSystem : MonoBehaviour
 {
@@ -71,6 +72,9 @@ public class SaveSystem : MonoBehaviour
 
             LS.WanderingEnemies.Add(bes);
         }
+
+        //get player keys
+        LS.playerKeys = GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys;
 
         LS.LevelKeys = new List<BasicKeyState>();
         foreach(KeyBehavior key in FindObjectsOfType<KeyBehavior>())
@@ -140,11 +144,29 @@ public class SaveSystem : MonoBehaviour
             SpawnEnemy(enem);
         }
 
+        //update player keys
+        GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys = givenLevel.playerKeys;
+        //Debug.Log("playerKeys is: " + GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys);
+
+        //remove any keys from key UI
+        // if(!givenLevel.playerKeys.Contains("Bronze Key"))
+        // {
+        //     GameObject.Find("Bronze Key UI").GetComponent<Image>().enabled = false;
+        // }
+        // else if(!givenLevel.playerKeys.Contains("Silver Key"))
+        // {
+        //     GameObject.Find("Silver Key UI").GetComponent<Image>().enabled = false;
+        // }
+        // else if(!givenLevel.playerKeys.Contains("Brass Key"))
+        // {
+        //     GameObject.Find("Brass Key UI").GetComponent<Image>().enabled = false;
+        // }
+
         //Debug.Log(givenLevel.LevelKeys);
         foreach (BasicKeyState key in givenLevel.LevelKeys)
         {
-            Debug.Log("Key to spawn is: " + key.PrefabName);
-            SpawnKey(key);
+            //Debug.Log("Key to spawn is: " + key.PrefabName);
+            SpawnKey(key, givenLevel);
         }
 
         LastUpdatedInGameLS = givenLevel;
@@ -240,36 +262,21 @@ public class SaveSystem : MonoBehaviour
         enemy.transform.position = givenEnemy.EnemyLocation;
     }
 
-    void SpawnKey(BasicKeyState givenKey)
+    void SpawnKey(BasicKeyState givenKey, LevelState givenLevel)
     {
         //look for a preexisting key
         GameObject preExistingKey = GameObject.Find(givenKey.PrefabName);
 
-        //if there is NOT a preexisting key,...
-        // if(preExistingKey != null)
-        // {
-        //     Debug.Log("Pre Existing Key is " + preExistingKey.name + ", at location: " + preExistingKey.transform.position + "...... While new key is: " + givenKey.PrefabName + ", at location: " + givenKey.KeyLocation);
-        //     //if there is NOT a key of the same name already existing at the spawn location,...
-        //     if(preExistingKey.transform.position != (Vector3)givenKey.KeyLocation)
-        //     {
-        //         GameObject key = Instantiate(Resources.Load("Prefabs/Environment/" + givenKey.PrefabName)) as GameObject;
-        //         key.transform.position = givenKey.KeyLocation;
-        //         Debug.Log("So, " + givenKey.PrefabName + "SPAWNED");
-        //     }
-        //     else
-        //     {
-        //         Debug.Log("So, " + givenKey.PrefabName + "NOT spawned");
-        //     }
-        // }
-
         //if no preexisting key is found
-        if(preExistingKey == null)
+        //if(preExistingKey == null)
+        Debug.Log("givenlevel.playerKeys is: " + givenLevel.playerKeys.ToString());
+        if(!givenLevel.playerKeys.Contains(givenKey.PrefabName))
         {
-            Debug.Log("The " + givenKey.PrefabName + " is NOT pre-existing!");
+            //Debug.Log("The " + givenKey.PrefabName + " is NOT pre-existing!");
             //spawn the key
             GameObject key = Instantiate(Resources.Load("Prefabs/Environment/" + givenKey.PrefabName)) as GameObject;
             key.transform.position = givenKey.KeyLocation;
-            Debug.Log("So, " + givenKey.PrefabName + "SPAWNED");
+            //Debug.Log("So, " + givenKey.PrefabName + "SPAWNED");
         }
     }
 }
@@ -289,6 +296,9 @@ public class LevelState
     public int pistol;
     public int sniper;
     public int shotgun;
+
+    //player keys
+    public HashSet<string> playerKeys;
 
     //Current CheckPoint
     public int checkpointId;

@@ -8,7 +8,7 @@ public class KeyBehavior : MonoBehaviour
     public string PrefabName = "";
 
     //type of the key
-    public string keyType = "";
+    //public string keyType = "";
 
     //key pickup sound
     public AudioClip keyPickUpSound;

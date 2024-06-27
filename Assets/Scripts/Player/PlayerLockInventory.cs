@@ -7,17 +7,16 @@ public class PlayerLockInventory : MonoBehaviour
     //list of keys player has obtained
     public HashSet<string> playerKeys;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         //create a set
         playerKeys = new HashSet<string>();
     }
 
-    void Update()
-    {
-        Debug.Log(playerKeys);
-    }
+    // void Update()
+    // {
+    //     Debug.Log(playerKeys);
+    // }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
@@ -25,7 +24,7 @@ public class PlayerLockInventory : MonoBehaviour
         if(collider.gameObject.GetComponent<KeyBehavior>())
         {
             // Debug.Log("Key Touched");
-            // Debug.Log(col.gameObject.GetComponent<KeyBehavior>().keyType);
+            // Debug.Log(col.gameObject.GetComponent<KeyBehavior>().PrefabName);
 
             //add key getKey event
             EventManager.singleton.AddEvent(new addKey(gameObject, collider));
