@@ -154,9 +154,10 @@ public class SaveSystem : MonoBehaviour
 
         //Debug.Log(givenLevel.LevelKeys);
         foreach (BasicKeyState key in givenLevel.LevelKeys)
-        {
-            //if the player's keys does contain the key to spawn,...
-            if(!givenLevel.playerKeys.Contains(key.PrefabName))
+        {  
+            Debug.Log("Looking for " + key.PrefabName + " in givenLevel.playerKeys. Result is: " + givenLevel.playerKeys.Contains(key.PrefabName));
+            //if the player's keys does NOT contain the key to spawn AND key is NOT already spawned,...
+            if(!givenLevel.playerKeys.Contains(key.PrefabName) && GameObject.Find(key.PrefabName) == null)
             {
                 SpawnKey(key);
             }
@@ -257,6 +258,7 @@ public class SaveSystem : MonoBehaviour
 
     void SpawnKey(BasicKeyState givenKey)
     {
+        Debug.Log("Spawning " + givenKey.PrefabName);
         //spawn the key
         GameObject key = Instantiate(Resources.Load("Prefabs/Environment/" + givenKey.PrefabName)) as GameObject;
         key.transform.position = givenKey.KeyLocation;
