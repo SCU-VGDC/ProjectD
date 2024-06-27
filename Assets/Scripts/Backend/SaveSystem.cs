@@ -74,7 +74,7 @@ public class SaveSystem : MonoBehaviour
         }
 
         //get player keys
-        LS.playerKeys = GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys;
+        LS.playerKeys = new List<string>(GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys);
 
         LS.LevelKeys = new List<BasicKeyState>();
         foreach(KeyBehavior key in FindObjectsOfType<KeyBehavior>())
@@ -145,28 +145,21 @@ public class SaveSystem : MonoBehaviour
         }
 
         //update player keys
-        GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys = givenLevel.playerKeys;
-        //Debug.Log("playerKeys is: " + GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys);
+        GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys = new List<string>(givenLevel.playerKeys);
 
         //remove any keys from key UI
-        // if(!givenLevel.playerKeys.Contains("Bronze Key"))
-        // {
-        //     GameObject.Find("Bronze Key UI").GetComponent<Image>().enabled = false;
-        // }
-        // else if(!givenLevel.playerKeys.Contains("Silver Key"))
-        // {
-        //     GameObject.Find("Silver Key UI").GetComponent<Image>().enabled = false;
-        // }
-        // else if(!givenLevel.playerKeys.Contains("Brass Key"))
-        // {
-        //     GameObject.Find("Brass Key UI").GetComponent<Image>().enabled = false;
-        // }
+        GameObject.Find("Bronze Key UI").GetComponent<Image>().enabled = givenLevel.playerKeys.Contains("Bronze Key");
+        GameObject.Find("Silver Key UI").GetComponent<Image>().enabled = givenLevel.playerKeys.Contains("Silver Key");
+        GameObject.Find("Brass Key UI").GetComponent<Image>().enabled = givenLevel.playerKeys.Contains("Brass Key");
 
         //Debug.Log(givenLevel.LevelKeys);
         foreach (BasicKeyState key in givenLevel.LevelKeys)
         {
-            //Debug.Log("Key to spawn is: " + key.PrefabName);
-            SpawnKey(key, givenLevel);
+            //if the player's keys does contain the key to spawn,...
+            if(!givenLevel.playerKeys.Contains(key.PrefabName))
+            {
+                SpawnKey(key);
+            }
         }
 
         LastUpdatedInGameLS = givenLevel;
@@ -262,22 +255,11 @@ public class SaveSystem : MonoBehaviour
         enemy.transform.position = givenEnemy.EnemyLocation;
     }
 
-    void SpawnKey(BasicKeyState givenKey, LevelState givenLevel)
+    void SpawnKey(BasicKeyState givenKey)
     {
-        //look for a preexisting key
-        GameObject preExistingKey = GameObject.Find(givenKey.PrefabName);
-
-        //if no preexisting key is found
-        //if(preExistingKey == null)
-        Debug.Log("givenlevel.playerKeys is: " + givenLevel.playerKeys.ToString());
-        if(!givenLevel.playerKeys.Contains(givenKey.PrefabName))
-        {
-            //Debug.Log("The " + givenKey.PrefabName + " is NOT pre-existing!");
-            //spawn the key
-            GameObject key = Instantiate(Resources.Load("Prefabs/Environment/" + givenKey.PrefabName)) as GameObject;
-            key.transform.position = givenKey.KeyLocation;
-            //Debug.Log("So, " + givenKey.PrefabName + "SPAWNED");
-        }
+        //spawn the key
+        GameObject key = Instantiate(Resources.Load("Prefabs/Environment/" + givenKey.PrefabName)) as GameObject;
+        key.transform.position = givenKey.KeyLocation;
     }
 }
 
@@ -298,7 +280,7 @@ public class LevelState
     public int shotgun;
 
     //player keys
-    public HashSet<string> playerKeys;
+    public List<string> playerKeys;
 
     //Current CheckPoint
     public int checkpointId;

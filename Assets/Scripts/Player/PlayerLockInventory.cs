@@ -5,12 +5,12 @@ using UnityEngine;
 public class PlayerLockInventory : MonoBehaviour
 {
     //list of keys player has obtained
-    public HashSet<string> playerKeys;
+    public List<string> playerKeys;
 
     void Awake()
     {
         //create a set
-        playerKeys = new HashSet<string>();
+        playerKeys = new List<string>();
     }
 
     // void Update()
