@@ -345,6 +345,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   model: {fileID: 0}
+  isGrounded: 0
+  isWallRight: 0
+  isWallLeft: 0
   infiniteWalljump: 0
   mJump: 0
   numOfWallJumps: 3
@@ -359,8 +362,6 @@ MonoBehaviour:
   wallJumpTime: 0.2
   gladingSpeed: 8
   maxWallJumps: 3
-  dashRecoverTime: 0
-  knockbackRecoverTime: 0
   arm: {fileID: 671308694876734697}
   dashes: 3
   dashTime: 0.15
@@ -368,9 +369,7 @@ MonoBehaviour:
   chargeGravity: 0
   chargeVelDecay: 0
   dashSpeed: 70
-  knockbacks: 0
-  knockbackTime: 0
-  knockbackSpeed: 0
+  dashesRemaining: 0
   overloadMovement: 0
 --- !u!114 &5265058553035837672
 MonoBehaviour:
@@ -384,16 +383,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45ac6dd7bbf4b1b4885551121bd378b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trailSpawn: {fileID: 980413533271400390, guid: 06d19e20905fe42debb559624fb96562, type: 3}
+  trailSpawn: {fileID: 0}
   bulletspawn: {fileID: 2191496448641651465}
   bulletprefab: {fileID: 4193023076128913139, guid: 32c676a5e0c04bd438e2d0a5bf92b50d, type: 3}
   hittableLayers:
     serializedVersion: 2
     m_Bits: 576
-  reflectiveLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  raycastToggle: 1
+  raycastToggle: 0
 --- !u!114 &5200559129683492465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -520,8 +516,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGun:
     firerate: 0
-    projectileNormal: 
-    projectileMagic: 
+    projectileNormal: {fileID: 0}
+    projectileMagic: {fileID: 0}
     shotAnimation: 
     soundNormal: 
     soundMagic: 
@@ -530,22 +526,22 @@ MonoBehaviour:
   isShotgun: 1
   pistol:
     firerate: 0.5
-    projectileNormal: 
-    projectileMagic: 
+    projectileNormal: {fileID: 4193023076128913139, guid: 32c676a5e0c04bd438e2d0a5bf92b50d, type: 3}
+    projectileMagic: {fileID: 4193023076128913139, guid: 87919d1d4645f7341a517c051230d65b, type: 3}
     shotAnimation: PistolShot
     soundNormal: PistolShot
     soundMagic: PistolShot
   sniper:
     firerate: 1
-    projectileNormal: 
-    projectileMagic: 
+    projectileNormal: {fileID: 4193023076128913139, guid: 1e003674292c7f546807d5b0dc499221, type: 3}
+    projectileMagic: {fileID: 4193023076128913139, guid: 1e003674292c7f546807d5b0dc499221, type: 3}
     shotAnimation: PistolShot
     soundNormal: PistolShot
     soundMagic: PistolShot
   shotgun:
     firerate: 0.5
-    projectileNormal: 
-    projectileMagic: 
+    projectileNormal: {fileID: 1847135152085424171, guid: 83d9aaeb1245b9d4d99af280077c60bc, type: 3}
+    projectileMagic: {fileID: 1847135152085424171, guid: 83d9aaeb1245b9d4d99af280077c60bc, type: 3}
     shotAnimation: ShotgunShot
     soundNormal: ShotgunShot
     soundMagic: ShotgunShot
