@@ -15,7 +15,7 @@ public class PlayerLockInventory : MonoBehaviour
 
     // void Update()
     // {
-    //     Debug.Log(playerKeys);
+    //     Debug.Log("Player keys are: Bronze = " + playerKeys.Contains("Bronze Key") + ". Silver = " + playerKeys.Contains("Silver Key") + ". Brass = " + playerKeys.Contains("Brass Key"));
     // }
 
     void OnTriggerEnter2D(Collider2D collider)

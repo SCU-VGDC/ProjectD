@@ -87,10 +87,16 @@ public class SaveSystem : MonoBehaviour
             LS.LevelKeys.Add(bks);
         }
 
-        LS.lockedDoorSpriteRenderers = new List<SpriteRenderer>();
+        LS.lockedDoors = new List<BasicDoorState>();
         foreach(InteractableDoors interactableDoor in FindObjectsOfType<InteractableDoors>())
         {
-            LS.lockedDoorSpriteRenderers.Add(interactableDoor.GetComponent<SpriteRenderer>());
+            BasicDoorState bds = new BasicDoorState();
+
+            bds.spriteRenderer = interactableDoor.gameObject.GetComponent<SpriteRenderer>();
+            bds.lockedSprite = bds.spriteRenderer.sprite;
+            bds.isOpened = (bds.spriteRenderer.sprite == null);
+
+            LS.lockedDoors.Add(bds);
         }
 
         return LS;
@@ -169,9 +175,19 @@ public class SaveSystem : MonoBehaviour
             }
         }
 
-        foreach (Sprite sprite in givenLevel.lockedDoorSprites)
+        foreach (BasicDoorState door in givenLevel.lockedDoors)
         {
-            
+            //if door should look open
+            if(door.isOpened)
+            {
+                //make door look open
+                door.spriteRenderer.sprite = null;
+            }
+            else
+            {
+                //make door look closed
+                door.spriteRenderer.sprite = door.lockedSprite;
+            }
         }
 
         LastUpdatedInGameLS = givenLevel;
@@ -295,8 +311,8 @@ public class LevelState
     //player keys
     public List<string> playerKeys;
 
-    //locked door sprite
-    public List<SpriteRenderer> lockedDoorSpriteRenderers;
+    //locked doors
+    public List<BasicDoorState> lockedDoors;
 
     //Current CheckPoint
     public int checkpointId;
@@ -319,4 +335,12 @@ public class BasicKeyState
 {
     public Vector2 KeyLocation;
     public string PrefabName;
+}
+
+[Serializable]
+public class BasicDoorState
+{
+    public SpriteRenderer spriteRenderer;
+    public Sprite lockedSprite;
+    public bool isOpened;
 }

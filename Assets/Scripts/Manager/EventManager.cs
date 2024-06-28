@@ -645,7 +645,7 @@ public class unlockDoor : msg
 
     public override void Run()
     {
-        //turn off lock sprite
-        door.GetComponent<SpriteRenderer>().enabled = false;
+        //turn off lock sprite 
+        door.GetComponent<SpriteRenderer>().sprite = null;
     }
 }
