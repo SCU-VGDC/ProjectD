@@ -264,7 +264,7 @@ public class PlayerMov_FSM : MonoBehaviour
             }
         }
 
-        Debug.LogError("State " + stateName + " not found");
+        //Debug.LogError("State " + stateName + " not found");
     }
 
     public void SetState(PlayerState nextState)
@@ -275,7 +275,7 @@ public class PlayerMov_FSM : MonoBehaviour
         currentState.Exit();
         currentState = nextState;
         currentState.Start();
-        Debug.Log("State Changed to " + nextState);
+        //Debug.Log("State Changed to " + nextState);
     }
 
     public T GetState<T>() where T : PlayerState

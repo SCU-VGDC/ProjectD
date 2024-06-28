@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EventManager : MonoBehaviour
 {
@@ -315,7 +316,7 @@ public class playerRespawnmsg : msg
         }
 
         SaveSystem.singleton.LoadData();
-        SaveSystem.singleton.CreateWorld(SaveSystem.singleton.LastUpdatedInGameLS);
+        //SaveSystem.singleton.CreateWorld(SaveSystem.singleton.LastUpdatedInGameLS);
 
         Sender.GetComponent<AudioManager>().PlaySound("Respawn");
         Sender.GetComponent<AnimatorManager>().SetAnim("Death", false);       
