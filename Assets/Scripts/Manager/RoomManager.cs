@@ -97,6 +97,7 @@ public class RoomManager : MonoBehaviour
 
             foreach(BasicEnemyState bes in wave.EnemiesGMisnide)
             {
+                Debug.Log("Trying to instantiate: " + "Prefabs/EnemyPrefabs/" + bes.PrefabName);
                 GameObject enemy = Instantiate(Resources.Load("Prefabs/EnemyPrefabs/" + bes.PrefabName)) as GameObject;              
                 enemy.transform.SetParent(wave.waveGameObject.transform, true);
                 enemy.transform.position = bes.EnemyLocation;

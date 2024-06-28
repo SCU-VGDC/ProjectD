@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fa4eaf295748cf4da21400ac82966d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PrefabName: TankPrefab
+  PrefabName: TankPrefabMale
   speed: 0
   seeker: {fileID: 0}
   mover: {fileID: 0}

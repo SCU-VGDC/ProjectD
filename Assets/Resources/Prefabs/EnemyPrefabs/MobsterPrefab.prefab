@@ -277,9 +277,11 @@ MonoBehaviour:
   - name: Death
     clip: {fileID: 8300000, guid: 521988ec511b5a54298b1a0eda6c9a1f, type: 3}
     Variants: []
+    randomPitch: 0
   - name: TakeDamage
     clip: {fileID: 8300000, guid: 02d4cd457934faf479f8417c5c9c0169, type: 3}
     Variants: []
+    randomPitch: 0
 --- !u!82 &4425577929193739709
 AudioSource:
   m_ObjectHideFlags: 0
@@ -427,7 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6804073aeca6d2741a73bac4227a8a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PrefabName: 
+  PrefabName: MobsterPrefab
   speed: 7
   seeker: {fileID: 0}
   mover: {fileID: 0}

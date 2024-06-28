@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b37e2f22af144caa8ee4d6e6225c177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PrefabName: 
+  PrefabName: Flyswarm
   speed: 7
   seeker: {fileID: 0}
   mover: {fileID: 0}
@@ -202,7 +202,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae15c0d895a6d34e8d866129954d60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vulnerabilityCooldown: 0
   currentHealth: 1
+  died: 0
   maxHealth: 1
 --- !u!82 &276682151
 AudioSource:
