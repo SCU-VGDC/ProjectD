@@ -34,4 +34,10 @@ public class EndTransition : MonoBehaviour
             EventManager.singleton.AddEvent(new overrideMovement(gameObject, moveRightFrameInput, true));
         }
     }
+    
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(gameObject.transform.position, startTransitionDistance);
+    }
 }
