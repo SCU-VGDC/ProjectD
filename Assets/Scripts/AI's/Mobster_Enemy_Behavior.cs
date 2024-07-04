@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using JetBrains.Annotations;
-using UnityEditor.AnimatedValues;
+//using UnityEditor.AnimatedValues;
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(AnimatorManager))]
