@@ -143,9 +143,7 @@ public class FallenAngel_Aggro_State : AI_State
     [Header("Attack Properties")]
     public float attack_radius = 10f;
     public float fire_delay = 2f;
-    public float flyswarm_delay = 3.5f;
     public float next_fire_time;
-    public GameObject flyswarm;
     public Transform fire_point;
 
     private Transform player_transform;
@@ -180,11 +178,6 @@ public class FallenAngel_Aggro_State : AI_State
                     {
                         EventManager.singleton.AddEvent(new shootmsg(proper_context.gameObject, player_transform));
                         next_fire_time = Time.time + fire_delay;
-                    }
-                    else
-                    {
-                        Object.Instantiate(flyswarm, fire_point.position, Quaternion.identity);
-                        next_fire_time = Time.time + flyswarm_delay;
                     }
                 }
             }
