@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EventManager : MonoBehaviour
 {
@@ -63,22 +64,38 @@ public class shootmsg : msg
 {
     public Transform target;
     public string specShootSound;
+    public string typeShot;
 
-    public shootmsg(GameObject m_shooter, Transform m_target = null, string m_specShootSound = "GunShot") : base(m_shooter)
+    public shootmsg(GameObject m_shooter, Transform m_target = null, string m_specShootSound = "GunShot", string m_typeShot = null) : base(m_shooter)
     {
         target = m_target;
         specShootSound = m_specShootSound;
+        typeShot = m_typeShot;
     }
 
     public override void Run()
     {
-        if (Sender.GetComponent<ActorShooting>().raycastToggle)
-        {
-            Sender.GetComponent<ActorShooting>().ShootRaycast(0);
+        switch (typeShot) {
+            // player shots
+            case "PistolShot":
+                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(10, 0, 0);
+
+                break;
+            case "PistolShotRicochet":
+                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(10, 0, 3);
+
+                break;
+            case "ShotgunShot":
+                Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(1, 5.0f, 90.0f, 10);
+
+                break;
+            // enemy shots
+            default:
+                Sender.GetComponent<ActorShooting>().Shoot(target);
+
+                break;
         }
-        else {
-            Sender.GetComponent<ActorShooting>().Shoot(target);
-        }
+
         Sender.GetComponent<AudioManager>().PlaySound(specShootSound);
         Sender.GetComponent<AnimatorManager>().SetAnim("Attack");
     }
@@ -151,7 +168,9 @@ public class applyDamagemsg : msg
 
         //The TakeDamage animation sometimes overrides the Death animation! This fixes that
 
-        target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
+        // Player shouldn't have a TakeDamage anim
+        if (target.GetComponent<PlayerMov_FSM>() == null)
+            target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
 
 
         
@@ -242,7 +261,7 @@ public class playerShootGunmsg : msg
             ad.ChangeSoundInDict("GunShot", pgc.currentGun.soundMagic);
         }
 
-        pgc.AskedToShoot();
+        pgc.AskedToShoot(shootType);
     }
 }
 
@@ -297,7 +316,7 @@ public class playerRespawnmsg : msg
         }
 
         SaveSystem.singleton.LoadData();
-        SaveSystem.singleton.CreateWorld(SaveSystem.singleton.LastUpdatedInGameLS);
+        //SaveSystem.singleton.CreateWorld(SaveSystem.singleton.LastUpdatedInGameLS);
 
         Sender.GetComponent<AudioManager>().PlaySound("Respawn");
         Sender.GetComponent<AnimatorManager>().SetAnim("Death", false);       
@@ -474,6 +493,7 @@ public class ChangedWallstatemsg : msg
         }
         else
         {
+            Sender.GetComponent<AudioManager>().PlaySound("WallRelease");
             Sender.GetComponent<AnimatorManager>().SetAnim("Wall", false);
         }
     }
@@ -589,5 +609,61 @@ public class changeDoor : msg
     {
         Sender.GetComponent<AnimatorManager>().SetAnim("Close", close);
         Sender.GetComponent<BoxCollider2D>().enabled = close;
+    }
+}
+
+public class addKey : msg
+{
+    Collider2D collider;
+
+    public addKey(GameObject m_player, Collider2D m_collider) : base(m_player)
+    {
+        collider = m_collider;
+    }
+
+    public override void Run()
+    {
+        //add key to player key inventory
+        GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys.Add(collider.gameObject.GetComponent<KeyBehavior>().PrefabName);
+
+        //play key pickup noise at position where key is
+        AudioClip tempClip = collider.gameObject.GetComponent<KeyBehavior>().keyPickUpSound;
+        if(tempClip != null)
+        {
+            AudioSource.PlayClipAtPoint(tempClip, collider.gameObject.transform.position);
+        }
+
+        //destroy key
+        GameObject.Destroy(collider.gameObject);
+
+        //add appropriate key to UI
+        if(collider.gameObject.GetComponent<KeyBehavior>().PrefabName == "Bronze Key")
+        {
+            GameObject.Find("Bronze Key UI").GetComponent<Image>().enabled = true;
+        }
+        else if(collider.gameObject.GetComponent<KeyBehavior>().PrefabName == "Silver Key")
+        {
+            GameObject.Find("Silver Key UI").GetComponent<Image>().enabled = true;
+        }
+        else if(collider.gameObject.GetComponent<KeyBehavior>().PrefabName == "Brass Key")
+        {
+            GameObject.Find("Brass Key UI").GetComponent<Image>().enabled = true;
+        }
+    }
+}
+
+public class unlockDoor : msg
+{
+    GameObject door;
+
+    public unlockDoor(GameObject m_door) : base(m_door)
+    {
+        door = m_door;
+    }
+
+    public override void Run()
+    {
+        //turn off lock sprite 
+        door.GetComponent<SpriteRenderer>().sprite = null;
     }
 }

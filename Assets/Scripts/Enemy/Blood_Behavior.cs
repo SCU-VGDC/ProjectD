@@ -24,7 +24,7 @@ public class Blood_Behavior : MonoBehaviour
     private float dst_to_player;
     private float force_magnitude;
     private Vector3 force;
-    [SerializeField] private float gravitational_constamt = 6;
+    [SerializeField] private float gravitational_constant = 6;
     [SerializeField] private float fake_player_mass = 2000;
 
     //Self-Destruct

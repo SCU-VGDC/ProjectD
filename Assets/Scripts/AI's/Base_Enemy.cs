@@ -71,7 +71,7 @@ public class Base_Enemy : MonoBehaviour
 		{
 			if (collider2D.tag == "Player")
 			{
-				if (GameManager.inst.playerMovement.currentState.name == "Dashing") //player is dashing thus provoking damage
+				if (GameManager.inst.playerMovement.currentState.name == "Dashing" && GetComponent<ActorHealth>() != null) //player is dashing thus provoking damage
 				{
 					//DASH DAMAGE SET HERE
 					EventManager.singleton.AddEvent(new applyDamagemsg(collider2D.gameObject, GetComponent<ActorHealth>(), 1));

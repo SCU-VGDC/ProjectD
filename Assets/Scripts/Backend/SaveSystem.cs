@@ -5,6 +5,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SaveSystem : MonoBehaviour
 {
@@ -72,6 +73,32 @@ public class SaveSystem : MonoBehaviour
             LS.WanderingEnemies.Add(bes);
         }
 
+        //get player keys
+        LS.playerKeys = new List<string>(GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys);
+
+        LS.LevelKeys = new List<BasicKeyState>();
+        foreach(KeyBehavior key in FindObjectsOfType<KeyBehavior>())
+        {
+            BasicKeyState bks = new BasicKeyState();
+
+            bks.KeyLocation = key.transform.position;
+            bks.PrefabName = key.PrefabName;
+
+            LS.LevelKeys.Add(bks);
+        }
+
+        LS.lockedDoors = new List<BasicDoorState>();
+        foreach(InteractableDoors interactableDoor in FindObjectsOfType<InteractableDoors>())
+        {
+            BasicDoorState bds = new BasicDoorState();
+
+            bds.spriteRenderer = interactableDoor.gameObject.GetComponent<SpriteRenderer>();
+            bds.lockedSprite = bds.spriteRenderer.sprite;
+            bds.isOpened = (bds.spriteRenderer.sprite == null);
+
+            LS.lockedDoors.Add(bds);
+        }
+
         return LS;
     }
 
@@ -127,6 +154,40 @@ public class SaveSystem : MonoBehaviour
         foreach (BasicEnemyState enem in givenLevel.WanderingEnemies)
         {
             SpawnEnemy(enem);
+        }
+
+        //update player keys
+        GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys = new List<string>(givenLevel.playerKeys);
+
+        //remove any keys from key UI
+        GameObject.Find("Bronze Key UI").GetComponent<Image>().enabled = givenLevel.playerKeys.Contains("Bronze Key");
+        GameObject.Find("Silver Key UI").GetComponent<Image>().enabled = givenLevel.playerKeys.Contains("Silver Key");
+        GameObject.Find("Brass Key UI").GetComponent<Image>().enabled = givenLevel.playerKeys.Contains("Brass Key");
+
+        //Debug.Log(givenLevel.LevelKeys);
+        foreach (BasicKeyState key in givenLevel.LevelKeys)
+        {  
+            //Debug.Log("Looking for " + key.PrefabName + " in givenLevel.playerKeys. Result is: " + givenLevel.playerKeys.Contains(key.PrefabName));
+            //if the player's keys does NOT contain the key to spawn AND key is NOT already spawned,...
+            if(!givenLevel.playerKeys.Contains(key.PrefabName) && GameObject.Find(key.PrefabName) == null)
+            {
+                SpawnKey(key);
+            }
+        }
+
+        foreach (BasicDoorState door in givenLevel.lockedDoors)
+        {
+            //if door should look open
+            if(door.isOpened)
+            {
+                //make door look open
+                door.spriteRenderer.sprite = null;
+            }
+            else
+            {
+                //make door look closed
+                door.spriteRenderer.sprite = door.lockedSprite;
+            }
         }
 
         LastUpdatedInGameLS = givenLevel;
@@ -221,6 +282,14 @@ public class SaveSystem : MonoBehaviour
         GameObject enemy = Instantiate(Resources.Load("Prefabs/EnemyPrefabs/" + givenEnemy.PrefabName)) as GameObject;
         enemy.transform.position = givenEnemy.EnemyLocation;
     }
+
+    void SpawnKey(BasicKeyState givenKey)
+    {
+        Debug.Log("Spawning " + givenKey.PrefabName);
+        //spawn the key
+        GameObject key = Instantiate(Resources.Load("Prefabs/Environment/" + givenKey.PrefabName)) as GameObject;
+        key.transform.position = givenKey.KeyLocation;
+    }
 }
 
 
@@ -239,12 +308,19 @@ public class LevelState
     public int sniper;
     public int shotgun;
 
+    //player keys
+    public List<string> playerKeys;
+
+    //locked doors
+    public List<BasicDoorState> lockedDoors;
+
     //Current CheckPoint
     public int checkpointId;
 
     //World State
     public List<int> ClearedArenas;
     public List<BasicEnemyState> WanderingEnemies;
+    public List<BasicKeyState> LevelKeys;
 }
 
 [Serializable]
@@ -254,4 +330,17 @@ public class BasicEnemyState
     public string PrefabName;
 }
 
+[Serializable]
+public class BasicKeyState
+{
+    public Vector2 KeyLocation;
+    public string PrefabName;
+}
 
+[Serializable]
+public class BasicDoorState
+{
+    public SpriteRenderer spriteRenderer;
+    public Sprite lockedSprite;
+    public bool isOpened;
+}
