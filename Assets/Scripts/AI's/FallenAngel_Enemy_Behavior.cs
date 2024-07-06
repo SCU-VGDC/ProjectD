@@ -173,8 +173,9 @@ public class FallenAngel_Aggro_State : AI_State
                 RaycastHit2D hit = Physics2D.Raycast(fire_point.position, player_transform.position - fire_point.transform.position, attack_radius, LayerMask.GetMask("Player"));
                 if (next_fire_time < Time.time)
                 {
-                    float randy = Random.Range(0f, 1f);
-                    if (randy < 0.66f && hit.collider != null && hit.collider.tag == "Player")
+                    // float randy = Random.Range(0f, 1f);
+                    // if (randy < 0.66f && hit.collider != null && hit.collider.tag == "Player")
+                    if (hit.collider != null && hit.collider.tag == "Player")
                     {
                         EventManager.singleton.AddEvent(new shootmsg(proper_context.gameObject, player_transform));
                         next_fire_time = Time.time + fire_delay;
@@ -189,41 +190,43 @@ public class FallenAngel_Aggro_State : AI_State
 
     public void Pursue(FallenAngel_Enemy_Behavior context)
     {
-        float pursueVariance = 2f;
+        // float pursueVariance = 2f;
 
-        //Try to stay within a safe distance of the player.
-        //Code lifted from https://stackoverflow.com/questions/300871/best-way-to-find-a-point-on-a-circle-closest-to-a-given-point
-        float vX = context.transform.position.x - player_transform.position.x;
-        float vY = context.transform.position.y - player_transform.position.y;
-        float magV = Mathf.Sqrt(vX * vX + vY * vY);
-        float target_x = player_transform.position.x + vX / magV * attack_radius;
-        float target_y = player_transform.position.y + vY / magV * attack_radius;
+        // //Try to stay within a safe distance of the player.
+        // //Code lifted from https://stackoverflow.com/questions/300871/best-way-to-find-a-point-on-a-circle-closest-to-a-given-point
+        // float vX = context.transform.position.x - player_transform.position.x;
+        // float vY = context.transform.position.y - player_transform.position.y;
+        // float magV = Mathf.Sqrt(vX * vX + vY * vY);
+        // float target_x = player_transform.position.x + vX / magV * attack_radius;
+        // float target_y = player_transform.position.y + vY / magV * attack_radius;
 
-        Vector2 target_pos = new Vector2(target_x, target_y) + (Random.insideUnitCircle * pursueVariance);
+        // Vector2 target_pos = new Vector2(target_x, target_y) + (Random.insideUnitCircle * pursueVariance);
 
-        while (Physics2D.OverlapCircle(target_pos, context.col.radius, LayerMask.NameToLayer("Platforms")) != null)
-        {
-            pursueVariance += 0.5f;
-            target_pos = new Vector2(target_x, target_y) + (Random.insideUnitCircle * pursueVariance);
-        }
+        // while (Physics2D.OverlapCircle(target_pos, context.col.radius, LayerMask.NameToLayer("Platforms")) != null)
+        // {
+        //     pursueVariance += 0.5f;
+        //     target_pos = new Vector2(target_x, target_y) + (Random.insideUnitCircle * pursueVariance);
+        // }
 
-        //Actually build and send the path to the enemy!
-        context.seeker.StartPath(context.transform.position, target_pos);
+        // //Actually build and send the path to the enemy!
+        // context.seeker.StartPath(context.transform.position, target_pos);
+        context.seeker.StartPath(context.transform.position, player_transform.position);
     }
 
     public void Hover(FallenAngel_Enemy_Behavior context)
     {
-        float hoverVariance = 3f;
+        // float hoverVariance = 3f;
 
-        Vector2 target_pos = new Vector2(context.transform.position.x, context.transform.position.y) + (Random.insideUnitCircle * hoverVariance);
+        // Vector2 target_pos = new Vector2(context.transform.position.x, context.transform.position.y) + (Random.insideUnitCircle * hoverVariance);
 
-        while (Physics2D.OverlapCircle(target_pos, context.col.radius, LayerMask.NameToLayer("Platforms")) != null)
-        {
-            target_pos = new Vector2(context.transform.position.x, context.transform.position.y) + (Random.insideUnitCircle * hoverVariance);
-        }
+        // while (Physics2D.OverlapCircle(target_pos, context.col.radius, LayerMask.NameToLayer("Platforms")) != null)
+        // {
+        //     target_pos = new Vector2(context.transform.position.x, context.transform.position.y) + (Random.insideUnitCircle * hoverVariance);
+        // }
 
-        //Actually build and send the path to the enemy!
-        context.seeker.StartPath(context.transform.position, target_pos);
+        // //Actually build and send the path to the enemy!
+        // context.seeker.StartPath(context.transform.position, target_pos);
+        context.seeker.StartPath(context.transform.position, player_transform.position);
     }
 
     public override void OnDrawGizmos(Base_Enemy context)
