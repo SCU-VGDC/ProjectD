@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,12 +15,12 @@ public class ParralexEffect : MonoBehaviour
     void Start()
     {
         //set last camera pos
-        lastCameraPos = Camera.main.transform.position;
+        lastCameraPos = Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.transform.position;
 
         //initialize numLayers
         numLayers = transform.childCount;
 
-        //allocate spave for vars
+        //allocate space for vars
         parLayers = new Transform[numLayers];
         textureUnitSizesX = new float[numLayers];
 
