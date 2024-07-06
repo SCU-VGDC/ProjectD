@@ -404,6 +404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae15c0d895a6d34e8d866129954d60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvincible: 0
   vulnerabilityCooldown: 1
   currentHealth: 10
   died: 0
@@ -565,6 +566,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 62d4310157a9bc241809d4991260e805, type: 3}
     Variants: []
     randomPitch: 0
+    overlayPlay: 1
   - name: Dash
     clip: {fileID: 8300000, guid: 932357ef57466d143b7582270fdc382c, type: 3}
     Variants:
@@ -572,18 +574,22 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 7954638182995464aa37b997b9f9f1a7, type: 3}
     - {fileID: 8300000, guid: 2e5cbdcc648acd24c967856563c001d0, type: 3}
     randomPitch: 0
+    overlayPlay: 0
   - name: Jump
     clip: {fileID: 8300000, guid: 634e547f87304c0429ef68d7c92ca6bb, type: 3}
     Variants: []
     randomPitch: 0
+    overlayPlay: 0
   - name: OnWall
     clip: {fileID: 8300000, guid: 30433dc7721afda43b8d1092010eac97, type: 3}
     Variants: []
     randomPitch: 0
+    overlayPlay: 0
   - name: WallRelease
     clip: {fileID: 8300000, guid: 22117c629855a16478c6291024878819, type: 3}
     Variants: []
     randomPitch: 0
+    overlayPlay: 0
   - name: TakeDamage
     clip: {fileID: 0}
     Variants:
@@ -592,10 +598,12 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 6b02e352e13f8694690991abcb9d0e1a, type: 3}
     - {fileID: 8300000, guid: 27fe18c3e75a93b4e9457a1b3ce9abf6, type: 3}
     randomPitch: 0
+    overlayPlay: 0
   - name: Respawn
     clip: {fileID: 8300000, guid: 504c7576bb4abcd4d8a6fd6b1e16c0ee, type: 3}
     Variants: []
     randomPitch: 0
+    overlayPlay: 0
   - name: Moving
     clip: {fileID: 0}
     Variants:
@@ -605,10 +613,14 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 76a50953c8ec3004c84de3e9dc2f1750, type: 3}
     - {fileID: 8300000, guid: fbb1a53af17aa44499e01549b8d6d9b7, type: 3}
     randomPitch: 0
+    overlayPlay: 1
   - name: Landed
     clip: {fileID: 8300000, guid: 22117c629855a16478c6291024878819, type: 3}
     Variants: []
     randomPitch: 0
+    overlayPlay: 0
+  lastPlayedSound: 
+  lastPlayedSoundEndTime: 0
 --- !u!114 &1901154285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,6 +655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc721dcd16c9da24c9218d2ad5147ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerKeys: []
 --- !u!1 &2191496448306692533
 GameObject:
   m_ObjectHideFlags: 0
