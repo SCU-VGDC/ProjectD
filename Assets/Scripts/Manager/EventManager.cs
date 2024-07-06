@@ -172,9 +172,6 @@ public class applyDamagemsg : msg
         if (target.GetComponent<PlayerMov_FSM>() == null)
             target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
 
-
-        
-
         if (target.transform.childCount != 0)
         {
             if (target.transform.GetChild(0).GetComponent<MoveGearPlatforms>()) //cheking for movegears
