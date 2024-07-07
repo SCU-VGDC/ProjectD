@@ -26,10 +26,25 @@ public class ActorHealth : MonoBehaviour
             currentHealth = maxHealth;
         }
 
-        if (isVulnerable && !isInvincible)
+
+        if (isVulnerable && !isInvincible && damageAmount > 0)
         {// damage cooldown must be inactive
             currentHealth -= damageAmount;
             isVulnerable = false;
+        }
+
+        // if healing, ignore the vulnerability cooldown
+        if (damageAmount < 0) 
+        {
+            // make sure healing doesnt go over max health
+            if (currentHealth - damageAmount >= maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
+            else
+            {
+                currentHealth -= damageAmount;
+            }
         }
 
         if (currentHealth <= 0 && !died)
