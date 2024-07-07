@@ -29,6 +29,7 @@ public class FallenAngel_Enemy_Behavior : Base_Enemy
 
     void Update()
     {
+        Debug.Log("Fallen Angel Current state is: " + current_state.ToString());
         completed_path = seeker.GetCurrentPath() == null || mover.reachedEndOfPath;
 
         current_state.Action(this);
@@ -142,9 +143,9 @@ public class FallenAngel_Aggro_State : AI_State
 
     [Header("Attack Properties")]
     public float attack_radius = 10f;
-    public float fire_delay = 2f;
-    public float next_fire_time;
-    public Transform fire_point;
+    // public float fire_delay = 2f;
+    // public float next_fire_time;
+    // public Transform fire_point;
 
     private Transform player_transform;
 
@@ -159,28 +160,27 @@ public class FallenAngel_Aggro_State : AI_State
 
         if (proper_context.completed_path && Time.frameCount % proper_context.repathRate == 0)
         {
-            if (Vector2.Distance(player_transform.position, context.transform.position) > proper_context.aggro_radius)
+            //if player is in attack range,...
+            if (Vector2.Distance(player_transform.position, context.transform.position) < proper_context.attack_radius)
             {
-                //TODO: Save last seen player location & velocity and search nearby!
-                //For now, just wander again.
-                //proper_context.Transition(proper_context.idle_state);
-                Pursue(proper_context);
-                EventManager.singleton.AddEvent(new ChangedMOVstatemsg(context.gameObject, false));
+                //let fallen angel move
+                mover.canMove = true;
+
+                //move towards player
+                context.seeker.StartPath(context.transform.position, player_transform.position);
+                EventManager.singleton.AddEvent(new ChangedMOVstatemsg(context.gameObject, true));
             }
+            //else player is out of attack range,...
             else
             {
-                Hover(proper_context);
-                RaycastHit2D hit = Physics2D.Raycast(fire_point.position, player_transform.position - fire_point.transform.position, attack_radius, LayerMask.GetMask("Player"));
-                if (next_fire_time < Time.time)
-                {
-                    // float randy = Random.Range(0f, 1f);
-                    // if (randy < 0.66f && hit.collider != null && hit.collider.tag == "Player")
-                    if (hit.collider != null && hit.collider.tag == "Player")
-                    {
-                        EventManager.singleton.AddEvent(new shootmsg(proper_context.gameObject, player_transform));
-                        next_fire_time = Time.time + fire_delay;
-                    }
-                }
+                //stop fallen angel from moving
+                mover.canMove = false;
+
+                //stop moving
+                EventManager.singleton.AddEvent(new ChangedMOVstatemsg(context.gameObject, false));
+
+                //Attack the player
+                EventManager.singleton.AddEvent(new shootmsg(context.gameObject, player_transform));
             }
         }
 
@@ -190,52 +190,16 @@ public class FallenAngel_Aggro_State : AI_State
 
     public void Pursue(FallenAngel_Enemy_Behavior context)
     {
-        // float pursueVariance = 2f;
 
-        // //Try to stay within a safe distance of the player.
-        // //Code lifted from https://stackoverflow.com/questions/300871/best-way-to-find-a-point-on-a-circle-closest-to-a-given-point
-        // float vX = context.transform.position.x - player_transform.position.x;
-        // float vY = context.transform.position.y - player_transform.position.y;
-        // float magV = Mathf.Sqrt(vX * vX + vY * vY);
-        // float target_x = player_transform.position.x + vX / magV * attack_radius;
-        // float target_y = player_transform.position.y + vY / magV * attack_radius;
-
-        // Vector2 target_pos = new Vector2(target_x, target_y) + (Random.insideUnitCircle * pursueVariance);
-
-        // while (Physics2D.OverlapCircle(target_pos, context.col.radius, LayerMask.NameToLayer("Platforms")) != null)
-        // {
-        //     pursueVariance += 0.5f;
-        //     target_pos = new Vector2(target_x, target_y) + (Random.insideUnitCircle * pursueVariance);
-        // }
-
-        // //Actually build and send the path to the enemy!
-        // context.seeker.StartPath(context.transform.position, target_pos);
-        context.seeker.StartPath(context.transform.position, player_transform.position);
-    }
-
-    public void Hover(FallenAngel_Enemy_Behavior context)
-    {
-        // float hoverVariance = 3f;
-
-        // Vector2 target_pos = new Vector2(context.transform.position.x, context.transform.position.y) + (Random.insideUnitCircle * hoverVariance);
-
-        // while (Physics2D.OverlapCircle(target_pos, context.col.radius, LayerMask.NameToLayer("Platforms")) != null)
-        // {
-        //     target_pos = new Vector2(context.transform.position.x, context.transform.position.y) + (Random.insideUnitCircle * hoverVariance);
-        // }
-
-        // //Actually build and send the path to the enemy!
-        // context.seeker.StartPath(context.transform.position, target_pos);
-        context.seeker.StartPath(context.transform.position, player_transform.position);
     }
 
     public override void OnDrawGizmos(Base_Enemy context)
     {
         Vector3 targetPos = GameManager.inst.player.transform.position;
-        targetPos.z = fire_point.position.z;
-        Vector3 dir = targetPos - fire_point.position;
+        // targetPos.z = fire_point.position.z;
+        // Vector3 dir = targetPos - fire_point.position;
 
-        Gizmos.color = Color.black;
-        Gizmos.DrawRay(fire_point.position, dir);
+        // Gizmos.color = Color.black;
+        // Gizmos.DrawRay(fire_point.position, dir);
     }
 }

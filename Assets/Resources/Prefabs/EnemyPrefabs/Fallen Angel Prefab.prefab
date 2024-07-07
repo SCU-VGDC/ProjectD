@@ -76,23 +76,20 @@ MonoBehaviour:
   speed: 3
   seeker: {fileID: 0}
   mover: {fileID: 0}
-  dealsContactDamage: 0
-  contactDamageAmount: 0
+  dealsContactDamage: 1
+  contactDamageAmount: 2
   contactLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   destroyOnContact: 0
   col: {fileID: 0}
-  repathRate: 60
+  repathRate: 6
   aggro_radius: 20
   completed_path: 0
   nextPos: {x: 0, y: 0, z: 0}
   sr: {fileID: 8347455558978481429}
   aggro_state:
     attack_radius: 5
-    fire_delay: 2
-    next_fire_time: 0
-    fire_point: {fileID: 4376698365257222021}
 --- !u!114 &2886185612882860252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,7 +110,7 @@ MonoBehaviour:
     maximumInterval: 2
     visualizeSensitivity: 0
   canMove: 1
-  speed: 3
+  speed: 10
   orientation: 1
   enableRotation: 0
   rotationSpeed: 10
