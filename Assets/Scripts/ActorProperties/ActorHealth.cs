@@ -56,6 +56,7 @@ public class ActorHealth : MonoBehaviour
             }
             else
             {
+                gameObject.GetComponent<Collider2D>().enabled = false;
                 EventManager.singleton.AddEvent(new actorDiedmsg(gameObject));
             }
             isVulnerable = false;
