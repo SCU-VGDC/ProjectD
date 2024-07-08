@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(ActorShooting))]
 public class FallenAngel_Enemy_Behavior : Base_Enemy
 {
     public CircleCollider2D col;
@@ -143,9 +142,7 @@ public class FallenAngel_Aggro_State : AI_State
 
     [Header("Attack Properties")]
     public float attack_radius = 10f;
-    // public float fire_delay = 2f;
-    // public float next_fire_time;
-    // public Transform fire_point;
+    public int melee_damage = 0;
 
     private Transform player_transform;
 
@@ -167,10 +164,10 @@ public class FallenAngel_Aggro_State : AI_State
                 context.mover.canMove = false;
 
                 //stop moving
-                EventManager.singleton.AddEvent(new ChangedMOVstatemsg(context.gameObject, false));
+                //EventManager.singleton.AddEvent(new ChangedMOVstatemsg(context.gameObject, false));
 
                 //Attack the player
-                EventManager.singleton.AddEvent(new shootmsg(context.gameObject, player_transform));
+                EventManager.singleton.AddEvent(new meleeDamagemsg(context.gameObject, player_transform, melee_damage));
             }
             //else player is out of attack range,...
             else
@@ -186,11 +183,6 @@ public class FallenAngel_Aggro_State : AI_State
 
         //When attacking, face direction the player
         context.transform.localScale = (player_transform.position.x - proper_context.transform.position.x > 0) ? new Vector3(-1, 1, 1) : Vector3.one;
-    }
-
-    public void Pursue(FallenAngel_Enemy_Behavior context)
-    {
-
     }
 
     public override void OnDrawGizmos(Base_Enemy context)

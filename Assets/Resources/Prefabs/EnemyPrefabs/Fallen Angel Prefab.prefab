@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 1420016261941363690}
   - component: {fileID: 167952618404378538}
   - component: {fileID: 854777678611661063}
-  - component: {fileID: 3523934085074689392}
   - component: {fileID: 6182201224912627717}
   - component: {fileID: 7545419951537231884}
   - component: {fileID: 9042507155164895539}
@@ -185,28 +184,6 @@ MonoBehaviour:
   currentHealth: 10
   died: 0
   maxHealth: 10
---- !u!114 &3523934085074689392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2461275317585952070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45ac6dd7bbf4b1b4885551121bd378b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trailSpawn: {fileID: 0}
-  bulletspawn: {fileID: 4376698365257222021}
-  bulletprefab: {fileID: 4193023076128913139, guid: 1725483b24bcfbe43bf1e2c052d91966, type: 3}
-  hittableLayers:
-    serializedVersion: 2
-    m_Bits: 192
-  reflectiveLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  raycastToggle: 0
 --- !u!114 &6182201224912627717
 MonoBehaviour:
   m_ObjectHideFlags: 0
