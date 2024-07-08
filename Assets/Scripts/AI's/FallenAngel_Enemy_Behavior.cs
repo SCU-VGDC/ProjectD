@@ -161,17 +161,7 @@ public class FallenAngel_Aggro_State : AI_State
         if (proper_context.completed_path && Time.frameCount % proper_context.repathRate == 0)
         {
             //if player is in attack range,...
-            if (Vector2.Distance(player_transform.position, context.transform.position) < proper_context.attack_radius)
-            {
-                //let fallen angel move
-                context.mover.canMove = true;
-
-                //move towards player
-                context.seeker.StartPath(context.transform.position, player_transform.position);
-                EventManager.singleton.AddEvent(new ChangedMOVstatemsg(context.gameObject, true));
-            }
-            //else player is out of attack range,...
-            else
+            if (Vector2.Distance(player_transform.position, context.transform.position) < attack_radius)
             {
                 //stop fallen angel from moving
                 context.mover.canMove = false;
@@ -181,6 +171,16 @@ public class FallenAngel_Aggro_State : AI_State
 
                 //Attack the player
                 EventManager.singleton.AddEvent(new shootmsg(context.gameObject, player_transform));
+            }
+            //else player is out of attack range,...
+            else
+            {
+                //let fallen angel move
+                context.mover.canMove = true;
+
+                //move towards player
+                context.seeker.StartPath(context.transform.position, player_transform.position);
+                EventManager.singleton.AddEvent(new ChangedMOVstatemsg(context.gameObject, true));
             }
         }
 
