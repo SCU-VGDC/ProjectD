@@ -164,7 +164,7 @@ public class FallenAngel_Aggro_State : AI_State
             if (Vector2.Distance(player_transform.position, context.transform.position) < proper_context.attack_radius)
             {
                 //let fallen angel move
-                mover.canMove = true;
+                context.mover.canMove = true;
 
                 //move towards player
                 context.seeker.StartPath(context.transform.position, player_transform.position);
@@ -174,7 +174,7 @@ public class FallenAngel_Aggro_State : AI_State
             else
             {
                 //stop fallen angel from moving
-                mover.canMove = false;
+                context.mover.canMove = false;
 
                 //stop moving
                 EventManager.singleton.AddEvent(new ChangedMOVstatemsg(context.gameObject, false));
