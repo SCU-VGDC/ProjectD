@@ -8,6 +8,8 @@ public class FallenAngel_Enemy_Behavior : Base_Enemy
     [Header("Properties")]
     public float aggro_radius;
     public bool completed_path;
+    [HideInInspector] public int attack_time = 1;
+    [HideInInspector] public float temp_attack_time = 0f;
     public Vector3 nextPos;
     public SpriteRenderer sr;
 
@@ -36,6 +38,9 @@ public class FallenAngel_Enemy_Behavior : Base_Enemy
         Quaternion nextRot;
         mover.MovementUpdate(Time.deltaTime, out nextPos, out nextRot);
         mover.FinalizeMovement(nextPos, nextRot);
+
+        //increment temp_attack_time
+        temp_attack_time += Time.deltaTime;
     }
 
     private void OnDrawGizmos()
@@ -158,7 +163,7 @@ public class FallenAngel_Aggro_State : AI_State
         if (proper_context.completed_path && Time.frameCount % proper_context.repathRate == 0)
         {
             //if player is in attack range,...
-            if (Vector2.Distance(player_transform.position, context.transform.position) < attack_radius)
+            if (Vector2.Distance(player_transform.position, context.transform.position) < attack_radius && proper_context.temp_attack_time >= proper_context.attack_time)
             {
                 //stop fallen angel from moving
                 context.mover.canMove = false;
@@ -168,6 +173,9 @@ public class FallenAngel_Aggro_State : AI_State
 
                 //Attack the player
                 EventManager.singleton.AddEvent(new meleeDamagemsg(context.gameObject, player_transform, melee_damage));
+
+                //reset temp_attack_time
+                proper_context.temp_attack_time = 0f;
             }
             //else player is out of attack range,...
             else
