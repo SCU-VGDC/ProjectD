@@ -121,9 +121,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 6
-        width: 64
-        height: 64
+        y: 0
+        width: 80
+        height: 70
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,10 +141,10 @@ TextureImporter:
       name: FallenAngelWalk_1
       rect:
         serializedVersion: 2
-        x: 64
-        y: 6
-        width: 64
-        height: 64
+        x: 80
+        y: 0
+        width: 80
+        height: 70
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,10 +162,10 @@ TextureImporter:
       name: FallenAngelWalk_2
       rect:
         serializedVersion: 2
-        x: 128
-        y: 6
-        width: 64
-        height: 64
+        x: 160
+        y: 0
+        width: 80
+        height: 70
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,10 +183,10 @@ TextureImporter:
       name: FallenAngelWalk_3
       rect:
         serializedVersion: 2
-        x: 192
-        y: 6
-        width: 64
-        height: 64
+        x: 240
+        y: 0
+        width: 80
+        height: 70
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,10 +204,10 @@ TextureImporter:
       name: FallenAngelWalk_4
       rect:
         serializedVersion: 2
-        x: 256
-        y: 6
-        width: 64
-        height: 64
+        x: 320
+        y: 0
+        width: 80
+        height: 70
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -225,10 +225,10 @@ TextureImporter:
       name: FallenAngelWalk_5
       rect:
         serializedVersion: 2
-        x: 320
-        y: 6
-        width: 64
-        height: 64
+        x: 400
+        y: 0
+        width: 80
+        height: 70
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -246,10 +246,10 @@ TextureImporter:
       name: FallenAngelWalk_6
       rect:
         serializedVersion: 2
-        x: 384
-        y: 6
-        width: 64
-        height: 64
+        x: 480
+        y: 0
+        width: 80
+        height: 70
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -267,10 +267,10 @@ TextureImporter:
       name: FallenAngelWalk_7
       rect:
         serializedVersion: 2
-        x: 448
-        y: 6
-        width: 64
-        height: 64
+        x: 560
+        y: 0
+        width: 80
+        height: 70
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -280,48 +280,6 @@ TextureImporter:
       bones: []
       spriteID: c1904a41731e45f41b6e61d1edead31e
       internalID: 1257027336
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FallenAngelWalk_8
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 6
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8ee135b8a726b164abdffa57bc3efcb4
-      internalID: -248131269
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FallenAngelWalk_9
-      rect:
-        serializedVersion: 2
-        x: 576
-        y: 6
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 73792cfb11c814f49925ba478e29693a
-      internalID: -1363275545
       vertices: []
       indices: 
       edges: []
@@ -339,9 +297,7 @@ TextureImporter:
     nameFileIdTable:
       FallenAngelWalk_5: -1116094560
       FallenAngelWalk_6: 954994416
-      FallenAngelWalk_8: -248131269
       FallenAngelWalk_0: -1105798015
-      FallenAngelWalk_9: -1363275545
       FallenAngelWalk_1: -1309642030
       FallenAngelWalk_2: 273593494
       FallenAngelWalk_4: 1951510853

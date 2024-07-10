@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class FallenAngel_Enemy_Behavior : Base_Enemy
 {
@@ -8,8 +9,6 @@ public class FallenAngel_Enemy_Behavior : Base_Enemy
     [Header("Properties")]
     public float aggro_radius;
     public bool completed_path;
-    [HideInInspector] public int attack_time = 1;
-    [HideInInspector] public float temp_attack_time = 0f;
     public Vector3 nextPos;
     public SpriteRenderer sr;
 
@@ -38,9 +37,6 @@ public class FallenAngel_Enemy_Behavior : Base_Enemy
         Quaternion nextRot;
         mover.MovementUpdate(Time.deltaTime, out nextPos, out nextRot);
         mover.FinalizeMovement(nextPos, nextRot);
-
-        //increment temp_attack_time
-        temp_attack_time += Time.deltaTime;
     }
 
     private void OnDrawGizmos()
@@ -163,19 +159,16 @@ public class FallenAngel_Aggro_State : AI_State
         if (proper_context.completed_path && Time.frameCount % proper_context.repathRate == 0)
         {
             //if player is in attack range,...
-            if (Vector2.Distance(player_transform.position, context.transform.position) < attack_radius && proper_context.temp_attack_time >= proper_context.attack_time)
+            if (Vector2.Distance(player_transform.position, context.transform.position) < attack_radius)
             {
                 //stop fallen angel from moving
                 context.mover.canMove = false;
 
                 //stop moving
-                //EventManager.singleton.AddEvent(new ChangedMOVstatemsg(context.gameObject, false));
+                EventManager.singleton.AddEvent(new ChangedMOVstatemsg(context.gameObject, false));
 
                 //Attack the player
                 EventManager.singleton.AddEvent(new meleeDamagemsg(context.gameObject, player_transform, melee_damage));
-
-                //reset temp_attack_time
-                proper_context.temp_attack_time = 0f;
             }
             //else player is out of attack range,...
             else
@@ -191,15 +184,5 @@ public class FallenAngel_Aggro_State : AI_State
 
         //When attacking, face direction the player
         context.transform.localScale = (player_transform.position.x - proper_context.transform.position.x > 0) ? new Vector3(-1, 1, 1) : Vector3.one;
-    }
-
-    public override void OnDrawGizmos(Base_Enemy context)
-    {
-        Vector3 targetPos = GameManager.inst.player.transform.position;
-        // targetPos.z = fire_point.position.z;
-        // Vector3 dir = targetPos - fire_point.position;
-
-        // Gizmos.color = Color.black;
-        // Gizmos.DrawRay(fire_point.position, dir);
     }
 }

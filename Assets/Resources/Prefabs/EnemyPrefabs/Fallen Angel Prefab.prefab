@@ -140,7 +140,7 @@ MonoBehaviour:
   nextPos: {x: 0, y: 0, z: 0}
   sr: {fileID: 8347455558978481429}
   aggro_state:
-    attack_radius: 5
+    attack_radius: 3.56
     melee_damage: 4
 --- !u!114 &2886185612882860252
 MonoBehaviour:
