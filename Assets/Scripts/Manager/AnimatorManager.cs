@@ -13,6 +13,7 @@ public class AnimatorManager : MonoBehaviour
     {
         if (boolsAnimation.Contains(name))
         {
+            Debug.Log("test: boolsAnimation contains " + name);
             animatorSource.SetBool(name, value);
             return true;
         }
