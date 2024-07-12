@@ -78,11 +78,11 @@ public class shootmsg : msg
         switch (typeShot) {
             // player shots
             case "PistolShot":
-                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(10, 0, 0);
+                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(2, 0, 0);
 
                 break;
             case "PistolShotRicochet":
-                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(10, 0, 3);
+                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(2, 0, 3);
 
                 break;
             case "ShotgunShot":

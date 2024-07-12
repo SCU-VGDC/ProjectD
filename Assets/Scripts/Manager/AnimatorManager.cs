@@ -14,6 +14,7 @@ public class AnimatorManager : MonoBehaviour
     {
         if (boolsAnimation.Contains(name))
         {
+            Debug.Log("test: boolsAnimation contains " + name);
             animatorSource.SetBool(name, value);
 
             if (callbackWhenIdle != null)
@@ -42,8 +43,6 @@ public class AnimatorManager : MonoBehaviour
 
             return true;
         }
-
-        
 
         Debug.LogWarning(gameObject + " requested missing animation " + name);
         return false;
