@@ -203,7 +203,12 @@ public class RoomManager : MonoBehaviour
         // spawn enemies
         foreach(Transform enemy in wave.waveGameObject.transform) 
         {
-            enemy.gameObject.SetActive(true);
+            Vector3 spawningPosition = enemy.position;
+            // get the position of the enemy's body child
+            if (enemy.tag == "ResourcePrefab") spawningPosition = enemy.GetChild(0).position;
+            
+            // create spawning effect/animation then enable the enemy
+            SpawnerCloud.Create(spawningPosition, () =>  enemy.gameObject.SetActive(true), 1.25f);
 
             yield return new WaitForSeconds(wave.enemyDelayTime);
         }
