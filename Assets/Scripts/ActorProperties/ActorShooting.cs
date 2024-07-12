@@ -110,7 +110,6 @@ public class ActorShooting : MonoBehaviour
         for (int i = 0; i < numOfRays; i++) {
             // find angle to shoot at
             float angle = Mathf.Lerp(startAngle, endAngle, (float)i / numOfRays);
-            Debug.Log(angle);
             
             // convert angle to Vector2
             Vector2 rayCastDir = Quaternion.AngleAxis(angle, referenceAngle) * rayCastDirMiddle;

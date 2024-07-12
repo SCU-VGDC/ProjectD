@@ -53,10 +53,10 @@ public class PlayerGunController : MonoBehaviour
         if(TimeSpent > currentGun.firerate)
         {
             if (shootType == 0) {
-                EventManager.singleton.AddEvent(new shootmsg(gameObject, null, "GunShot", "PistolShot"));
+                EventManager.singleton.AddEvent(new shootmsg(gameObject, null, "PistolShot", "PistolShot"));
 
             } else if (shootType == 1) {
-                EventManager.singleton.AddEvent(new shootmsg(gameObject, null, "GunShot", "PistolShotRicochet"));
+                EventManager.singleton.AddEvent(new shootmsg(gameObject, null, "PistolShot", "PistolShotRicochet"));
             }
 
             //HAND shit solution???

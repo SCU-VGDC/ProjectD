@@ -204,12 +204,18 @@ MonoBehaviour:
   seeker: {fileID: 0}
   mover: {fileID: 0}
   dealsContactDamage: 1
-  contactDamageAmount: 1
+  contactDamageAmount: 3
   contactLayers:
     serializedVersion: 2
     m_Bits: 192
   destroyOnContact: 1
   rb: {fileID: 4193023076128913138}
+  ricochet: 0
+  maxRicochetCount: 3
+  currentRicochetCount: 0
+  ricochetLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &4224238066945239747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,7 +228,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae15c0d895a6d34e8d866129954d60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vulnerabilityCooldown: 0
   currentHealth: 1
+  died: 0
   maxHealth: 1
 --- !u!114 &-8078164691014132428
 MonoBehaviour:

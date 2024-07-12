@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,12 +15,12 @@ public class ParralexEffect : MonoBehaviour
     void Start()
     {
         //set last camera pos
-        lastCameraPos = Camera.main.transform.position;
+        lastCameraPos = Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.transform.position;
 
         //initialize numLayers
         numLayers = transform.childCount;
 
-        //allocate spave for vars
+        //allocate space for vars
         parLayers = new Transform[numLayers];
         textureUnitSizesX = new float[numLayers];
 
@@ -42,11 +43,11 @@ public class ParralexEffect : MonoBehaviour
         {
             parLayers[i].position += new Vector3(deltaCamMovement.x * paralaxEffectMults[i].x, deltaCamMovement.y * paralaxEffectMults[i].y, 0f);
 
-            if(Camera.main.transform.position.x - parLayers[i].position.x >= textureUnitSizesX[i])
-            {
-                float offsetPosX = (Camera.main.transform.position.x - transform.position.x) % textureUnitSizesX[i];
-                transform.position = new Vector3(Camera.main.transform.position.x, parLayers[i].position.x);
-            }
+            // if(Camera.main.transform.position.x - parLayers[i].position.x >= textureUnitSizesX[i])
+            // {
+            //     float offsetPosX = (Camera.main.transform.position.x - transform.position.x) % textureUnitSizesX[i];
+            //     transform.position = new Vector3(Camera.main.transform.position.x, parLayers[i].position.x);
+            // }
         }
 
         //get last camera pos again

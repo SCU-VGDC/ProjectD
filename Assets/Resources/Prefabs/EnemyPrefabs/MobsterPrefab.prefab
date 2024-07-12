@@ -257,9 +257,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vulnerabilityCooldown: 0
-  currentHealth: 3
+  currentHealth: 6
   died: 0
-  maxHealth: 3
+  maxHealth: 6
 --- !u!114 &2789363671374292098
 MonoBehaviour:
   m_ObjectHideFlags: 0

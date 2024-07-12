@@ -78,11 +78,11 @@ public class shootmsg : msg
         switch (typeShot) {
             // player shots
             case "PistolShot":
-                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(10, 0, 0);
+                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(2, 0, 0);
 
                 break;
             case "PistolShotRicochet":
-                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(10, 0, 3);
+                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(2, 0, 3);
 
                 break;
             case "ShotgunShot":
@@ -171,9 +171,6 @@ public class applyDamagemsg : msg
         // Player shouldn't have a TakeDamage anim
         if (target.GetComponent<PlayerMov_FSM>() == null)
             target.GetComponent<AnimatorManager>().SetAnim("TakeDamage");
-
-
-        
 
         if (target.transform.childCount != 0)
         {
@@ -319,10 +316,14 @@ public class playerRespawnmsg : msg
         //SaveSystem.singleton.CreateWorld(SaveSystem.singleton.LastUpdatedInGameLS);
 
         Sender.GetComponent<AudioManager>().PlaySound("Respawn");
-        Sender.GetComponent<AnimatorManager>().SetAnim("Death", false);       
-        GameManager.inst.playerHealth.currentHealth = GameManager.inst.playerHealth.maxHealth;
-        GameManager.inst.playerHealth.died = false;
-        EventManager.singleton.GetComponent<UIManager>().updateHealthUI();
+        Sender.GetComponent<AnimatorManager>().SetAnim("Death", false, 
+            () => 
+            {
+                GameManager.inst.playerHealth.currentHealth = GameManager.inst.playerHealth.maxHealth;
+                GameManager.inst.playerHealth.died = false;
+                EventManager.singleton.GetComponent<UIManager>().updateHealthUI();
+            }
+        );
     }
 }
 

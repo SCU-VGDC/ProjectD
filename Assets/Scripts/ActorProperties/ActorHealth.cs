@@ -6,6 +6,7 @@ using UnityEngine;
 public class ActorHealth : MonoBehaviour
 {
     bool isVulnerable;
+    public bool isInvincible = false;
     float timeSinceLastHit;
     public float vulnerabilityCooldown;
     public int currentHealth;
@@ -25,10 +26,25 @@ public class ActorHealth : MonoBehaviour
             currentHealth = maxHealth;
         }
 
-        if (isVulnerable)
+
+        if (isVulnerable && !isInvincible && damageAmount > 0)
         {// damage cooldown must be inactive
             currentHealth -= damageAmount;
             isVulnerable = false;
+        }
+
+        // if healing, ignore the vulnerability cooldown
+        if (damageAmount < 0) 
+        {
+            // make sure healing doesnt go over max health
+            if (currentHealth - damageAmount >= maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
+            else
+            {
+                currentHealth -= damageAmount;
+            }
         }
 
         if (currentHealth <= 0 && !died)
@@ -40,6 +56,7 @@ public class ActorHealth : MonoBehaviour
             }
             else
             {
+                gameObject.GetComponent<Collider2D>().enabled = false;
                 EventManager.singleton.AddEvent(new actorDiedmsg(gameObject));
             }
             isVulnerable = false;
