@@ -1,9 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(ActorHealth))]
 public class FallenAngel_Enemy_Behavior : Base_Enemy
 {
     public CircleCollider2D col;
+    private ActorHealth health;
     public int repathRate = 60;
 
     [Header("Properties")]
@@ -19,6 +21,8 @@ public class FallenAngel_Enemy_Behavior : Base_Enemy
     void Start()
     {
         col = GetComponent<CircleCollider2D>();
+        health = GetComponent<ActorHealth>();
+
         //Initializes some important variables contained in Base_Enemy
         base.Init();
 
@@ -29,6 +33,14 @@ public class FallenAngel_Enemy_Behavior : Base_Enemy
 
     void Update()
     {
+        // freeze and disable collider when dead
+        if (health.died)
+        {
+            col.enabled = false;
+            mover.enabled = false;
+            return;
+        }
+
         Debug.Log("Fallen Angel Current state is: " + current_state.ToString());
         completed_path = seeker.GetCurrentPath() == null || mover.reachedEndOfPath;
 
