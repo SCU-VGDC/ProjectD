@@ -22,6 +22,8 @@ class Dashing : PlayerState
     {
         base.Start();
 
+        GameManager.inst.player.GetComponent<ActorHealth>().isInvincible = true;
+
         // Save the dash direction
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
@@ -55,5 +57,12 @@ class Dashing : PlayerState
             float decelerationProgress = (progress - 0.8f) / 0.2f;
             pm.rb.velocity = Vector3.Lerp(targetVelocity, 0.2f * pm.dashSpeed * dashDirection, decelerationProgress);
         }
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+
+        GameManager.inst.player.GetComponent<ActorHealth>().isInvincible = false;
     }
 }
