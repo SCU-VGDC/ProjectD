@@ -316,10 +316,14 @@ public class playerRespawnmsg : msg
         //SaveSystem.singleton.CreateWorld(SaveSystem.singleton.LastUpdatedInGameLS);
 
         Sender.GetComponent<AudioManager>().PlaySound("Respawn");
-        Sender.GetComponent<AnimatorManager>().SetAnim("Death", false);       
-        GameManager.inst.playerHealth.currentHealth = GameManager.inst.playerHealth.maxHealth;
-        GameManager.inst.playerHealth.died = false;
-        EventManager.singleton.GetComponent<UIManager>().updateHealthUI();
+        Sender.GetComponent<AnimatorManager>().SetAnim("Death", false, 
+            () => 
+            {
+                GameManager.inst.playerHealth.currentHealth = GameManager.inst.playerHealth.maxHealth;
+                GameManager.inst.playerHealth.died = false;
+                EventManager.singleton.GetComponent<UIManager>().updateHealthUI();
+            }
+        );
     }
 }
 
