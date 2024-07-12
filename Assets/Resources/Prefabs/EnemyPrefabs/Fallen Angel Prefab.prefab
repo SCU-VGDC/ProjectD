@@ -127,12 +127,13 @@ MonoBehaviour:
   seeker: {fileID: 0}
   mover: {fileID: 0}
   dealsContactDamage: 1
-  contactDamageAmount: 2
+  contactDamageAmount: 5
   contactLayers:
     serializedVersion: 2
     m_Bits: 128
   destroyOnContact: 0
   col: {fileID: 0}
+  anim: {fileID: 0}
   repathRate: 6
   aggro_radius: 20
   completed_path: 0
@@ -233,9 +234,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vulnerabilityCooldown: 0
-  currentHealth: 10
+  currentHealth: 12
   died: 0
-  maxHealth: 10
+  maxHealth: 12
 --- !u!114 &6182201224912627717
 MonoBehaviour:
   m_ObjectHideFlags: 0
