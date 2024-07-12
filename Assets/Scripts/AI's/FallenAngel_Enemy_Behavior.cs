@@ -6,6 +6,7 @@ public class FallenAngel_Enemy_Behavior : Base_Enemy
 {
     public CircleCollider2D col;
     private ActorHealth health;
+    public Animator anim;
     public int repathRate = 60;
 
     [Header("Properties")]
@@ -22,6 +23,7 @@ public class FallenAngel_Enemy_Behavior : Base_Enemy
     {
         col = GetComponent<CircleCollider2D>();
         health = GetComponent<ActorHealth>();
+        anim = GetComponent<Animator>();
 
         //Initializes some important variables contained in Base_Enemy
         base.Init();
@@ -181,6 +183,8 @@ public class FallenAngel_Aggro_State : AI_State
 
                 //Attack the player
                 EventManager.singleton.AddEvent(new meleeDamagemsg(context.gameObject, player_transform, melee_damage));
+
+                //if (!player_transform.GetComponent<ActorHealth>().died) proper_context.anim.SetBool("Attack", true);
             }
             //else player is out of attack range,...
             else
