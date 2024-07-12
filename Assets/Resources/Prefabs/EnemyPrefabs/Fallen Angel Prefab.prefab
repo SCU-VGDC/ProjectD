@@ -233,6 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae15c0d895a6d34e8d866129954d60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvincible: 0
   vulnerabilityCooldown: 0
   currentHealth: 12
   died: 0
@@ -255,6 +256,9 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 62d4310157a9bc241809d4991260e805, type: 3}
     Variants: []
     randomPitch: 0
+    overlayPlay: 0
+  lastPlayedSound: 
+  lastPlayedSoundEndTime: 0
 --- !u!82 &7545419951537231884
 AudioSource:
   m_ObjectHideFlags: 0
@@ -415,7 +419,7 @@ Transform:
   m_GameObject: {fileID: 4488935567484430121}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7448347128151571598}
