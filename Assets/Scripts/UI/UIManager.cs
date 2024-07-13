@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Pause"))
+        if (SceneManager.sceneCount == 1 && Input.GetButtonDown("Pause"))
         {
             if (!pauseMenuIsOpen) OpenPauseMenu();
             else ClosePauseMenu();
@@ -123,6 +123,7 @@ public class UIManager : MonoBehaviour
 
     public void GoToMainMenu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("Title Screen");
     }
 
