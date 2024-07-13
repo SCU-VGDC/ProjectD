@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/CurrentWIPScenes/Title Screen.unity
     guid: 85e1817719c506e45b40b807e6af220a
   - enabled: 0

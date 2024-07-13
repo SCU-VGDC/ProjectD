@@ -5,13 +5,19 @@ using Backend;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 using UnityEngine.Pool;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    public GameObject canvas;
+
     public Image dashImage;
     public Image healthImage;
     public Sprite[] spriteArray; //manually filled array up with pictures of ui!
     public GameObject interactText;
+
+    public GameObject pauseMenu;
+    public bool pauseMenuIsOpen => pauseMenu.activeInHierarchy;
     //public rectTransform tr;
     void Start()
     {
@@ -22,6 +28,15 @@ public class UIManager : MonoBehaviour
         //GameManager.inst.playerHealth.ApplyDamage(9);
         updateHealthUI();
         
+    }
+
+    void Update()
+    {
+        if (Input.GetButtonDown("Pause"))
+        {
+            if (!pauseMenuIsOpen) OpenPauseMenu();
+            else ClosePauseMenu();
+        }
     }
 
     public void updateinteractUI(bool how)
@@ -64,5 +79,55 @@ public class UIManager : MonoBehaviour
                 dashImage.sprite = spriteArray[3];
                 break;
         }
+    }
+
+    // Pause Menu:
+    /// <summary>
+    ///     Enables and disables all HUD elements in the Canvas
+    /// </summary>
+    /// <param name="value"></param>
+    private void SetHUDActive(bool value)
+    {
+        foreach (Transform child in canvas.transform)
+        {
+            if (child.tag == "HUD")
+            {
+                child.gameObject.SetActive(value);
+            }
+        }
+    }
+
+    public void OpenPauseMenu()
+    {
+        SetHUDActive(false);
+
+        Time.timeScale = 0; // freezes game
+
+        pauseMenu.SetActive(true);
+    }
+
+    public void ClosePauseMenu()
+    {
+        pauseMenu.SetActive(false);
+
+        Time.timeScale = 1; // resumes game
+
+        SetHUDActive(true);
+    }
+
+    public void GoToSettings()
+    {
+        GameSceneManager.inst.message = "settings";
+        SceneManager.LoadScene("Title Screen");
+    }
+
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("Title Screen");
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }

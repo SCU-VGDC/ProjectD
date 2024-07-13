@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ParralexEffect : MonoBehaviour
 {
-    private Vector3 lastCameraPos;
+    private Vector3 lastCameraPos = Vector3.zero;
     private int numLayers;
     private Transform[] parLayers;
     private float[] textureUnitSizesX;
@@ -15,7 +15,7 @@ public class ParralexEffect : MonoBehaviour
     void Start()
     {
         //set last camera pos
-        lastCameraPos = Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.transform.position;
+        if (Camera.main != null) lastCameraPos = Camera.main.GetComponent<CinemachineBrain>() != null ? Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.transform.position : Camera.main.transform.position;
 
         //initialize numLayers
         numLayers = transform.childCount;
