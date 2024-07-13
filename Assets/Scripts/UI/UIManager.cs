@@ -117,7 +117,6 @@ public class UIManager : MonoBehaviour
 
     public void GoToSettings()
     {
-        GameSceneManager.inst.message = "settings";
         SceneManager.LoadScene("Title Screen", LoadSceneMode.Additive);
     }
 

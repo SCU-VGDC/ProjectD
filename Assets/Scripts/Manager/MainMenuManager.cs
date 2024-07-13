@@ -14,18 +14,11 @@ public class MainMenuManager : MonoBehaviour
     {
         openSettingsFromInGame = false;
 
-        CheckSceneMessage();
-    }
-
-    public void CheckSceneMessage()
-    {
-        if (GameSceneManager.inst != null && GameSceneManager.inst.message == "settings")
+        // check if settings was opened from in game
+        if (SceneManager.GetSceneByName("Redo Level 1-1").isLoaded)
         {
             openSettingsFromInGame = true;
             OpenSettingsMenu();
-
-            // reset message
-            GameSceneManager.inst.message = ""; 
         }
     }
 

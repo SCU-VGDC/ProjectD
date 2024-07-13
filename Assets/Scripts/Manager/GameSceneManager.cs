@@ -15,8 +15,6 @@ public class GameSceneManager : MonoBehaviour
 
     private bool fadeScreenCoroutineIsRunning;
     
-    // message used to send messages between scenes
-    public string message = "";
 
     // singleton magic
     private void Awake()
@@ -30,7 +28,7 @@ public class GameSceneManager : MonoBehaviour
             Destroy(this);
         }
 
-        DontDestroyOnLoad(inst.gameObject);
+        //DontDestroyOnLoad(inst.gameObject);
     }
 
     private void Start()
