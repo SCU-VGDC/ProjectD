@@ -15,8 +15,19 @@ public class ParralexEffect : MonoBehaviour
     void Start()
     {
         //set last camera pos
-        if (Camera.main != null) lastCameraPos = Camera.main.GetComponent<CinemachineBrain>() != null ? Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.transform.position : Camera.main.transform.position;
-
+        if (Camera.main != null)
+        {
+            if (Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera != null)
+            {
+                Debug.Log("has vcam");
+                lastCameraPos = Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.transform.position;
+            }
+            else 
+            {
+                Debug.Log("no vcam");
+                lastCameraPos = Camera.main.transform.position;
+            }
+        }
         //initialize numLayers
         numLayers = transform.childCount;
 

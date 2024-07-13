@@ -46,7 +46,7 @@ public class MainMenuManager : MonoBehaviour
         {
             openSettingsFromInGame = false;
 
-            SceneManager.LoadScene("Redo Level 1-1");
+            SceneManager.UnloadSceneAsync("Title Screen");
         }
     }
 
