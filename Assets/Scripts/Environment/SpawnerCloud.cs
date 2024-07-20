@@ -54,6 +54,6 @@ public class SpawnerCloud : MonoBehaviour
 
         // wait the remaining time of the animation
         yield return new WaitForSeconds(totalAnimationLength - callCallbackTime);
-        Destroy(this);
+        Destroy(gameObject);
     }
 }
