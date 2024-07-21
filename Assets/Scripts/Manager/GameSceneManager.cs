@@ -14,6 +14,7 @@ public class GameSceneManager : MonoBehaviour
     private UnityEngine.UI.Image blackImage;
 
     private bool fadeScreenCoroutineIsRunning;
+    
 
     // singleton magic
     private void Awake()
@@ -27,7 +28,7 @@ public class GameSceneManager : MonoBehaviour
             Destroy(this);
         }
 
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(inst.gameObject);
     }
 
     private void Start()
