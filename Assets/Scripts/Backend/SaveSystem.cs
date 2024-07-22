@@ -27,9 +27,9 @@ public class SaveSystem : MonoBehaviour
 
         LS.MaxHealth = GameManager.inst.playerHealth.maxHealth;
 
-        LS.pistol = GameManager.inst.player.GetComponent<PlayerGunController>().isPistol ? 1 : 0;
-        LS.sniper = GameManager.inst.player.GetComponent<PlayerGunController>().isSniper ? 1 : 0;
-        LS.shotgun = GameManager.inst.player.GetComponent<PlayerGunController>().isShotgun ? 1 : 0;
+        LS.pistol = GameManager.inst.player.GetComponent<PlayerGunController>().pistolUnlocked ? 1 : 0;
+        LS.sniper = GameManager.inst.player.GetComponent<PlayerGunController>().sniperUnlocked ? 1 : 0;
+        LS.shotgun = GameManager.inst.player.GetComponent<PlayerGunController>().shotgunUnlocked ? 1 : 0;
 
         foreach (Checkpoint cp in FindObjectsOfType<Checkpoint>())
         {
@@ -113,9 +113,9 @@ public class SaveSystem : MonoBehaviour
         GameManager.inst.playerHealth.maxHealth = givenLevel.MaxHealth;
         //GameManager.inst.playerHealth.MaxDashes = MaxDashes; //where to get info??
 
-        GameManager.inst.player.GetComponent<PlayerGunController>().isPistol = (givenLevel.pistol > 0) ? true : false;
-        GameManager.inst.player.GetComponent<PlayerGunController>().isSniper = (givenLevel.sniper > 0) ? true : false;
-        GameManager.inst.player.GetComponent<PlayerGunController>().isShotgun = (givenLevel.shotgun > 0) ? true : false;
+        GameManager.inst.player.GetComponent<PlayerGunController>().pistolUnlocked = (givenLevel.pistol > 0) ? true : false;
+        GameManager.inst.player.GetComponent<PlayerGunController>().sniperUnlocked = (givenLevel.sniper > 0) ? true : false;
+        GameManager.inst.player.GetComponent<PlayerGunController>().shotgunUnlocked = (givenLevel.shotgun > 0) ? true : false;
 
         foreach (Checkpoint cp in FindObjectsOfType<Checkpoint>())
         {

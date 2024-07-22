@@ -529,28 +529,28 @@ MonoBehaviour:
     shotAnimation: 
     soundNormal: 
     soundMagic: 
-  isPistol: 1
-  isSniper: 0
-  isShotgun: 0
+  pistolUnlocked: 1
+  sniperUnlocked: 1
+  shotgunUnlocked: 1
   pistol:
-    fireRate: 0
-    shotTypeNormal: 
-    shotTypeMagic: 
+    fireRate: 0.35
+    shotTypeNormal: Pistol
+    shotTypeMagic: PistolMagic
     shotAnimation: PistolShot
     soundNormal: PistolShot
     soundMagic: PistolShot
   sniper:
-    fireRate: 0
-    shotTypeNormal: 
-    shotTypeMagic: 
-    shotAnimation: PistolShot
+    fireRate: 1
+    shotTypeNormal: Sniper
+    shotTypeMagic: SniperMagic
+    shotAnimation: SniperShot
     soundNormal: PistolShot
     soundMagic: PistolShot
   shotgun:
-    fireRate: 0
-    shotTypeNormal: 
-    shotTypeMagic: 
-    shotAnimation: PistolShot
+    fireRate: 0.5
+    shotTypeNormal: Shotgun
+    shotTypeMagic: ShotgunMagic
+    shotAnimation: ShotgunShot
     soundNormal: ShotgunShot
     soundMagic: ShotgunShot
 --- !u!114 &1901154284
@@ -741,7 +741,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.125, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -5819,4 +5819,6 @@ MonoBehaviour:
   - Moving
   triggerAnimation:
   - PistolShot
+  - ShotgunShot
+  - SniperShot
   - Dash

@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class PlayerGunController : MonoBehaviour
 {
+    private AnimatorManager handAnimManager;
     public Gun currentGun;
     private float TimeSpent;
 
     [Header("Guns Avalibilty")]
-    public bool isPistol;
-    public bool isSniper;
-    public bool isShotgun;
+    public bool pistolUnlocked;
+    public bool sniperUnlocked;
+    public bool shotgunUnlocked;
 
     [Header("Guns Stats")]
     public Gun pistol;
@@ -22,6 +23,7 @@ public class PlayerGunController : MonoBehaviour
     public void Start()
     {
         currentGun = pistol;
+        handAnimManager = GetComponent<PlayerMov_FSM>().arm.GetComponent<AnimatorManager>();
     }
 
     public void Update()
@@ -31,17 +33,17 @@ public class PlayerGunController : MonoBehaviour
 
     public void AskedToChangeGun(int gunType) // 0 - pistol, 1 - sniper, 2 - shotgun
     {
-        if(gunType == 0 && isPistol)
+        if(gunType == 0 && pistolUnlocked)
         {
             currentGun = pistol;
         }
 
-        if (gunType == 1 && isSniper)
+        if (gunType == 1 && shotgunUnlocked)
         {
             currentGun = sniper;
         }
 
-        if (gunType == 2 && isShotgun)
+        if (gunType == 2 && shotgunUnlocked)
         {
             currentGun = shotgun;
         }
@@ -49,7 +51,6 @@ public class PlayerGunController : MonoBehaviour
 
     public void AskedToShoot(int shootType) // 0 - normal, 1 - magic
     {
-
         if(TimeSpent > currentGun.fireRate)
         {
             if (shootType == 0) {
@@ -58,8 +59,7 @@ public class PlayerGunController : MonoBehaviour
                 EventManager.singleton.AddEvent(new shootmsg(gameObject, null,  currentGun.soundMagic, currentGun.shotTypeMagic));
             }
 
-            //HAND shit solution???
-            GetComponent<PlayerMov_FSM>().arm.GetComponent<AnimatorManager>().SetAnim(currentGun.shotAnimation);
+            handAnimManager.SetAnim(currentGun.shotAnimation);
             TimeSpent = 0;
         }
     }
