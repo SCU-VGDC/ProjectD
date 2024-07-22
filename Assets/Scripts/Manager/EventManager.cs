@@ -89,6 +89,22 @@ public class shootmsg : msg
                 Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(1, 5.0f, 90.0f, 10);
 
                 break;
+
+            case "ShotgunShotKnockback":
+                Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(1, 5.0f, 90.0f, 10);
+
+                PlayerMov_FSM pm = Sender.GetComponent<PlayerMov_FSM>();
+                pm.SetState<Knockback>();
+
+                break;
+            case "SniperShot":
+                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(10, 3, 0);
+
+                break;
+            case "SniperShotGrenade":
+                Sender.GetComponent<ActorShooting>().ShootGrenade(target);
+
+                break;
             // enemy shots
             default:
                 Sender.GetComponent<ActorShooting>().Shoot(target);

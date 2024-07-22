@@ -6,8 +6,9 @@ public class ActorShooting : MonoBehaviour
     Color rayColor = Color.white;
     float fadeTime = 0.5f;
     public GameObject trailSpawn;
-    public  Transform bulletspawn; //this puts the spawn position 
+    public Transform bulletspawn; //this puts the spawn position 
     public GameObject bulletprefab; //this creates a gameobject;
+    public GameObject grenadePrefab;
     public LayerMask hittableLayers;
     public LayerMask reflectiveLayers;
     private LayerMask allLayers;
@@ -28,12 +29,20 @@ public class ActorShooting : MonoBehaviour
         }
     }
 
-    private Vector2 getRayCastDir()
+    private Vector2 getDirectionAiming()
     {
         Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         targetPos.z = bulletspawn.position.z;
 
         return (targetPos - bulletspawn.position).normalized;
+    }
+
+    public void ShootGrenade(Transform target = null)
+    {
+        GameObject proj = Instantiate(grenadePrefab, bulletspawn.position, bulletspawn.rotation);
+        Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+
+        rb.AddForce(getDirectionAiming() * 10, ForceMode2D.Impulse);
     }
 
     public void ShootRaycastSingleBullet(int damage, int numOfMaxPenetrations, int numOfMaxRicochets)
@@ -48,7 +57,7 @@ public class ActorShooting : MonoBehaviour
 
         // set initial raycast values from player
         Vector2 rayCastOrigin = bulletspawn.position;
-        Vector2 rayCastDir = getRayCastDir();
+        Vector2 rayCastDir = getDirectionAiming();
 
         // check for ricochets and hittable objects
         RaycastHit2D hit;
@@ -97,7 +106,7 @@ public class ActorShooting : MonoBehaviour
     {
         // set initial raycast values from player
         Vector2 rayCastOrigin = bulletspawn.position;
-        Vector2 rayCastDirMiddle = getRayCastDir();
+        Vector2 rayCastDirMiddle = getDirectionAiming();
 
         // just a vector used to figure out angles relative to, prob no touchy
         Vector3 referenceAngle = Vector3.forward;

@@ -14,7 +14,6 @@ class Knockback : PlayerState
     {
         if (pm.currentState == this)
             return !StateTimeExceeds(pm.knockbackTime);
-
         return false;
     }
 

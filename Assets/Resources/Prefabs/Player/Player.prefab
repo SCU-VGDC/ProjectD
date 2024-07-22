@@ -362,6 +362,7 @@ MonoBehaviour:
   gladingSpeed: 15
   maxWallJumps: 3
   dashRecoverTime: 1.5
+  knockbackRecoverTime: 0
   arm: {fileID: 671308694876734697}
   dashes: 1
   dashTime: 0.15
@@ -369,6 +370,9 @@ MonoBehaviour:
   chargeGravity: 0
   chargeVelDecay: 0.1
   dashSpeed: 150
+  knockbacks: 0
+  knockbackTime: 0
+  knockbackSpeed: 0
   overloadMovement: 0
 --- !u!114 &5265058553035837672
 MonoBehaviour:
@@ -385,6 +389,7 @@ MonoBehaviour:
   trailSpawn: {fileID: 980413533271400390, guid: 06d19e20905fe42debb559624fb96562, type: 3}
   bulletspawn: {fileID: 2191496448641651465}
   bulletprefab: {fileID: 4193023076128913139, guid: 32c676a5e0c04bd438e2d0a5bf92b50d, type: 3}
+  grenadePrefab: {fileID: 0}
   hittableLayers:
     serializedVersion: 2
     m_Bits: 512
@@ -607,11 +612,12 @@ MonoBehaviour:
   - name: Moving
     clip: {fileID: 0}
     Variants:
-    - {fileID: 8300000, guid: cff435dd4da965247acf20aa361c97e5, type: 3}
-    - {fileID: 8300000, guid: 23add09552db98044b5631e6d8056b7b, type: 3}
-    - {fileID: 8300000, guid: b3fbf6e3d540ab04e9dadd8d825b32d4, type: 3}
-    - {fileID: 8300000, guid: 76a50953c8ec3004c84de3e9dc2f1750, type: 3}
-    - {fileID: 8300000, guid: fbb1a53af17aa44499e01549b8d6d9b7, type: 3}
+    - {fileID: 8300000, guid: 7cb9371ff70d8fa46919c4590119dc7e, type: 3}
+    - {fileID: 8300000, guid: 304c8d065bedf48469566b2963a1c747, type: 3}
+    - {fileID: 8300000, guid: 305ffd30aea36374687d3685738f3534, type: 3}
+    - {fileID: 8300000, guid: 2d1cdc0348c896841a121f242bae9251, type: 3}
+    - {fileID: 8300000, guid: 5fc0e40558a2b6441b5e33c8956b3fae, type: 3}
+    - {fileID: 8300000, guid: 60c71c1302479e5409ebd6ce863b22ab, type: 3}
     randomPitch: 0
     overlayPlay: 1
   - name: Landed
