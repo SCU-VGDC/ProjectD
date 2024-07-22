@@ -66,6 +66,7 @@ public class PlayerMov_FSM : MonoBehaviour
     public float gladingSpeed;
     public int maxWallJumps;
     public float dashRecoverTime;
+    public float knockbackRecoverTime;
     public Transform arm;
 
     //those changes are retarded LEGACY???
@@ -75,10 +76,19 @@ public class PlayerMov_FSM : MonoBehaviour
     public float chargeGravity;
     public float chargeVelDecay;
     public float dashSpeed;
+    //Knockback: Dash 2: Electricboogaloo
+    public int knockbacks;
+    public float knockbackTime;
+    public float knockbackSpeed;
+
     [NonSerialized]
     public float lastDashUpdate;
     [NonSerialized]
     public int dashesRemaining;
+    [NonSerialized]
+    public float lastKnockbackUpdate;
+    [NonSerialized]
+    public int knockbacksRemaining;
 
     public bool overloadMovement;
     public FrameInput overloadedInput;
@@ -99,6 +109,7 @@ public class PlayerMov_FSM : MonoBehaviour
             new Death(this),
             new Dashing(this),
             new DashCharging(this),
+            new Knockback(this),
             new Grounded(this),
             new OnWall(this),
             new WallJumping(this),
@@ -108,7 +119,9 @@ public class PlayerMov_FSM : MonoBehaviour
         // Set the initial state to be Grounded
         currentState = GetState<Grounded>();
         dashesRemaining = dashes;
+        knockbacksRemaining = knockbacks;
         lastDashUpdate = Time.time;
+        lastKnockbackUpdate = Time.time;
         EventManager.singleton.GetComponent<UIManager>().updateDashUI();
     }
 
@@ -130,6 +143,11 @@ public class PlayerMov_FSM : MonoBehaviour
             lastDashUpdate = Time.time;
             dashesRemaining++;
             EventManager.singleton.GetComponent<UIManager>().updateDashUI();
+        }
+        if (knockbacksRemaining < knockbacks && Time.time - lastKnockbackUpdate >= knockbackRecoverTime)
+        {
+            lastKnockbackUpdate = Time.time;
+            knockbacksRemaining++;
         }
 
         StateHandling(thisFrame);
@@ -264,7 +282,7 @@ public class PlayerMov_FSM : MonoBehaviour
             }
         }
 
-        //Debug.LogError("State " + stateName + " not found");
+        Debug.LogError("State " + stateName + " not found");
     }
 
     public void SetState(PlayerState nextState)
@@ -275,7 +293,7 @@ public class PlayerMov_FSM : MonoBehaviour
         currentState.Exit();
         currentState = nextState;
         currentState.Start();
-        //Debug.Log("State Changed to " + nextState);
+        Debug.Log("State Changed to " + nextState);
     }
 
     public T GetState<T>() where T : PlayerState
