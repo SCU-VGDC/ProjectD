@@ -279,8 +279,13 @@ public class playerChangeGunmsg : msg
     {
         AudioManager ad = Sender.GetComponent<AudioManager>();
     
-        Sender.GetComponent<PlayerGunController>().AskedToChangeGun(GunType);
-        ad.PlaySound("GunChangeSound");
+        bool changedGun = Sender.GetComponent<PlayerGunController>().AskedToChangeGun(GunType);
+        if (changedGun)
+        {
+            EventManager.singleton.GetComponent<UIManager>().updateGunUI(GunType);
+
+            ad.PlaySound("GunChangeSound");
+        }
     }
 }
 

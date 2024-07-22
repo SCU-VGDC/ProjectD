@@ -13,7 +13,9 @@ public class UIManager : MonoBehaviour
 
     public Image dashImage;
     public Image healthImage;
-    public Sprite[] spriteArray; //manually filled array up with pictures of ui!
+    public Image gunImage;
+    public Sprite[] dashSpriteArray; //manually filled array up with pictures of ui!
+    public Sprite[] gunSpriteArray;
     public GameObject interactText;
 
     public GameObject pauseMenu;
@@ -64,21 +66,26 @@ public class UIManager : MonoBehaviour
         {
             case 0:
                 //no dashes
-                dashImage.sprite = spriteArray[0];
+                dashImage.sprite = dashSpriteArray[0];
                 break;
             case 1:
                 //1 dash
-                dashImage.sprite = spriteArray[1];
+                dashImage.sprite = dashSpriteArray[1];
                 break;
             case 2:
                 //2 dashes
-                dashImage.sprite = spriteArray[2];
+                dashImage.sprite = dashSpriteArray[2];
                 break;
             case 3:
                 //dashes full
-                dashImage.sprite = spriteArray[3];
+                dashImage.sprite = dashSpriteArray[3];
                 break;
         }
+    }
+
+    public void updateGunUI(int gunType) // 0 - pistol, 1 - sniper, 2 - shotgun
+    {
+        gunImage.sprite = gunSpriteArray[gunType];
     }
 
     // Pause Menu:

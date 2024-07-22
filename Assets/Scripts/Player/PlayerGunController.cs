@@ -31,22 +31,30 @@ public class PlayerGunController : MonoBehaviour
         TimeSpent = TimeSpent + Time.deltaTime;
     }
 
-    public void AskedToChangeGun(int gunType) // 0 - pistol, 1 - sniper, 2 - shotgun
+    public bool AskedToChangeGun(int gunType) // 0 - pistol, 1 - sniper, 2 - shotgun
     {
         if(gunType == 0 && pistolUnlocked)
         {
             currentGun = pistol;
+
+            return true;
         }
 
-        if (gunType == 1 && shotgunUnlocked)
+        if (gunType == 1 && sniperUnlocked)
         {
             currentGun = sniper;
+
+            return true;
         }
 
         if (gunType == 2 && shotgunUnlocked)
         {
             currentGun = shotgun;
+
+            return true;
         }
+
+        return false;
     }
 
     public void AskedToShoot(int shootType) // 0 - normal, 1 - magic
