@@ -102,7 +102,7 @@ public class shootmsg : msg
 
                 break;
             case "SniperMagic":
-                Sender.GetComponent<ActorShooting>().ShootGrenade(10);
+                Sender.GetComponent<ActorShooting>().ShootGrenade(17);
 
                 break;
             
