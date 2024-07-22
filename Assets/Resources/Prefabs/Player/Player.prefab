@@ -370,9 +370,9 @@ MonoBehaviour:
   chargeGravity: 0
   chargeVelDecay: 0.1
   dashSpeed: 150
-  knockbacks: 0
-  knockbackTime: 0
-  knockbackSpeed: 0
+  knockbacks: 1
+  knockbackTime: 0.15
+  knockbackSpeed: 100
   overloadMovement: 0
 --- !u!114 &5265058553035837672
 MonoBehaviour:
@@ -389,7 +389,7 @@ MonoBehaviour:
   trailSpawn: {fileID: 980413533271400390, guid: 06d19e20905fe42debb559624fb96562, type: 3}
   bulletspawn: {fileID: 2191496448641651465}
   bulletprefab: {fileID: 4193023076128913139, guid: 32c676a5e0c04bd438e2d0a5bf92b50d, type: 3}
-  grenadePrefab: {fileID: 0}
+  grenadePrefab: {fileID: 4193023076128913139, guid: 6eaab2e3d43223a4d9bbbd2955f250a9, type: 3}
   hittableLayers:
     serializedVersion: 2
     m_Bits: 512
@@ -523,9 +523,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGun:
-    firerate: 0
-    projectileNormal: {fileID: 0}
-    projectileMagic: {fileID: 0}
+    fireRate: 0
+    shotTypeNormal: 
+    shotTypeMagic: 
     shotAnimation: 
     soundNormal: 
     soundMagic: 
@@ -533,23 +533,23 @@ MonoBehaviour:
   isSniper: 0
   isShotgun: 0
   pistol:
-    firerate: 0.5
-    projectileNormal: {fileID: 4193023076128913139, guid: 32c676a5e0c04bd438e2d0a5bf92b50d, type: 3}
-    projectileMagic: {fileID: 4193023076128913139, guid: 87919d1d4645f7341a517c051230d65b, type: 3}
+    fireRate: 0
+    shotTypeNormal: 
+    shotTypeMagic: 
     shotAnimation: PistolShot
     soundNormal: PistolShot
     soundMagic: PistolShot
   sniper:
-    firerate: 1
-    projectileNormal: {fileID: 4193023076128913139, guid: 1e003674292c7f546807d5b0dc499221, type: 3}
-    projectileMagic: {fileID: 4193023076128913139, guid: 1e003674292c7f546807d5b0dc499221, type: 3}
+    fireRate: 0
+    shotTypeNormal: 
+    shotTypeMagic: 
     shotAnimation: PistolShot
     soundNormal: PistolShot
     soundMagic: PistolShot
   shotgun:
-    firerate: 0.5
-    projectileNormal: {fileID: 1847135152085424171, guid: 83d9aaeb1245b9d4d99af280077c60bc, type: 3}
-    projectileMagic: {fileID: 1847135152085424171, guid: 83d9aaeb1245b9d4d99af280077c60bc, type: 3}
+    fireRate: 0
+    shotTypeNormal: 
+    shotTypeMagic: 
     shotAnimation: PistolShot
     soundNormal: ShotgunShot
     soundMagic: ShotgunShot

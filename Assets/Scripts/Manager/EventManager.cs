@@ -77,34 +77,35 @@ public class shootmsg : msg
     {
         switch (typeShot) {
             // player shots
-            case "PistolShot":
+            case "Pistol":
                 Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(2, 0, 0);
 
                 break;
-            case "PistolShotRicochet":
+            case "PistolMagic":
                 Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(2, 0, 3);
 
                 break;
-            case "ShotgunShot":
+            case "Shotgun":
                 Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(1, 5.0f, 90.0f, 10);
 
                 break;
 
-            case "ShotgunShotKnockback":
+            case "ShotgunMagic":
                 Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(1, 5.0f, 90.0f, 10);
 
                 PlayerMov_FSM pm = Sender.GetComponent<PlayerMov_FSM>();
                 pm.SetState<Knockback>();
 
                 break;
-            case "SniperShot":
-                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(10, 3, 0);
+            case "Sniper":
+                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(10, 100, 0);
 
                 break;
-            case "SniperShotGrenade":
-                Sender.GetComponent<ActorShooting>().ShootGrenade(target);
+            case "SniperMagic":
+                Sender.GetComponent<ActorShooting>().ShootGrenade(10);
 
                 break;
+            
             // enemy shots
             default:
                 Sender.GetComponent<ActorShooting>().Shoot(target);
@@ -260,19 +261,6 @@ public class playerShootGunmsg : msg
     public override void Run()
     {
         PlayerGunController pgc = Sender.GetComponent<PlayerGunController>();
-        ActorShooting ac = Sender.GetComponent<ActorShooting>();
-        AudioManager ad = Sender.GetComponent<AudioManager>();
-
-        if (shootType == 0)
-        {
-            ac.SetBullet(pgc.currentGun.projectileNormal);
-            ad.ChangeSoundInDict("GunShot", pgc.currentGun.soundNormal);
-        }
-        if (shootType == 1)
-        {
-            ac.SetBullet(pgc.currentGun.projectileMagic);
-            ad.ChangeSoundInDict("GunShot", pgc.currentGun.soundMagic);
-        }
 
         pgc.AskedToShoot(shootType);
     }
