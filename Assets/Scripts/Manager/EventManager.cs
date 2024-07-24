@@ -91,7 +91,7 @@ public class shootmsg : msg
                 break;
 
             case "ShotgunMagic":
-                Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(1, 5.0f, 90.0f, 10);
+                Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(1, 7.5f, 25.0f, 10);
 
                 PlayerMov_FSM pm = Sender.GetComponent<PlayerMov_FSM>();
                 pm.SetState<Knockback>();

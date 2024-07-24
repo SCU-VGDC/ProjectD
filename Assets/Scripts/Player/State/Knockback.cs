@@ -38,7 +38,6 @@ class Knockback : PlayerState
     public override void Update(PlayerMov_FSM.FrameInput frim) 
     {
         base.Update(frim);
-        Debug.Log("Here");
 
         float progress = timeInState / pm.knockbackTime;
 
