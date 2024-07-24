@@ -522,37 +522,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c17966171c6e746bb33fd2f1bf7e38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGun:
-    fireRate: 0
-    shotTypeNormal: 
-    shotTypeMagic: 
-    shotAnimation: 
-    soundNormal: 
-    soundMagic: 
+  currentGun: 
   pistolUnlocked: 1
   sniperUnlocked: 1
   shotgunUnlocked: 1
   pistol:
-    fireRate: 0.35
-    shotTypeNormal: Pistol
-    shotTypeMagic: PistolMagic
-    shotAnimation: PistolShot
-    soundNormal: PistolShot
-    soundMagic: PistolShot
+    normalFireRate: 0.35
+    magicFireRate: 0.35
+    normalDamage: 2
+    magicDamage: 2
+    normalShotType: Pistol
+    magicShotType: PistolMagic
+    normalShotAnimation: PistolShot
+    magicShotAnimation: PistolShot
+    normalSound: PistolShot
+    magicSound: PistolShot
+    normalNumOfMaxRicochets: 0
+    magicNumOfMaxRicochets: 3
   sniper:
-    fireRate: 1
-    shotTypeNormal: Sniper
-    shotTypeMagic: SniperMagic
-    shotAnimation: SniperShot
-    soundNormal: PistolShot
-    soundMagic: PistolShot
+    normalFireRate: 1
+    magicFireRate: 1
+    normalDamage: 10
+    magicDamage: 2
+    normalShotType: Sniper
+    magicShotType: SniperMagic
+    normalShotAnimation: SniperShot
+    magicShotAnimation: SniperShot
+    normalSound: SniperShot
+    magicSound: SniperShot
+    normalNumOfMaxPenetrations: 100
+    magicGrenadeForce: 17
   shotgun:
-    fireRate: 0.5
-    shotTypeNormal: Shotgun
-    shotTypeMagic: ShotgunMagic
-    shotAnimation: ShotgunShot
-    soundNormal: ShotgunShot
-    soundMagic: ShotgunShot
+    normalFireRate: 0.5
+    magicFireRate: 0.5
+    normalDamage: 1
+    magicDamage: 1
+    normalShotType: Shotgun
+    magicShotType: ShotgunMagic
+    normalShotAnimation: ShotgunShot
+    magicShotAnimation: ShotgunShot
+    normalSound: ShotgunShot
+    magicSound: ShotgunShot
+    normalRange: 5
+    magicRange: 7.5
+    normalDegrees: 90
+    magicDegrees: 25
+    normalNumOfRays: 10
+    magicNumOfRays: 10
 --- !u!114 &1901154284
 MonoBehaviour:
   m_ObjectHideFlags: 0

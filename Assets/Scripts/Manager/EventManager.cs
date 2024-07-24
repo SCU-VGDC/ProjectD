@@ -65,6 +65,14 @@ public class shootmsg : msg
     public Transform target;
     public string specShootSound;
     public string typeShot;
+    public Gun gun;
+    public bool isNormal;
+    public int numOfMaxPenetrations;
+    public int numOfMaxRicochets;
+    public float range;
+    public float degrees;
+    public int numOfRays;
+    public float grenadeForce;
 
     public shootmsg(GameObject m_shooter, Transform m_target = null, string m_specShootSound = "GunShot", string m_typeShot = null) : base(m_shooter)
     {
@@ -72,37 +80,110 @@ public class shootmsg : msg
         specShootSound = m_specShootSound;
         typeShot = m_typeShot;
     }
+    
+    // Pistol version
+    public shootmsg(GameObject m_shooter, Pistol m_gun = null, bool m_isNormal = true) : base(m_shooter)
+    {
+        gun = m_gun;
+        isNormal = m_isNormal;
+        numOfMaxPenetrations = 0;
+
+        if (isNormal)
+        {
+            specShootSound = gun.normalSound;
+            typeShot = gun.normalShotType;
+
+            numOfMaxRicochets = m_gun.normalNumOfMaxRicochets;
+        }
+        else
+        {
+            specShootSound = gun.magicSound;
+            typeShot = gun.magicShotType;
+
+            numOfMaxRicochets = m_gun.magicNumOfMaxRicochets;
+        }
+    }
+
+    // ShotGun version
+    public shootmsg(GameObject m_shooter, Shotgun m_gun = null, bool m_isNormal = true) : base(m_shooter)
+    {
+        gun = m_gun;
+        isNormal = m_isNormal;
+        numOfMaxPenetrations = 0;
+
+        if (isNormal)
+        {
+            specShootSound = gun.normalSound;
+            typeShot = gun.normalShotType;
+
+            range = m_gun.normalRange;
+            degrees = m_gun.normalDegrees;
+            numOfRays = m_gun.normalNumOfRays;
+        }
+        else
+        {
+            specShootSound = gun.magicSound;
+            typeShot = gun.magicShotType;
+
+            range = m_gun.magicRange;
+            degrees = m_gun.magicDegrees;
+            numOfRays = m_gun.magicNumOfRays;
+        }
+    }
+
+    // Sniper version
+    public shootmsg(GameObject m_shooter, Sniper m_gun = null, bool m_isNormal = true) : base(m_shooter)
+    {
+        gun = m_gun;
+        isNormal = m_isNormal;
+        numOfMaxPenetrations = 0;
+
+        if (isNormal)
+        {
+            specShootSound = gun.normalSound;
+            typeShot = gun.normalShotType;
+
+            numOfMaxPenetrations = m_gun.normalNumOfMaxPenetrations;
+        }
+        else
+        {
+            specShootSound = gun.magicSound;
+            typeShot = gun.magicShotType;
+
+            grenadeForce = m_gun.magicGrenadeForce;
+        }
+    }
 
     public override void Run()
     {
         switch (typeShot) {
             // player shots
             case "Pistol":
-                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(2, 0, 0);
+                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(gun.normalDamage, 0, numOfMaxRicochets);
 
                 break;
             case "PistolMagic":
-                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(2, 0, 3);
+                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(gun.magicDamage, 0, numOfMaxRicochets);
 
                 break;
             case "Shotgun":
-                Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(1, 5.0f, 90.0f, 10);
+                Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(gun.normalDamage, range, degrees, numOfRays);
 
                 break;
 
             case "ShotgunMagic":
-                Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(1, 7.5f, 25.0f, 10);
+                Sender.GetComponent<ActorShooting>().ShootRaycastSpreadBullets(gun.magicDamage, range, degrees, numOfRays);
 
                 PlayerMov_FSM pm = Sender.GetComponent<PlayerMov_FSM>();
                 pm.SetState<Knockback>();
 
                 break;
             case "Sniper":
-                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(10, 100, 0);
+                Sender.GetComponent<ActorShooting>().ShootRaycastSingleBullet(gun.normalDamage, numOfMaxPenetrations, 0);
 
                 break;
             case "SniperMagic":
-                Sender.GetComponent<ActorShooting>().ShootGrenade(17);
+                Sender.GetComponent<ActorShooting>().ShootGrenade(gun.magicDamage, grenadeForce);
 
                 break;
             

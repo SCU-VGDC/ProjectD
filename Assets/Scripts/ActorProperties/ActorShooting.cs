@@ -38,10 +38,12 @@ public class ActorShooting : MonoBehaviour
         return (targetPos - bulletspawn.position).normalized;
     }
 
-    public void ShootGrenade(float force = 10)
+    public void ShootGrenade(int damage, float force)
     {
         GameObject proj = Instantiate(grenadePrefab, bulletspawn.position, bulletspawn.rotation);
         Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
+        Grenade grenadeScript = proj.GetComponent<Grenade>();
+        grenadeScript.damage = damage;
 
         // launch the grenade
         rb.AddForce(getDirectionAiming() * force, ForceMode2D.Impulse);
