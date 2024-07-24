@@ -8,6 +8,7 @@ public class Grenade : MonoBehaviour
     public float explodeTime = 3.0f;
     public int damage = 2;
     public LayerMask layersToDamage;
+    public bool enableGizmo = false;
     private float startTime;
 
     void Start()
@@ -48,5 +49,14 @@ public class Grenade : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (enableGizmo)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, radius);
+        }
     }
 }

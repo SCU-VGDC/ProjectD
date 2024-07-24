@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class ActorShooting : MonoBehaviour
 {
@@ -42,7 +43,10 @@ public class ActorShooting : MonoBehaviour
         GameObject proj = Instantiate(grenadePrefab, bulletspawn.position, bulletspawn.rotation);
         Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
 
+        // launch the grenade
         rb.AddForce(getDirectionAiming() * force, ForceMode2D.Impulse);
+        // add a little spin
+        rb.AddTorque(getDirectionAiming().x > 0.0 ? -10 : 10);
     }
 
     public void ShootRaycastSingleBullet(int damage, int numOfMaxPenetrations, int numOfMaxRicochets)
