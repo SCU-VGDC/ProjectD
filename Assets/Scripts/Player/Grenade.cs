@@ -8,6 +8,7 @@ public class Grenade : MonoBehaviour
     public float explodeTime = 3.0f;
     public int damage = 2;
     public LayerMask layersToDamage;
+    public GameObject explosionParticle; 
     public bool enableGizmo = false;
     private float startTime;
 
@@ -36,6 +37,8 @@ public class Grenade : MonoBehaviour
 
     private void Explode()
     {
+        Instantiate(explosionParticle, transform.position, Quaternion.identity);
+
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius, layersToDamage);
 
         foreach (Collider2D hit in hits)

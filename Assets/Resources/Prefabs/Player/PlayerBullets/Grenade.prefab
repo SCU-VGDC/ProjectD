@@ -142,4 +142,5 @@ MonoBehaviour:
   layersToDamage:
     serializedVersion: 2
     m_Bits: 512
+  explosionParticle: {fileID: 7538417850501391659, guid: 93315255e56729440b33a62d937783e3, type: 3}
   enableGizmo: 1
