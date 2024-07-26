@@ -524,8 +524,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGun: 
   pistolUnlocked: 1
-  sniperUnlocked: 1
-  shotgunUnlocked: 1
+  shotgunUnlocked: 0
+  sniperUnlocked: 0
   pistol:
     normalFireRate: 0.35
     magicFireRate: 0.35
@@ -539,19 +539,6 @@ MonoBehaviour:
     magicSound: PistolShot
     normalNumOfMaxRicochets: 0
     magicNumOfMaxRicochets: 3
-  sniper:
-    normalFireRate: 1
-    magicFireRate: 1
-    normalDamage: 10
-    magicDamage: 2
-    normalShotType: Sniper
-    magicShotType: SniperMagic
-    normalShotAnimation: SniperShot
-    magicShotAnimation: SniperShot
-    normalSound: SniperShot
-    magicSound: SniperShot
-    normalNumOfMaxPenetrations: 100
-    magicGrenadeForce: 17
   shotgun:
     normalFireRate: 0.5
     magicFireRate: 0.5
@@ -569,6 +556,19 @@ MonoBehaviour:
     magicDegrees: 25
     normalNumOfRays: 10
     magicNumOfRays: 10
+  sniper:
+    normalFireRate: 1
+    magicFireRate: 1
+    normalDamage: 10
+    magicDamage: 2
+    normalShotType: Sniper
+    magicShotType: SniperMagic
+    normalShotAnimation: SniperShot
+    magicShotAnimation: SniperShot
+    normalSound: SniperShot
+    magicSound: SniperShot
+    normalNumOfMaxPenetrations: 100
+    magicGrenadeForce: 17
 --- !u!114 &1901154284
 MonoBehaviour:
   m_ObjectHideFlags: 0

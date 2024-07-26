@@ -15,19 +15,32 @@ public class PlayerGunController : MonoBehaviour
 
     [Header("Guns Avalibilty")]
     public bool pistolUnlocked;
-    public bool sniperUnlocked;
     public bool shotgunUnlocked;
+    public bool sniperUnlocked;
 
     [Header("Guns Stats")]
     public Pistol pistol;
-    public Sniper sniper;
     public Shotgun shotgun;
+    public Sniper sniper;
 
 
     public void Start()
     {
         currentGun = Pistol.name;
         handAnimManager = GetComponent<PlayerMov_FSM>().arm.GetComponent<AnimatorManager>();
+        
+        if (sniperUnlocked) 
+        {
+            GameManager.inst.GetComponent<UIManager>().gunSetUnlocked = 2;
+        } 
+        else if (shotgunUnlocked)
+        {
+            GameManager.inst.GetComponent<UIManager>().gunSetUnlocked = 1;
+        }
+        else if (pistolUnlocked)
+        {
+            GameManager.inst.GetComponent<UIManager>().gunSetUnlocked = 0;
+        }
     }
 
     public void Update()
@@ -35,7 +48,7 @@ public class PlayerGunController : MonoBehaviour
         TimeSpent += Time.deltaTime;
     }
 
-    public bool AskedToChangeGun(int gunType) // 0 - pistol, 1 - sniper, 2 - shotgun
+    public bool AskedToChangeGun(int gunType) // 0 - pistol, 1 - shotgun, 2 - sniper,
     {
         if(gunType == 0 && pistolUnlocked)
         {
@@ -44,19 +57,20 @@ public class PlayerGunController : MonoBehaviour
             return true;
         }
 
-        if (gunType == 1 && sniperUnlocked)
+        if (gunType == 1 && shotgunUnlocked)
+        {
+            currentGun = Shotgun.name;
+
+            return true;
+        }
+
+        if (gunType == 2 && sniperUnlocked)
         {
             currentGun = Sniper.name;
 
             return true;
         }
 
-        if (gunType == 2 && shotgunUnlocked)
-        {
-            currentGun = Shotgun.name;
-
-            return true;
-        }
 
         return false;
     }

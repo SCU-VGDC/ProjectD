@@ -15,7 +15,8 @@ public class UIManager : MonoBehaviour
     public Image healthImage;
     public Image gunImage;
     public Sprite[] dashSpriteArray; //manually filled array up with pictures of ui!
-    public Sprite[] gunSpriteArray;
+    public int gunSetUnlocked;
+    public SpriteArray[] gunSpriteArray;
     public GameObject interactText;
 
     public GameObject pauseMenu;
@@ -83,9 +84,18 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void updateGunUI(int gunType) // 0 - pistol, 1 - sniper, 2 - shotgun
+    public void updateGunUI(int gunType) // 0 - pistol, 1 - shotgun, 2 - sniper
     {
-        gunImage.sprite = gunSpriteArray[gunType];
+        Debug.Log(gunSetUnlocked);
+        // if gun has not been unlocked yet
+        if (gunSetUnlocked == 0 && gunType != 0) {
+            return;
+        }
+        if (gunSetUnlocked == 1 && gunType > 1) {
+            return;
+        }
+
+        gunImage.sprite = gunSpriteArray[gunSetUnlocked].Imgs[gunType];
     }
 
     // Pause Menu:
@@ -137,4 +147,11 @@ public class UIManager : MonoBehaviour
     {
         Application.Quit();
     }
+}
+
+// used to get 2D arrays in the inspector
+[System.Serializable]
+public struct SpriteArray
+{
+    [SerializeField] public Sprite[] Imgs;
 }

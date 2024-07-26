@@ -308,10 +308,10 @@ public class LevelState
     public int sniper;
     public int shotgun;
 
-    //player keys
+    //Player keys
     public List<string> playerKeys;
 
-    //locked doors
+    //Locked doors
     public List<BasicDoorState> lockedDoors;
 
     //Current CheckPoint
