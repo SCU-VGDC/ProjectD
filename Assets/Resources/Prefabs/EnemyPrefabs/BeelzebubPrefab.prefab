@@ -84,7 +84,7 @@ MonoBehaviour:
   destroyOnContact: 0
   col: {fileID: 0}
   repathRate: 60
-  aggro_radius: 13.6
+  aggro_radius: 30
   completed_path: 0
   nextPos: {x: 0, y: 0, z: 0}
   sr: {fileID: 3222153051018737705}
@@ -186,6 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae15c0d895a6d34e8d866129954d60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvincible: 0
   vulnerabilityCooldown: 0
   currentHealth: 10
   died: 0
@@ -230,6 +231,9 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 62d4310157a9bc241809d4991260e805, type: 3}
     Variants: []
     randomPitch: 0
+    overlayPlay: 0
+  lastPlayedSound: 
+  lastPlayedSoundEndTime: 0
 --- !u!82 &7923930173740445154
 AudioSource:
   m_ObjectHideFlags: 0
