@@ -33,7 +33,7 @@ public class SniperBullet_Beh : Base_Enemy
     public void OnCollisionEnter2D(Collision2D collision)
     {
         //Debug.LogError(collision.gameObject);
-        if(collision.gameObject.layer == 6)//this checks if it hits a platform.
+        if(collision.gameObject.layer == 6) //this checks if it hits a platform.
             Destroy(gameObject);
     }
 

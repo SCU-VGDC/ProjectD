@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 using Pathfinding.Util;
+using System;
 
 [RequireComponent(typeof(AILerp))]
 [RequireComponent(typeof(Seeker))]
@@ -28,7 +29,7 @@ public class Base_Enemy : MonoBehaviour
 	public int contactDamageAmount;
 	public LayerMask contactLayers;
 	public bool destroyOnContact = false;
-	bool dead = false;
+	private bool dead = false;
 
 	public void Init()
     {
@@ -58,7 +59,7 @@ public class Base_Enemy : MonoBehaviour
 			}
 			else if (destroyOnContact)
 			{
-				Destroy(gameObject);
+				Death();
 			}
 		}
 	}
@@ -85,7 +86,7 @@ public class Base_Enemy : MonoBehaviour
             }
 			else if (destroyOnContact)
             {
-				Destroy(gameObject);
+				Death();
             }
 		}
     }
@@ -96,5 +97,44 @@ public class Base_Enemy : MonoBehaviour
 		dead = true;
 		enabled = false;
 		mover.canMove = false;
+    }
+
+	/// <summary>
+	/// Call instead of Destroy
+	/// </summary>
+	public void Death(float delay = 0.0f)
+	{
+		StartCoroutine(DelayCoroutine(delay, () => {
+			dead = true;
+
+			if (gameObject.transform.parent.tag == "ResourcePrefab")
+			{
+				gameObject.transform.parent.gameObject.SetActive(false);
+			}
+			else
+			{
+				gameObject.SetActive(false);
+			}
+		}));
+	}
+
+	public void Respawn()
+	{
+
+		if (gameObject.transform.parent.tag == "ResourcePrefab")
+		{
+			gameObject.transform.parent.gameObject.SetActive(true);
+		}
+		else
+		{
+			gameObject.SetActive(true);
+		}
+	}
+
+	IEnumerator DelayCoroutine(float delay, Action action)
+    {
+        yield return new WaitForSeconds(delay);
+
+		action.Invoke();
     }
 }

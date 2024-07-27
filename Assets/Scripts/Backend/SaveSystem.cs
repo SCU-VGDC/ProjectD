@@ -147,7 +147,7 @@ public class SaveSystem : MonoBehaviour
 
             if (enem.gameObject.layer == 9)
             {
-                Destroy(enem.gameObject);
+                enem.Death();
             }
         }
 

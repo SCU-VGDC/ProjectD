@@ -232,7 +232,7 @@ public class meleeDamagemsg : msg
         {
             if(Sender.GetComponent<Base_Enemy>().destroyOnContact)
             {
-                UnityEngine.Object.Destroy(Sender);
+                Sender.GetComponent<Base_Enemy>().Death();
             }
         }
     }
@@ -623,12 +623,11 @@ public class actorDiedmsg : msg
         {
             if (Sender.transform.parent.tag == "ResourcePrefab")
             {
-                GameObject.Destroy(Sender.transform.parent.gameObject, 1f);
+               Sender.GetComponent<Base_Enemy>().Death(1.0f);
             }
         }
         else
         {
-
             GameObject.Destroy(Sender, 1f);
         }
 

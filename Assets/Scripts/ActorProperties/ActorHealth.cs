@@ -50,6 +50,7 @@ public class ActorHealth : MonoBehaviour
         if (currentHealth <= 0 && !died)
         {
             died = true;
+            
             if(gameObject.tag == "Player")
             {
                 EventManager.singleton.AddEvent(new playerDiedmsg());
