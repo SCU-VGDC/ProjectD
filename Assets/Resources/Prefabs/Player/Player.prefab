@@ -362,6 +362,7 @@ MonoBehaviour:
   gladingSpeed: 15
   maxWallJumps: 3
   dashRecoverTime: 1.5
+  knockbackRecoverTime: 0
   arm: {fileID: 671308694876734697}
   dashes: 1
   dashTime: 0.15
@@ -369,6 +370,9 @@ MonoBehaviour:
   chargeGravity: 0
   chargeVelDecay: 0.1
   dashSpeed: 150
+  knockbacks: 1
+  knockbackTime: 0.1
+  knockbackSpeed: 30
   overloadMovement: 0
 --- !u!114 &5265058553035837672
 MonoBehaviour:
@@ -385,6 +389,7 @@ MonoBehaviour:
   trailSpawn: {fileID: 980413533271400390, guid: 06d19e20905fe42debb559624fb96562, type: 3}
   bulletspawn: {fileID: 2191496448641651465}
   bulletprefab: {fileID: 4193023076128913139, guid: 32c676a5e0c04bd438e2d0a5bf92b50d, type: 3}
+  grenadePrefab: {fileID: 4193023076128913139, guid: 6eaab2e3d43223a4d9bbbd2955f250a9, type: 3}
   hittableLayers:
     serializedVersion: 2
     m_Bits: 512
@@ -517,37 +522,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c17966171c6e746bb33fd2f1bf7e38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGun:
-    firerate: 0
-    projectileNormal: {fileID: 0}
-    projectileMagic: {fileID: 0}
-    shotAnimation: 
-    soundNormal: 
-    soundMagic: 
-  isPistol: 1
-  isSniper: 0
-  isShotgun: 0
+  currentGun: 
+  pistolUnlocked: 1
+  shotgunUnlocked: 0
+  sniperUnlocked: 0
   pistol:
-    firerate: 0.5
-    projectileNormal: {fileID: 4193023076128913139, guid: 32c676a5e0c04bd438e2d0a5bf92b50d, type: 3}
-    projectileMagic: {fileID: 4193023076128913139, guid: 87919d1d4645f7341a517c051230d65b, type: 3}
-    shotAnimation: PistolShot
-    soundNormal: PistolShot
-    soundMagic: PistolShot
-  sniper:
-    firerate: 1
-    projectileNormal: {fileID: 4193023076128913139, guid: 1e003674292c7f546807d5b0dc499221, type: 3}
-    projectileMagic: {fileID: 4193023076128913139, guid: 1e003674292c7f546807d5b0dc499221, type: 3}
-    shotAnimation: PistolShot
-    soundNormal: PistolShot
-    soundMagic: PistolShot
+    normalFireRate: 0.35
+    magicFireRate: 0.35
+    normalDamage: 2
+    magicDamage: 2
+    normalShotType: Pistol
+    magicShotType: PistolMagic
+    normalShotAnimation: PistolShot
+    magicShotAnimation: PistolShot
+    normalSound: PistolShot
+    magicSound: PistolShot
+    normalNumOfMaxRicochets: 0
+    magicNumOfMaxRicochets: 3
   shotgun:
-    firerate: 0.5
-    projectileNormal: {fileID: 1847135152085424171, guid: 83d9aaeb1245b9d4d99af280077c60bc, type: 3}
-    projectileMagic: {fileID: 1847135152085424171, guid: 83d9aaeb1245b9d4d99af280077c60bc, type: 3}
-    shotAnimation: PistolShot
-    soundNormal: ShotgunShot
-    soundMagic: ShotgunShot
+    normalFireRate: 0.5
+    magicFireRate: 0.5
+    normalDamage: 1
+    magicDamage: 1
+    normalShotType: Shotgun
+    magicShotType: ShotgunMagic
+    normalShotAnimation: ShotgunShot
+    magicShotAnimation: ShotgunShot
+    normalSound: ShotgunShot
+    magicSound: ShotgunShot
+    normalRange: 5
+    magicRange: 7.5
+    normalDegrees: 90
+    magicDegrees: 25
+    normalNumOfRays: 10
+    magicNumOfRays: 10
+  sniper:
+    normalFireRate: 1
+    magicFireRate: 1
+    normalDamage: 10
+    magicDamage: 2
+    normalShotType: Sniper
+    magicShotType: SniperMagic
+    normalShotAnimation: SniperShot
+    magicShotAnimation: SniperShot
+    normalSound: SniperShot
+    magicSound: SniperShot
+    normalNumOfMaxPenetrations: 100
+    magicGrenadeForce: 17
 --- !u!114 &1901154284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -607,11 +628,12 @@ MonoBehaviour:
   - name: Moving
     clip: {fileID: 0}
     Variants:
-    - {fileID: 8300000, guid: cff435dd4da965247acf20aa361c97e5, type: 3}
-    - {fileID: 8300000, guid: 23add09552db98044b5631e6d8056b7b, type: 3}
-    - {fileID: 8300000, guid: b3fbf6e3d540ab04e9dadd8d825b32d4, type: 3}
-    - {fileID: 8300000, guid: 76a50953c8ec3004c84de3e9dc2f1750, type: 3}
-    - {fileID: 8300000, guid: fbb1a53af17aa44499e01549b8d6d9b7, type: 3}
+    - {fileID: 8300000, guid: 7cb9371ff70d8fa46919c4590119dc7e, type: 3}
+    - {fileID: 8300000, guid: 304c8d065bedf48469566b2963a1c747, type: 3}
+    - {fileID: 8300000, guid: 305ffd30aea36374687d3685738f3534, type: 3}
+    - {fileID: 8300000, guid: 2d1cdc0348c896841a121f242bae9251, type: 3}
+    - {fileID: 8300000, guid: 5fc0e40558a2b6441b5e33c8956b3fae, type: 3}
+    - {fileID: 8300000, guid: 60c71c1302479e5409ebd6ce863b22ab, type: 3}
     randomPitch: 0
     overlayPlay: 1
   - name: Landed
@@ -735,7 +757,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 6.875, y: 4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -5813,4 +5835,6 @@ MonoBehaviour:
   - Moving
   triggerAnimation:
   - PistolShot
+  - ShotgunShot
+  - SniperShot
   - Dash
