@@ -135,7 +135,7 @@ MonoBehaviour:
   col: {fileID: 0}
   anim: {fileID: 0}
   repathRate: 6
-  aggro_radius: 20
+  aggro_radius: 30
   completed_path: 0
   nextPos: {x: 0, y: 0, z: 0}
   sr: {fileID: 8347455558978481429}
