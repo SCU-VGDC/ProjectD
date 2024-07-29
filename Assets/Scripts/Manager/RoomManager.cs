@@ -91,14 +91,24 @@ public class RoomManager : MonoBehaviour
 
         foreach (Wave wave in waves)
         {
-            foreach (GameObject enemy in wave.waveGameObject.transform)
+            foreach (Transform enemy in wave.waveGameObject.transform)
             {
-                enemy.GetComponent<Base_Enemy>().Respawn();
+                if (enemy.tag == "ResourcePrefab")
+                {
+                    enemy.GetComponentInChildren<Base_Enemy>().Respawn();
 
-                enemy.SetActive(false);
+                }
+                else
+                {
+                    enemy.GetComponent<Base_Enemy>().Respawn();
+                }
+
+                //enemy.gameObject.SetActive(false);
             }
         }
 
+        EventManager.singleton.AddEvent(new changeDoor(entrance, false));
+        EventManager.singleton.AddEvent(new changeDoor(exit, false));
     }
 
     void Start()

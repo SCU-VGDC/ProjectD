@@ -49,30 +49,6 @@ public class SaveSystem : MonoBehaviour
             }
         }
 
-        LS.WanderingEnemies = new List<BasicEnemyState>();
-        foreach (Base_Enemy enem in FindObjectsOfType<Base_Enemy>())
-        {
-            if (enem.transform.parent)
-            {
-                if (enem.transform.parent.name.Contains("Wave"))
-                {
-                    continue;
-                }
-            }
-
-            if(enem.gameObject.layer != 9) //enemies layer
-            {
-                continue;
-            }
-
-            BasicEnemyState bes = new BasicEnemyState();
-
-            bes.EnemyLocation = enem.transform.position;
-            bes.PrefabName = enem.PrefabName;
-
-            LS.WanderingEnemies.Add(bes);
-        }
-
         //get player keys
         LS.playerKeys = new List<string>(GameObject.Find("Player").GetComponent<PlayerLockInventory>().playerKeys);
 
@@ -129,31 +105,26 @@ public class SaveSystem : MonoBehaviour
 
         foreach (RoomManager rm in FindObjectsOfType<RoomManager>())
         {
-            if(givenLevel.ClearedArenas.Contains(rm.ArenaId))
+            if (givenLevel.ClearedArenas.Contains(rm.ArenaId))
             {
                 rm.isCompleted = true;
             }
-        }
-
-        foreach (Base_Enemy enem in FindObjectsOfType<Base_Enemy>())
-        {
-            if (enem.transform.parent)
+            else
             {
-                if (enem.transform.parent.name.Contains("Wave"))
-                {
-                    continue;
-                }
-            }
-
-            if (enem.gameObject.layer == 9)
-            {
-                enem.Death();
+                rm.RespawnEnemiesInside();
             }
         }
 
-        foreach (BasicEnemyState enem in givenLevel.WanderingEnemies)
+        foreach (Transform enem in GameObject.Find("Wandering Enemies").transform)
         {
-            SpawnEnemy(enem);
+            if (enem.tag == "ResourcePrefab")
+            {
+                enem.GetComponentInChildren<Base_Enemy>().Respawn();
+            }
+            else
+            {
+                enem.GetComponent<Base_Enemy>().Respawn();    
+            }
         }
 
         //update player keys
@@ -277,12 +248,6 @@ public class SaveSystem : MonoBehaviour
         singleton = this;
     }
 
-    void SpawnEnemy(BasicEnemyState givenEnemy)
-    {
-        GameObject enemy = Instantiate(Resources.Load("Prefabs/EnemyPrefabs/" + givenEnemy.PrefabName)) as GameObject;
-        enemy.transform.position = givenEnemy.EnemyLocation;
-    }
-
     void SpawnKey(BasicKeyState givenKey)
     {
         Debug.Log("Spawning " + givenKey.PrefabName);
@@ -319,16 +284,9 @@ public class LevelState
 
     //World State
     public List<int> ClearedArenas;
-    public List<BasicEnemyState> WanderingEnemies;
     public List<BasicKeyState> LevelKeys;
 }
 
-[Serializable]
-public class BasicEnemyState
-{
-    public Vector2 EnemyLocation;
-    public string PrefabName;
-}
 
 [Serializable]
 public class BasicKeyState

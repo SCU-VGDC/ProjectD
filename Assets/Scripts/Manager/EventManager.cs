@@ -397,11 +397,6 @@ public class playerRespawnmsg : msg
 
     public override void Run()
     {
-        foreach (RoomManager rm in GameObject.FindObjectsOfType<RoomManager>())
-        {
-            rm.RespawnEnemiesInside();
-        }
-
         SaveSystem.singleton.LoadData();
         //SaveSystem.singleton.CreateWorld(SaveSystem.singleton.LastUpdatedInGameLS);
 

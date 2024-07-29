@@ -31,10 +31,14 @@ public class Base_Enemy : MonoBehaviour
 	public bool destroyOnContact = false;
 	private bool dead = false;
 
+	private Vector3 initialPos;
+
 	public void Init()
     {
 		seeker = GetComponent<Seeker>();
 		mover = GetComponent<AILerp>();
+
+		initialPos = transform.position;
 	}
 
 	/**
@@ -107,27 +111,39 @@ public class Base_Enemy : MonoBehaviour
 		StartCoroutine(DelayCoroutine(delay, () => {
 			dead = true;
 
-			if (gameObject.transform.parent.tag == "ResourcePrefab")
-			{
-				gameObject.transform.parent.gameObject.SetActive(false);
-			}
-			else
-			{
-				gameObject.SetActive(false);
-			}
+			setEnemyActive(false);
 		}));
 	}
 
+	/// <summary>
+	/// Call instead of instantiating for respawn
+	/// </summary>
 	public void Respawn()
 	{
+		// reset position
+		transform.position = initialPos;
 
-		if (gameObject.transform.parent.tag == "ResourcePrefab")
+		//reset health
+		ActorHealth health = GetComponent<ActorHealth>();
+		health.currentHealth = health.maxHealth;
+		health.died = false;
+		dead = false;
+
+		GetComponent<Collider2D>().enabled = true;
+		setEnemyActive(true);
+
+		Init();
+	}
+
+	private void setEnemyActive(bool value)
+	{
+		if (gameObject.transform.parent != null && gameObject.transform.parent.tag == "ResourcePrefab")
 		{
-			gameObject.transform.parent.gameObject.SetActive(true);
+			gameObject.transform.parent.gameObject.SetActive(value);
 		}
 		else
 		{
-			gameObject.SetActive(true);
+			gameObject.SetActive(value);
 		}
 	}
 
