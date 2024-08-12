@@ -25659,7 +25659,7 @@ PrefabInstance:
     - target: {fileID: 2057638232649669870, guid: f548a8e83b001e942ad5641a59d59d8e, type: 3}
       propertyPath: m_BoundingShape2D
       value: 
-      objectReference: {fileID: 2120976536}
+      objectReference: {fileID: 135808560}
     - target: {fileID: 2057638232649669871, guid: f548a8e83b001e942ad5641a59d59d8e, type: 3}
       propertyPath: m_Follow
       value: 
@@ -26326,11 +26326,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2057638233561477906, guid: f548a8e83b001e942ad5641a59d59d8e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 54.81376
+      value: -262.65585
       objectReference: {fileID: 0}
     - target: {fileID: 2057638233561477906, guid: f548a8e83b001e942ad5641a59d59d8e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -42.7412
+      value: 0.5574216
       objectReference: {fileID: 0}
     - target: {fileID: 2057638233676954695, guid: f548a8e83b001e942ad5641a59d59d8e, type: 3}
       propertyPath: m_Tiles.Array.size
@@ -384081,11 +384081,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8da02ee89e25824bb131c98b7237f50, type: 3}
---- !u!60 &2120976536 stripped
-PolygonCollider2D:
-  m_CorrespondingSourceObject: {fileID: 5921012353791482085, guid: 006d1841a08e2084c9ae9f205182e82d, type: 3}
-  m_PrefabInstance: {fileID: 2099604663}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2122482921
 PrefabInstance:
   m_ObjectHideFlags: 0
