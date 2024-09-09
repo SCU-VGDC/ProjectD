@@ -19,7 +19,7 @@ public class Bullet_Behavior : Base_Enemy
 
     private void Start()
     {
-        base.Init();
+        base.Init(move_state);
 
         //Ricochet needs to make sure not to be destroyed on contact!
         /*if (ricochet)

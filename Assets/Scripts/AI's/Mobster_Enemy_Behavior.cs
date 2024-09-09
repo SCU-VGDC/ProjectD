@@ -29,7 +29,7 @@ public class Mobster_Enemy_Behavior : Base_Enemy
     // Start is called before the first frame update
     private void Start()
     {
-        Init();
+        Init(idleWanderState);
         animManager = GetComponent<AnimatorManager>();
         health = GetComponent<ActorHealth>();
 

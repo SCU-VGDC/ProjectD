@@ -32,13 +32,15 @@ public class Base_Enemy : MonoBehaviour
 	private bool dead = false;
 
 	private Vector3 initialPos;
+	private AI_State initialState;
 
-	public void Init()
+	public void Init(AI_State initialAIState)
     {
 		seeker = GetComponent<Seeker>();
 		mover = GetComponent<AILerp>();
 
 		initialPos = transform.position;
+		initialState = initialAIState;
 	}
 
 	/**
@@ -118,7 +120,7 @@ public class Base_Enemy : MonoBehaviour
 	/// <summary>
 	/// Call instead of instantiating for respawn
 	/// </summary>
-	public void Respawn()
+	public void Respawn(bool setActive)
 	{
 		// reset position
 		transform.position = initialPos;
@@ -130,9 +132,10 @@ public class Base_Enemy : MonoBehaviour
 		dead = false;
 
 		GetComponent<Collider2D>().enabled = true;
-		setEnemyActive(true);
+		enabled = true;
+		setEnemyActive(setActive);
 
-		Init();
+		current_state = initialState;
 	}
 
 	private void setEnemyActive(bool value)

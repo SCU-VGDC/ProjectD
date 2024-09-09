@@ -15,9 +15,10 @@ public class Skull_Enemy_Behavior : Base_Enemy
     // Start is called before the first frame update
     void Start()
     {
-        base.Init();
-
         pursue_state = new SimpleChaseState(GameManager.inst.player.transform, speed);
+
+
+        base.Init(pursue_state);
 
         // Flyswarm only has pursue state, so it will never change from this
         current_state = pursue_state;

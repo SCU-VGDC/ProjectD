@@ -11,7 +11,7 @@ public class Hate_Conduit_Enemy_Behavior : Base_Enemy
     // Start is called before the first frame update
     void Start()
     {
-        base.Init();
+        base.Init(idle_state);
 
         //Set starting state here.
         //Run starting state's Init().

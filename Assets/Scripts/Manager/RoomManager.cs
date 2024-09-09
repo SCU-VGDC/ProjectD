@@ -95,15 +95,12 @@ public class RoomManager : MonoBehaviour
             {
                 if (enemy.tag == "ResourcePrefab")
                 {
-                    enemy.GetComponentInChildren<Base_Enemy>().Respawn();
-
+                    enemy.GetComponentInChildren<Base_Enemy>().Respawn(false);
                 }
                 else
                 {
-                    enemy.GetComponent<Base_Enemy>().Respawn();
+                    enemy.GetComponent<Base_Enemy>().Respawn(false);
                 }
-
-                //enemy.gameObject.SetActive(false);
             }
         }
 

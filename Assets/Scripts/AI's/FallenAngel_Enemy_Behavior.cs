@@ -26,7 +26,7 @@ public class FallenAngel_Enemy_Behavior : Base_Enemy
         anim = GetComponent<Animator>();
 
         //Initializes some important variables contained in Base_Enemy
-        base.Init();
+        base.Init(idle_state);
 
         //Start out wandering
         current_state = idle_state;

@@ -10,15 +10,17 @@ public class Pentagram_Enemy_Behavior : Base_Enemy
     // Start is called before the first frame update
     void Start()
     {
-        base.Init();
-        seeker.enabled = false;
-        mover.enabled = false;
-
         //Set starting state here.
         pursue_state = new Pentagram_Pursue_State
         {
             acceleration = acceleration
         };
+        
+        //Initialize values
+        base.Init(pursue_state);
+        seeker.enabled = false;
+        mover.enabled = false;
+
         current_state = pursue_state;
         //Run starting state's Init().
         current_state.Init(this);

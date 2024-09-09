@@ -21,7 +21,7 @@ public class Belzebub_Enemy_Behavior : Base_Enemy
     {
         col = GetComponent<CircleCollider2D>();
         //Initializes some important variables contained in Base_Enemy
-        base.Init();
+        base.Init(idle_state);
 
         //Start out wandering
         current_state = idle_state;

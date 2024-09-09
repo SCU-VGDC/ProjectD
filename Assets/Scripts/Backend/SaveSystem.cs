@@ -119,11 +119,11 @@ public class SaveSystem : MonoBehaviour
         {
             if (enem.tag == "ResourcePrefab")
             {
-                enem.GetComponentInChildren<Base_Enemy>().Respawn();
+                enem.GetComponentInChildren<Base_Enemy>().Respawn(true);
             }
             else
             {
-                enem.GetComponent<Base_Enemy>().Respawn();    
+                enem.GetComponent<Base_Enemy>().Respawn(true);    
             }
         }
 

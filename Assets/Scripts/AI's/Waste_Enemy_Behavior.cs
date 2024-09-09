@@ -17,7 +17,7 @@ public class Waste_Enemy_Behavior : Base_Enemy
     // Start is called before the first frame update
     void Start()
     {
-        Init();
+        Init(idlePatrolState);
 
         // Hide the endpoints in-game
         foreach (Renderer renderer in point1.GetComponents<Renderer>()) Destroy(renderer);

@@ -13,7 +13,7 @@ public class SniperBullet_Beh : Base_Enemy
 
     private void Start()
     {
-        base.Init();
+        base.Init(move_state);
         current_state = move_state;
         current_state.Init(this);
     }
